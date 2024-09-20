@@ -2,7 +2,7 @@
 
 public abstract class BadRequestException : Exception
 {
-	protected BadRequestException(string message)
+	protected BadRequestException(string? message)
 		: base(message)
 	{
 	}

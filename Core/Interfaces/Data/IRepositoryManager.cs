@@ -10,6 +10,12 @@ namespace Core.Interfaces.Data
     {
         IUserRepository User { get; }
         IRoomRepository Room { get; }
+        IReservationRepository Reservation { get; }
+        ILeaseRepository Lease { get; }
+        IInvoiceRepository Invoice { get; }
+        IPaymentRepository Payment { get; }
+        IMaintenanceRequestRepository MaintenanceRequest { get; }
+        IAmenityRepository Amenity { get; }
 
         Task SaveAsync();
     }

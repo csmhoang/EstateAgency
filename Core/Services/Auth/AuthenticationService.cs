@@ -2,25 +2,18 @@
 using Core.Dtos;
 using Core.Entities;
 using Core.Exceptions;
-using Core.Interfaces.Business;
-using Core.Interfaces.Data;
 using Core.Interfaces.Infrastructure;
 using Core.Resources;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Net;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace Core.Services
+namespace Core.Services.Auth
 {
     internal sealed class AuthenticationService : Interfaces.Auth.IAuthenticationService
 
@@ -84,7 +77,7 @@ namespace Core.Services
         {
             _user = await _userManager.FindByNameAsync(loginDto.UserName);
             var result =
-                (_user != null && await _userManager.CheckPasswordAsync(_user, loginDto.Password));
+                _user != null && await _userManager.CheckPasswordAsync(_user, loginDto.Password);
             if (!result)
             {
                 _logger.LogWarn($"{nameof(Login)}: {Failure.LoginFailing}");
@@ -205,7 +198,7 @@ namespace Core.Services
             var res = new Response();
 
             var isCheckAccount =
-                (user != null && await _userManager.CheckPasswordAsync(user, changePasswordDto?.Password));
+                user != null && await _userManager.CheckPasswordAsync(user, changePasswordDto?.Password);
             if (!isCheckAccount)
             {
                 throw new CustomizeException(Invalidate.IncorrectAccount, (int)HttpStatusCode.Unauthorized);

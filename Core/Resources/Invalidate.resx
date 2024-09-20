@@ -132,4 +132,7 @@
   <data name="IncorrectAccount" xml:space="preserve">
     <value>Tên đăng nhập hoặc mật khẩu không chính xác!</value>
   </data>
+  <data name="TenantIdAndLandlordIdDuplication" xml:space="preserve">
+    <value>Id người thuê và chủ nhà không được trùng nhau!</value>
+  </data>
 </root>

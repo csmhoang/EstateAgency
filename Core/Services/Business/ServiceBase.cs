@@ -1,12 +1,6 @@
 ﻿using Core.Interfaces.Data;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Core.Services
+namespace Core.Services.Business
 {
     abstract class ServiceBase<T> where T : class
     {

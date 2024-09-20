@@ -104,5 +104,14 @@ namespace Core.Resources {
                 return ResourceManager.GetString("NumberPhoneDuplication", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Id người thuê và chủ nhà không được trùng nhau!.
+        /// </summary>
+        public static string TenantIdAndLandlordIdDuplication {
+            get {
+                return ResourceManager.GetString("TenantIdAndLandlordIdDuplication", resourceCulture);
+            }
+        }
     }
 }

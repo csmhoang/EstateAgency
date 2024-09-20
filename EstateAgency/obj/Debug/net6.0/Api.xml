@@ -4,6 +4,35 @@
         <name>Api</name>
     </assembly>
     <members>
+        <member name="M:Api.Controllers.AmenitiesController.GetAll">
+            <summary>
+            Lấy tất cả thông tin tiện nghi
+            </summary>
+        </member>
+        <member name="M:Api.Controllers.AmenitiesController.Get(System.String)">
+            <summary>
+            Lấy thông tin tiện nghi bằng id
+            </summary>
+        </member>
+        <member name="M:Api.Controllers.AmenitiesController.Create(Core.Dtos.AmenityDto)">
+            <summary>
+            Thêm tiện nghi
+            </summary>
+            <param name="model">Tiện nghi</param>
+        </member>
+        <member name="M:Api.Controllers.AmenitiesController.Update(System.String,Core.Dtos.AmenityDto)">
+            <summary>
+            Cập nhật tiện nghi
+            </summary>
+            <param name="id">Id tiện nghi</param>
+            <param name="model">Tiện nghi</param>
+        </member>
+        <member name="M:Api.Controllers.AmenitiesController.Delete(System.String)">
+            <summary>
+            Xóa tiện nghi
+            </summary>
+            <param name="id">Id tiện nghi</param>
+        </member>
         <member name="M:Api.Controllers.AuthenticationController.Register(Core.Dtos.RegisterDto)">
             <summary>
             Đăng ký
@@ -18,6 +47,151 @@
             <summary>
             Đổi mật khẩu
             </summary>
+        </member>
+        <member name="M:Api.Controllers.InvoicesController.GetAll">
+            <summary>
+            Lấy tất cả thông tin hóa đơn
+            </summary>
+        </member>
+        <member name="M:Api.Controllers.InvoicesController.Get(System.String)">
+            <summary>
+            Lấy thông tin hóa đơn bằng id
+            </summary>
+        </member>
+        <member name="M:Api.Controllers.InvoicesController.Create(Core.Dtos.InvoiceDto)">
+            <summary>
+            Thêm hóa đơn
+            </summary>
+            <param name="model">Hóa đơn</param>
+        </member>
+        <member name="M:Api.Controllers.InvoicesController.Update(System.String,Core.Dtos.InvoiceDto)">
+            <summary>
+            Cập nhật hóa đơn
+            </summary>
+            <param name="id">Id hóa đơn</param>
+            <param name="model">Hóa đơn</param>
+        </member>
+        <member name="M:Api.Controllers.InvoicesController.Delete(System.String)">
+            <summary>
+            Xóa hóa đơn
+            </summary>
+            <param name="id">Id hóa đơn</param>
+        </member>
+        <member name="M:Api.Controllers.LeasesController.GetAll">
+            <summary>
+            Lấy tất cả thông tin hợp đồng
+            </summary>
+        </member>
+        <member name="M:Api.Controllers.LeasesController.Get(System.String)">
+            <summary>
+            Lấy thông tin hợp đồng bằng id
+            </summary>
+        </member>
+        <member name="M:Api.Controllers.LeasesController.Create(Core.Dtos.LeaseDto)">
+            <summary>
+            Thêm hợp đồng
+            </summary>
+            <param name="model">Hợp đồng</param>
+        </member>
+        <member name="M:Api.Controllers.LeasesController.Update(System.String,Core.Dtos.LeaseDto)">
+            <summary>
+            Cập nhật hợp đồng
+            </summary>
+            <param name="id">Id hợp đồng</param>
+            <param name="model">Hợp đồng</param>
+        </member>
+        <member name="M:Api.Controllers.LeasesController.Delete(System.String)">
+            <summary>
+            Xóa hợp đồng
+            </summary>
+            <param name="id">Id hợp đồng</param>
+        </member>
+        <member name="M:Api.Controllers.MaintenanceRequestsController.GetAll">
+            <summary>
+            Lấy tất cả thông tin yêu cầu bảo trì
+            </summary>
+        </member>
+        <member name="M:Api.Controllers.MaintenanceRequestsController.Get(System.String)">
+            <summary>
+            Lấy thông tin yêu cầu bảo trì bằng id
+            </summary>
+        </member>
+        <member name="M:Api.Controllers.MaintenanceRequestsController.Create(Core.Dtos.MaintenanceRequestDto)">
+            <summary>
+            Thêm yêu cầu bảo trì
+            </summary>
+            <param name="model">Yêu cầu bảo trì</param>
+        </member>
+        <member name="M:Api.Controllers.MaintenanceRequestsController.Update(System.String,Core.Dtos.MaintenanceRequestDto)">
+            <summary>
+            Cập nhật yêu cầu bảo trì
+            </summary>
+            <param name="id">Id yêu cầu bảo trì</param>
+            <param name="model">Yêu cầu bảo trì</param>
+        </member>
+        <member name="M:Api.Controllers.MaintenanceRequestsController.Delete(System.String)">
+            <summary>
+            Xóa yêu cầu bảo trì
+            </summary>
+            <param name="id">Id yêu cầu bảo trì</param>
+        </member>
+        <member name="M:Api.Controllers.PaymentsController.GetAll">
+            <summary>
+            Lấy tất cả thông tin thanh toán
+            </summary>
+        </member>
+        <member name="M:Api.Controllers.PaymentsController.Get(System.String)">
+            <summary>
+            Lấy thông tin thanh toán bằng id
+            </summary>
+        </member>
+        <member name="M:Api.Controllers.PaymentsController.Create(Core.Dtos.PaymentDto)">
+            <summary>
+            Thêm thanh toán
+            </summary>
+            <param name="model">Thanh toán</param>
+        </member>
+        <member name="M:Api.Controllers.PaymentsController.Update(System.String,Core.Dtos.PaymentDto)">
+            <summary>
+            Cập nhật thanh toán
+            </summary>
+            <param name="id">Id thanh toán</param>
+            <param name="model">Thanh toán</param>
+        </member>
+        <member name="M:Api.Controllers.PaymentsController.Delete(System.String)">
+            <summary>
+            Xóa thanh toán
+            </summary>
+            <param name="id">Id thanh toán</param>
+        </member>
+        <member name="M:Api.Controllers.ReservationsController.GetAll">
+            <summary>
+            Lấy tất cả thông tin đặt lịch
+            </summary>
+        </member>
+        <member name="M:Api.Controllers.ReservationsController.Get(System.String)">
+            <summary>
+            Lấy thông tin đặt lịch bằng id
+            </summary>
+        </member>
+        <member name="M:Api.Controllers.ReservationsController.Create(Core.Dtos.ReservationDto)">
+            <summary>
+            Thêm đặt lịch
+            </summary>
+            <param name="model">Đặt lịch</param>
+        </member>
+        <member name="M:Api.Controllers.ReservationsController.Update(System.String,Core.Dtos.ReservationDto)">
+            <summary>
+            Cập nhật đặt lịch
+            </summary>
+            <param name="id">Id đặt lịch</param>
+            <param name="model">Đặt lịch</param>
+        </member>
+        <member name="M:Api.Controllers.ReservationsController.Delete(System.String)">
+            <summary>
+            Xóa đặt lịch
+            </summary>
+            <param name="id">Id đặt lịch</param>
         </member>
         <member name="M:Api.Controllers.RoomsController.GetAll">
             <summary>
@@ -35,12 +209,11 @@
             </summary>
             <param name="model">Phòng</param>
         </member>
-        <member name="M:Api.Controllers.RoomsController.Update(System.String,System.String,Core.Dtos.RoomDto)">
+        <member name="M:Api.Controllers.RoomsController.Update(System.String,Core.Dtos.RoomDto)">
             <summary>
             Cập nhật phòng
             </summary>
             <param name="id">Id phòng</param>
-            <param name="landlordId">Id chủ phòng</param>
             <param name="model">Phòng</param>
         </member>
         <member name="M:Api.Controllers.RoomsController.Delete(System.String)">

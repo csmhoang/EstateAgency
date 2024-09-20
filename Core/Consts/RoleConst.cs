@@ -8,7 +8,7 @@ namespace Core.Consts
 {
     public static class RoleConst
     {
-        public const string Admin = "Administrator";
+        public const string Admin = "Admin";
 
         public const string Landlord = "Landlord";
 

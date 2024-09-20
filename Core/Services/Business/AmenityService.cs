@@ -14,9 +14,9 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Core.Services
+namespace Core.Services.Business
 {
-    internal sealed class RoomService : ServiceBase<Room>, IRoomService
+    internal class AmenityService : ServiceBase<Amenity>, IAmenityService
     {
         #region Declaration
         private readonly IRepositoryManager _repository;
@@ -28,9 +28,9 @@ namespace Core.Services
         #endregion
 
         #region Constructor
-        public RoomService(IRepositoryManager repository,
+        public AmenityService(IRepositoryManager repository,
                    ILoggerManager logger,
-                   IMapper mapper) : base(repository.Room)
+                   IMapper mapper) : base(repository.Amenity)
         {
             _repository = repository;
             _logger = logger;
@@ -41,33 +41,33 @@ namespace Core.Services
         #region Method
         public async Task<Response> GetAllAsync()
         {
-            var rooms = await _repository.Room.FindAll().ToListAsync();
+            var amenities = await _repository.Amenity.FindAll().ToListAsync();
             return new Response
             {
                 Success = true,
-                Data = _mapper.Map<IEnumerable<RoomDto>>(rooms),
-                StatusCode = !rooms.Any() ? (int)HttpStatusCode.NoContent : (int)HttpStatusCode.OK
+                Data = _mapper.Map<IEnumerable<AmenityDto>>(amenities),
+                StatusCode = !amenities.Any() ? (int)HttpStatusCode.NoContent : (int)HttpStatusCode.OK
             };
         }
 
         public async Task<Response> GetAsync(string id)
         {
-            var room = await _repository.Room.FindCondition(r => r.Id.Equals(id))
+            var amenity = await _repository.Amenity.FindCondition(r => r.Id.Equals(id))
                 .FirstOrDefaultAsync();
             return new Response
             {
                 Success = true,
-                Data = _mapper.Map<RoomDto>(room),
-                StatusCode = room is null ? (int)HttpStatusCode.NoContent : (int)HttpStatusCode.OK
+                Data = _mapper.Map<AmenityDto>(amenity),
+                StatusCode = amenity is null ? (int)HttpStatusCode.NoContent : (int)HttpStatusCode.OK
             };
         }
         public async Task<Response> DeleteAsync(string id)
         {
-            var roomDelete = await _repository.Room.FindCondition(r => r.Id.Equals(id))
+            var amenityDelete = await _repository.Amenity.FindCondition(r => r.Id.Equals(id))
                 .FirstOrDefaultAsync();
-            if (roomDelete is not null)
+            if (amenityDelete is not null)
             {
-                _repository.Room.Delete(roomDelete);
+                _repository.Amenity.Delete(amenityDelete);
                 await _repository.SaveAsync();
                 return new Response
                 {
@@ -78,15 +78,15 @@ namespace Core.Services
             }
             else
             {
-                throw new RoomNotFoundException(id);
+                throw new AmenityNotFoundException(id);
             }
         }
-        public async Task<Response> InsertAsync(RoomDto roomDto)
+        public async Task<Response> InsertAsync(AmenityDto amenityDto)
         {
-            await ValidateObject(roomDto);
+            await ValidateObject(amenityDto);
 
-            var room = _mapper.Map<Room>(roomDto);
-            _repository.Room.Create(room);
+            var amenity = _mapper.Map<Amenity>(amenityDto);
+            _repository.Amenity.Create(amenity);
             await _repository.SaveAsync();
 
             return new Response
@@ -97,25 +97,21 @@ namespace Core.Services
             };
         }
 
-        public async Task<Response> UpdateAsync(string id, string? landlordId, RoomDto roomDto)
+        public async Task<Response> UpdateAsync(string id, AmenityDto amenityDto)
         {
-            await ValidateObject(roomDto);
+            await ValidateObject(amenityDto);
 
-            var room = await _repository.Room.FindCondition(r => r.Id.Equals(id))
+            var amenity = await _repository.Amenity.FindCondition(r => r.Id.Equals(id))
                 .FirstOrDefaultAsync();
-            if (room is not null)
+            if (amenity is not null)
             {
-                _mapper.Map(roomDto, room);
-                if (landlordId is not null)
-                {
-                    room.LandlordId = landlordId;
-                }
-                _repository.Room.Update(room);
+                _mapper.Map(amenityDto, amenity);
+                _repository.Amenity.Update(amenity);
                 await _repository.SaveAsync();
             }
             else
             {
-                throw new UserNotFoundException(id);
+                throw new AmenityNotFoundException(id);
             }
 
             return new Response
@@ -125,7 +121,7 @@ namespace Core.Services
                 StatusCode = (int)HttpStatusCode.OK
             };
         }
-        public Task ValidateObject(RoomDto roomDto)
+        public Task ValidateObject(AmenityDto amenityDto)
         {
             return Task.CompletedTask;
         }

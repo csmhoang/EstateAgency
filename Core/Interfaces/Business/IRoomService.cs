@@ -44,7 +44,7 @@ namespace Core.Interfaces.Business
         /// 1 - Thông báo thành công
         /// 2 - Ngoại lệ
         /// </returns>
-        Task<Response> UpdateAsync(string id, string? landlordId, RoomDto roomDto);
+        Task<Response> UpdateAsync(string id, RoomDto roomDto);
         /// <summary>
         /// Thêm phòng
         /// </summary>

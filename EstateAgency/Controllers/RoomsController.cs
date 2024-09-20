@@ -57,12 +57,11 @@ namespace Api.Controllers
         /// Cập nhật phòng
         /// </summary>
         /// <param name="id">Id phòng</param>
-        /// <param name="landlordId">Id chủ phòng</param>
         /// <param name="model">Phòng</param>
         [HttpPut]
-        public async Task<IActionResult> Update(string id, string? landlordId, [FromBody] RoomDto model)
+        public async Task<IActionResult> Update(string id, [FromBody] RoomDto model)
         {
-            var response = await _service.Room.UpdateAsync(id, landlordId, model);
+            var response = await _service.Room.UpdateAsync(id, model);
             return Ok(response);
         }
 

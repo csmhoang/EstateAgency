@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Net;
 using Core.Interfaces.Business;
 
-namespace Core.Services
+namespace Core.Services.Business
 {
     internal sealed class UserService : ServiceBase<User>, IUserService
     {

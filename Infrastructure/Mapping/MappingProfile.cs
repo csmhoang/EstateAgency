@@ -8,9 +8,43 @@ namespace Infrastructure.Mapping
     {
         public MappingProfile()
         {
-            CreateMap<User, UserDto>().ReverseMap();
+            CreateMap<UserDto, User>();
+            CreateMap<User, UserDto>()
+                .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+            
             CreateMap<RegisterDto, User>();
-            CreateMap<RoomDto, Room>().ReverseMap();
+
+            CreateMap<Room, RoomDto>();
+            CreateMap<RoomDto, Room>()
+                .ForAllMembers(opts =>
+                {
+                    opts.AllowNull();
+                    opts.Condition((src, dest, srcMember) => srcMember != null);
+                });
+
+            CreateMap<Reservation, ReservationDto>();
+            CreateMap<ReservationDto, Reservation>()
+               .ForAllMembers(opts =>
+               {
+                   opts.AllowNull();
+                   opts.Condition((src, dest, srcMember) => srcMember != null);
+               });
+
+            CreateMap<Lease, LeaseDto>();
+            CreateMap<LeaseDto, Lease>()
+               .ForAllMembers(opts =>
+               {
+                   opts.AllowNull();
+                   opts.Condition((src, dest, srcMember) => srcMember != null);
+               });
+
+            CreateMap<Invoice, InvoiceDto>();
+            CreateMap<InvoiceDto, Invoice>()
+               .ForAllMembers(opts =>
+               {
+                   opts.AllowNull();
+                   opts.Condition((src, dest, srcMember) => srcMember != null);
+               });
         }
     }
 }

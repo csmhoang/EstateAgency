@@ -11,7 +11,6 @@
     <Folder Include="Helpers\" />
     <Folder Include="Interfaces\External\" />
     <Folder Include="Middlewares\" />
-    <Folder Include="Enums\" />
   </ItemGroup>
 
   <ItemGroup>

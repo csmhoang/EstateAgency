@@ -2,7 +2,7 @@
 using Core.Interfaces.Business;
 using Core.Interfaces.Data;
 using Core.Interfaces.Infrastructure;
-using Core.Services;
+using Core.Services.Business;
 using Infrastructure.Data;
 using Infrastructure.Logging;
 using Infrastructure.Repositories;

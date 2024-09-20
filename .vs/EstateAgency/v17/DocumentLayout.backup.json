@@ -1,120 +1,12 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "E:\\EstateAgency\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{09E8317F-2F62-4028-A5E7-25374ADFF0C8}|Core\\Core.csproj|e:\\estateagency\\core\\services\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{09E8317F-2F62-4028-A5E7-25374ADFF0C8}|Core\\Core.csproj|solutionrelative:core\\services\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{09E8317F-2F62-4028-A5E7-25374ADFF0C8}|Core\\Core.csproj|e:\\estateagency\\core\\services\\roomservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{09E8317F-2F62-4028-A5E7-25374ADFF0C8}|Core\\Core.csproj|solutionrelative:core\\services\\roomservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{09E8317F-2F62-4028-A5E7-25374ADFF0C8}|Core\\Core.csproj|e:\\estateagency\\core\\interfaces\\business\\iroomservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{09E8317F-2F62-4028-A5E7-25374ADFF0C8}|Core\\Core.csproj|solutionrelative:core\\interfaces\\business\\iroomservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6D894597-716A-4E45-8DA4-6BD9F2EB659F}|EstateAgency\\Api.csproj|e:\\estateagency\\estateagency\\controllers\\roomscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6D894597-716A-4E45-8DA4-6BD9F2EB659F}|EstateAgency\\Api.csproj|solutionrelative:estateagency\\controllers\\roomscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{09E8317F-2F62-4028-A5E7-25374ADFF0C8}|Core\\Core.csproj|e:\\estateagency\\core\\dtos\\roomdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{09E8317F-2F62-4028-A5E7-25374ADFF0C8}|Core\\Core.csproj|solutionrelative:core\\dtos\\roomdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6D894597-716A-4E45-8DA4-6BD9F2EB659F}|EstateAgency\\Api.csproj|e:\\estateagency\\estateagency\\controllers\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6D894597-716A-4E45-8DA4-6BD9F2EB659F}|EstateAgency\\Api.csproj|solutionrelative:estateagency\\controllers\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    }
-  ],
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": [
-        {
-          "DockedWidth": 200,
-          "SelectedChildIndex": 0,
-          "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "UserService.cs",
-              "DocumentMoniker": "E:\\EstateAgency\\Core\\Services\\UserService.cs",
-              "RelativeDocumentMoniker": "Core\\Services\\UserService.cs",
-              "ToolTip": "E:\\EstateAgency\\Core\\Services\\UserService.cs",
-              "RelativeToolTip": "Core\\Services\\UserService.cs",
-              "ViewState": "AgIAAE0AAAAAAAAAAAAkwFcAAAArAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-19T18:22:55.053Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "RoomService.cs",
-              "DocumentMoniker": "E:\\EstateAgency\\Core\\Services\\RoomService.cs",
-              "RelativeDocumentMoniker": "Core\\Services\\RoomService.cs",
-              "ToolTip": "E:\\EstateAgency\\Core\\Services\\RoomService.cs",
-              "RelativeToolTip": "Core\\Services\\RoomService.cs",
-              "ViewState": "AgIAABIAAAAAAAAAAAAAABoAAAAYAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-19T18:15:34.412Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "IRoomService.cs",
-              "DocumentMoniker": "E:\\EstateAgency\\Core\\Interfaces\\Business\\IRoomService.cs",
-              "RelativeDocumentMoniker": "Core\\Interfaces\\Business\\IRoomService.cs",
-              "ToolTip": "E:\\EstateAgency\\Core\\Interfaces\\Business\\IRoomService.cs",
-              "RelativeToolTip": "Core\\Interfaces\\Business\\IRoomService.cs",
-              "ViewState": "AgIAAB4AAAAAAAAAAAAYwC4AAAA1AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-19T18:15:07.056Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "RoomDto.cs",
-              "DocumentMoniker": "E:\\EstateAgency\\Core\\Dtos\\RoomDto.cs",
-              "RelativeDocumentMoniker": "Core\\Dtos\\RoomDto.cs",
-              "ToolTip": "E:\\EstateAgency\\Core\\Dtos\\RoomDto.cs",
-              "RelativeToolTip": "Core\\Dtos\\RoomDto.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAvAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-19T18:14:38.545Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "RoomsController.cs",
-              "DocumentMoniker": "E:\\EstateAgency\\EstateAgency\\Controllers\\RoomsController.cs",
-              "RelativeDocumentMoniker": "EstateAgency\\Controllers\\RoomsController.cs",
-              "ToolTip": "E:\\EstateAgency\\EstateAgency\\Controllers\\RoomsController.cs",
-              "RelativeToolTip": "EstateAgency\\Controllers\\RoomsController.cs",
-              "ViewState": "AgIAADIAAAAAAAAAAAAqwDsAAAA5AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-19T18:14:31.845Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "UsersController.cs",
-              "DocumentMoniker": "E:\\EstateAgency\\EstateAgency\\Controllers\\UsersController.cs",
-              "RelativeDocumentMoniker": "EstateAgency\\Controllers\\UsersController.cs",
-              "ToolTip": "E:\\EstateAgency\\EstateAgency\\Controllers\\UsersController.cs",
-              "RelativeToolTip": "EstateAgency\\Controllers\\UsersController.cs",
-              "ViewState": "AgIAACsAAAAAAAAAAAAYwDIAAABNAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-19T18:13:24.564Z"
-            }
-          ]
-        }
-      ]
+      "DocumentGroups": []
     }
   ]
 }
