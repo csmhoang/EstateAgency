@@ -1,0 +1,4 @@
+2024-09-20 00:12:28.4035 ERROR Execution Timeout Expired.  The timeout period elapsed prior to completion of the operation or the server is not responding. The wait operation timed out.
+2024-09-20 00:30:30.7794 ERROR An error occurred while saving the entity changes. See the inner exception for details. Cannot insert explicit value for identity column in table 'Rooms' when IDENTITY_INSERT is set to OFF.
+2024-09-20 01:08:07.7757 ERROR Không tìm thấy phòng có id: 5433CE67-7F40-442C-8B35-9B7AB131F81C trong Database! 
+2024-09-20 01:09:01.5757 ERROR The instance of entity type 'Room' cannot be tracked because another instance with the same key value for {'Id'} is already being tracked. When attaching existing entities, ensure that only one entity instance with a given key value is attached. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see the conflicting key values. 

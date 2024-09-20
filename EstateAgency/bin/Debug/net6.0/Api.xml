@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Api</name>
+    </assembly>
+    <members>
+        <member name="M:Api.Controllers.AuthenticationController.Register(Core.Dtos.RegisterDto)">
+            <summary>
+            Đăng ký
+            </summary>
+        </member>
+        <member name="M:Api.Controllers.AuthenticationController.Login(Core.Dtos.LoginDto)">
+            <summary>
+            Đăng nhập
+            </summary>
+        </member>
+        <member name="M:Api.Controllers.AuthenticationController.ChangePassword(Core.Dtos.ChangePasswordDto)">
+            <summary>
+            Đổi mật khẩu
+            </summary>
+        </member>
+        <member name="M:Api.Controllers.RoomsController.GetAll">
+            <summary>
+            Lấy tất cả thông tin phòng
+            </summary>
+        </member>
+        <member name="M:Api.Controllers.RoomsController.Get(System.String)">
+            <summary>
+            Lấy thông tin phòng bằng id
+            </summary>
+        </member>
+        <member name="M:Api.Controllers.RoomsController.Create(Core.Dtos.RoomDto)">
+            <summary>
+            Thêm phòng
+            </summary>
+            <param name="model">Phòng</param>
+        </member>
+        <member name="M:Api.Controllers.RoomsController.Update(System.String,System.String,Core.Dtos.RoomDto)">
+            <summary>
+            Cập nhật phòng
+            </summary>
+            <param name="id">Id phòng</param>
+            <param name="landlordId">Id chủ phòng</param>
+            <param name="model">Phòng</param>
+        </member>
+        <member name="M:Api.Controllers.RoomsController.Delete(System.String)">
+            <summary>
+            Xóa phòng
+            </summary>
+            <param name="id">Id phòng</param>
+        </member>
+        <member name="M:Api.Controllers.TokenController.Refresh(Core.Dtos.TokenDto)">
+            <summary>
+            Làm mới token
+            </summary>
+        </member>
+        <member name="M:Api.Controllers.UsersController.GetAll">
+            <summary>
+            Lấy tất cả thông tin người dùng
+            </summary>
+        </member>
+        <member name="M:Api.Controllers.UsersController.Get(System.String)">
+            <summary>
+            Lấy thông tin người dùng bằng id
+            </summary>
+        </member>
+        <member name="M:Api.Controllers.UsersController.Update(System.String,Core.Dtos.UserDto)">
+            <summary>
+            Cập nhật người dùng
+            </summary>
+            <param name="id">Id người dùng</param>
+            <param name="model">Người dùng</param>
+        </member>
+        <member name="M:Api.Controllers.UsersController.Delete(System.String)">
+            <summary>
+            Xóa người dùng
+            </summary>
+            <param name="id">Id người dùng</param>
+        </member>
+    </members>
+</doc>
