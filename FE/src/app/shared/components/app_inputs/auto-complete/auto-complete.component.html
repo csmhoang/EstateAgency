@@ -1,0 +1,18 @@
+<div class="auto-complete">
+    <input
+      [placeholder]="placeholder"
+      id="typeahead-focus"
+      type="text"
+      class="form-control"
+      [(ngModel)]="model"
+      (ngModelChange)="onModelChange($event)"
+      [ngbTypeahead]="search"
+      (focus)="focus$.next($any($event).target.value)"
+      (click)="click$.next($any($event).target.value)"
+      #instance="ngbTypeahead"
+    />
+    <span class="icon">
+      <ng-content select="i"></ng-content>
+    </span>
+  </div>
+  

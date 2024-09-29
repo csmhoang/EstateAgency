@@ -1,0 +1,2 @@
+// Tạo component cho features
+ng generate component features/name/components/name-component

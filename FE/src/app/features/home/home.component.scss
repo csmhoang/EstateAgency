@@ -1,0 +1,53 @@
+.home-overview {
+  position: relative;
+  background-image: url("/assets/images/home.svg");
+  background-color: #fef7f2;
+  background-position: center right 10%;
+  background-repeat: no-repeat;
+  background-size: contain;
+  height: 88vh;
+  margin-bottom: 12vh;
+  .filter {
+    border-radius: 8px;
+    background-color: #ddc7bb;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 50%);
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 80%;
+    padding: 26px 12px;
+    gap: 12px;
+    > *:not(button) {
+      flex: 1;
+    }
+  }
+  .introduction {
+    padding-top: 30vh;
+    margin-left: 6%;
+    h2 {
+      font-weight: bold;
+      width: 240px;
+      font-size: 36px;
+    }
+    p {
+      width: 300px;
+      opacity: 0.8;
+    }
+  }
+}
+
+.home-content {
+  padding: 6% 6% 0;
+}
+
+.home-support{
+  padding: 6% 6% 0;
+}
+
+.home-evaluate{
+  background-color: #fef7f2;
+  padding: 6% 6% 0;
+}

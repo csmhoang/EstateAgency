@@ -1,0 +1,79 @@
+<div class="home">
+  <div class="home-header">
+    <app-header></app-header>
+  </div>
+
+  <div class="home-overview">
+    <div class="introduction">
+      <h2>Find Your Dream Home</h2>
+      <p>
+        Explore our curated selection of exquisite properties meticulously
+        tailored to your unique dream home vision
+      </p>
+      <button routerLink="/" class="btn btn-dark">Đăng ký</button>
+    </div>
+
+    <div class="filter">
+      <app-auto-complete [placeholder]="'Địa điểm'">
+        <i class="fa-solid fa-location-dot"></i>
+      </app-auto-complete>
+      <app-auto-complete [placeholder]="'Phong cách'">
+        <i class="fa-solid fa-house"></i>
+      </app-auto-complete>
+      <app-auto-complete [placeholder]="'Giá'">
+        <i class="fa-solid fa-filter-circle-dollar"></i>
+      </app-auto-complete>
+      <button routerLink="/" class="btn btn-dark">Tìm kiếm</button>
+    </div>
+  </div>
+
+  <div class="home-content">
+    <h2 class="text-center">Phòng Trọ Trên Toàn Quốc</h2>
+    <p class="text-muted text-center w-75 mx-auto">
+      You can relay on our amazing features list and also our customer services
+      will be great experience for you without doubt and in no-time
+    </p>
+    <div class="content-body">
+      <app-list-post [items]="posts"></app-list-post>
+    </div>
+  </div>
+
+  <div class="home-evaluate">
+    <h2 class="text-center">Đánh giá từ người dùng</h2>
+    <p class="text-muted text-center w-75 mx-auto">
+      You can relay on our amazing features list and also our customer services
+      will be great experience for you without doubt and in no-time
+    </p>
+    <div class="evaluate-body">
+      <app-list-feedback></app-list-feedback>
+    </div>
+  </div>
+
+  <div class="home-support">
+    <h2 class="text-center">Bạn có câu hỏi nào không?</h2>
+    <div class="d-flex justify-content-center gap-3 text-muted">
+      <p>
+        <i class="fa-regular fa-circle-check"></i>
+        Trò chuyện trực tiếp với trung tâm hỗ trợ kỹ thuật
+      </p>
+      <p>
+        <i class="fa-regular fa-circle-check"></i>
+        Truy cập FAQ của chúng tôi
+      </p>
+    </div>
+    
+    <div class="input-group mx-auto w-50 mb-5">
+      <input
+        type="email"
+        class="form-control"
+        placeholder="Nhập địa chỉ email của bạn..."
+        style="background-color: #ddc7bb"
+      />
+      <button routerLink="/" class="btn btn-dark">Gửi</button>
+    </div>
+  </div>
+
+  <div class="home-footer">
+    <app-footer></app-footer>
+  </div>
+</div>

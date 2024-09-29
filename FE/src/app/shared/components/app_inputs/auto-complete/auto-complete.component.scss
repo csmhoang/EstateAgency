@@ -1,0 +1,17 @@
+.auto-complete {
+    position: relative;
+    height: 36px;
+    .icon {
+      position: absolute;
+      top: 50%;
+      text-align: center;
+      width: 36px;
+      right: 0;
+      transform: translateY(-50%);
+      pointer-events: none;
+    }
+    input {
+      padding-right: 36px;
+    }
+  }
+  

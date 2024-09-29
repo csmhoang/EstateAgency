@@ -1,0 +1,13 @@
+.list-feedback {
+  .list {
+    gap: 10px;
+    display: flex;
+  }
+}
+.pagination{
+  display: flex;
+  justify-content: center;
+  gap: 36px;
+  padding-top: 24px;
+  padding-bottom: 72px;
+}

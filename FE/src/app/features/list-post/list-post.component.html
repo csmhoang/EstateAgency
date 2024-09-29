@@ -1,0 +1,10 @@
+@for (item of items; track $index) {
+<app-post [item]="item"></app-post>
+}
+<button routerLink="/" class="btn btn-dark d-block mx-auto my-4">Xem thêm</button>
+<!-- <ngb-pagination
+  class="d-flex justify-content-center py-2"
+  [collectionSize]="70"
+  [(page)]="page"
+  [boundaryLinks]="true"
+/> -->

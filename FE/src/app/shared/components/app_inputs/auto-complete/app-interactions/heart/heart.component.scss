@@ -1,0 +1,19 @@
+.heart-icon {
+  cursor: pointer;
+  font-size: 1.5rem;
+  display: inline-block;
+
+  i {
+    transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
+
+    &.liked{
+      color: #e25555; // Màu đỏ khi đã yêu thích
+      transform: scale(1.2); // Phóng to nhẹ khi bấm
+    }
+
+    &.unliked {
+      color: #000; // Màu mặc định khi chưa yêu thích
+      transform: scale(1); // Kích thước ban đầu
+    }
+  }
+}
