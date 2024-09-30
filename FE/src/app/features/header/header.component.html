@@ -1,23 +1,29 @@
-<header>
-  <div class="header-logo">
-    <img src="/assets/icons/logo.svg" />
+<header id="header" class="header d-flex align-items-center fixed-top">
+  <div
+    class="container-fluid container-xl position-relative d-flex align-items-center justify-content-between"
+  >
+    <a href="index.html" class="logo d-flex align-items-center">
+      <img src="/assets/icons/logo.svg" />
+    </a>
+
+    <nav id="navmenu" class="navmenu d-flex align-items-center gap-5">
+      <ul>
+        <li><a routerLink="/" class="active">Trang chủ</a></li>
+        <li><a routerLink="/">Nhà cho thuê</a></li>
+        <li><a routerLink="/">Chủ thuê</a></li>
+        <li><a routerLink="/">Dịch vụ</a></li>
+        <li><a routerLink="/">Liên hệ</a></li>
+      </ul>
+      <div class="button-group d-flex gap-1">
+        <button routerLink="/" class="btn rounded-pill">
+          <img src="/assets/icons/search.svg" />
+        </button>
+        <button routerLink="/" class="btn rounded-pill">
+          <img src="/assets/icons/profile.svg" />
+        </button>
+        <button routerLink="/" class="btn btn-dark">Đăng nhập</button>
+      </div>
+      <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+    </nav>
   </div>
-  <nav>
-    <div class="nav-tab">
-      <a routerLink="/">Trang chủ</a>
-      <a routerLink="/">Nhà cho thuê</a>
-      <a routerLink="/">Người cho thuê</a>
-      <a routerLink="/">Tin tức</a>
-      <a routerLink="/">Liên hệ</a>
-    </div>
-    <div class="nav-button">
-      <button routerLink="/" class="btn btn-outline-warning rounded-pill">
-        <img src="/assets/icons/search.svg" />
-      </button>
-      <button routerLink="/" class="btn btn-outline-warning rounded-pill">
-        <img src="/assets/icons/profile.svg" />
-      </button>
-      <button routerLink="/" class="btn btn-dark">Đăng nhập</button>
-    </div>
-  </nav>
 </header>
