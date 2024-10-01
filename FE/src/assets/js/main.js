@@ -77,6 +77,17 @@
   }
 
   /**
+   * Frequently Asked Questions Toggle
+   */
+  document
+    .querySelectorAll(".faq-item h3, .faq-item .faq-toggle")
+    .forEach((faqItem) => {
+      faqItem.addEventListener("click", () => {
+        faqItem.parentNode.classList.toggle("faq-active");
+      });
+    });
+
+  /**
    * Scroll top button
    */
   let scrollTop = document.querySelector(".scroll-top");
@@ -157,8 +168,8 @@
             spaceBetween: 40,
           },
           1200: {
-            slidesPerView: 3,
-            spaceBetween: 1,
+            slidesPerView: 2,
+            spaceBetween: 20,
           },
         },
       };
