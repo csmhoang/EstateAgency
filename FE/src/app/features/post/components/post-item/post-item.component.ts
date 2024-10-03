@@ -1,11 +1,11 @@
 import { Component, Input } from '@angular/core';
 import { NgbCarouselModule } from '@ng-bootstrap/ng-bootstrap';
-import { HeartLikeComponent } from '../../../../shared/components/heart-like/heart-like.component';
+import { LikeComponent } from '@shared/components/like/like.component';
 
 @Component({
   selector: 'app-post-item',
   standalone: true,
-  imports: [NgbCarouselModule, HeartLikeComponent],
+  imports: [NgbCarouselModule, LikeComponent],
   templateUrl: './post-item.component.html',
   styleUrl: './post-item.component.scss',
 })

@@ -1,3 +1,41 @@
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@use "@angular/material" as mat;
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat.core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$FE-primary: mat.define-palette(mat.$indigo-palette);
+$FE-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+
+// The warn palette is optional (defaults to red).
+$FE-warn: mat.define-palette(mat.$red-palette);
+
+// Create the theme object. A theme consists of configurations for individual
+// theming systems such as "color" or "typography".
+$FE-theme: mat.define-light-theme(
+  (
+    color: (
+      primary: $FE-primary,
+      accent: $FE-accent,
+      warn: $FE-warn,
+    ),
+    typography: mat.define-typography-config(),
+    density: 0,
+  )
+);
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include mat.all-component-themes($FE-theme);
+
 /* You can add global styles to this file, and also import other style files */
 /* Importing Bootstrap SCSS file. */
 @import "bootstrap/scss/bootstrap";
@@ -63,7 +101,8 @@
 /*--------------------------------------------------------------
   # General Styling & Shared Classes
   --------------------------------------------------------------*/
-body {
+body,
+input {
   color: var(--default-color);
   background-color: var(--background-color);
   font-family: var(--default-font);
@@ -1850,4 +1889,105 @@ section,
   &:hover {
     color: var(--accent-color);
   }
+}
+
+/*--------------------------------------------------------------
+# Pagination Section
+--------------------------------------------------------------*/
+.pagination {
+  padding-top: 0;
+  color: color-mix(in srgb, var(--default-color), transparent 40%);
+}
+
+.pagination ul {
+  display: flex;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.pagination li {
+  margin: 0 5px;
+  transition: 0.3s;
+}
+
+.pagination li a {
+  color: var(--accent-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--accent-color);
+}
+
+.pagination li a.active,
+.pagination li a:hover {
+  background: var(--accent-color);
+  color: var(--contrast-color);
+}
+
+.pagination li a.active a,
+.pagination li a:hover a {
+  color: var(--contrast-color);
+}
+
+/*--------------------------------------------------------------
+# Comments
+--------------------------------------------------------------*/
+.comments {
+  padding: 10px 0;
+}
+
+.comments .comments-count {
+  font-weight: bold;
+}
+
+.comments .comment {
+  margin-top: 30px;
+  position: relative;
+}
+
+.comments .comment .comment-img {
+  margin-right: 14px;
+}
+
+.comments .comment .comment-img img {
+  width: 60px;
+}
+
+.comments .comment h5 {
+  font-size: 16px;
+  margin-bottom: 2px;
+}
+
+.comments .comment h5 a {
+  font-weight: bold;
+  color: var(--default-color);
+  transition: 0.3s;
+}
+
+.comments .comment h5 a:hover {
+  color: var(--accent-color);
+}
+
+.comments .comment h5 .reply {
+  padding-left: 10px;
+  color: color-mix(in srgb, var(--default-color), transparent 20%);
+}
+
+.comments .comment h5 .reply i {
+  font-size: 20px;
+}
+
+.comments .comment time {
+  display: block;
+  font-size: 14px;
+  color: color-mix(in srgb, var(--default-color), transparent 40%);
+  margin-bottom: 5px;
+}
+
+.comments .comment.comment-reply {
+  padding-left: 40px;
 }

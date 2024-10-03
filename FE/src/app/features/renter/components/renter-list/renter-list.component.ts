@@ -6,8 +6,6 @@ import { RenterItemComponent } from '../renter-item/renter-item.component';
   standalone: true,
   imports: [RenterItemComponent],
   templateUrl: './renter-list.component.html',
-  styleUrl: './renter-list.component.scss'
+  styleUrl: './renter-list.component.scss',
 })
-export class RenterListComponent {
-
-}
+export class RenterListComponent {}

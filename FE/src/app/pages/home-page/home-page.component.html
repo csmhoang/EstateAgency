@@ -1,1 +1,59 @@
-<p>home-page works!</p>
+<div class="index-page">
+  <app-header [underline]="1"></app-header>
+
+  <main class="main">
+    <!-- Hero Section -->
+    <app-slider></app-slider>
+    <!-- /Hero Section -->
+
+    <!-- Services Section -->
+    <section id="services" class="services section">
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Dịch vụ của chúng tôi</h2>
+      </div>
+      <!-- End Section Title -->
+      <app-service-list></app-service-list>
+    </section>
+
+    <!-- Post Latest Section -->
+    <section id="real-estate" class="real-estate section">
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Bài đăng gần đây</h2>
+      </div>
+      <!-- End Section Title -->
+      <app-post-recent></app-post-recent>
+    </section>
+    <!-- /Post Latest Section -->
+
+    <!-- Renters Section -->
+    <section id="agents" class="agents section">
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Nhà cung cấp nổi bật</h2>
+      </div>
+      <!-- End Section Title -->
+      <app-renter-list></app-renter-list>
+    </section>
+    <!-- /Renters Section -->
+
+    <!-- Feedbacks Section -->
+    <section id="testimonials" class="testimonials section">
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Đánh giá từ người dùng</h2>
+      </div>
+      <!-- End Section Title -->
+      <app-feedback-swiper></app-feedback-swiper>
+    </section>
+    <!-- /Feedbacks Section -->
+  </main>
+
+  <app-footer></app-footer>
+
+  <!-- Scroll Top -->
+  <app-scroll-top></app-scroll-top>
+  <!-- Preloader -->
+  <div id="preloader"></div>
+</div>

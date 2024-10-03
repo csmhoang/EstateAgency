@@ -4,10 +4,12 @@ import { HeaderComponent } from '@features/header/header.component';
 import { ScrollTopComponent } from '@shared/components/scroll-top/scroll-top.component';
 
 @Component({
-  selector: 'app-contact-page',
+  selector: 'app-service-detail-page',
   standalone: true,
-  imports: [HeaderComponent, FooterComponent, ScrollTopComponent],
-  templateUrl: './contact-page.component.html',
-  styleUrl: './contact-page.component.scss',
+  imports: [HeaderComponent, ScrollTopComponent, FooterComponent],
+  templateUrl: './service-detail-page.component.html',
+  styleUrl: './service-detail-page.component.scss'
 })
-export class ContactPageComponent {}
+export class ServiceDetailPageComponent {
+
+}
