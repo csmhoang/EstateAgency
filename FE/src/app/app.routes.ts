@@ -1,11 +1,12 @@
 import { Routes } from '@angular/router';
 import { HomePageComponent } from './pages/home-page/home-page.component';
-import { RenterPageComponent } from './pages/renter-page/renter-page.component';
 import { ServicePageComponent } from './pages/service-page/service-page.component';
 import { ServiceDetailPageComponent } from './pages/service-detail-page/service-detail-page.component';
 import { ApartmentPageComponent } from './pages/apartment-page/apartment-page.component';
 import { ContactPageComponent } from './pages/contact-page/contact-page.component';
 import { ApartmentDetailPageComponent } from './pages/apartment-detail-page/apartment-detail-page.component';
+import { LessorDetailPageComponent } from './pages/lessor-detail-page/lessor-detail-page.component';
+import { LessorPageComponent } from './pages/lessor-page/lessor-page.component';
 
 export const routes: Routes = [
   {
@@ -13,12 +14,12 @@ export const routes: Routes = [
     component: HomePageComponent,
   },
   {
-    path: 'renter/detail',
-    component: RenterPageComponent,
+    path: 'lessor/detail',
+    component: LessorDetailPageComponent,
   },
   {
-    path: 'renter',
-    component: RenterPageComponent,
+    path: 'lessor',
+    component: LessorPageComponent,
   },
   {
     path: 'service/detail',

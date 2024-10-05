@@ -1,6 +1,8 @@
-<div class="heart-icon" (click)="toggleLike()">
-  <i
-    class="fa-heart"
-    [ngClass]="isLiked ? 'liked fa-solid' : 'unliked fa-regular'"
-  ></i>
+<div class="btn btn-light" (click)="toggleLike()">
+  <div class="heart-icon">
+    <i
+      class="fa-heart"
+      [ngClass]="isLiked ? 'liked fa-solid' : 'unliked fa-regular'"
+    ></i>
+  </div>
 </div>

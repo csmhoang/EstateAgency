@@ -1,0 +1,30 @@
+:root {
+  --default-color: #444444; /* Default color used for the majority of the text content across the entire website */
+  --accent-color: #2eca6a; /* Accent color that represents your brand on the website. It's used for buttons, links, and other elements that need to stand out */
+}
+.card {
+  height: fit-content;
+}
+
+.card-text {
+  a {
+    transition: color 0.3s;
+    color: color-mix(in srgb, var(--default-color), transparent 70%);
+    &:hover {
+      color: var(--accent-color);
+    }
+  }
+  i {
+    min-width: 28px;
+  }
+}
+.status{
+  i{
+    font-size: 5px;
+    min-width: 10px;
+    transform: translateY(-50%);
+  }
+  &.active{
+    color: var(--accent-color);
+  }
+}

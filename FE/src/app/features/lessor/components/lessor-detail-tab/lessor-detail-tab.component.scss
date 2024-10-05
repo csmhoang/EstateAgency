@@ -1,0 +1,46 @@
+
+.nav-pills {
+    border-bottom: 1px solid
+      color-mix(in srgb, var(--default-color), transparent 85%);
+  }
+  
+  .nav-pills li + li {
+    margin-left: 40px;
+  }
+  
+  .nav-link {
+    background: none;
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--default-color);
+    padding: 12px 0;
+    margin-bottom: -2px;
+    border-radius: 0;
+  }
+  
+  .nav-link.active {
+    color: var(--accent-color);
+    background: none;
+    border-bottom: 3px solid var(--accent-color);
+  }
+  
+  @media (max-width: 575px) {
+    .nav-link {
+      font-size: 16px;
+    }
+  }
+  
+  .tab-content h4 {
+    font-size: 18px;
+    margin: 0;
+    font-weight: 700;
+    color: var(--default-color);
+  }
+  
+  .tab-content i {
+    font-size: 22px;
+    line-height: 0;
+    margin-right: 8px;
+    color: var(--accent-color);
+  }
+  

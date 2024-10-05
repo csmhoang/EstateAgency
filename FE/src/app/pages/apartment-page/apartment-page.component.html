@@ -1,5 +1,7 @@
 <div class="properties-page">
+  <!-- Header -->
   <app-header [underline]="2"></app-header>
+
   <main class="main">
     <!-- Page Title -->
     <div class="page-title" data-aos="fade">
@@ -27,7 +29,6 @@
         </div>
       </nav>
     </div>
-    <!-- End Page Title -->
 
     <!-- Apartment Filter Engine -->
     <div class="mt-2" data-aos="fade-up">
@@ -36,41 +37,8 @@
 
     <!-- Apartment Section -->
     <section id="apartment" class="apartment section">
-      <div class="container">
-        <!-- <div class="row gy-4"> -->
-        <div class="" data-aos="fade-up" data-aos-delay="100">
-          <app-post-item></app-post-item>
-        </div>
-        <!-- End Property Item -->
-
-        <div class="" data-aos="fade-up" data-aos-delay="200">
-          <app-post-item></app-post-item>
-        </div>
-        <!-- End Property Item -->
-
-        <div class="" data-aos="fade-up" data-aos-delay="300">
-          <app-post-item></app-post-item>
-        </div>
-        <!-- End Property Item -->
-
-        <div class="" data-aos="fade-up" data-aos-delay="400">
-          <app-post-item></app-post-item>
-        </div>
-        <!-- End Property Item -->
-
-        <div class="" data-aos="fade-up" data-aos-delay="500">
-          <app-post-item></app-post-item>
-        </div>
-        <!-- End Property Item -->
-
-        <div class="" data-aos="fade-up" data-aos-delay="600">
-          <app-post-item></app-post-item>
-        </div>
-        <!-- End Property Item -->
-      </div>
-
-      <!-- Pagination -->
-      <app-pagination></app-pagination>
+      <!-- List Apartment -->
+      <app-post-root-list></app-post-root-list>
     </section>
     <!-- /Apartment Section -->
   </main>

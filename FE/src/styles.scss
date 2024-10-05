@@ -526,21 +526,6 @@ h6 {
   border-color: var(--accent-color);
 }
 
-.footer .copyright {
-  padding: 25px 0;
-  border-top: 1px solid
-    color-mix(in srgb, var(--default-color), transparent 90%);
-}
-
-.footer .copyright p {
-  margin-bottom: 0;
-}
-
-.footer .credits {
-  margin-top: 5px;
-  font-size: 13px;
-}
-
 /*--------------------------------------------------------------
   # Preloader
   --------------------------------------------------------------*/
@@ -1112,7 +1097,7 @@ section,
 
 .testimonials .testimonial-item .quote-icon-left,
 .testimonials .testimonial-item .quote-icon-right {
-  color: color-mix(in srgb, var(--accent-color), transparent 60%);
+  color: color-mix(in srgb, var(--default-color), transparent 60%);
   font-size: 26px;
   line-height: 0;
 }
@@ -1577,14 +1562,19 @@ section,
 /*--------------------------------------------------------------
   # Real Estate Section
   --------------------------------------------------------------*/
-.real-estate .card {
-  background-color: var(--background-color);
-  color: var(--default-color);
-  border: none;
-  position: relative;
-  border-radius: 0px;
-  overflow: hidden;
-  min-height: 500px;
+.real-estate {
+  .card {
+    background-color: var(--background-color);
+    color: var(--default-color);
+    border: none;
+    position: relative;
+    border-radius: 0px;
+    overflow: hidden;
+    min-height: 400px;
+  }
+  &-sm .card {
+    min-height: 260px;
+  }
 }
 
 .real-estate .card:before {
@@ -1750,28 +1740,15 @@ section,
 }
 
 .real-estate-2 .portfolio-info ul li {
-  display: flex;
-  flex-direction: column;
   padding-bottom: 15px;
 }
 
 .real-estate-2 .portfolio-info ul strong {
-  text-transform: uppercase;
-  font-weight: 400;
-  color: color-mix(in srgb, var(--default-color), transparent 50%);
-  font-size: 14px;
-}
-
-.real-estate-2 .portfolio-info .btn-visit {
-  padding: 8px 40px;
-  background: var(--accent-color);
-  color: var(--contrast-color);
-  border-radius: 50px;
-  transition: 0.3s;
-}
-
-.real-estate-2 .portfolio-info .btn-visit:hover {
-  background: color-mix(in srgb, var(--accent-color), transparent 20%);
+  font-weight: bold;
+  font-size: 15px;
+  i {
+    min-width: 28px;
+  }
 }
 
 .real-estate-2 .portfolio-description h2 {
@@ -1814,7 +1791,7 @@ section,
 
 .real-estate-2 .portfolio-description .testimonial-item .quote-icon-left,
 .real-estate-2 .portfolio-description .testimonial-item .quote-icon-right {
-  color: color-mix(in srgb, var(--accent-color), transparent 50%);
+  color: color-mix(in srgb, var(--default-color), transparent 50%);
   font-size: 26px;
   line-height: 0;
 }
@@ -1990,4 +1967,13 @@ section,
 
 .comments .comment.comment-reply {
   padding-left: 40px;
+}
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
 }

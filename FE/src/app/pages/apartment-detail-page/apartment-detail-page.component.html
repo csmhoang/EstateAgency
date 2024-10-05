@@ -1,4 +1,5 @@
 <div class="property-single-page">
+  <!-- Header -->
   <app-header></app-header>
 
   <main class="main">
@@ -28,43 +29,18 @@
         </div>
       </nav>
     </div>
-    <!-- End Page Title -->
 
-    <!-- Real Estate 2 Section -->
+    <!-- Apartment Detail Section -->
     <section id="real-estate-2" class="real-estate-2 section">
       <div class="container" data-aos="fade-up">
-        <div class="portfolio-details-slider swiper init-swiper">
-          <div class="swiper-wrapper align-items-center">
-            <div class="swiper-slide">
-              <img
-                src="assets/img/property-slide/property-slide-1.jpg"
-                alt=""
-              />
-            </div>
-
-            <div class="swiper-slide">
-              <img
-                src="assets/img/property-slide/property-slide-2.jpg"
-                alt=""
-              />
-            </div>
-
-            <div class="swiper-slide">
-              <img
-                src="assets/img/property-slide/property-slide-3.jpg"
-                alt=""
-              />
-            </div>
-          </div>
-          <div class="swiper-button-prev"></div>
-          <div class="swiper-button-next"></div>
-          <div class="swiper-pagination"></div>
-        </div>
+        <!-- Apartment Photos -->
+        <app-apartment-detail-photos></app-apartment-detail-photos>
 
         <div class="row justify-content-between gy-4 mt-4">
-          <div class="col-lg-8" data-aos="fade-up">
+          <div class="col-lg-7" data-aos="fade-up">
+            <!-- Introduction Detail-->
             <div class="portfolio-description">
-              <h2>This is an example of propery details</h2>
+              <h2>Giới thiệu chi tiết</h2>
               <p>
                 Autem ipsum nam porro corporis rerum. Quis eos dolorem eos
                 itaque inventore commodi labore quia quia. Exercitationem
@@ -94,107 +70,34 @@
                 necessitatibus similique quis dolor eum. Numquam eaque
                 praesentium rem et qui nesciunt.
               </p>
-
-              <div class="testimonial-item">
-                <p>
-                  <span
-                    >Export tempor illum tamen malis malis eram quae irure esse
-                    labore quem cillum quid cillum eram malis quorum velit fore
-                    eram velit sunt aliqua noster fugiat irure amet legam anim
-                    culpa.
-                  </span>
-                </p>
-                <div>
-                  <img
-                    src="assets/img/testimonials/testimonials-2.jpg"
-                    class="testimonial-img"
-                    alt=""
-                  />
-                  <h3>Sara Wilsson</h3>
-                  <h4>Agent</h4>
-                </div>
-              </div>
             </div>
-            <!-- End Portfolio Description -->
 
             <!-- Tabs -->
-            <ul class="nav nav-pills mb-3">
-              <li>
-                <a
-                  class="nav-link active"
-                  data-bs-toggle="pill"
-                  href="#real-estate-2-tab1"
-                  >Video
-                </a>
-              </li>
-              <li>
-                <a
-                  class="nav-link"
-                  data-bs-toggle="pill"
-                  href="#real-estate-2-tab2"
-                  >Floor Plans
-                </a>
-              </li>
-              <li>
-                <a
-                  class="nav-link"
-                  data-bs-toggle="pill"
-                  href="#real-estate-2-tab3"
-                  >Location
-                </a>
-              </li>
-            </ul>
-            <!-- End Tabs -->
-
-            <!-- Tab Content -->
-            <div class="tab-content">
-              <div
-                class="tab-pane fade show active"
-                id="real-estate-2-tab1"
-              ></div>
-              <!-- End Tab 1 Content -->
-
-              <div class="tab-pane fade" id="real-estate-2-tab2">
-                <img src="assets/img/floor-plan.jpg" alt="" class="img-fluid" />
-              </div>
-              <!-- End Tab 2 Content -->
-
-              <div class="tab-pane fade" id="real-estate-2-tab3">
-                <iframe
-                  style="border: 0; width: 100%; height: 400px"
-                  src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d48389.78314118045!2d-74.006138!3d40.710059!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c25a22a3bda30d%3A0xb89d1fe6bc499443!2sDowntown%20Conference%20Center!5e0!3m2!1sen!2sus!4v1676961268712!5m2!1sen!2sus"
-                  frameborder="0"
-                  allowfullscreen=""
-                  loading="lazy"
-                  referrerpolicy="no-referrer-when-downgrade"
-                ></iframe>
-              </div>
-              <!-- End Tab 3 Content -->
-            </div>
-            <!-- End Tab Content -->
+            <app-apartment-detail-tab></app-apartment-detail-tab>
           </div>
 
-          <div class="col-lg-3" data-aos="fade-up" data-aos-delay="100">
-            <div class="portfolio-info">
-              <h3>Quick Summary</h3>
-              <ul>
-                <li><strong>Property ID:</strong> 1134n</li>
-                <li><strong>Location:</strong> Chicago, IL 606543</li>
-                <li><strong>Property Type:</strong> House</li>
-                <li><strong>Status:</strong> Sale</li>
-                <li>
-                  <strong>Area:</strong> <span>340m <sup>2</sup></span>
-                </li>
-                <li><strong>Beds:</strong> 4</li>
-                <li><strong>Baths:</strong> 1</li>
-              </ul>
+          <!-- Primary Information -->
+          <div class="row col-lg-4" data-aos="fade-up" data-aos-delay="100">
+            <!-- Lessor Information -->
+            <div class="col-12 mb-4">
+              <app-lessor-info-card></app-lessor-info-card>
+            </div>
+
+            <!-- Apartment Information -->
+            <div class="col-12" data-aos-delay="200">
+              <app-apartment-primary-info></app-apartment-primary-info>
             </div>
           </div>
 
-          <div class="col-lg-8" data-aos="fade-up" data-aos-delay="200">
-            <!-- Comment -->
+          <!-- Apartment Relationship -->
+          <div class="col-12" data-aos="fade-up" data-aos-delay="400">
+            <app-apartment-relationship></app-apartment-relationship>
+          </div>
+          <!-- Comment -->
+          <div class="col-lg-8" data-aos="fade-up" data-aos-delay="300">
             <app-comment></app-comment>
           </div>
+
         </div>
       </div>
     </section>

@@ -1,57 +1,55 @@
 <div class="index-page">
+  <!-- Header -->
   <app-header [underline]="1"></app-header>
 
   <main class="main">
     <!-- Hero Section -->
-    <app-slider></app-slider>
-    <!-- /Hero Section -->
+    <app-home-slide></app-home-slide>
 
     <!-- Services Section -->
-    <section id="services" class="services section">
+    <section class="services section">
       <!-- Section Title -->
       <div class="container section-title" data-aos="fade-up">
         <h2>Dịch vụ của chúng tôi</h2>
       </div>
-      <!-- End Section Title -->
+      <!-- Service List -->
       <app-service-list></app-service-list>
     </section>
 
-    <!-- Post Latest Section -->
-    <section id="real-estate" class="real-estate section">
+    <!-- Post Recent Section -->
+    <section class="real-estate section">
       <!-- Section Title -->
       <div class="container section-title" data-aos="fade-up">
-        <h2>Bài đăng gần đây</h2>
+        <h2>Những bài đăng gần đây</h2>
       </div>
-      <!-- End Section Title -->
-      <app-post-recent></app-post-recent>
+      <!-- Recent Posts -->
+      <app-post-list></app-post-list>
     </section>
-    <!-- /Post Latest Section -->
 
-    <!-- Renters Section -->
-    <section id="agents" class="agents section">
+    <!-- Rentaler Section -->
+    <section class="agents section">
       <!-- Section Title -->
       <div class="container section-title" data-aos="fade-up">
-        <h2>Nhà cung cấp nổi bật</h2>
+        <h2>Người cho thuê được yêu thích nhất</h2>
       </div>
-      <!-- End Section Title -->
-      <app-renter-list></app-renter-list>
+      <!-- Rentaler List -->
+      <app-lessor-list></app-lessor-list>
     </section>
-    <!-- /Renters Section -->
-
+    <!-- Stats Section -->
+    <app-home-stats></app-home-stats>
     <!-- Feedbacks Section -->
-    <section id="testimonials" class="testimonials section">
+    <section class="testimonials section">
       <!-- Section Title -->
       <div class="container section-title" data-aos="fade-up">
-        <h2>Đánh giá từ người dùng</h2>
+        <h2>Mọi người nói gì về chúng tôi</h2>
       </div>
-      <!-- End Section Title -->
-      <app-feedback-swiper></app-feedback-swiper>
+      <!-- Feedback Swiper -->
+      <app-home-feedback></app-home-feedback>
     </section>
-    <!-- /Feedbacks Section -->
   </main>
 
+  <!-- Footer -->
   <app-footer></app-footer>
-
   <!-- Scroll Top -->
   <app-scroll-top></app-scroll-top>
   <!-- Preloader -->

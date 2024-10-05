@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
-import { FeedbackSwiperComponent } from '@features/feedback-swiper/feedback-swiper.component';
 import { FooterComponent } from '@features/footer/footer.component';
 import { HeaderComponent } from '@features/header/header.component';
-import { PostRecentComponent } from '@features/post/components/post-recent/post-recent.component';
-import { RenterListComponent } from '@features/renter/components/renter-list/renter-list.component';
+import { HomeFeedbackComponent } from '@features/home/components/home-feedback/home-feedback.component';
+import { HomeSlideComponent } from '@features/home/components/home-slide/home-slide.component';
+import { HomeStatsComponent } from '@features/home/components/home-stats/home-stats.component';
+import { LessorListComponent } from '@features/lessor/components/lessor-list/lessor-list.component';
+import { PostListComponent } from '@features/post/components/post-list/post-list.component';
 import { ServiceListComponent } from '@features/service/components/service-list/service-list.component';
-import { SliderComponent } from '@features/slider/slider.component';
 import { ScrollTopComponent } from '@shared/components/scroll-top/scroll-top.component';
 
 @Component({
@@ -13,13 +14,14 @@ import { ScrollTopComponent } from '@shared/components/scroll-top/scroll-top.com
   standalone: true,
   imports: [
     HeaderComponent,
-    SliderComponent,
     ServiceListComponent,
-    RenterListComponent,
-    FeedbackSwiperComponent,
-    PostRecentComponent,
+    LessorListComponent,
+    PostListComponent,
     FooterComponent,
     ScrollTopComponent,
+    HomeFeedbackComponent,
+    HomeSlideComponent,
+    HomeStatsComponent,
   ],
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.scss',
