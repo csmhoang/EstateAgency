@@ -6,7 +6,7 @@
       <img src="/assets/icons/logo.svg" />
     </a>
 
-    <nav #navmenu id="navmenu" class="navmenu d-flex align-items-center gap-5">
+    <nav #navmenu class="navmenu d-flex align-items-center gap-5">
       <ul>
         <li><a routerLink="/">Trang chủ</a></li>
         <li><a routerLink="/apartment">Nhà cho thuê</a></li>
@@ -14,7 +14,7 @@
         <li><a routerLink="/service">Dịch vụ</a></li>
         <li><a routerLink="/contact">Liên hệ</a></li>
       </ul>
-      <div class="button-group d-flex gap-2">
+      <div class="btn-navmenu d-flex gap-2">
         <button
           routerLink="/"
           class="btn btn-dark fs-4 border-0 rounded-pill"
@@ -36,7 +36,7 @@
         <button routerLink="/" class="btn btn-dark">Đăng ký</button>
         <button routerLink="/" class="btn btn-dark">Đăng nhập</button>
       </div>
-      <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+      <i #mobileNavToggle class="mobile-nav-toggle d-xl-none bi bi-list"></i>
     </nav>
   </div>
 </header>

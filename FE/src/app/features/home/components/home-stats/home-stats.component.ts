@@ -20,8 +20,6 @@ export class HomeStatsComponent implements AfterViewInit {
   }
 
   loadPureCounter(): void {
-    if (typeof PureCounter !== 'undefined') {
-      new PureCounter();
-    }
+    new PureCounter();
   }
 }

@@ -21,5 +21,4 @@ import { ServiceListComponent } from '@features/service/components/service-list/
   styleUrl: './home-page.component.scss',
 })
 export class HomePageComponent {
-  posts: any;
 }

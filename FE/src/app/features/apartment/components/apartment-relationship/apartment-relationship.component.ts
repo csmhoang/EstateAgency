@@ -7,8 +7,6 @@ import { PaginationComponent } from '@shared/components/pagination/pagination.co
   standalone: true,
   imports: [PostListComponent, PaginationComponent],
   templateUrl: './apartment-relationship.component.html',
-  styleUrl: './apartment-relationship.component.scss'
+  styleUrl: './apartment-relationship.component.scss',
 })
-export class ApartmentRelationshipComponent {
-
-}
+export class ApartmentRelationshipComponent {}

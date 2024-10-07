@@ -6,8 +6,6 @@ import { LikeComponent } from '@shared/components/like/like.component';
   standalone: true,
   imports: [LikeComponent],
   templateUrl: './apartment-primary-info.component.html',
-  styleUrl: './apartment-primary-info.component.scss'
+  styleUrl: './apartment-primary-info.component.scss',
 })
-export class ApartmentPrimaryInfoComponent {
-
-}
+export class ApartmentPrimaryInfoComponent {}

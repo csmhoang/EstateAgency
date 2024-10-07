@@ -1,5 +1,4 @@
-import { DOCUMENT, isPlatformBrowser } from '@angular/common';
-import { AfterViewInit, Component, inject, PLATFORM_ID } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-preloader',
@@ -8,16 +7,4 @@ import { AfterViewInit, Component, inject, PLATFORM_ID } from '@angular/core';
   templateUrl: './preloader.component.html',
   styleUrl: './preloader.component.scss',
 })
-export class PreloaderComponent implements AfterViewInit {
-  platformId = inject(PLATFORM_ID);
-  document = inject(DOCUMENT);
-
-  ngAfterViewInit(): void {
-    if (isPlatformBrowser(this.platformId)) {
-      const preloader = document.querySelector('#preloader');
-      if (preloader) {
-        preloader.remove();
-      }
-    }
-  }
-}
+export class PreloaderComponent {}

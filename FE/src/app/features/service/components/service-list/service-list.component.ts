@@ -6,8 +6,6 @@ import { ServiceItemComponent } from '../service-item/service-item.component';
   standalone: true,
   imports: [ServiceItemComponent],
   templateUrl: './service-list.component.html',
-  styleUrl: './service-list.component.scss'
+  styleUrl: './service-list.component.scss',
 })
-export class ServiceListComponent {
-
-}
+export class ServiceListComponent {}

@@ -5,8 +5,6 @@ import { Component } from '@angular/core';
   standalone: true,
   imports: [],
   templateUrl: './lessor-detail-profile.component.html',
-  styleUrl: './lessor-detail-profile.component.scss'
+  styleUrl: './lessor-detail-profile.component.scss',
 })
-export class LessorDetailProfileComponent {
-
-}
+export class LessorDetailProfileComponent {}

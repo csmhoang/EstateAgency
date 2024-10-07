@@ -7,6 +7,4 @@ import { Component } from '@angular/core';
   templateUrl: './apartment-filter.component.html',
   styleUrl: './apartment-filter.component.scss',
 })
-export class ApartmentFilterComponent {
-
-}
+export class ApartmentFilterComponent {}

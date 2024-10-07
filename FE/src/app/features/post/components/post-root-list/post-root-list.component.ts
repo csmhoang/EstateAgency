@@ -7,8 +7,6 @@ import { PostRootItemComponent } from '../post-root-item/post-root-item.componen
   standalone: true,
   imports: [PostRootItemComponent, PaginationComponent],
   templateUrl: './post-root-list.component.html',
-  styleUrl: './post-root-list.component.scss'
+  styleUrl: './post-root-list.component.scss',
 })
-export class PostRootListComponent {
-
-}
+export class PostRootListComponent {}

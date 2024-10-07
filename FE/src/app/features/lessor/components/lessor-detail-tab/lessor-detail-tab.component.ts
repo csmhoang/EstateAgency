@@ -6,8 +6,6 @@ import { PostListComponent } from '@features/post/components/post-list/post-list
   standalone: true,
   imports: [PostListComponent],
   templateUrl: './lessor-detail-tab.component.html',
-  styleUrl: './lessor-detail-tab.component.scss'
+  styleUrl: './lessor-detail-tab.component.scss',
 })
-export class LessorDetailTabComponent {
-
-}
+export class LessorDetailTabComponent {}

@@ -6,8 +6,6 @@ import { LikeComponent } from '@shared/components/like/like.component';
   standalone: true,
   imports: [LikeComponent],
   templateUrl: './lessor-item.component.html',
-  styleUrl: './lessor-item.component.scss'
+  styleUrl: './lessor-item.component.scss',
 })
-export class LessorItemComponent {
-
-}
+export class LessorItemComponent {}

@@ -5,8 +5,6 @@ import { Component } from '@angular/core';
   standalone: true,
   imports: [],
   templateUrl: './lessor-info-card.component.html',
-  styleUrl: './lessor-info-card.component.scss'
+  styleUrl: './lessor-info-card.component.scss',
 })
-export class LessorInfoCardComponent {
-
-}
+export class LessorInfoCardComponent {}

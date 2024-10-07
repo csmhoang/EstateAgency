@@ -24,7 +24,13 @@ import {
 @Component({
   selector: 'app-auto-complete',
   standalone: true,
-  imports: [NgbTypeaheadModule, FormsModule, JsonPipe, MatFormFieldModule, MatInputModule],
+  imports: [
+    NgbTypeaheadModule,
+    FormsModule,
+    JsonPipe,
+    MatFormFieldModule,
+    MatInputModule,
+  ],
   templateUrl: './auto-complete.component.html',
   styleUrl: './auto-complete.component.scss',
 })

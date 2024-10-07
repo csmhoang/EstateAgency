@@ -6,8 +6,6 @@ import { LessorItemComponent } from '../lessor-item/lessor-item.component';
   standalone: true,
   imports: [LessorItemComponent],
   templateUrl: './lessor-list.component.html',
-  styleUrl: './lessor-list.component.scss'
+  styleUrl: './lessor-list.component.scss',
 })
-export class LessorListComponent {
-
-}
+export class LessorListComponent {}

@@ -1,9 +1,8 @@
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import {
+  AfterViewInit,
   Component,
   inject,
-  OnDestroy,
-  OnInit,
   PLATFORM_ID,
   Renderer2,
 } from '@angular/core';
@@ -15,16 +14,19 @@ import {
   templateUrl: './scroll-top.component.html',
   styleUrl: './scroll-top.component.scss',
 })
-export class ScrollTopComponent implements OnInit, OnDestroy {
+export class ScrollTopComponent implements AfterViewInit {
   platformId = inject(PLATFORM_ID);
   document = inject(DOCUMENT);
+  renderer = inject(Renderer2);
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
     if (isPlatformBrowser(this.platformId)) {
-      // window.addEventListener('scroll', () => this.toggleScrolled());
+      this.renderer.listen(this.document, 'scroll', () => {
+        this.toggleScrolled();
+        this.toggleScrollTop();
+      });
     }
   }
-  renderer = inject(Renderer2);
 
   toggleScrolled(): void {
     const selectBody = this.document.body;
@@ -46,9 +48,21 @@ export class ScrollTopComponent implements OnInit, OnDestroy {
       : this.renderer.removeClass(selectBody, 'scrolled');
   }
 
-  ngOnDestroy(): void {
-    if (isPlatformBrowser(this.platformId)) {
-      // window.removeEventListener('scroll', () => this.toggleScrolled());
+  toggleScrollTop() {
+    const scrollTop = this.document.querySelector('.scroll-top');
+
+    if (scrollTop) {
+      this.renderer.listen(scrollTop, 'click', (e: Event) => {
+        e.preventDefault();
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth',
+        });
+      });
+
+      window.scrollY > 100
+        ? scrollTop.classList.add('active')
+        : scrollTop.classList.remove('active');
     }
   }
 }

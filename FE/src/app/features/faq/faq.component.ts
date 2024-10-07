@@ -1,5 +1,11 @@
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
-import { AfterViewInit, Component, inject, PLATFORM_ID } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  inject,
+  PLATFORM_ID,
+  Renderer2,
+} from '@angular/core';
 
 @Component({
   selector: 'app-faq',
@@ -11,20 +17,24 @@ import { AfterViewInit, Component, inject, PLATFORM_ID } from '@angular/core';
 export class FAQComponent implements AfterViewInit {
   platformId = inject(PLATFORM_ID);
   document = inject(DOCUMENT);
+  renderer = inject(Renderer2);
 
   ngAfterViewInit(): void {
     if (isPlatformBrowser(this.platformId)) {
-      this.toggleQuestions();
+      this.document
+        .querySelectorAll<HTMLElement>('.faq-item h3, .faq-item .faq-toggle')
+        .forEach((faqItem) => {
+          this.renderer.listen(
+            faqItem,
+            'click',
+            this.toggleQuestions.bind(faqItem)
+          );
+        });
     }
   }
-  toggleQuestions() {
-    this.document
-      .querySelectorAll<HTMLElement>('.faq-item h3, .faq-item .faq-toggle')
-      .forEach((faqItem) => {
-        faqItem.addEventListener('click', () => {
-          const parent = faqItem.parentNode as HTMLElement;
-          parent.classList.toggle('faq-active');
-        });
-      });
+
+  toggleQuestions(this: HTMLElement) {
+    const parent = this.parentElement as HTMLElement;
+    parent.classList.toggle('faq-active');
   }
 }
