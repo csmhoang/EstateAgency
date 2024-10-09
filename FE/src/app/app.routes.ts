@@ -1,44 +1,59 @@
 import { Routes } from '@angular/router';
-import { HomePageComponent } from './pages/home-page/home-page.component';
-import { ServicePageComponent } from './pages/service-page/service-page.component';
-import { ServiceDetailPageComponent } from './pages/service-detail-page/service-detail-page.component';
-import { ApartmentPageComponent } from './pages/apartment-page/apartment-page.component';
-import { ContactPageComponent } from './pages/contact-page/contact-page.component';
-import { ApartmentDetailPageComponent } from './pages/apartment-detail-page/apartment-detail-page.component';
-import { LessorDetailPageComponent } from './pages/lessor-detail-page/lessor-detail-page.component';
-import { LessorPageComponent } from './pages/lessor-page/lessor-page.component';
+import { LoginComponent } from '@core/auth/pages/login/login.component';
+import { RegisterComponent } from '@core/auth/pages/register/register.component';
+import { ApartmentDetailComponent } from '@features/apartment/pages/apartment-detail/apartment-detail.component';
+import { ApartmentComponent } from '@features/apartment/pages/apartment/apartment.component';
+import { ContactComponent } from '@features/contact/pages/contact/contact.component';
+import { HomeComponent } from '@features/home/pages/home/home.component';
+import { LessorDetailComponent } from '@features/lessor/pages/lessor-detail/lessor-detail.component';
+import { LessorComponent } from '@features/lessor/pages/lessor/lessor.component';
+import { ServiceDetailComponent } from '@features/service/pages/service-detail/service-detail.component';
+import { ServiceComponent } from '@features/service/pages/service/service.component';
 
 export const routes: Routes = [
+  /*Clients*/
   {
     path: '',
-    component: HomePageComponent,
+    component: HomeComponent,
+  },
+  {
+    path: 'login',
+    component: LoginComponent,
+  },
+  {
+    path: 'register',
+    component: RegisterComponent,
   },
   {
     path: 'lessor/detail',
-    component: LessorDetailPageComponent,
+    component: LessorDetailComponent,
   },
   {
     path: 'lessor',
-    component: LessorPageComponent,
+    component: LessorComponent,
   },
   {
     path: 'service/detail',
-    component: ServiceDetailPageComponent,
+    component: ServiceDetailComponent,
   },
   {
     path: 'service',
-    component: ServicePageComponent,
+    component: ServiceComponent,
   },
   {
     path: 'apartment/detail',
-    component: ApartmentDetailPageComponent,
+    component: ApartmentDetailComponent,
   },
   {
     path: 'apartment',
-    component: ApartmentPageComponent,
+    component: ApartmentComponent,
   },
   {
     path: 'contact',
-    component: ContactPageComponent,
+    component: ContactComponent,
   },
+  /*Lessors*/
+
+
+  /*Admin*/
 ];

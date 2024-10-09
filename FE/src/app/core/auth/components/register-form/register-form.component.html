@@ -1,0 +1,94 @@
+<form>
+  <div
+    class="d-flex align-items-center justify-content-center justify-content-lg-start"
+  >
+    <p class="lead fw-normal mb-0 me-3">Đăng ký bằng</p>
+    <button type="button" routerLink="/" class="btn btn-primary mx-1">
+      <i class="fab fa-facebook-f"></i>
+    </button>
+
+    <button type="button" routerLink="/" class="btn btn-danger mx-1">
+      <i class="fa-brands fa-google"></i>
+    </button>
+  </div>
+
+  <div class="divider d-flex align-items-center my-4">
+    <p class="text-center fw-bold mx-3 mb-0">Hoặc</p>
+  </div>
+
+  <!-- Email input -->
+  <mat-form-field class="w-100" appearance="outline">
+    <mat-label>Email</mat-label>
+    <input matInput type="email" placeholder="Email" />
+  </mat-form-field>
+
+  <div class="row">
+    <!-- Lastname input -->
+    <mat-form-field class="col-lg-6" appearance="outline">
+      <mat-label>Họ</mat-label>
+      <input matInput type="text" placeholder="Họ" />
+    </mat-form-field>
+    <!-- Fistname input -->
+    <mat-form-field class="col-lg-6" appearance="outline">
+      <mat-label>Tên</mat-label>
+      <input matInput type="text" placeholder="Tên" />
+    </mat-form-field>
+  </div>
+
+  <div class="row">
+    <!-- Phone Number input -->
+    <mat-form-field class="col" appearance="outline">
+      <mat-label>Số điện thoại</mat-label>
+      <input matInput type="text" placeholder="Số điện thoại" />
+    </mat-form-field>
+    <!-- Birthday input -->
+    <mat-form-field class="col" appearance="outline">
+      <mat-label>Ngày sinh</mat-label>
+      <input matInput [matDatepicker]="picker" placeholder="MM/DD/YYYY" />
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+  </div>
+
+  <!-- Address input -->
+  <mat-form-field class="w-100" appearance="outline">
+    <mat-label>Địa chỉ</mat-label>
+    <input matInput type="text" placeholder="Địa chỉ" />
+  </mat-form-field>
+
+  <!-- Password input -->
+  <mat-form-field class="w-100" appearance="outline">
+    <mat-label>Mật khẩu</mat-label>
+    <input
+      matInput
+      [type]="hidePassword ? 'password' : 'text'"
+      placeholder="Nhập mật khẩu"
+    />
+    <mat-icon matSuffix (click)="hidePassword = !hidePassword">{{
+      hidePassword ? "visibility_off" : "visibility"
+    }}</mat-icon>
+  </mat-form-field>
+
+  <!-- Password Repeat input -->
+  <mat-form-field class="w-100" appearance="outline">
+    <mat-label>Nhập lại mật khẩu</mat-label>
+    <input
+      matInput
+      [type]="hideRepeatPassword ? 'password' : 'text'"
+      placeholder="Nhập lại mật khẩu"
+    />
+    <mat-icon matSuffix (click)="hideRepeatPassword = !hideRepeatPassword">{{
+      hideRepeatPassword ? "visibility_off" : "visibility"
+    }}</mat-icon>
+  </mat-form-field>
+
+  <div class="text-center text-lg-start mt-3">
+    <button type="button" routerLink="/" class="btn btn-lg btn-dark w-100">
+      Đăng ký
+    </button>
+    <p class="small fw-bold mt-3">
+      Bạn đã có tài khoản?
+      <a [routerLink]="['/login']" class="link-primary">Đăng nhập</a>
+    </p>
+  </div>
+</form>

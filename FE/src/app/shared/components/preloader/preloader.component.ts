@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { PreloaderService } from './preloader.service';
 
 @Component({
   selector: 'app-preloader',
@@ -7,4 +8,6 @@ import { Component } from '@angular/core';
   templateUrl: './preloader.component.html',
   styleUrl: './preloader.component.scss',
 })
-export class PreloaderComponent {}
+export class PreloaderComponent {
+  loading = inject(PreloaderService).loading;
+}

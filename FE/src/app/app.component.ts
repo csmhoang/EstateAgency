@@ -7,8 +7,8 @@ import {
   Renderer2,
 } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { FooterComponent } from '@features/footer/footer.component';
-import { HeaderComponent } from '@features/header/header.component';
+import { FooterComponent } from '@core/layout/footer/footer.component';
+import { HeaderComponent } from '@core/layout/header/header.component';
 import { PreloaderComponent } from '@shared/components/preloader/preloader.component';
 import { ScrollTopComponent } from '@shared/components/scroll-top/scroll-top.component';
 
