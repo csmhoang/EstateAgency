@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { IfAuthenticatedDirective } from '@core/auth/directives/if-authenticated.directive';
 import { FooterComponent } from '@core/layout/footer/footer.component';
 import { HeaderComponent } from '@core/layout/header/header.component';
 import { HomeFeedbackComponent } from '@features/home/components/home-feedback/home-feedback.component';
@@ -20,6 +21,7 @@ import { ServiceListComponent } from '@features/service/components/service-list/
     HomeFeedbackComponent,
     HomeSlideComponent,
     HomeStatsComponent,
+    IfAuthenticatedDirective
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',

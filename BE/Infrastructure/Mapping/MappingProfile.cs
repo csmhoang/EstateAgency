@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Core.Dtos;
 using Core.Entities;
+using System.ComponentModel;
 
 namespace Infrastructure.Mapping
 {
@@ -8,10 +9,11 @@ namespace Infrastructure.Mapping
     {
         public MappingProfile()
         {
-            CreateMap<UserDto, User>();
+            CreateMap<UserDto, User>()
+                .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Email));
             CreateMap<User, UserDto>()
                 .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
-            
+
             CreateMap<RegisterDto, User>();
 
             CreateMap<Room, RoomDto>();

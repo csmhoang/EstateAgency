@@ -1,6 +1,8 @@
-﻿using Core.Dtos;
+﻿using Core.Consts;
+using Core.Dtos;
 using Core.Interfaces.Business;
 using Core.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
@@ -47,10 +49,11 @@ namespace Api.Controllers
         /// </summary>
         /// <param name="id">Id người dùng</param>
         /// <param name="model">Người dùng</param>
+        /// <param name="file">Avatar</param>
         [HttpPut]
-        public async Task<IActionResult> Update(string id, [FromBody] UserDto model)
+        public async Task<IActionResult> Update(string id, [FromBody] UserDto model, IFormFile? file)
         {
-            var response = await _service.User.UpdateAsync(id, model);
+            var response = await _service.User.UpdateAsync(id, model, file);
             return Ok(response);
         }
 

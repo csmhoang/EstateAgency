@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from '@core/auth/pages/login/login.component';
 import { RegisterComponent } from '@core/auth/pages/register/register.component';
+import { isUserlogined } from '@core/guards/auth.guard';
 import { ApartmentDetailComponent } from '@features/apartment/pages/apartment-detail/apartment-detail.component';
 import { ApartmentComponent } from '@features/apartment/pages/apartment/apartment.component';
 import { ContactComponent } from '@features/contact/pages/contact/contact.component';
@@ -19,10 +20,12 @@ export const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
+    // canActivate: [isUserlogined],
   },
   {
     path: 'register',
     component: RegisterComponent,
+    // canActivate: [isUserlogined],
   },
   {
     path: 'lessor/detail',
@@ -53,7 +56,6 @@ export const routes: Routes = [
     component: ContactComponent,
   },
   /*Lessors*/
-
 
   /*Admin*/
 ];

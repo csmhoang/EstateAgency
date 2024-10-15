@@ -1,4 +1,5 @@
 ﻿using Api.Extensions;
+using Core.Helpers;
 using Core.Interfaces.Infrastructure;
 using Infrastructure.Mapping;
 using Microsoft.AspNetCore.HttpOverrides;
@@ -18,6 +19,7 @@ builder.Services.ConfigureIdentity();
 builder.Services.ConfigureJWT(builder.Configuration);
 builder.Services.ConfigureSqlContext(builder.Configuration);
 builder.Services.AddAutoMapper(typeof(MappingProfile));
+builder.Services.Configure<CloudinarySettings>(builder.Configuration.GetSection("CloudinarySettings"));
 builder.Services.ConfigureRepositoryManager();
 builder.Services.ConfigureServiceManager();
 

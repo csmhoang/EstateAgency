@@ -5,7 +5,7 @@ import {
 } from '@angular/common/http';
 import { PreloaderService } from './preloader.service';
 import { inject } from '@angular/core';
-import { finalize } from 'rxjs';
+import { delay, finalize, of } from 'rxjs';
 import { SkipPreloader } from './skip-preloader.component';
 
 export const preloaderInterceptor: HttpInterceptorFn = (
@@ -19,7 +19,9 @@ export const preloaderInterceptor: HttpInterceptorFn = (
   preloaderService.loadingOn();
   return next(req).pipe(
     finalize(() => {
-      preloaderService.loadingOff();
+      of(null)
+        .pipe(delay(1500))
+        .subscribe(() => preloaderService.loadingOff());
     })
   );
 };

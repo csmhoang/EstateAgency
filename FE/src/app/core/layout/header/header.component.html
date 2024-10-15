@@ -15,26 +15,28 @@
         <li><a routerLink="/contact">Liên hệ</a></li>
       </ul>
       <div class="btn-navmenu d-flex gap-2">
-        <button
-          routerLink="/"
-          class="btn btn-dark fs-4 border-0 rounded-pill"
-        >
+        <button routerLink="/" class="btn btn-dark fs-4 border-0 rounded-pill">
           <i class="bi bi-search"></i>
         </button>
-        <button
-          routerLink="/"
-          class="btn btn-dark fs-4 border-0 rounded-pill"
-        >
-          <i class="bi bi-bell-fill"></i>
-        </button>
-        <button
-          routerLink="/"
-          class="btn btn-dark fs-4 border-0 rounded-pill"
-        >
-          <i class="bi bi-person-fill"></i>
-        </button>
-        <button routerLink="/register" class="btn btn-dark">Đăng ký</button>
-        <button routerLink="/login" class="btn btn-dark">Đăng nhập</button>
+        <div *appIfAuthenticated="true" class="d-flex gap-2">
+          <button
+            routerLink="/"
+            class="btn btn-dark fs-4 border-0 rounded-pill"
+          >
+            <i class="bi bi-bell-fill"></i>
+          </button>
+          <button
+            routerLink="/"
+            class="btn btn-dark fs-4 border-0 rounded-pill"
+          >
+            <i class="bi bi-person-fill"></i>
+          </button>
+        </div>
+        <div *appIfAuthenticated="false" class="d-flex gap-2">
+          <button routerLink="/register" class="btn btn-dark">Đăng ký</button>
+          <button routerLink="/login" class="btn btn-dark">Đăng nhập</button>
+          <button routerLink="/login/lessor" class="btn btn-dark">Đăng tin</button>
+        </div>
       </div>
       <i #mobileNavToggle class="mobile-nav-toggle d-xl-none bi bi-list"></i>
     </nav>

@@ -53,6 +53,14 @@ namespace Core.Interfaces.Auth
         /// </param>
         /// <returns>TokenDto</returns>
         Task<TokenDto> RefreshToken(TokenDto tokenDto);
-
+        /// <summary>
+        /// Lấy người dùng hiện tại
+        /// </summary>
+        /// <param name="username">Tên đăng nhập</param>
+        /// <returns>
+        /// 1 - Người dùng
+        /// 2 - Null
+        /// </returns>
+        Task<Response> UserCurrent(string username);
     }
 }

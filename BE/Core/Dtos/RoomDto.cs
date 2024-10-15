@@ -10,8 +10,8 @@ namespace Core.Dtos
 {
     public record RoomDto
     {
-        public Guid? Id { get; }
-        public int RoomCode { get; }
+        public Guid? Id { get; set; }
+        public int RoomCode { get; set; }
         [Required(ErrorMessage = RoomConst.ErrorEmptyLandlordId)]
         public string? LandlordId { get; set; } = null!;
         public string Address { get; set; } = null!;

@@ -1,4 +1,4 @@
-<form>
+<form [formGroup]="form">
   <div
     class="d-flex align-items-center justify-content-center justify-content-lg-start"
   >
@@ -19,7 +19,11 @@
   <!-- Email input -->
   <mat-form-field class="w-100" appearance="outline">
     <mat-label>Email</mat-label>
-    <input matInput type="email" placeholder="Nhập email" />
+    <input matInput type="email" placeholder="Email" formControlName="email" />
+
+    @if( email?.invalid && (email?.dirty || email?.touched) ){
+    <mat-error>{{ errorForEmail() }}</mat-error>
+    }
   </mat-form-field>
 
   <!-- Password input -->
@@ -27,12 +31,17 @@
     <mat-label>Mật khẩu</mat-label>
     <input
       matInput
-      [type]="hide ? 'password' : 'text'"
+      [type]="hidePass ? 'password' : 'text'"
       placeholder="Nhập mật khẩu"
+      formControlName="password"
     />
-    <mat-icon matSuffix (click)="hide = !hide">{{
-      hide ? "visibility_off" : "visibility"
+    <mat-icon matSuffix (click)="hidePass = !hidePass">{{
+      hidePass ? "visibility_off" : "visibility"
     }}</mat-icon>
+
+    @if( password?.invalid && (password!.dirty || password?.touched) ){
+    <mat-error>{{ errorForPassword() }}</mat-error>
+    }
   </mat-form-field>
 
   <div class="d-flex justify-content-between align-items-center">
@@ -41,7 +50,7 @@
       <input
         class="form-check-input me-2"
         type="checkbox"
-        value=""
+        formControlName="isRemember"
         id="check"
       />
       <label class="form-check-label" for="check"> Nhớ mật khẩu </label>
@@ -50,7 +59,12 @@
   </div>
 
   <div class="text-center text-lg-start mt-3">
-    <button type="button" routerLink="/" class="btn btn-lg btn-dark w-100">
+    <button
+      type="button"
+      [disabled]="form.invalid"
+      (click)="onLogin()"
+      class="btn btn-lg btn-dark w-100"
+    >
       Đăng nhập
     </button>
     <p class="small fw-bold mt-3">

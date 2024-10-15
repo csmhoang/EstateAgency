@@ -136,6 +136,7 @@ namespace Infrastructure.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("InvoiceCode"), 1L, 1);
 
                     b.Property<string>("LeaseId")
+                        .IsRequired()
                         .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
 
@@ -353,6 +354,29 @@ namespace Infrastructure.Data.Migrations
                     b.ToTable("Payments");
                 });
 
+            modelBuilder.Entity("Core.Entities.Photo", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("PublicId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RoomId")
+                        .HasColumnType("nvarchar(36)");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoomId");
+
+                    b.ToTable("Photos");
+                });
+
             modelBuilder.Entity("Core.Entities.Reservation", b =>
                 {
                     b.Property<string>("Id")
@@ -428,23 +452,23 @@ namespace Infrastructure.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "8fbab6a5-3377-43ea-8fee-da7921d5305d",
-                            ConcurrencyStamp = "454bc8ca-c0cf-4a11-a5a9-773fd5fb8d1c",
-                            Name = "Admin",
+                            Id = "48439f76-b7ec-40f9-b22d-d8df01ee7617",
+                            ConcurrencyStamp = "5dec88a4-dff3-4242-bd29-0dda1135ca32",
+                            Name = "admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "627a74e7-269b-42b5-a5e8-1a0bad66e36f",
-                            ConcurrencyStamp = "83346ff8-6fe7-41de-9e12-950cb593f137",
-                            Name = "Landlord",
+                            Id = "92b11e1b-8bdc-4ba6-957d-07b82a33080b",
+                            ConcurrencyStamp = "6d6cb3af-a197-4754-8bfa-4d8dc808486c",
+                            Name = "landlord",
                             NormalizedName = "LANDLORD"
                         },
                         new
                         {
-                            Id = "3ba4d2b0-f869-4bab-a0b7-30e8fc00d898",
-                            ConcurrencyStamp = "4730e77a-1ebf-41e8-9405-ce0e1a6c174c",
-                            Name = "Tenant",
+                            Id = "d361308c-716e-400a-b011-89de0803ae66",
+                            ConcurrencyStamp = "22ed8e94-0d4c-4fa2-98c9-3f40fef56213",
+                            Name = "tenant",
                             NormalizedName = "TENANT"
                         });
                 });
@@ -529,6 +553,9 @@ namespace Infrastructure.Data.Migrations
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("AvatarUrl")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("ConcurrencyStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -574,6 +601,9 @@ namespace Infrastructure.Data.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<string>("PublicId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("RefreshToken")
                         .HasColumnType("nvarchar(max)");
@@ -664,6 +694,8 @@ namespace Infrastructure.Data.Migrations
                     b.HasOne("Core.Entities.Lease", "Lease")
                         .WithMany("Invoices")
                         .HasForeignKey("LeaseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
                         .HasConstraintName("FK__Invoices__LeaseI__7D439ABD");
 
                     b.Navigation("Lease");
@@ -721,6 +753,15 @@ namespace Infrastructure.Data.Migrations
                         .HasConstraintName("FK__Payments__LeaseI__628FA481");
 
                     b.Navigation("Lease");
+                });
+
+            modelBuilder.Entity("Core.Entities.Photo", b =>
+                {
+                    b.HasOne("Core.Entities.Room", "Room")
+                        .WithMany("Photos")
+                        .HasForeignKey("RoomId");
+
+                    b.Navigation("Room");
                 });
 
             modelBuilder.Entity("Core.Entities.Reservation", b =>
@@ -796,6 +837,8 @@ namespace Infrastructure.Data.Migrations
                     b.Navigation("Feedbacks");
 
                     b.Navigation("Leases");
+
+                    b.Navigation("Photos");
 
                     b.Navigation("Reservations");
                 });

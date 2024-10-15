@@ -17,17 +17,17 @@ namespace Infrastructure.Data.Configurations
             builder.HasData(
                 new Role
                 {
-                    Name = "Admin",
+                    Name = "admin",
                     NormalizedName = "ADMIN"
                 },
                 new Role
                 {
-                    Name = "Landlord",
+                    Name = "landlord",
                     NormalizedName = "LANDLORD"
                 },
                 new Role
                 {
-                    Name = "Tenant",
+                    Name = "tenant",
                     NormalizedName = "TENANT"
                 }
             );

@@ -1,4 +1,4 @@
-<form>
+<form [formGroup]="form">
   <div
     class="d-flex align-items-center justify-content-center justify-content-lg-start"
   >
@@ -19,19 +19,33 @@
   <!-- Email input -->
   <mat-form-field class="w-100" appearance="outline">
     <mat-label>Email</mat-label>
-    <input matInput type="email" placeholder="Email" />
+    <input matInput type="email" placeholder="Email" formControlName="email" />
+    @if( email?.invalid && (email?.dirty || email?.touched) ){
+    <mat-error>{{ errorForEmail() }}</mat-error>
+    }
   </mat-form-field>
 
   <div class="row">
     <!-- Lastname input -->
     <mat-form-field class="col-lg-6" appearance="outline">
       <mat-label>Họ</mat-label>
-      <input matInput type="text" placeholder="Họ" />
+      <input matInput type="text" placeholder="Họ" formControlName="lastname" />
+      @if( lastname?.invalid && (lastname?.dirty || lastname?.touched) ){
+      <mat-error>{{ errorForLastname() }}</mat-error>
+      }
     </mat-form-field>
     <!-- Fistname input -->
     <mat-form-field class="col-lg-6" appearance="outline">
       <mat-label>Tên</mat-label>
-      <input matInput type="text" placeholder="Tên" />
+      <input
+        matInput
+        type="text"
+        placeholder="Tên"
+        formControlName="firstname"
+      />
+      @if( firstname?.invalid && (firstname?.dirty || firstname?.touched) ){
+      <mat-error>{{ errorForFirstname() }}</mat-error>
+      }
     </mat-form-field>
   </div>
 
@@ -39,12 +53,25 @@
     <!-- Phone Number input -->
     <mat-form-field class="col" appearance="outline">
       <mat-label>Số điện thoại</mat-label>
-      <input matInput type="text" placeholder="Số điện thoại" />
+      <input
+        matInput
+        type="text"
+        placeholder="Số điện thoại"
+        formControlName="phone"
+      />
+      @if( phone?.invalid && (phone?.dirty || phone?.touched) ){
+      <mat-error>{{ errorForPhone() }}</mat-error>
+      }
     </mat-form-field>
     <!-- Birthday input -->
     <mat-form-field class="col" appearance="outline">
       <mat-label>Ngày sinh</mat-label>
-      <input matInput [matDatepicker]="picker" placeholder="MM/DD/YYYY" />
+      <input
+        matInput
+        [matDatepicker]="picker"
+        placeholder="MM/DD/YYYY"
+        formControlName="birthday"
+      />
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
@@ -53,7 +80,12 @@
   <!-- Address input -->
   <mat-form-field class="w-100" appearance="outline">
     <mat-label>Địa chỉ</mat-label>
-    <input matInput type="text" placeholder="Địa chỉ" />
+    <input
+      matInput
+      type="text"
+      placeholder="Địa chỉ"
+      formControlName="address"
+    />
   </mat-form-field>
 
   <!-- Password input -->
@@ -63,10 +95,14 @@
       matInput
       [type]="hidePassword ? 'password' : 'text'"
       placeholder="Nhập mật khẩu"
+      formControlName="password"
     />
     <mat-icon matSuffix (click)="hidePassword = !hidePassword">{{
       hidePassword ? "visibility_off" : "visibility"
     }}</mat-icon>
+    @if( password?.invalid && (password?.dirty || password?.touched) ){
+    <mat-error>{{ errorForPassword() }}</mat-error>
+    }
   </mat-form-field>
 
   <!-- Password Repeat input -->
@@ -74,16 +110,24 @@
     <mat-label>Nhập lại mật khẩu</mat-label>
     <input
       matInput
-      [type]="hideRepeatPassword ? 'password' : 'text'"
+      [type]="hideRepassword ? 'password' : 'text'"
       placeholder="Nhập lại mật khẩu"
+      formControlName="repassword"
     />
-    <mat-icon matSuffix (click)="hideRepeatPassword = !hideRepeatPassword">{{
-      hideRepeatPassword ? "visibility_off" : "visibility"
+    <mat-icon matSuffix (click)="hideRepassword = !hideRepassword">{{
+      hideRepassword ? "visibility_off" : "visibility"
     }}</mat-icon>
+    @if( repassword?.invalid && (repassword?.dirty || repassword?.touched) ){
+    <mat-error>{{ errorForRepassword() }}</mat-error>
+    }
   </mat-form-field>
 
   <div class="text-center text-lg-start mt-3">
-    <button type="button" routerLink="/" class="btn btn-lg btn-dark w-100">
+    <button
+      type="button"
+      (click)="onRegister()"
+      class="btn btn-lg btn-dark w-100"
+    >
       Đăng ký
     </button>
     <p class="small fw-bold mt-3">

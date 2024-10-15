@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using Core.Interfaces.Infrastructure;
+using Microsoft.AspNetCore.Authentication;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,5 +19,6 @@ namespace Core.Interfaces.Business
         IPaymentService Payment { get; }
         IMaintenanceRequestService MaintenanceRequest { get; }
         IAmenityService Amenity { get; }
+        IPhotoService PhotoService { get; }
     }
 }

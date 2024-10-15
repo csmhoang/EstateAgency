@@ -61,6 +61,15 @@ namespace Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Lỗi trong dịch vụ xóa ảnh..
+        /// </summary>
+        public static string DeletePhotoFailing {
+            get {
+                return ResourceManager.GetString("DeletePhotoFailing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Đăng nhập thấy bại. Tài khoản hoặc mật khẩu chưa chính xác!.
         /// </summary>
         public static string LoginFailing {
@@ -75,6 +84,15 @@ namespace Core.Resources {
         public static string RegisterFailing {
             get {
                 return ResourceManager.GetString("RegisterFailing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lỗi trong dịch vụ tải ảnh lên..
+        /// </summary>
+        public static string UploadPhotoFailing {
+            get {
+                return ResourceManager.GetString("UploadPhotoFailing", resourceCulture);
             }
         }
     }

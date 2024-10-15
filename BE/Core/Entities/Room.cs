@@ -11,6 +11,7 @@ namespace Core.Entities
             Leases = new HashSet<Lease>();
             Reservations = new HashSet<Reservation>();
             Amenities = new HashSet<Amenity>();
+            Photos = new HashSet<Photo>();
         }
 
         public string Id { get; set; } = null!;
@@ -31,7 +32,7 @@ namespace Core.Entities
         public virtual ICollection<Feedback> Feedbacks { get; set; }
         public virtual ICollection<Lease> Leases { get; set; }
         public virtual ICollection<Reservation> Reservations { get; set; }
-
+        public virtual ICollection<Photo> Photos { get; set; }
         public virtual ICollection<Amenity> Amenities { get; set; }
     }
 }

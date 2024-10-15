@@ -10,12 +10,12 @@ namespace Core.Dtos
 {
     public record LeaseDto
     {
-        public Guid? Id { get; }
+        public Guid? Id { get; set; }
         [Required(ErrorMessage = LeaseConst.ErrorEmptyTenantId)]
         public string? TenantId { get; set; }
         [Required(ErrorMessage = LeaseConst.ErrorEmptyRoomId)]
         public string? RoomId { get; set; }
-        public int LeaseCode { get; }
+        public int LeaseCode { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime? EndDate { get; set; }
         public bool? SignedOnline { get; set; }

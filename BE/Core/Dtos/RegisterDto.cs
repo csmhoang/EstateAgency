@@ -10,14 +10,11 @@ namespace Core.Dtos
 {
     public record RegisterDto
     {
-        [Required(ErrorMessage = UserConst.ErrorEmptyFullName)]
-        public string FullName { get; set; } = null!;
-        [Required(ErrorMessage = UserConst.ErrorEmptyUserName)]
-        public string UserName { get; init; } = null!;
-
         [Required(ErrorMessage = UserConst.ErrorEmptyEmail)]
         [EmailAddress(ErrorMessage = UserConst.ErrorFormatEmail)]
-        public string? Email { get; init; }
+        public string Email { get; init; } = null!;
+        [Required(ErrorMessage = UserConst.ErrorEmptyFullName)]
+        public string FullName { get; set; } = null!;
         public string? PhoneNumber { get; init; }
         public DateTime? DateOfBirth { get; init; }
         public int? Gender { get; init; }

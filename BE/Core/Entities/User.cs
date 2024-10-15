@@ -25,6 +25,8 @@ namespace Core.Entities
         public int Gender { get; set; }
         public string? Address { get; set; }
         public string? RefreshToken { get; set; }
+        public string? AvatarUrl { get; set; }
+        public string? PublicId { get; set; }
         public DateTime RefreshTokenExpiryTime { get; set; }
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }

@@ -3,14 +3,19 @@ import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { provideClientHydration } from '@angular/platform-browser';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 import { preloaderInterceptor } from '@shared/components/preloader/preloader.interceptor';
+import { apiInterceptor } from '@core/interceptors/api.interceptor';
+import { tokenInterceptor } from '@core/interceptors/token.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
     provideClientHydration(),
     provideAnimationsAsync(),
-    provideHttpClient(withInterceptors([preloaderInterceptor])),
+    provideHttpClient(
+      withFetch(),
+      withInterceptors([apiInterceptor, tokenInterceptor, preloaderInterceptor])
+    ),
   ],
 };

@@ -1,0 +1,13 @@
+@for (toast of toastService.toasts; track $index) {
+<ngb-toast
+  [class]="toast.class + 'toast-container position-fixed bottom-0 end-0 p-3'"
+  [autohide]="true"
+  [delay]="toast.delay || 5000"
+  (hidden)="toastService.remove(toast)"
+>
+  <ng-template [ngIf]="isTemplate(toast)" [ngIfElse]="text">
+    <ng-template [ngTemplateOutlet]="toast.textOrTpl"></ng-template>
+  </ng-template>
+  <ng-template #text>{{ toast.textOrTpl }}</ng-template>
+</ngb-toast>
+}

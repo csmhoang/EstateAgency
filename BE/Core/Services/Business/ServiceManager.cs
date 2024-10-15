@@ -1,11 +1,14 @@
 ﻿using AutoMapper;
 using Core.Entities;
+using Core.Helpers;
 using Core.Interfaces.Business;
 using Core.Interfaces.Data;
 using Core.Interfaces.Infrastructure;
 using Core.Services.Auth;
+using Core.Services.Infrastructure;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 
 namespace Core.Services.Business
 {
@@ -21,6 +24,7 @@ namespace Core.Services.Business
         private readonly Lazy<IPaymentService> _paymentService;
         private readonly Lazy<IMaintenanceRequestService> _maintenanceRequestService;
         private readonly Lazy<IAmenityService> _amenityService;
+        private readonly Lazy<IPhotoService> _photoService;
         #endregion
 
         #region Property
@@ -29,13 +33,15 @@ namespace Core.Services.Business
         #region Constructor
         public ServiceManager(
             IRepositoryManager repository,
+            IPhotoService photoService,
             ILoggerManager logger,
             IMapper mapper,
             UserManager<User> userManager,
-            IConfiguration configuration)
+            IConfiguration configuration,
+            IOptions<CloudinarySettings> cloudinaryConfig)
         {
             _userService = new Lazy<IUserService>(() =>
-                new UserService(repository, logger, mapper));
+                new UserService(repository, photoService, logger, mapper));
             _authenticationService = new Lazy<Interfaces.Auth.IAuthenticationService>(() =>
                 new AuthenticationService(logger, mapper, userManager, configuration));
             _roomService = new Lazy<IRoomService>(() =>
@@ -52,6 +58,8 @@ namespace Core.Services.Business
                 new MaintenanceRequestService(repository, logger, mapper));
             _amenityService = new Lazy<IAmenityService>(() =>
                 new AmenityService(repository, logger, mapper));
+            _photoService = new Lazy<IPhotoService>(() =>
+                new PhotoService(cloudinaryConfig));
         }
         #endregion
 
@@ -74,6 +82,8 @@ namespace Core.Services.Business
         public IMaintenanceRequestService MaintenanceRequest => _maintenanceRequestService.Value;
 
         public IAmenityService Amenity => _amenityService.Value;
+
+        public IPhotoService PhotoService => _photoService.Value;
         #endregion
     }
 }

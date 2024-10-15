@@ -3,6 +3,7 @@ using Core.Interfaces.Business;
 using Core.Interfaces.Data;
 using Core.Interfaces.Infrastructure;
 using Core.Services.Business;
+using Core.Services.Infrastructure;
 using Infrastructure.Data;
 using Infrastructure.Logging;
 using Infrastructure.Repositories;
@@ -45,7 +46,6 @@ namespace Api.Extensions
         }
         public static void ConfigureJWT(this IServiceCollection services, IConfiguration configuration)
         {
-            var jwtSettings = configuration.GetSection("JwtSettings");
             services.AddAuthentication(opt =>
             {
                 opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -60,9 +60,9 @@ namespace Api.Extensions
                         ValidateIssuerSigningKey = true,
 
                         ValidAudience = configuration["JwtSettings:validAudience"],
-                        ValidIssuer = configuration["JWT:validIssuer"],
+                        ValidIssuer = configuration["JwtSettings:validIssuer"],
                         IssuerSigningKey = new SymmetricSecurityKey(
-                            Encoding.UTF8.GetBytes(configuration["JwtSettings:secret"])) 
+                            Encoding.UTF8.GetBytes(configuration["JwtSettings:secret"]))
                     };
                 }
             );
@@ -71,8 +71,11 @@ namespace Api.Extensions
            services.AddSingleton<ILoggerManager, LoggerManager>();
         public static void ConfigureRepositoryManager(this IServiceCollection services) =>
             services.AddScoped<IRepositoryManager, RepositoryManager>();
-        public static void ConfigureServiceManager(this IServiceCollection services) =>
+        public static void ConfigureServiceManager(this IServiceCollection services)
+        {
+            services.AddScoped<IPhotoService, PhotoService>();
             services.AddScoped<IServiceManager, ServiceManager>();
+        }
         public static void ConfigureSqlContext(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<RepositoryContext>(opts =>

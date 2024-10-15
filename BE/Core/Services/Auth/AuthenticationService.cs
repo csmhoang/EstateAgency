@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
+using Core.Consts;
 using Core.Dtos;
 using Core.Entities;
 using Core.Exceptions;
 using Core.Interfaces.Infrastructure;
 using Core.Resources;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -45,16 +47,26 @@ namespace Core.Services.Auth
         #region Method
         public async Task<Response> Register(RegisterDto registerDto)
         {
+            if (await UserExists(registerDto.Email))
+            {
+                throw new UserExistedException(registerDto.Email);
+            }
             var user = _mapper.Map<User>(registerDto);
+            user.UserName = registerDto.Email.ToLower();
+
             var result = await _userManager.CreateAsync(user, registerDto.Password);
             var res = new Response();
 
             if (result.Succeeded)
             {
                 var roles = registerDto.Roles;
-                if (roles is not null)
+                if (!(roles == null || !roles.Any()))
                 {
                     await _userManager.AddToRolesAsync(user, roles);
+                }
+                else
+                {
+                    await _userManager.AddToRoleAsync(user, RoleConst.Tenant);
                 }
                 res.Success = true;
                 res.Messages = Successfull.RegisterSucceed;
@@ -75,7 +87,7 @@ namespace Core.Services.Auth
         }
         public async Task<Response> Login(LoginDto loginDto)
         {
-            _user = await _userManager.FindByNameAsync(loginDto.UserName);
+            _user = await _userManager.FindByNameAsync(loginDto.Email.ToLower());
             var result =
                 _user != null && await _userManager.CheckPasswordAsync(_user, loginDto.Password);
             if (!result)
@@ -119,7 +131,10 @@ namespace Core.Services.Auth
 
         private async Task<List<Claim>> GetClaims()
         {
-            var authClaims = new List<Claim> { new Claim(ClaimTypes.Name, _user!.UserName) };
+            var authClaims = new List<Claim> {
+                new Claim(ClaimTypes.NameIdentifier, _user!.Id),
+                new Claim(ClaimTypes.Name, _user!.UserName)
+            };
             var userRoles = await _userManager.GetRolesAsync(_user!);
             foreach (var role in userRoles)
             {
@@ -194,7 +209,7 @@ namespace Core.Services.Auth
 
         public async Task<Response> ChangePassword(ChangePasswordDto changePasswordDto)
         {
-            var user = await _userManager.FindByNameAsync(changePasswordDto?.UserName);
+            var user = await _userManager.FindByNameAsync(changePasswordDto?.Email);
             var res = new Response();
 
             var isCheckAccount =
@@ -228,6 +243,25 @@ namespace Core.Services.Auth
             }
 
             return res;
+        }
+
+        public async Task<bool> UserExists(string username)
+        {
+            return await _userManager.Users
+                .AnyAsync(x => x.UserName == username.ToLower());
+        }
+
+        public async Task<Response> UserCurrent(string username)
+        {
+            var user = string.IsNullOrEmpty(username) ? null : await _userManager.Users
+                .SingleOrDefaultAsync(x => x.UserName == username.ToLower());
+
+            return new Response
+            {
+                Success = true,
+                Data = _mapper.Map<UserDto>(user),
+                StatusCode = user is null ? (int)HttpStatusCode.NoContent : (int)HttpStatusCode.OK
+            };
         }
         #endregion
     }

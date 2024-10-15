@@ -1,5 +1,8 @@
-﻿using Core.Dtos;
+﻿using Api.Extensions;
+using Core.Consts;
+using Core.Dtos;
 using Core.Interfaces.Business;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -25,10 +28,20 @@ namespace Api.Controllers
 
         #region Method
         /// <summary>
+        /// Lấy thông tin người dùng đăng nhập
+        /// </summary>
+        [HttpGet("current")]
+        public async Task<IActionResult> CurrentUser()
+        {
+            var username = User.GetUsername();
+            var response = await _service.Authentication.UserCurrent(username);
+            return Ok(response);
+        }
+        /// <summary>
         /// Đăng ký
         /// </summary>
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody]RegisterDto registerDto)
+        public async Task<IActionResult> Register([FromBody] RegisterDto registerDto)
         {
             var response = await _service.Authentication.Register(registerDto);
             return Ok(response);
@@ -38,7 +51,7 @@ namespace Api.Controllers
         /// Đăng nhập
         /// </summary>
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody]LoginDto loginDto)
+        public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
         {
             var response = await _service.Authentication.Login(loginDto);
             return Ok(response);

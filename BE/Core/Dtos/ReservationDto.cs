@@ -11,8 +11,8 @@ namespace Core.Dtos
 {
     public record ReservationDto
     {
-        public Guid? Id { get; }
-        public int ReservationCode { get; }
+        public Guid? Id { get; set; }
+        public int ReservationCode { get; set; }
         [Required(ErrorMessage = ReservationConst.ErrorEmptyTenantId)]
         public string? TenantId { get; set; }
         [Required(ErrorMessage = ReservationConst.ErrorEmptyRoomId)]

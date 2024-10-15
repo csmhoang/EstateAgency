@@ -123,4 +123,10 @@
   <data name="RegisterFailing" xml:space="preserve">
     <value>Đăng ký không thành công.</value>
   </data>
+  <data name="UploadPhotoFailing" xml:space="preserve">
+    <value>Lỗi trong dịch vụ tải ảnh lên.</value>
+  </data>
+  <data name="DeletePhotoFailing" xml:space="preserve">
+    <value>Lỗi trong dịch vụ xóa ảnh.</value>
+  </data>
 </root>

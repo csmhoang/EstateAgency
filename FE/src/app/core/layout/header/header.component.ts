@@ -1,4 +1,4 @@
-import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { CommonModule, DOCUMENT, isPlatformBrowser, NgIf } from '@angular/common';
 import {
   AfterViewInit,
   Component,
@@ -10,11 +10,12 @@ import {
   ViewChild,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { IfAuthenticatedDirective } from '@core/auth/directives/if-authenticated.directive';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [RouterLink],
+  imports: [NgIf, RouterLink, IfAuthenticatedDirective],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
