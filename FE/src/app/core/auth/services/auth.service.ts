@@ -5,7 +5,7 @@ import { Response } from '@core/models/response.model';
 import { Secret } from '@core/models/secret.model';
 import { CookieService } from '@core/services/cookie.service';
 import { UserService } from '@core/services/user.service';
-import { Observable, tap } from 'rxjs';
+import { Observable, take, tap } from 'rxjs';
 import { Login } from '../models/login.model';
 import { Register } from '../models/register.model';
 import { SkipPreloader } from '@shared/components/preloader/skip-preloader.component';
@@ -37,26 +37,40 @@ export class AuthService {
               ...response.data,
             };
             this.cookie.save(secret, 7);
-            this.userService.getCurrentUser(isHideLoading).subscribe();
+            this.userService.init(isHideLoading).subscribe();
           }
         })
       );
   }
 
-  register(credentials: Register): Observable<Response> {
-    return this.http
-      .post<Response>('/authentication/register', credentials)
-      .pipe(
-        tap((response) => {
-          if (response.success) {
-            void this.router.navigate(['/login']);
-          }
-        })
-      );
+  register(
+    credentials: Register,
+    isHideLoading: boolean = false
+  ): Observable<Response> {
+    return this.http.post<Response>('/authentication/register', credentials, {
+      context: new HttpContext().set(SkipPreloader, isHideLoading),
+    });
   }
 
   logout(): void {
     this.userService.purAuth();
     void this.router.navigate(['/']);
+  }
+
+  autoLogin(): void {
+    if (this.cookie.get('isRemember') === 'true') {
+      const credentials: Login = {
+        email: this.cookie.get('email'),
+        password: this.cookie.get('password'),
+        isRemember: true,
+      };
+      this.login(credentials)
+        .pipe(take(1))
+        .subscribe({
+          error: () => {
+            this.cookie.remove();
+          },
+        });
+    }
   }
 }

@@ -13,6 +13,7 @@ import { AuthService } from '@core/auth/services/auth.service';
 import { FooterComponent } from '@core/layout/footer/footer.component';
 import { HeaderComponent } from '@core/layout/header/header.component';
 import { CookieService } from '@core/services/cookie.service';
+import { UserService } from '@core/services/user.service';
 import { PreloaderComponent } from '@shared/components/preloader/preloader.component';
 import { ScrollTopComponent } from '@shared/components/scroll-top/scroll-top.component';
 import { ToastComponent } from '@shared/components/toast/toast.component';
@@ -37,6 +38,7 @@ declare var AOS: any;
 export class AppComponent implements AfterViewInit {
   title = 'Dwello';
   platformId = inject(PLATFORM_ID);
+  userService = inject(UserService);
   renderer = inject(Renderer2);
   constructor(
     private cookie: CookieService,
@@ -46,24 +48,6 @@ export class AppComponent implements AfterViewInit {
   ngAfterViewInit() {
     if (isPlatformBrowser(this.platformId)) {
       this.renderer.listen(window, 'load', this.aosInit);
-
-      if (this.cookie.get('isRemember') === 'true') {
-        const credentials: Login = {
-          email: this.cookie.get('email'),
-          password: this.cookie.get('password'),
-          isRemember: true,
-        };
-        this.authService
-          .login(credentials)
-          .pipe(take(1))
-          .subscribe({
-            error: () => {
-              this.cookie.remove();
-            },
-          });
-      } else {
-        this.cookie.remove();
-      }
     }
   }
 

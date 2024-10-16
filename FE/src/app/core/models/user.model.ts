@@ -1,9 +1,13 @@
 export type User = {
   id: string;
-  code: string;
-  fullname: string;
+  userCode: string;
+  fullName: string;
+  avatarUrl: string;
+  publicId: string;
+  phoneNumber: string;
   email: string;
   gender: number;
-  birthday: Date;
+  dateOfBirth: Date;
   address: string;
+  genderName: string;
 };

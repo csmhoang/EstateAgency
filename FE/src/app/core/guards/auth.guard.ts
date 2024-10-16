@@ -6,27 +6,18 @@ import {
   RouterStateSnapshot,
 } from '@angular/router';
 import { UserService } from '@core/services/user.service';
+import { firstValueFrom, skip, tap } from 'rxjs';
 
-export const isUserAuthenticated: CanActivateFn = (
+export const isUserAuthenticated: CanActivateFn = async (
   route: ActivatedRouteSnapshot,
   state: RouterStateSnapshot
 ) => {
-  const userService = inject(UserService);
   const router = inject(Router);
-  if (userService.isAuthenticated) {
-    return true;
-  } else {
-    return router.parseUrl('/login');
-  }
-};
-
-export const isUserlogined: CanActivateFn = (
-  route: ActivatedRouteSnapshot,
-  state: RouterStateSnapshot
-) => {
   const userService = inject(UserService);
-  const router = inject(Router);
-  if (!userService.isAuthenticated) {
+  const isAuthenticated: boolean = await firstValueFrom(
+    userService.isAuthenticated
+  );
+  if (isAuthenticated) {
     return true;
   } else {
     return router.parseUrl('/');

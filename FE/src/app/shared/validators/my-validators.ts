@@ -18,18 +18,15 @@ export class MyValidators {
   static phone(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       const isValid = /^0[3-9]\d{8}$/.test(control.value);
-      return isValid ? null : { number: true };
+      return isValid ? null : { phone: true };
     };
   }
 
   static passwordMatch(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
-      const password = control.get('password');
-      const repassword = control.get('repassword');
-      if (password && repassword) {
-        const isMatch = password.value === repassword.value;
-        console.log('ismatch:', isMatch);
-        return isMatch ? null : { passwordsNotMatch: true };
+      const password = control.parent?.get('password');
+      if (password && control && password.value !== control.value) {
+        return { passwordMatch: true };
       }
       return null;
     };

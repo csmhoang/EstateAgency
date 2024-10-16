@@ -47,9 +47,9 @@ namespace Core.Services.Auth
         #region Method
         public async Task<Response> Register(RegisterDto registerDto)
         {
-            if (await UserExists(registerDto.Email))
+            if (await UserExists(registerDto.Email.ToLower()))
             {
-                throw new UserExistedException(registerDto.Email);
+                throw new UserExistedException(registerDto.Email.ToLower());
             }
             var user = _mapper.Map<User>(registerDto);
             user.UserName = registerDto.Email.ToLower();

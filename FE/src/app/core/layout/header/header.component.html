@@ -25,17 +25,41 @@
           >
             <i class="bi bi-bell-fill"></i>
           </button>
-          <button
-            routerLink="/"
-            class="btn btn-dark fs-4 border-0 rounded-pill"
+          <div
+            class="d-flex align-items-center gap-2"
+            [matMenuTriggerFor]="menu"
           >
-            <i class="bi bi-person-fill"></i>
-          </button>
+            <button
+              routerLink="/"
+              class="btn btn-dark fs-4 border-0 rounded-pill"
+            >
+              <i class="bi bi-person-fill"></i>
+            </button>
+            <p class="fw-bold m-0" *ngIf="user$ | async as user">
+              {{ user.fullName }}
+            </p>
+            <mat-menu #menu="matMenu" class="profile-dropdown">
+              <div class="px-2">
+                <button mat-menu-item>Edit Profile</button>
+                <button mat-menu-item>Account</button>
+                <button mat-menu-item>Change Password</button>
+                <button mat-menu-item>My Settings</button>
+              </div>
+              <hr />
+              <div class="px-2">
+                <button mat-flat-button (click)="onLogout()" color="warn" class="w-100 text-white">
+                  Đăng xuất
+                </button>
+              </div>
+            </mat-menu>
+          </div>
         </div>
         <div *appIfAuthenticated="false" class="d-flex gap-2">
           <button routerLink="/register" class="btn btn-dark">Đăng ký</button>
           <button routerLink="/login" class="btn btn-dark">Đăng nhập</button>
-          <button routerLink="/login/lessor" class="btn btn-dark">Đăng tin</button>
+          <button routerLink="/lessor/login" class="btn btn-dark">
+            Đăng tin
+          </button>
         </div>
       </div>
       <i #mobileNavToggle class="mobile-nav-toggle d-xl-none bi bi-list"></i>

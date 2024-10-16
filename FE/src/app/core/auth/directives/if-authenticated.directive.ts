@@ -9,6 +9,7 @@ import {
 } from '@angular/core';
 import { UserService } from '@core/services/user.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { User } from '@core/models/user.model';
 
 @Directive({
   selector: '[appIfAuthenticated]',
@@ -24,6 +25,7 @@ export class IfAuthenticatedDirective<T> implements OnInit {
 
   condition: boolean = false;
   hasView = false;
+  currentUser: User | null = null;
 
   ngOnInit(): void {
     this.userService.isAuthenticated
@@ -31,7 +33,6 @@ export class IfAuthenticatedDirective<T> implements OnInit {
       .subscribe((isAuthenticated: boolean) => {
         const authRequired = isAuthenticated && this.condition;
         const unauthRequired = !isAuthenticated && !this.condition;
-
         if ((authRequired || unauthRequired) && !this.hasView) {
           this.viewContainer.createEmbeddedView(this.templateRef);
           this.hasView = true;

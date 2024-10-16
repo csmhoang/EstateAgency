@@ -7,6 +7,7 @@ import {
   map,
   Observable,
   shareReplay,
+  take,
   tap,
 } from 'rxjs';
 import { CookieService } from './cookie.service';
@@ -18,6 +19,7 @@ import { SkipPreloader } from '@shared/components/preloader/skip-preloader.compo
 })
 export class UserService {
   private currentUserSubject = new BehaviorSubject<User | null>(null);
+
   public currentUser = this.currentUserSubject
     .asObservable()
     .pipe(distinctUntilChanged());
@@ -29,7 +31,7 @@ export class UserService {
     private readonly cookie: CookieService
   ) {}
 
-  getCurrentUser(isHideLoading: boolean = false): Observable<Response<User>> {
+  init(isHideLoading: boolean = false): Observable<Response<User>> {
     return this.http
       .get<Response<User>>('/authentication/current', {
         context: new HttpContext().set(SkipPreloader, isHideLoading),
