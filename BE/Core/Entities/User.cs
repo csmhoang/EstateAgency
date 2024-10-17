@@ -27,6 +27,7 @@ namespace Core.Entities
         public string? RefreshToken { get; set; }
         public string? AvatarUrl { get; set; }
         public string? PublicId { get; set; }
+        public string? Description { get; set; }
         public DateTime RefreshTokenExpiryTime { get; set; }
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }

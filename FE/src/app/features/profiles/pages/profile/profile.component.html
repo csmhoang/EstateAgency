@@ -1,0 +1,72 @@
+<div class="profile-page">
+  <!-- Header -->
+  <app-header></app-header>
+  <main class="main">
+    <section class="section pb-0">
+      <mat-sidenav-container autosize="false" class="sidenav-container">
+        <!-- Sidebar -->
+        <mat-sidenav
+          #drawer
+          class="sidenav"
+          fixedInViewport="false"
+          [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+          [mode]="(isHandset$ | async) ? 'over' : 'side'"
+          [opened]="(isHandset$ | async) === false"
+        >
+          <div class="p-2">
+            <div class="d-flex align-items-center p-2 gap-4">
+              <div class="d-flex flex-column gap-2">
+                <img
+                  class="rounded-circle"
+                  src="/assets/img/team/team-2.jpg"
+                  width="80"
+                />
+                <button class="btn btn-dark">Sửa</button>
+              </div>
+              <div class="d-flex flex-column">
+                <div class="fw-bold">Hoàng</div>
+                <div class="text-secondary">Người theo dõi {{ 0 }}</div>
+                <div class="text-secondary">Người đang dõi {{ 0 }}</div>
+              </div>
+            </div>
+            <hr />
+            <div class="mt-2">
+              <ul class="list-group">
+                <li class="mb-2">
+                  <a
+                    matRipple
+                    routerLink="/profile"
+                    class="sidebar-menu w-100 text-dark d-flex align-items-center py-2 px-4"
+                    routerLinkActive="active"
+                  >
+                    <i class="fa-solid fa-gauge"></i>
+                    <span>Hồ sơ cá nhân</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </mat-sidenav>
+        <mat-sidenav-content>
+          <!-- Content -->
+          <div class="px-lg-4 py-lg-5 p-3">
+            <!-- Toolbar -->
+            <button
+              type="button"
+              class="btn btn-open text-white mb-4 fs-2"
+              (click)="drawer.toggle()"
+              *ngIf="isHandset$ | async"
+            >
+              <i class="fa-regular fa-square-caret-right"></i>
+            </button>
+            <div class="bg-white shadow pt-2 pb-4 px-4 rounded">
+              <router-outlet name="profile"></router-outlet>
+            </div>
+          </div>
+        </mat-sidenav-content>
+      </mat-sidenav-container>
+    </section>
+  </main>
+  <!-- Footer -->
+  <app-footer></app-footer>
+</div>

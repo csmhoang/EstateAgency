@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LessorPageComponent } from './lessor-page.component';
+import { LessorDashboardComponent } from './lessor-dashboard.component';
 
-describe('LessorPageComponent', () => {
-  let component: LessorPageComponent;
-  let fixture: ComponentFixture<LessorPageComponent>;
+describe('LessorDashboardComponent', () => {
+  let component: LessorDashboardComponent;
+  let fixture: ComponentFixture<LessorDashboardComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [LessorPageComponent]
+      imports: [LessorDashboardComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(LessorPageComponent);
+    fixture = TestBed.createComponent(LessorDashboardComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

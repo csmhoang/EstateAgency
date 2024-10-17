@@ -58,19 +58,19 @@ export class AuthService {
   }
 
   autoLogin(): void {
-    if (this.cookie.get('isRemember') === 'true') {
-      const credentials: Login = {
-        email: this.cookie.get('email'),
-        password: this.cookie.get('password'),
-        isRemember: true,
-      };
-      this.login(credentials)
-        .pipe(take(1))
-        .subscribe({
-          error: () => {
-            this.cookie.remove();
-          },
-        });
-    }
+    // if (this.cookie.get('isRemember') === 'true') {
+    //   const credentials: Login = {
+    //     email: this.cookie.get('email'),
+    //     password: this.cookie.get('password'),
+    //     isRemember: true,
+    //   };
+    //   this.login(credentials)
+    //     .pipe(take(1))
+    //     .subscribe({
+    //       error: () => {
+    //         this.cookie.remove();
+    //       },
+    //     });
+    // }
   }
 }

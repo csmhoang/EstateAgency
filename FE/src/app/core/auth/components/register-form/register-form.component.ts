@@ -43,7 +43,7 @@ export class RegisterFormComponent implements OnInit {
   hideRepassword = true;
   title?: string;
   control: string = '';
-  
+
   form: FormGroup = new FormGroup({});
   email?: AbstractControl | null;
   fullname?: AbstractControl | null;

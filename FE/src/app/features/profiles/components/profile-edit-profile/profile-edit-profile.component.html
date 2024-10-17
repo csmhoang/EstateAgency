@@ -1,0 +1,76 @@
+<form [formGroup]="form">
+  <h5 class="fs-5 fw-bold my-5">Cập nhật thông tin</h5>
+  <div class="row align-items-center">
+    <!-- Fullname input -->
+    <mat-form-field class="col-lg-6" appearance="outline">
+      <mat-label>Họ và tên</mat-label>
+      <input
+        matInput
+        type="text"
+        placeholder="Họ và tên"
+        formControlName="fullname"
+      />
+      @if( fullname?.invalid && (fullname?.dirty || fullname?.touched) ){
+      <mat-error>{{ errorForFullname() }}</mat-error>
+      }
+    </mat-form-field>
+    <!-- Phone Number input -->
+    <mat-form-field class="col-lg-6" appearance="outline">
+      <mat-label>Số điện thoại</mat-label>
+      <input
+        matInput
+        type="text"
+        placeholder="Số điện thoại"
+        formControlName="phoneNumber"
+      />
+      @if( phoneNumber?.invalid && (phoneNumber?.dirty || phoneNumber?.touched)
+      ){
+      <mat-error>{{ errorForPhoneNumber() }}</mat-error>
+      }
+    </mat-form-field>
+  </div>
+
+  <div class="row">
+    <!-- Gender radio -->
+    <mat-radio-group
+      class="col d-flex align-items-center pb-3"
+      formControlName="gender"
+    >
+      <mat-radio-button value="0">Nam</mat-radio-button>
+      <mat-radio-button value="1">Nữ</mat-radio-button>
+      <mat-radio-button value="2">Khác</mat-radio-button>
+    </mat-radio-group>
+    <!-- Birthday input -->
+    <mat-form-field class="col" appearance="outline">
+      <mat-label>Ngày sinh</mat-label>
+      <input
+        matInput
+        [matDatepicker]="picker"
+        placeholder="MM/DD/YYYY"
+        formControlName="dateOfBirth"
+      />
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+  </div>
+
+  <!-- Address input -->
+  <mat-form-field class="w-100" appearance="outline">
+    <mat-label>Địa chỉ</mat-label>
+    <input
+      matInput
+      type="text"
+      placeholder="Địa chỉ"
+      formControlName="address"
+    />
+  </mat-form-field>
+
+  <button
+    type="button"
+    [disabled]="form.invalid"
+    (click)="onUpdate()"
+    class="btn btn-lg btn-dark w-100"
+  >
+    Cập nhật
+  </button>
+</form>

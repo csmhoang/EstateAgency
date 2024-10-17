@@ -1,0 +1,56 @@
+<div class="my-5">
+  <h5 class="fs-5 fw-bold">Mô tả</h5>
+  <p class="text-secondary">
+    {{ user?.description || "Chưa có thông tin chi tiết!" }}
+  </p>
+</div>
+
+<div>
+  <h5 class="fs-5 fw-bold mb-4">Chi tiết</h5>
+  <table class="table table-striped">
+    <tbody>
+      <tr>
+        <th scope="row">Mã số</th>
+        <td>
+          {{ user?.userCode }}
+        </td>
+      </tr>
+      <tr>
+        <th scope="row">Họ và tên</th>
+        <td>
+          {{ user?.fullName }}
+        </td>
+      </tr>
+      <tr>
+        <th scope="row">Giới tính</th>
+        <td>
+          {{ user?.genderName }}
+        </td>
+      </tr>
+      <tr>
+        <th scope="row">Ngày sinh</th>
+        <td>
+          {{ user?.dateOfBirth | date : "MM/dd/yyyy" }}
+        </td>
+      </tr>
+      <tr>
+        <th scope="row">Email</th>
+        <td>
+          {{ user?.email }}
+        </td>
+      </tr>
+      <tr>
+        <th scope="row">Số điện thoại</th>
+        <td>
+          {{ user?.phoneNumber }}
+        </td>
+      </tr>
+      <tr>
+        <th scope="row">Địa chỉ</th>
+        <td>
+          {{ user?.address }}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
