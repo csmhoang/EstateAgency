@@ -36,11 +36,23 @@
                   <a
                     matRipple
                     routerLink="/profile"
+                    [routerLinkActiveOptions]="{ exact: true }"
                     class="sidebar-menu w-100 text-dark d-flex align-items-center py-2 px-4"
                     routerLinkActive="active"
                   >
-                    <i class="fa-solid fa-gauge"></i>
+                    <i class="fa-regular fa-address-card"></i>
                     <span>Hồ sơ cá nhân</span>
+                  </a>
+                </li>
+                <li class="mb-2">
+                  <a
+                    matRipple
+                    routerLink="/profile/history"
+                    class="sidebar-menu w-100 text-dark d-flex align-items-center py-2 px-4"
+                    routerLinkActive="active"
+                  >
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+                    <span>Lịch sử thuê trọ</span>
                   </a>
                 </li>
               </ul>
@@ -59,8 +71,8 @@
             >
               <i class="fa-regular fa-square-caret-right"></i>
             </button>
-            <div class="bg-white shadow pt-2 pb-4 px-4 rounded">
-              <router-outlet name="profile"></router-outlet>
+            <div class="bg-white shadow pt-2 pb-4 px-4 rounded overflow-x-auto">
+              <router-outlet></router-outlet>
             </div>
           </div>
         </mat-sidenav-content>

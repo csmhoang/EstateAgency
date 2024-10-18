@@ -1,6 +1,6 @@
 export type Register = {
   email: string;
-  fullname: string;
+  fullName: string;
   phoneNumber: string;
   dateOfBirth: Date;
   gender: number;

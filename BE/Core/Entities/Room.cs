@@ -17,6 +17,7 @@ namespace Core.Entities
         public string Id { get; set; } = null!;
         public string? LandlordId { get; set; }
         public int RoomCode { get; set; }
+        public string Name { get; set; } = null!;
         public string Address { get; set; } = null!;
         public string? City { get; set; }
         public string? District { get; set; }

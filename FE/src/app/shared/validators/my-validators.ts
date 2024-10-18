@@ -22,9 +22,9 @@ export class MyValidators {
     };
   }
 
-  static passwordMatch(): ValidatorFn {
+  static passwordMatch(passwordNeedMatch: string): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
-      const password = control.parent?.get('password');
+      const password = control.parent?.get(passwordNeedMatch);
       if (password && control && password.value !== control.value) {
         return { passwordMatch: true };
       }

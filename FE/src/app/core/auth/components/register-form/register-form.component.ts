@@ -46,7 +46,7 @@ export class RegisterFormComponent implements OnInit {
 
   form: FormGroup = new FormGroup({});
   email?: AbstractControl | null;
-  fullname?: AbstractControl | null;
+  fullName?: AbstractControl | null;
   phoneNumber?: AbstractControl | null;
   dateOfBirth?: AbstractControl | null;
   gender?: AbstractControl | null;
@@ -81,7 +81,7 @@ export class RegisterFormComponent implements OnInit {
         Validators.required,
         Validators.email,
       ]),
-      fullname: this.formBuilder.control('', [
+      fullName: this.formBuilder.control('', [
         Validators.required,
         MyValidators.letter(),
       ]),
@@ -98,12 +98,12 @@ export class RegisterFormComponent implements OnInit {
       ]),
       repassword: this.formBuilder.control('', [
         Validators.required,
-        MyValidators.passwordMatch(),
+        MyValidators.passwordMatch("password"),
       ]),
     });
 
     this.email = this.form.get('email');
-    this.fullname = this.form.get('fullname');
+    this.fullName = this.form.get('fullName');
     this.phoneNumber = this.form.get('phoneNumber');
     this.dateOfBirth = this.form.get('dateOfBirth');
     this.address = this.form.get('address');
@@ -153,11 +153,11 @@ export class RegisterFormComponent implements OnInit {
     return '';
   }
 
-  errorForFullname(): string {
-    if (this.fullname?.hasError('required')) {
+  errorForFullName(): string {
+    if (this.fullName?.hasError('required')) {
       return 'Họ và tên không được để trống!';
     }
-    if (this.fullname?.hasError('letter')) {
+    if (this.fullName?.hasError('letter')) {
       return 'Họ và tên không được chứa số và ký tự!';
     }
     return '';

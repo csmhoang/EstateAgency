@@ -64,10 +64,19 @@
       formControlName="address"
     />
   </mat-form-field>
+  
+  <!-- Description input -->
+  <mat-form-field class="w-100" appearance="outline">
+    <mat-label>Description</mat-label>
+    <textarea
+      matInput
+      formControlName="description"
+    ></textarea>
+  </mat-form-field>
 
   <button
     type="button"
-    [disabled]="form.invalid"
+    [disabled]="form.invalid || !form.dirty"
     (click)="onUpdate()"
     class="btn btn-lg btn-dark w-100"
   >

@@ -1,0 +1,29 @@
+.pagination {
+  justify-content: center;
+  transition: all 1s;
+  li {
+    margin: 0 5px;
+    transition: all 1s;
+    a {
+      color: var(--accent-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 50% !important;
+      border: 1px solid var(--accent-color);
+    }
+    &.active a,
+    &:hover a {
+      background: var(--accent-color);
+      color: var(--contrast-color);
+      border-color: var(--accent-color);
+    }
+    &.disabled:hover a{
+      color: rgb(33 37 41 / 75%);
+      background-color: #e9ecef;
+      border-color: #dee2e6;
+    }
+  }
+}

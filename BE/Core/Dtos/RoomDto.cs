@@ -14,6 +14,7 @@ namespace Core.Dtos
         public int RoomCode { get; set; }
         [Required(ErrorMessage = RoomConst.ErrorEmptyLandlordId)]
         public string? LandlordId { get; set; } = null!;
+        public string Name { get; set; } = null!;
         public string Address { get; set; } = null!;
         public string? City { get; set; }
         public string? District { get; set; }

@@ -33,10 +33,10 @@
         matInput
         type="text"
         placeholder="Họ và tên"
-        formControlName="fullname"
+        formControlName="fullName"
       />
-      @if( fullname?.invalid && (fullname?.dirty || fullname?.touched) ){
-      <mat-error>{{ errorForFullname() }}</mat-error>
+      @if( fullName?.invalid && (fullName?.dirty || fullName?.touched) ){
+      <mat-error>{{ errorForFullName() }}</mat-error>
       }
     </mat-form-field>
     <!-- Phone Number input -->
@@ -95,7 +95,7 @@
     <input
       matInput
       [type]="hidePassword ? 'password' : 'text'"
-      placeholder="Nhập mật khẩu"
+      placeholder="Mật khẩu"
       formControlName="password"
     />
     <mat-icon matSuffix (click)="hidePassword = !hidePassword">{{

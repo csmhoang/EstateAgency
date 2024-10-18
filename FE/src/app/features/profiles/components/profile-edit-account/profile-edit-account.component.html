@@ -1,1 +1,61 @@
-<p>profile-edit-account works!</p>
+<form [formGroup]="form">
+  <h5 class="fs-5 fw-bold my-5">Đổi mật khẩu</h5>
+  <!-- Old Password input -->
+  <mat-form-field class="w-100" appearance="outline">
+    <mat-label>Mật khẩu cũ</mat-label>
+    <input
+      matInput
+      [type]="hideOldPassword ? 'password' : 'text'"
+      placeholder="Mật khẩu cũ"
+      formControlName="oldPassword"
+    />
+    <mat-icon matSuffix (click)="hideOldPassword = !hideOldPassword">{{
+      hideOldPassword ? "visibility_off" : "visibility"
+    }}</mat-icon>
+    @if( oldPassword?.invalid && (oldPassword?.dirty || oldPassword?.touched) ){
+    <mat-error>{{ errorForOldPassword() }}</mat-error>
+    }
+  </mat-form-field>
+  <!-- New Password input -->
+  <mat-form-field class="w-100" appearance="outline">
+    <mat-label>Mật khẩu mới</mat-label>
+    <input
+      matInput
+      [type]="hideNewPassword ? 'password' : 'text'"
+      placeholder="Mật khẩu mới"
+      formControlName="newPassword"
+    />
+    <mat-icon matSuffix (click)="hideNewPassword = !hideNewPassword">{{
+      hideNewPassword ? "visibility_off" : "visibility"
+    }}</mat-icon>
+    @if( newPassword?.invalid && (newPassword?.dirty || newPassword?.touched) ){
+    <mat-error>{{ errorForNewPassword() }}</mat-error>
+    }
+  </mat-form-field>
+
+  <!-- Password Repeat input -->
+  <mat-form-field class="w-100" appearance="outline">
+    <mat-label>Nhập lại mật khẩu</mat-label>
+    <input
+      matInput
+      [type]="hideRepassword ? 'password' : 'text'"
+      placeholder="Nhập lại mật khẩu"
+      formControlName="repassword"
+    />
+    <mat-icon matSuffix (click)="hideRepassword = !hideRepassword">{{
+      hideRepassword ? "visibility_off" : "visibility"
+    }}</mat-icon>
+    @if( repassword?.invalid && (repassword?.dirty || repassword?.touched) ){
+    <mat-error>{{ errorForRepassword() }}</mat-error>
+    }
+  </mat-form-field>
+
+  <button
+    type="button"
+    [disabled]="form.invalid || !form.dirty"
+    (click)="onChangePassword()"
+    class="btn btn-lg btn-dark w-100"
+  >
+    Đổi mật khẩu
+  </button>
+</form>

@@ -47,6 +47,6 @@ namespace Core.Interfaces.Business
         /// 1 - Thông báo thành công
         /// 2 - Ngoại lệ
         /// </returns>
-        Task<Response> UpdateAsync(string id, UserDto userDto, IFormFile? file);
+        Task<Response> UpdateAsync(string id, UserDto? userDto, IFormFile? file);
     }
 }

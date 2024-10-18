@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ConfirmComponent } from '@shared/components/dialog/confirm/confirm.component';
-import { Confirm } from '@shared/components/dialog/confirm/confirm.model';
+import { ModalComponent } from '@shared/components/modal/modal.component';
+import { Modal } from '@shared/models/modal.model';
 
 @Injectable({
   providedIn: 'root',
@@ -9,9 +9,15 @@ import { Confirm } from '@shared/components/dialog/confirm/confirm.model';
 export class DialogService {
   modalService = inject(NgbModal);
 
-  confirm(confirm: Confirm): Promise<boolean> {
-    const modalRef = this.modalService.open(ConfirmComponent);
-    modalRef.componentInstance.confirm = confirm;
+  confirm(modal: Modal): Promise<boolean> {
+    const modalRef = this.modalService.open(ModalComponent);
+    modalRef.componentInstance.modal = modal;
+    return modalRef.result;
+  }
+
+  form(modal: Modal): Promise<boolean> {
+    const modalRef = this.modalService.open(ModalComponent, { size: 'xl' });
+    modalRef.componentInstance.modal = modal;
     return modalRef.result;
   }
 }

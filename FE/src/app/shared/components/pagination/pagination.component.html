@@ -1,20 +1,23 @@
-<div id="pagination" data-aos="fade-up" class="pagination mt-5">
-  <div class="container">
-    <div class="d-flex justify-content-center">
-      <ul>
-        <li>
-          <a href="#"><i class="bi bi-chevron-left"></i></a>
-        </li>
-        <li><a href="#">1</a></li>
-        <li><a href="#" class="active">2</a></li>
-        <li><a href="#">3</a></li>
-        <li><a href="#">4</a></li>
-        <li>...</li>
-        <li><a href="#">10</a></li>
-        <li>
-          <a href="#"><i class="bi bi-chevron-right"></i></a>
-        </li>
-      </ul>
-    </div>
-  </div>
+<div class="container">
+  <ngb-pagination
+    [collectionSize]="120"
+    [(page)]="page"
+    [maxSize]="5"
+    [rotate]="true"
+    [ellipses]="false"
+    [boundaryLinks]="true"
+  >
+    <ng-template ngbPaginationFirst
+      ><i class="fa-solid fa-angles-left"></i
+    ></ng-template>
+    <ng-template ngbPaginationPrevious
+      ><i class="fa-solid fa-chevron-left"></i
+    ></ng-template>
+    <ng-template ngbPaginationNext
+      ><i class="fa-solid fa-chevron-right"></i
+    ></ng-template>
+    <ng-template ngbPaginationLast
+      ><i class="fa-solid fa-angles-right"></i
+    ></ng-template>
+  </ngb-pagination>
 </div>

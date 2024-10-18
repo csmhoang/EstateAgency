@@ -12,7 +12,6 @@ import { PaginationComponent } from '@shared/components/pagination/pagination.co
     HeaderComponent,
     FooterComponent,
     LessorListComponent,
-    PaginationComponent,
     LessorFilterComponent,
   ],
   templateUrl: './lessor.component.html',

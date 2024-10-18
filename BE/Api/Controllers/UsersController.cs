@@ -51,7 +51,7 @@ namespace Api.Controllers
         /// <param name="model">Người dùng</param>
         /// <param name="file">Avatar</param>
         [HttpPut]
-        public async Task<IActionResult> Update(string id, [FromBody] UserDto model, IFormFile? file)
+        public async Task<IActionResult> Update(string id, [FromBody] UserDto? model, IFormFile? file)
         {
             var response = await _service.User.UpdateAsync(id, model, file);
             return Ok(response);

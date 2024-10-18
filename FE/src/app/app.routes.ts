@@ -10,10 +10,10 @@ import { HomeComponent } from '@features/home/pages/home/home.component';
 import { LessorDetailComponent } from '@features/lessor/pages/lessor-detail/lessor-detail.component';
 import { LessorComponent } from '@features/lessor/pages/lessor/lessor.component';
 import { ProfileEditComponent } from '@features/profiles/components/profile-edit/profile-edit.component';
+import { RentedHistoryComponent } from '@features/profiles/components/rented-history/rented-history.component';
 import { ProfileComponent } from '@features/profiles/pages/profile/profile.component';
 import { ServiceDetailComponent } from '@features/service/pages/service-detail/service-detail.component';
 import { ServiceComponent } from '@features/service/pages/service/service.component';
-import path from 'path';
 
 export const routes: Routes = [
   /*Clients*/
@@ -36,7 +36,10 @@ export const routes: Routes = [
       {
         path: '',
         component: ProfileEditComponent,
-        outlet: 'profile',
+      },
+      {
+        path: 'history',
+        component: RentedHistoryComponent,
       },
     ],
   },
@@ -84,7 +87,6 @@ export const routes: Routes = [
       {
         path: '',
         component: RegisterFormComponent,
-        outlet: 'lessor',
       },
     ],
   },

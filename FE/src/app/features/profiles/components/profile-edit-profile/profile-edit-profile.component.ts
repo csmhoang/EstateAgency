@@ -9,7 +9,6 @@ import {
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { User } from '@core/models/user.model';
@@ -23,7 +22,6 @@ import { MyValidators } from '@shared/validators/my-validators';
   imports: [
     MatFormFieldModule,
     MatInputModule,
-    MatIconModule,
     MatDatepickerModule,
     ReactiveFormsModule,
     MatRadioModule,
@@ -42,6 +40,7 @@ export class ProfileEditProfileComponent implements OnInit {
   dateOfBirth?: AbstractControl | null;
   gender?: AbstractControl | null;
   address?: AbstractControl | null;
+  description?: AbstractControl | null;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -51,20 +50,24 @@ export class ProfileEditProfileComponent implements OnInit {
   ngOnInit(): void {
     this.form = this.formBuilder.group({
       fullname: this.formBuilder.control(this.user?.fullName, [
+        Validators.required,
         MyValidators.letter(),
       ]),
       phoneNumber: this.formBuilder.control(this.user?.phoneNumber, [
+        Validators.required,
         MyValidators.phone(),
       ]),
       dateOfBirth: this.formBuilder.control(this.user?.dateOfBirth),
       gender: this.formBuilder.control(this.user?.gender),
       address: this.formBuilder.control(this.user?.address),
+      description: this.formBuilder.control(this.user?.description),
     });
 
     this.fullname = this.form.get('fullname');
     this.phoneNumber = this.form.get('phoneNumber');
     this.dateOfBirth = this.form.get('dateOfBirth');
     this.address = this.form.get('address');
+    this.description = this.form.get('description');
   }
 
   onUpdate() {
@@ -100,6 +103,9 @@ export class ProfileEditProfileComponent implements OnInit {
   }
 
   errorForFullname(): string {
+    if (this.fullname?.hasError('required')) {
+      return 'Họ và tên không được để trống!';
+    }
     if (this.fullname?.hasError('letter')) {
       return 'Họ và tên không được chứa số và ký tự!';
     }
@@ -107,6 +113,9 @@ export class ProfileEditProfileComponent implements OnInit {
   }
 
   errorForPhoneNumber(): string {
+    if (this.phoneNumber?.hasError('required')) {
+      return 'Số điện thoại không được để trống!';
+    }
     if (this.phoneNumber?.hasError('phone')) {
       return 'Số điện thoại không hợp lệ!';
     }

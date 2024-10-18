@@ -83,15 +83,17 @@ namespace Core.Services.Business
             }
         }
 
-        public async Task<Response> UpdateAsync(string id, UserDto userDto, IFormFile? file)
+        public async Task<Response> UpdateAsync(string id, UserDto? userDto, IFormFile? file)
         {
-            await ValidateObject(userDto);
-
             var user = await _repository.User.FindCondition(u => u.Id.Equals(id))
                 .SingleOrDefaultAsync();
             if (user != null)
             {
-                _mapper.Map(userDto, user);
+                if (userDto != null)
+                {
+                    await ValidateObject(userDto);
+                    _mapper.Map(userDto, user);
+                }
                 if (file != null)
                 {
                     await SetAvatar(user, file);
