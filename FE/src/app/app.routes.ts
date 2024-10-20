@@ -1,19 +1,23 @@
 import { Routes } from '@angular/router';
-import { RegisterFormComponent } from '@core/auth/components/register-form/register-form.component';
 import { LoginComponent } from '@core/auth/pages/login/login.component';
 import { RegisterComponent } from '@core/auth/pages/register/register.component';
 import { ApartmentDetailComponent } from '@features/apartment/pages/apartment-detail/apartment-detail.component';
 import { ApartmentComponent } from '@features/apartment/pages/apartment/apartment.component';
 import { ContactComponent } from '@features/contact/pages/contact/contact.component';
-import { LessorDashboardComponent } from '@features/dashboard/lessor/pages/lessor-dashboard/lessor-dashboard.component';
 import { HomeComponent } from '@features/home/pages/home/home.component';
 import { LessorDetailComponent } from '@features/lessor/pages/lessor-detail/lessor-detail.component';
 import { LessorComponent } from '@features/lessor/pages/lessor/lessor.component';
-import { ProfileEditComponent } from '@features/profiles/components/profile-edit/profile-edit.component';
-import { RentedHistoryComponent } from '@features/profiles/components/rented-history/rented-history.component';
+import { MaintenanceHistoryComponent } from '@features/maintenance/components/maintenance-history/maintenance-history.component';
+import { LessorDashboardComponent } from '@features/management/lessor/pages/lessor-dashboard/lessor-dashboard.component';
+import { LessorManagementComponent } from '@features/management/lessor/pages/lessor-management/lessor-management.component';
+import { ProfileEditComponent } from '@features/profiles/pages/profile-edit/profile-edit.component';
+import { RentedHistoryComponent } from '@features/profiles/pages/rented-history/rented-history.component';
 import { ProfileComponent } from '@features/profiles/pages/profile/profile.component';
 import { ServiceDetailComponent } from '@features/service/pages/service-detail/service-detail.component';
 import { ServiceComponent } from '@features/service/pages/service/service.component';
+import { ProfileActionsComponent } from '@features/profiles/pages/profile-actions/profile-actions.component';
+import { LessorApartmentComponent } from '@features/management/lessor/pages/lessor-apartment/lessor-apartment.component';
+import { PostFormComponent } from '@features/post/components/post-form/post-form.component';
 
 export const routes: Routes = [
   /*Clients*/
@@ -41,15 +45,15 @@ export const routes: Routes = [
         path: 'history',
         component: RentedHistoryComponent,
       },
+      {
+        path: 'maintenance',
+        component: MaintenanceHistoryComponent,
+      },
+      {
+        path: 'actions',
+        component: ProfileActionsComponent,
+      },
     ],
-  },
-  {
-    path: 'lessor/detail',
-    component: LessorDetailComponent,
-  },
-  {
-    path: 'lessor',
-    component: LessorComponent,
   },
   {
     path: 'service/detail',
@@ -81,14 +85,30 @@ export const routes: Routes = [
     component: RegisterComponent,
   },
   {
-    path: 'lessor/dashboard',
-    component: LessorDashboardComponent,
+    path: 'lessor/management',
+    component: LessorManagementComponent,
     children: [
       {
-        path: '',
-        component: RegisterFormComponent,
+        path: 'dashboard',
+        component: LessorDashboardComponent,
+      },
+      {
+        path: 'apartment/post',
+        component: PostFormComponent,
+      },
+      {
+        path: 'apartment',
+        component: LessorApartmentComponent,
       },
     ],
+  },
+  {
+    path: 'lessor/detail',
+    component: LessorDetailComponent,
+  },
+  {
+    path: 'lessor',
+    component: LessorComponent,
   },
 
   /*Admin*/

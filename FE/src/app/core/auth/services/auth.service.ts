@@ -5,10 +5,10 @@ import { Response } from '@core/models/response.model';
 import { Secret } from '@core/models/secret.model';
 import { CookieService } from '@core/services/cookie.service';
 import { UserService } from '@core/services/user.service';
-import { Observable, take, tap } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { Login } from '../models/login.model';
 import { Register } from '../models/register.model';
-import { SkipPreloader } from '@shared/components/preloader/skip-preloader.component';
+import { SkipPreloader } from '@core/interceptors/skip.resolver';
 
 @Injectable({
   providedIn: 'root',

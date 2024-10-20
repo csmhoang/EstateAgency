@@ -15,10 +15,14 @@ namespace Core.Dtos
         [Required(ErrorMessage = RoomConst.ErrorEmptyLandlordId)]
         public string? LandlordId { get; set; } = null!;
         public string Name { get; set; } = null!;
+        public string Category { get; set; } = null!;
         public string Address { get; set; } = null!;
-        public string? City { get; set; }
-        public string? District { get; set; }
+        public string Ward { get; set; } = null!;
+        public string City { get; set; } = null!;
+        public string District { get; set; } = null!;
         public decimal Price { get; set; }
+        public int Bedroom { get; set; }
+        public int Bathroom { get; set; }
         public decimal? Area { get; set; }
         public string? Description { get; set; }
         public DateTime? AvailableFrom { get; set; }

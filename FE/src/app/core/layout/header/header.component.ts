@@ -2,7 +2,6 @@ import {
   CommonModule,
   DOCUMENT,
   isPlatformBrowser,
-  NgIf,
 } from '@angular/common';
 import {
   AfterViewInit,
@@ -10,7 +9,6 @@ import {
   DestroyRef,
   ElementRef,
   inject,
-  Input,
   PLATFORM_ID,
   Renderer2,
   ViewChild,
@@ -27,7 +25,6 @@ import { UserService } from '@core/services/user.service';
   selector: 'app-header',
   standalone: true,
   imports: [
-    NgIf,
     RouterModule,
     IfAuthenticatedDirective,
     CommonModule,

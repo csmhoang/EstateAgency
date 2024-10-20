@@ -53,9 +53,7 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("decimal(10,2)");
 
                     b.Property<DateTime?>("UpdatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime")
-                        .HasDefaultValueSql("(getdate())");
+                        .HasColumnType("datetime");
 
                     b.HasKey("Id");
 
@@ -200,9 +198,7 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("nvarchar(36)");
 
                     b.Property<DateTime?>("UpdatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime")
-                        .HasDefaultValueSql("(getdate())");
+                        .HasColumnType("datetime");
 
                     b.HasKey("Id");
 
@@ -223,6 +219,11 @@ namespace Infrastructure.Data.Migrations
                         .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)")
                         .HasDefaultValueSql("(newid())");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime")
+                        .HasDefaultValueSql("(getdate())");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -248,9 +249,7 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("nvarchar(20)");
 
                     b.Property<DateTime?>("UpdatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime")
-                        .HasDefaultValueSql("(getdate())");
+                        .HasColumnType("datetime");
 
                     b.HasKey("Id");
 
@@ -412,9 +411,7 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("nvarchar(36)");
 
                     b.Property<DateTime?>("UpdatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime")
-                        .HasDefaultValueSql("(getdate())");
+                        .HasColumnType("datetime");
 
                     b.HasKey("Id");
 
@@ -452,22 +449,22 @@ namespace Infrastructure.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "48439f76-b7ec-40f9-b22d-d8df01ee7617",
-                            ConcurrencyStamp = "5dec88a4-dff3-4242-bd29-0dda1135ca32",
+                            Id = "3b4c91bf-b200-4b47-adf7-3bf205938578",
+                            ConcurrencyStamp = "d7a7ff39-e543-4cd2-a74a-0b50c98808d9",
                             Name = "admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "92b11e1b-8bdc-4ba6-957d-07b82a33080b",
-                            ConcurrencyStamp = "6d6cb3af-a197-4754-8bfa-4d8dc808486c",
+                            Id = "be2c26d2-3e59-40ff-a897-2317d3fb1d1e",
+                            ConcurrencyStamp = "43c15c40-744c-4334-affe-ae138a826bb6",
                             Name = "landlord",
                             NormalizedName = "LANDLORD"
                         },
                         new
                         {
-                            Id = "d361308c-716e-400a-b011-89de0803ae66",
-                            ConcurrencyStamp = "22ed8e94-0d4c-4fa2-98c9-3f40fef56213",
+                            Id = "87d8b645-37bb-4498-936e-8cfec726b8b0",
+                            ConcurrencyStamp = "61d6e82c-88cc-4d8b-9ca9-2b9a3467039d",
                             Name = "tenant",
                             NormalizedName = "TENANT"
                         });
@@ -511,6 +508,10 @@ namespace Infrastructure.Data.Migrations
                         .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
 
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(10,2)");
 
@@ -525,9 +526,7 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("nvarchar(20)");
 
                     b.Property<DateTime?>("UpdatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime")
-                        .HasDefaultValueSql("(getdate())");
+                        .HasColumnType("datetime");
 
                     b.HasKey("Id");
 
@@ -566,6 +565,9 @@ namespace Infrastructure.Data.Migrations
 
                     b.Property<DateTime?>("DateOfBirth")
                         .HasColumnType("date");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
@@ -618,9 +620,7 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("UpdatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime")
-                        .HasDefaultValueSql("(getdate())");
+                        .HasColumnType("datetime");
 
                     b.Property<int>("UserCode")
                         .ValueGeneratedOnAdd()

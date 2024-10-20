@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { LessorItemComponent } from '../lessor-item/lessor-item.component';
 import { PaginationComponent } from '@shared/components/pagination/pagination.component';
+import { LessorItemComponent } from '../lessor-item/lessor-item.component';
 
 @Component({
   selector: 'app-lessor-list',

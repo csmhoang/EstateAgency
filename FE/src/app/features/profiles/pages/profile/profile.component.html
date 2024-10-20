@@ -55,12 +55,33 @@
                     <span>Lịch sử thuê trọ</span>
                   </a>
                 </li>
+                <li class="mb-2">
+                  <a
+                    matRipple
+                    routerLink="/profile/maintenance"
+                    class="sidebar-menu w-100 text-dark d-flex align-items-center py-2 px-4"
+                    routerLinkActive="active"
+                  >
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+                    <span>Trạng thái yêu cầu</span>
+                  </a>
+                </li>
+                <li class="mb-2">
+                  <a
+                    matRipple
+                    routerLink="/profile/actions"
+                    class="sidebar-menu w-100 text-dark d-flex align-items-center py-2 px-4"
+                    routerLinkActive="active"
+                  >
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+                    <span>Các hoạt động</span>
+                  </a>
+                </li>
               </ul>
             </div>
           </div>
         </mat-sidenav>
         <mat-sidenav-content>
-          <!-- Content -->
           <div class="px-lg-4 py-lg-5 p-3">
             <!-- Toolbar -->
             <button
@@ -71,6 +92,7 @@
             >
               <i class="fa-regular fa-square-caret-right"></i>
             </button>
+            <!-- Content -->
             <div class="bg-white shadow pt-2 pb-4 px-4 rounded overflow-x-auto">
               <router-outlet></router-outlet>
             </div>

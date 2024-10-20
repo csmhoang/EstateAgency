@@ -68,8 +68,7 @@ namespace Infrastructure.Data
                 entity.Property(e => e.Price).HasColumnType("decimal(10, 2)");
 
                 entity.Property(e => e.UpdatedAt)
-                    .HasColumnType("datetime")
-                    .HasDefaultValueSql("(getdate())");
+                    .HasColumnType("datetime");
             });
 
             modelBuilder.Entity<Feedback>(entity =>
@@ -169,8 +168,7 @@ namespace Infrastructure.Data
                 entity.Property(e => e.TenantId).HasMaxLength(36);
 
                 entity.Property(e => e.UpdatedAt)
-                    .HasColumnType("datetime")
-                    .HasDefaultValueSql("(getdate())");
+                    .HasColumnType("datetime");
 
                 entity.HasOne(d => d.Room)
                     .WithMany(p => p.Leases)
@@ -203,10 +201,13 @@ namespace Infrastructure.Data
                     .HasDefaultValueSql("(getdate())");
 
                 entity.Property(e => e.Status).HasMaxLength(20);
-
-                entity.Property(e => e.UpdatedAt)
+                    
+                entity.Property(e => e.CreatedAt)
                     .HasColumnType("datetime")
                     .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.UpdatedAt)
+                    .HasColumnType("datetime");
 
                 entity.HasOne(d => d.Lease)
                     .WithMany(p => p.MaintenanceRequests)
@@ -307,8 +308,7 @@ namespace Infrastructure.Data
                 entity.Property(e => e.TenantId).HasMaxLength(36);
 
                 entity.Property(e => e.UpdatedAt)
-                    .HasColumnType("datetime")
-                    .HasDefaultValueSql("(getdate())");
+                    .HasColumnType("datetime");
 
                 entity.HasOne(d => d.Room)
                     .WithMany(p => p.Reservations)
@@ -357,6 +357,10 @@ namespace Infrastructure.Data
 
                 entity.Property(e => e.District).HasMaxLength(100);
 
+                entity.Property(e => e.Category).HasMaxLength(100);
+
+                entity.Property(e => e.Ward).HasMaxLength(100);
+
                 entity.Property(e => e.LandlordId).HasMaxLength(36);
 
                 entity.Property(e => e.Price).HasColumnType("decimal(10, 2)");
@@ -364,8 +368,7 @@ namespace Infrastructure.Data
                 entity.Property(e => e.Status).HasMaxLength(20);
 
                 entity.Property(e => e.UpdatedAt)
-                    .HasColumnType("datetime")
-                    .HasDefaultValueSql("(getdate())");
+                    .HasColumnType("datetime");
 
                 entity.HasOne(d => d.Landlord)
                     .WithMany(p => p.Rooms)
@@ -412,8 +415,7 @@ namespace Infrastructure.Data
                 entity.Property(e => e.FullName).HasMaxLength(100);
 
                 entity.Property(e => e.UpdatedAt)
-                    .HasColumnType("datetime")
-                    .HasDefaultValueSql("(getdate())");
+                    .HasColumnType("datetime");
 
                 entity.HasMany<IdentityUserRole<string>>()
                     .WithOne()

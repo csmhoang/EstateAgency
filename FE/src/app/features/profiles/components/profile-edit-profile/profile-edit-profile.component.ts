@@ -34,6 +34,7 @@ export class ProfileEditProfileComponent implements OnInit {
   user?: User;
 
   destroyRef = inject(DestroyRef);
+  maxDate = new Date(new Date().getFullYear() - 18, 0, 1);
   form: FormGroup = new FormGroup({});
   fullname?: AbstractControl | null;
   phoneNumber?: AbstractControl | null;

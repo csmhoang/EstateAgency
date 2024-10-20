@@ -1,0 +1,170 @@
+<form [formGroup]="form">
+  <h5 class="fs-5 fw-bold my-4">Đăng tin mới</h5>
+  <div class="row align-items-center">
+    <!-- Title input -->
+    <mat-form-field class="col-lg-8" appearance="outline">
+      <mat-label>Tiêu đề</mat-label>
+      <input
+        matInput
+        type="text"
+        placeholder="Tiêu đề"
+        formControlName="name"
+      />
+      @if( name?.invalid && (name?.dirty || name?.touched) ){
+      <mat-error>{{ errorForName() }}</mat-error>
+      }
+    </mat-form-field>
+    <!-- Category select -->
+    <mat-form-field class="col-lg-4" appearance="outline">
+      <mat-label>Loại nhà đất</mat-label>
+      <mat-select formControlName="category">
+        <mat-option value="Phòng trọ">Phòng trọ</mat-option>
+        <mat-option value="Chung cư mini">Chung cư mini</mat-option>
+        <mat-option value="Chung cư">Chung cư</mat-option>
+        <mat-option value="Nhà riêng">Nhà riêng</mat-option>
+      </mat-select>
+      @if( category?.invalid && (category?.dirty || category?.touched) ){
+      <mat-error>{{ errorForCategory() }}</mat-error>
+      }
+    </mat-form-field>
+  </div>
+
+  <div class="row">
+    <!-- Province select -->
+    <mat-form-field class="col-lg-4" appearance="outline">
+      <mat-label>Tỉnh/Thành phố</mat-label>
+      <mat-select formControlName="province">
+        @for (place of (provices$ | async); track $index) {
+        <mat-option [value]="place">{{ place?.name }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    <!-- District select -->
+    <mat-form-field class="col-lg-4" appearance="outline">
+      <mat-label>Quận/Huyện</mat-label>
+      <mat-select formControlName="district" >
+        @for (place of (districts$ | async); track $index) {
+        <mat-option [value]="place">{{ place?.name }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    <!-- Ward select -->
+    <mat-form-field class="col-lg-4" appearance="outline">
+      <mat-label>Phường/Xã</mat-label>
+      <mat-select formControlName="ward">
+        @for (place of (wards$ | async); track $index) {
+        <mat-option [value]="place">{{ place?.name }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <!-- Address input -->
+  <mat-form-field class="w-100" appearance="outline">
+    <mat-label>Địa chỉ cụ thể</mat-label>
+    <input
+      matInput
+      type="text"
+      placeholder="Địa chỉ cụ thể"
+      formControlName="address"
+    />
+    @if( address?.invalid && (address?.dirty || address?.touched) ){
+    <mat-error>{{ errorForAddress() }}</mat-error>
+    }
+  </mat-form-field>
+
+  <div class="row">
+    <!-- Bedroom input -->
+    <mat-form-field class="col-lg-4" appearance="outline">
+      <mat-label>Số phòng ngủ</mat-label>
+      <input
+        matInput
+        type="number"
+        placeholder="0"
+        min="0"
+        class="hide-spin"
+        formControlName="bedroom"
+      />
+      @if( bedroom?.invalid && (bedroom?.dirty || bedroom?.touched) ){
+      <mat-error>{{ errorForBedroom() }}</mat-error>
+      }
+    </mat-form-field>
+    <!-- Bathroom input -->
+    <mat-form-field class="col-lg-4" appearance="outline">
+      <mat-label>Số phòng tắm</mat-label>
+      <input
+        matInput
+        type="number"
+        min="0"
+        placeholder="0"
+        class="hide-spin"
+        formControlName="bathroom"
+      />
+      @if( bathroom?.invalid && (bathroom?.dirty || bathroom?.touched) ){
+      <mat-error>{{ errorForBathroom() }}</mat-error>
+      }
+    </mat-form-field>
+    <!-- Available From input -->
+    <mat-form-field class="col-lg-4" appearance="outline">
+      <mat-label>Ngày có sẵn</mat-label>
+      <input
+        matInput
+        [matDatepicker]="picker"
+        [min]="minDate"
+        placeholder="MM/DD/YYYY"
+        formControlName="availableFrom"
+      />
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+  </div>
+  <div class="row">
+    <!-- Area input -->
+    <mat-form-field class="col-lg-6" appearance="outline">
+      <mat-label>Diện tích</mat-label>
+      <input
+        matInput
+        type="number"
+        placeholder="0"
+        min="0"
+        class="text-end hide-spin"
+        formControlName="area"
+      />
+      <span matTextSuffix>m<sup>2</sup></span>
+      @if( area?.invalid && (area?.dirty || area?.touched) ){
+      <mat-error>{{ errorForArea() }}</mat-error>
+      }
+    </mat-form-field>
+    <!-- Price input -->
+    <mat-form-field class="col-lg-6" appearance="outline">
+      <mat-label>Giá phòng</mat-label>
+      <input
+        matInput
+        type="number"
+        class="text-end hide-spin"
+        min="0"
+        placeholder="0"
+        formControlName="price"
+      />
+      <span matTextSuffix>.000 đồng</span>
+      @if( price?.invalid && (price?.dirty || price?.touched) ){
+      <mat-error>{{ errorForPrice() }}</mat-error>
+      }
+    </mat-form-field>
+  </div>
+
+  <!-- Description input -->
+  <mat-form-field class="w-100" appearance="outline">
+    <mat-label>Mô tả</mat-label>
+    <textarea matInput formControlName="description"></textarea>
+  </mat-form-field>
+
+  <button
+    type="button"
+    [disabled]="form.invalid || !form.dirty"
+    (click)="onPost()"
+    class="btn btn-lg btn-dark w-100"
+  >
+    Đăng tin
+  </button>
+</form>

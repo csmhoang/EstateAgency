@@ -957,12 +957,6 @@ section,
   font-size: 13px;
 }
 
-.agents .member .social {
-  position: absolute;
-  right: 15px;
-  bottom: 15px;
-}
-
 .agents .member .social a {
   transition: color 0.3s;
   color: color-mix(in srgb, var(--default-color), transparent 70%);

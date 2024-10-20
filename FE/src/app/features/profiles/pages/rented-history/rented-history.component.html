@@ -1,0 +1,84 @@
+<div class="checked-out-room">
+  <div class="row align-items-center g-2 mt-3 mb-4">
+    <h5 class="col-lg-3 fs-5 fw-bold mb-2">Danh sách phòng</h5>
+    <div class="col-lg-9">
+      <app-search></app-search>
+    </div>
+  </div>
+  <table mat-table [dataSource]="dataSource" matSort>
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Tên phòng</th>
+      <td mat-cell *matCellDef="let element">{{ element['name'] }}</td>
+    </ng-container>
+
+    <!-- Lessor Column -->
+    <ng-container matColumnDef="lessor">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Người cho thuê</th>
+      <td mat-cell *matCellDef="let element">{{ element.lessor }}</td>
+    </ng-container>
+
+    <!-- Phone Number Column -->
+    <ng-container matColumnDef="phoneNumber">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Số điện thoại</th>
+      <td mat-cell *matCellDef="let element">{{ element.phoneNumber }}</td>
+    </ng-container>
+
+    <!-- Room Price Column-->
+    <ng-container matColumnDef="price">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Giá</th>
+      <td mat-cell *matCellDef="let element">{{ element.price }}</td>
+    </ng-container>
+
+    <!-- Duration Column-->
+    <ng-container matColumnDef="duration">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Thời hạn</th>
+      <td mat-cell *matCellDef="let element">{{ element.duration }}</td>
+    </ng-container>
+
+    <!-- Status Column-->
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Trạng thái</th>
+      <td mat-cell *matCellDef="let element">{{ element.status }}</td>
+    </ng-container>
+
+    <!-- Mode Column-->
+    <ng-container matColumnDef="disabled">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let element">
+        <button
+          mat-icon-button
+          [disabled]="element.disabled"
+          [matMenuTriggerFor]="menu"
+          class="d-flex justify-content-center align-items-center"
+        >
+          <i class="fa-solid fa-ellipsis-vertical"></i>
+        </button>
+        <mat-menu #menu class="px-1">
+          <button (click)="onForm()" mat-menu-item>
+            <i class="fa-solid fa-circle-plus"></i>
+            <span>Gửi yêu cầu</span>
+          </button>
+          <button mat-menu-item>
+            <i class="fa-solid fa-wrench"></i>
+            <span>Sửa</span>
+          </button>
+          <button mat-menu-item>
+            <i class="fa-solid fa-trash"></i>
+            <span>Xóa</span>
+          </button>
+        </mat-menu>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+  <div class="pt-4">
+    <app-pagination></app-pagination>
+  </div>
+</div>
+
+<ng-template #maintenance>
+  <app-maintenance-form></app-maintenance-form>
+</ng-template>

@@ -9,19 +9,20 @@ import {
 import { NgbToastModule } from '@ng-bootstrap/ng-bootstrap';
 import { CommonModule, NgTemplateOutlet } from '@angular/common';
 import { ToastService } from '@shared/services/toast/toast.service';
+import { Toast } from '@shared/models/toast.model';
 
 @Component({
   selector: 'app-toast',
   standalone: true,
   imports: [NgbToastModule, NgTemplateOutlet, CommonModule],
   templateUrl: './toast.component.html',
-  styleUrl: './toast.component.scss',
+  styleUrl: './toast.component.scss'
 })
 export class ToastComponent implements OnDestroy {
   toastService = inject(ToastService);
 
-  isTemplate(toast: any) {
-    return toast.textOrTpl instanceof TemplateRef;
+  isTemplate(toast: Toast) {
+    return toast.content instanceof TemplateRef;
   }
 
   ngOnDestroy(): void {

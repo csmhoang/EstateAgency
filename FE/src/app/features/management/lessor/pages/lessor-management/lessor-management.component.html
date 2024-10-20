@@ -1,0 +1,97 @@
+<div class="lessor-dashboard-page">
+  <main class="main">
+    <mat-sidenav-container class="sidenav-container">
+      <!-- Sidebar -->
+      <mat-sidenav
+        #drawer
+        class="sidenav"
+        fixedInViewport
+        [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+        [mode]="(isHandset$ | async) ? 'over' : 'side'"
+        [opened]="(isHandset$ | async) === false"
+      >
+        <div class="p-2">
+          <div class="text-center fw-bold fs-4 mb-2">Dwello</div>
+          <div class="pt-3">
+            <ul class="list-group">
+              <li class="mb-2">
+                <a
+                  matRipple
+                  routerLink="/lessor/management/dashboard"
+                  class="sidebar-menu w-100 text-dark d-flex align-items-center py-2 px-4"
+                  routerLinkActive="active"
+                >
+                  <i class="fa-solid fa-gauge"></i>
+                  <span>Thống kê</span>
+                </a>
+              </li>
+              <li class="mb-2">
+                <a
+                  matRipple
+                  routerLink="/lessor/management/apartment"
+                  class="sidebar-menu w-100 text-dark d-flex align-items-center py-2 px-4"
+                  routerLinkActive="active"
+                >
+                  <i class="fa-solid fa-gauge"></i>
+                  <span>Quản lý phòng trọ</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </mat-sidenav>
+
+      <mat-sidenav-content>
+        <!-- Header -->
+        <mat-toolbar class="header">
+          <!-- Toolbar -->
+          <button
+            type="button"
+            aria-label="Toggle sidenav"
+            mat-icon-button
+            class="d-flex justify-content-center align-items-center"
+            (click)="drawer.toggle()"
+            *ngIf="isHandset$ | async"
+          >
+            <i class="fa-solid fa-bars"></i>
+          </button>
+
+          <div class="ms-auto">
+            <button
+              mat-button
+              class="fs-5 py-4 text-light-muted d-flex align-items-center"
+              [matMenuTriggerFor]="menu"
+            >
+              <div class="d-flex align-items-center">
+                <span class="fw-light text-secondary">Hi, </span>
+                <span class="fw-bold">{{ "Hoàng" }}</span>
+                <i class="fa-solid fa-square-caret-down ms-1"></i>
+              </div>
+            </button>
+            <mat-menu #menu="matMenu" class="profile-dropdown">
+              <div class="px-2">
+                <button mat-menu-item>Edit Profile</button>
+                <button mat-menu-item>Account</button>
+                <button mat-menu-item>Change Password</button>
+                <button mat-menu-item>My Settings</button>
+              </div>
+              <hr />
+              <div class="px-2">
+                <button mat-flat-button color="warn" class="w-100 text-white">
+                  Đăng xuất
+                </button>
+              </div>
+            </mat-menu>
+          </div>
+        </mat-toolbar>
+
+        <!-- Content -->
+        <div class="px-lg-4 py-lg-5 p-3">
+          <div class="bg-white shadow pt-2 pb-4 px-4 rounded overflow-x-auto">
+            <router-outlet></router-outlet>
+          </div>
+        </div>
+      </mat-sidenav-content>
+    </mat-sidenav-container>
+  </main>
+</div>

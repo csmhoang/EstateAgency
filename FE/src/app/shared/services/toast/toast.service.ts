@@ -1,5 +1,5 @@
 import { Injectable, TemplateRef } from '@angular/core';
-import { Toast } from '@shared/components/toast/toast.model';
+import { Toast } from '@shared/models/toast.model';
 
 @Injectable({
   providedIn: 'root',
@@ -8,10 +8,10 @@ export class ToastService {
   toasts: Toast[] = [];
 
   show(
-    textOrTpl: string | TemplateRef<any>,
+    content: string | TemplateRef<any>,
     options: { class: string; delay?: number } = { class: '' }
   ) {
-    return this.toasts.push({ textOrTpl, ...options });
+    return this.toasts.push({ content, ...options });
   }
 
   remove(toast: Toast) {
@@ -22,16 +22,19 @@ export class ToastService {
     this.toasts.splice(0, this.toasts.length);
   }
 
-  success(message: string) {
-    this.show(message, { class: 'bg-success text-light', delay: 5000 });
+  success(content: string) {
+    this.show(content, { class: 'bg-success text-light bg-opacity-75', delay: 5000 });
   }
 
-  error(message: string) {
-    this.show(message, { class: 'bg-danger text-light', delay: 5000 });
+  error(content: string) {
+    this.show(content, { class: 'bg-danger text-light bg-opacity-75', delay: 5000 });
   }
 
-  warn(message: string) {
-    this.show(message, { class: 'bg-warning text-light', delay: 5000 });
+  warn(content: string) {
+    this.show(content, { class: 'bg-warning text-light bg-opacity-75', delay: 5000 });
   }
 
+  template(content: TemplateRef<any>) {
+    this.show(content, { class: 'bg-light text-light bg-opacity-75', delay: 5000 });
+  }
 }

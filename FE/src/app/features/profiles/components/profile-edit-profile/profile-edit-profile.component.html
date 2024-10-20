@@ -1,5 +1,5 @@
 <form [formGroup]="form">
-  <h5 class="fs-5 fw-bold my-5">Cập nhật thông tin</h5>
+  <h5 class="fs-5 fw-bold my-4">Cập nhật thông tin</h5>
   <div class="row align-items-center">
     <!-- Fullname input -->
     <mat-form-field class="col-lg-6" appearance="outline">
@@ -46,6 +46,7 @@
       <input
         matInput
         [matDatepicker]="picker"
+        [max]="maxDate"
         placeholder="MM/DD/YYYY"
         formControlName="dateOfBirth"
       />

@@ -39,6 +39,7 @@ import { Login } from '@core/auth/models/login.model';
 })
 export class RegisterFormComponent implements OnInit {
   destroyRef = inject(DestroyRef);
+  maxDate = new Date(new Date().getFullYear() - 18, 0, 1);
   hidePassword = true;
   hideRepassword = true;
   title?: string;
@@ -98,7 +99,7 @@ export class RegisterFormComponent implements OnInit {
       ]),
       repassword: this.formBuilder.control('', [
         Validators.required,
-        MyValidators.passwordMatch("password"),
+        MyValidators.passwordMatch('password'),
       ]),
     });
 

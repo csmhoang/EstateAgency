@@ -4,7 +4,7 @@ import { routes } from './app.routes';
 import { provideClientHydration } from '@angular/platform-browser';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
-import { preloaderInterceptor } from '@shared/components/preloader/preloader.interceptor';
+import { preloaderInterceptor } from '@core/interceptors/preloader.interceptor';
 import { apiInterceptor } from '@core/interceptors/api.interceptor';
 import { tokenInterceptor } from '@core/interceptors/token.interceptor';
 import { AuthService } from '@core/auth/services/auth.service';

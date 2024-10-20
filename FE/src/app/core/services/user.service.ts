@@ -7,12 +7,11 @@ import {
   map,
   Observable,
   shareReplay,
-  take,
   tap,
 } from 'rxjs';
 import { CookieService } from './cookie.service';
 import { Response } from '@core/models/response.model';
-import { SkipPreloader } from '@shared/components/preloader/skip-preloader.component';
+import { SkipPreloader } from '@core/interceptors/skip.resolver';
 
 @Injectable({
   providedIn: 'root',

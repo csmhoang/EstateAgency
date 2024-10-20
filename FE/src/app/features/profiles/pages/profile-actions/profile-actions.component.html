@@ -1,0 +1,29 @@
+<!-- Navigate -->
+<ul class="nav nav-pills">
+  <li>
+    <a class="nav-link active" data-bs-toggle="pill" href="#post-saved">
+      Tin đã lưu
+    </a>
+  </li>
+  <li>
+    <a class="nav-link" data-bs-toggle="pill" href="#follwer">Theo dõi</a>
+  </li>
+</ul>
+
+<!-- Content -->
+<div class="tab-content mt-3">
+  <!-- Content one -->
+  <div class="tab-pane fade show active" id="post-saved">
+    <div class="real-estate real-estate-sm">
+      <app-post-list></app-post-list>
+      <button class="btn btn-dark d-block mt-5 mx-auto">Xem thêm</button>
+    </div>
+  </div>
+
+  <!-- Content two -->
+  <div class="tab-pane fade" id="follwer">
+    <div class="agents">
+      <app-lessor-list></app-lessor-list>
+    </div>
+  </div>
+</div>

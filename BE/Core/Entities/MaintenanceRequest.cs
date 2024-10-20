@@ -11,8 +11,8 @@ namespace Core.Entities
         public string Description { get; set; } = null!;
         public DateTime? RequestDate { get; set; }
         public string? Status { get; set; }
+        public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
-
         public virtual Lease? Lease { get; set; }
     }
 }
