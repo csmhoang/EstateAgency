@@ -129,4 +129,7 @@
   <data name="DeletePhotoFailing" xml:space="preserve">
     <value>Lỗi trong dịch vụ xóa ảnh.</value>
   </data>
+  <data name="ChangePasswordFailing" xml:space="preserve">
+    <value>Đổi mật khẩu thất bại.</value>
+  </data>
 </root>

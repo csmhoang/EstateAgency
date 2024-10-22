@@ -42,7 +42,7 @@
     <!-- District select -->
     <mat-form-field class="col-lg-4" appearance="outline">
       <mat-label>Quận/Huyện</mat-label>
-      <mat-select formControlName="district" >
+      <mat-select formControlName="district">
         @for (place of (districts$ | async); track $index) {
         <mat-option [value]="place">{{ place?.name }}</mat-option>
         }
@@ -158,6 +158,76 @@
     <mat-label>Mô tả</mat-label>
     <textarea matInput formControlName="description"></textarea>
   </mat-form-field>
+
+  <!-- Photos input -->
+  <div class="row pb-5 justify-content-between">
+    <div class="col-lg-3 pt-3">
+      <div class="">
+        <h5>Thêm ảnh</h5>
+        <div
+          ng2FileDrop
+          [ngClass]="{ 'nv-file-over': hasBaseDropzoneOver }"
+          (fileOver)="fileOverBase($event)"
+          [uploader]="uploader"
+          class="card bg-faded p-3 text-center my-drop-zone mb-4"
+        >
+          <i class="fa-solid fa-upload fa-3x p-1"></i>
+          Kéo thả ảnh vào đây
+        </div>
+      </div>
+
+      <div class="card p-3 mb-4">
+        <h5>Chọn</h5>
+        <input type="file" ng2FileSelect [uploader]="uploader" />
+      </div>
+
+      <div class="card p-3 mb-4">
+        <h5>Chọn nhiều</h5>
+        <input type="file" ng2FileSelect [uploader]="uploader" multiple />
+      </div>
+    </div>
+
+    <div
+      class="d-flex flex-column col-lg-9 bg-light rounded py-3 shadow"
+      *ngIf="uploader?.queue?.length"
+    >
+      <div>
+        <h5>Ảnh cần tải lên</h5>
+        <p class="text-secondary">Số lượng: {{ uploader.queue.length }}</p>
+      </div>
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th width="50%">Tên</th>
+            <th>Kích cỡ</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of uploader.queue">
+            <td>
+              <strong>{{ item?.file?.name }}</strong>
+            </td>
+            <td *ngIf="uploader.options.isHTML5" nowrap>
+              {{ item?.file?.size / 1024 / 1024 | number : ".2" }} MB
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="flex-fill"></div>
+      <div class="text-center">
+        <button
+          type="button"
+          class="btn btn-danger mt-2"
+          (click)="uploader.clearQueue()"
+          [disabled]="!uploader.queue.length"
+        >
+          <i class="fa-solid fa-trash-can"></i>
+          Xóa tất cả
+        </button>
+      </div>
+    </div>
+  </div>
 
   <button
     type="button"

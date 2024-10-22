@@ -1,4 +1,5 @@
 ﻿using Core.Dtos;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -49,10 +50,11 @@ namespace Core.Interfaces.Business
         /// Thêm phòng
         /// </summary>
         /// <param name="roomDto">Phòng</param>
+        /// <param name="files">Danh sách ảnh của phòng</param>
         /// <returns>
         /// 1 - Thông báo thành công
         /// 2 - Ngoại lệ
         /// </returns>
-        Task<Response> InsertAsync(RoomDto roomDto);
+        Task<Response> InsertAsync(RoomDto roomDto, IFormFile[]? files);
     }
 }

@@ -13,10 +13,14 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
-import { MatSelectChange, MatSelectModule } from '@angular/material/select';
+import { MatSelectModule } from '@angular/material/select';
+import { User } from '@core/models/user.model';
+import { UserService } from '@core/services/user.service';
 import { Place } from '@features/post/models/place.model';
-import { PostFormService } from '@features/post/services/post-form.service';
+import { Room } from '@features/post/models/room.model';
+import { PostService } from '@features/post/services/post.service';
 import { ToastService } from '@shared/services/toast/toast.service';
+import { FileUploader, FileUploadModule } from 'ng2-file-upload';
 import { firstValueFrom } from 'rxjs';
 
 @Component({
@@ -31,14 +35,19 @@ import { firstValueFrom } from 'rxjs';
     MatRadioModule,
     MatSelectModule,
     CommonModule,
+    FileUploadModule,
   ],
   templateUrl: './post-form.component.html',
   styleUrl: './post-form.component.scss',
 })
 export class PostFormComponent implements OnInit {
+  uploader!: FileUploader;
+  hasBaseDropzoneOver = false;
+
   destroyRef = inject(DestroyRef);
   minDate = new Date();
-  provices$ = firstValueFrom(this.postFormService.getProvince());
+  user?: User | null;
+  provices$ = firstValueFrom(this.postService.getProvince());
   districts$?: Promise<Place[]>;
   wards$?: Promise<Place[]>;
 
@@ -58,14 +67,17 @@ export class PostFormComponent implements OnInit {
   area?: AbstractControl | null;
   description?: AbstractControl | null;
   availableFrom?: AbstractControl | null;
+  files: File[] = [];
 
   constructor(
     private formBuilder: FormBuilder,
     private toastService: ToastService,
-    public postFormService: PostFormService
+    private userService: UserService,
+    public postService: PostService
   ) {}
 
-  ngOnInit(): void {
+  ngOnInit() {
+    this.initializeUploader();
     this.form = this.formBuilder.group({
       name: this.formBuilder.control('', [Validators.required]),
       category: this.formBuilder.control('', [Validators.required]),
@@ -73,10 +85,16 @@ export class PostFormComponent implements OnInit {
       province: this.formBuilder.control(''),
       district: this.formBuilder.control(''),
       ward: this.formBuilder.control(''),
-      price: this.formBuilder.control(0, [Validators.required, Validators.min(1)]),
+      price: this.formBuilder.control(0, [
+        Validators.required,
+        Validators.min(1),
+      ]),
       bedroom: this.formBuilder.control(0, [Validators.required]),
       bathroom: this.formBuilder.control(0, [Validators.required]),
-      area: this.formBuilder.control(0, [Validators.required, Validators.min(1)]),
+      area: this.formBuilder.control(0, [
+        Validators.required,
+        Validators.min(1),
+      ]),
       description: this.formBuilder.control(''),
       availableFrom: this.formBuilder.control(new Date()),
     });
@@ -97,50 +115,64 @@ export class PostFormComponent implements OnInit {
     this.province?.valueChanges.subscribe((value) => {
       if (value) {
         this.districts$ = firstValueFrom(
-          this.postFormService.getDistrict(value.id)
+          this.postService.getDistrict(value.id)
         );
         this.wards$ = undefined;
-        console.log(value)
       }
     });
 
     this.district?.valueChanges.subscribe((value) => {
       if (value) {
-        this.wards$ = firstValueFrom(this.postFormService.getWard(value.id));
+        this.wards$ = firstValueFrom(this.postService.getWard(value.id));
       }
     });
+
+    this.userService.currentUser
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((user) => this.user = user);
+  }
+
+  fileOverBase(e: any) {
+    this.hasBaseDropzoneOver = e;
+  }
+
+  initializeUploader() {
+    this.uploader = new FileUploader({
+      url: '',
+      isHTML5: true,
+      allowedFileType: ['image'],
+      removeAfterUpload: true,
+      autoUpload: false,
+      maxFileSize: 10 * 1024 * 1024,
+    });
+
+    this.uploader.onAfterAddingFile = (file) => {
+      file.withCredentials = false;
+      this.files.push(file._file);
+    };
   }
 
   onPost() {
-    // if (this.form.valid) {
-    //   const credentials: Register = {
-    //     ...this.form.value,
-    //     roles: this.roles,
-    //   };
-    //   this.authService
-    //     .register(credentials)
-    //     .pipe(takeUntilDestroyed(this.destroyRef))
-    //     .subscribe({
-    //       next: (response) => {
-    //         if (response.success) {
-    //           this.authService
-    //             .login(
-    //               {
-    //                 email: credentials.email,
-    //                 password: credentials.password,
-    //                 isRemember: true,
-    //               } as Login,
-    //               true
-    //             )
-    //             .pipe(take(1))
-    //             .subscribe(() => void this.router.navigate(['/']));
-    //         }
-    //       },
-    //       error: () => {
-    //         this.toastService.error('Đăng ký thất bại, vui lòng thử lại!');
-    //       },
-    //     });
-    // }
+    if (this.form.valid) {
+      const room: Room = {
+        ...this.form.value,
+        province: this.province?.value.name,
+        district: this.district?.value.name,
+        ward: this.ward?.value.name,
+        landlordId: this.user?.id,
+      };
+
+      this.postService
+        .insert(room, this.files)
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe({
+          next: (response) => {
+            if (response.success) {
+              this.toastService.success(response.messages);
+            }
+          },
+        });
+    }
   }
 
   errorForName(): string {

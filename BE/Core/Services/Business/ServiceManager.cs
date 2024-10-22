@@ -45,7 +45,7 @@ namespace Core.Services.Business
             _authenticationService = new Lazy<Interfaces.Auth.IAuthenticationService>(() =>
                 new AuthenticationService(logger, mapper, userManager, configuration));
             _roomService = new Lazy<IRoomService>(() =>
-                new RoomService(repository, logger, mapper));
+                new RoomService(repository, photoService, logger, mapper));
             _reservationService = new Lazy<IReservationService>(() =>
                 new ReservationService(repository, logger, mapper));
             _leaseService = new Lazy<ILeaseService>(() =>

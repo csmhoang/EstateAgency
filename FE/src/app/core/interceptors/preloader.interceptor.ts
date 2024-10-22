@@ -22,7 +22,7 @@ export const preloaderInterceptor: HttpInterceptorFn = (
   return next(req).pipe(
     finalize(() => {
       of(null)
-        .pipe(delay(1500))
+        .pipe(delay(1000))
         .subscribe(() => preloaderService.loadingOff());
     })
   );

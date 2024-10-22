@@ -61,6 +61,15 @@ namespace Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Đổi mật khẩu thất bại..
+        /// </summary>
+        public static string ChangePasswordFailing {
+            get {
+                return ResourceManager.GetString("ChangePasswordFailing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Lỗi trong dịch vụ xóa ảnh..
         /// </summary>
         public static string DeletePhotoFailing {

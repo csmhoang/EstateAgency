@@ -16,6 +16,7 @@ namespace Infrastructure.Repositories
         private readonly Lazy<IPaymentRepository> _paymentRepository;
         private readonly Lazy<IMaintenanceRequestRepository> _maintenanceRequestRepository;
         private readonly Lazy<IAmenityRepository> _amenityRequestRepository;
+        private readonly Lazy<IPhotoRepository> _photoRepository;
         #endregion
 
         #region Property
@@ -33,6 +34,7 @@ namespace Infrastructure.Repositories
             _paymentRepository = new Lazy<IPaymentRepository>(() => new PaymentRepository(context));
             _maintenanceRequestRepository = new Lazy<IMaintenanceRequestRepository>(() => new MaintenanceRequestRepository(context));
             _amenityRequestRepository = new Lazy<IAmenityRepository>(() => new AmenityRepository(context));
+            _photoRepository = new Lazy<IPhotoRepository>(() => new PhotoRepository(context));
         }
         #endregion
 
@@ -52,6 +54,8 @@ namespace Infrastructure.Repositories
         public IMaintenanceRequestRepository MaintenanceRequest => _maintenanceRequestRepository.Value;
 
         public IAmenityRepository Amenity => _amenityRequestRepository.Value;
+
+        public IPhotoRepository Photo => _photoRepository.Value;
 
         public async Task SaveAsync() => await _context.SaveChangesAsync();
         #endregion

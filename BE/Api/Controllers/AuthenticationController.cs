@@ -44,7 +44,11 @@ namespace Api.Controllers
         public async Task<IActionResult> Register([FromBody] RegisterDto registerDto)
         {
             var response = await _service.Authentication.Register(registerDto);
-            return Ok(response);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            return BadRequest(response);
         }
 
         /// <summary>
@@ -54,7 +58,11 @@ namespace Api.Controllers
         public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
         {
             var response = await _service.Authentication.Login(loginDto);
-            return Ok(response);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            return Unauthorized(response);
         }
 
         /// <summary>
@@ -64,7 +72,11 @@ namespace Api.Controllers
         public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDto passwordDto)
         {
             var response = await _service.Authentication.ChangePassword(passwordDto);
-            return Ok(response);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            return BadRequest(response);
         }
         #endregion
     }

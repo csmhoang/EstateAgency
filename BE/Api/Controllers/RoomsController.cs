@@ -46,10 +46,11 @@ namespace Api.Controllers
         /// Thêm phòng
         /// </summary>
         /// <param name="model">Phòng</param>
+        /// <param name="files">Danh sách ảnh của phòng</param>
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] RoomDto model)
+        public async Task<IActionResult> Create([FromForm] RoomDto model, IFormFile[]? files)
         {
-            var response = await _service.Room.InsertAsync(model);
+            var response = await _service.Room.InsertAsync(model, files);
             return Ok(response);
         }
 

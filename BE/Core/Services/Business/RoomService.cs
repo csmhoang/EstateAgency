@@ -6,6 +6,8 @@ using Core.Interfaces.Business;
 using Core.Interfaces.Data;
 using Core.Interfaces.Infrastructure;
 using Core.Resources;
+using Core.Services.Infrastructure;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
 
@@ -15,6 +17,7 @@ namespace Core.Services.Business
     {
         #region Declaration
         private readonly IRepositoryManager _repository;
+        private readonly IPhotoService _photoService;
         private readonly ILoggerManager _logger;
         private readonly IMapper _mapper;
         #endregion
@@ -24,10 +27,12 @@ namespace Core.Services.Business
 
         #region Constructor
         public RoomService(IRepositoryManager repository,
-                   ILoggerManager logger,
-                   IMapper mapper) : base(repository.Room)
+            IPhotoService photoService,
+            ILoggerManager logger,
+            IMapper mapper) : base(repository.Room)
         {
             _repository = repository;
+            _photoService = photoService;
             _logger = logger;
             _mapper = mapper;
         }
@@ -76,7 +81,7 @@ namespace Core.Services.Business
                 throw new RoomNotFoundException(id);
             }
         }
-        public async Task<Response> InsertAsync(RoomDto roomDto)
+        public async Task<Response> InsertAsync(RoomDto roomDto, IFormFile[]? files)
         {
             await ValidateObject(roomDto);
 
@@ -84,12 +89,39 @@ namespace Core.Services.Business
             _repository.Room.Create(room);
             await _repository.SaveAsync();
 
+            if (files != null)
+            {
+                var count = 0;
+                foreach (var file in files)
+                {
+                    await InsertPhoto(room.Id, file);
+                    count++;
+                }
+                if (count != 0) await _repository.SaveAsync();
+            }
+
             return new Response
             {
                 Success = true,
                 Messages = Successfull.InsertSucceed,
                 StatusCode = (int)HttpStatusCode.Created
             };
+        }
+
+        public async Task InsertPhoto(string roomId, IFormFile file)
+        {
+            var uploadPhotoResult = await _photoService.UploadPhotoAsync(file);
+            if (uploadPhotoResult.Error != null)
+            {
+                throw new CustomizeException(Failure.UploadPhotoFailing);
+            }
+            var photo = new Photo
+            {
+                RoomId = roomId,
+                Url = uploadPhotoResult.SecureUrl.AbsoluteUri,
+                PublicId = uploadPhotoResult.PublicId,
+            };
+            _repository.Photo.Create(photo);
         }
 
         public async Task<Response> UpdateAsync(string id, RoomDto roomDto)

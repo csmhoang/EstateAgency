@@ -97,7 +97,8 @@ namespace Core.Services.Auth
             return new Response
             {
                 Success = result,
-                Data = result ? await CreateToken(true) : Failure.LoginFailing,
+                Data = result ? await CreateToken(true) : null,
+                Messages = Failure.LoginFailing,
                 StatusCode = result ? (int)HttpStatusCode.OK : (int)HttpStatusCode.Unauthorized
             };
         }
@@ -238,7 +239,7 @@ namespace Core.Services.Auth
                     res.Errors.Add($"{error.Code}: {error.Description}");
                 }
                 res.Success = false;
-                res.Messages = Failure.LoginFailing;
+                res.Messages = Failure.ChangePasswordFailing;
                 res.StatusCode = (int)HttpStatusCode.BadRequest;
             }
 

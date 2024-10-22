@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Core.Enums;
 
 namespace Core.Dtos
 {
@@ -27,9 +23,9 @@ namespace Core.Dtos
             {
                 return Gender switch
                 {
-                    (int)Enums.Gender.MALE => "Nam",
-                    (int)Enums.Gender.FEMALE => "Nữ",
-                    (int)Enums.Gender.OTHER => "Không xác định",
+                    (int)UserEnums.Gender.MALE => "Nam",
+                    (int)UserEnums.Gender.FEMALE => "Nữ",
+                    (int)UserEnums.Gender.OTHER => "Không xác định",
                     _ => "Không xác định",
                 };
             }

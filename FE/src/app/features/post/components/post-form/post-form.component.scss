@@ -2,3 +2,9 @@ input.hide-spin::-webkit-outer-spin-button,
 input.hide-spin::-webkit-inner-spin-button {
   display: none;
 }
+.nv-file-over {
+  border: dotted 3px red;
+}
+input[type="file"] {
+  color: transparent;
+}

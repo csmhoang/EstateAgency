@@ -32,7 +32,7 @@ export class LoginFormComponent implements OnInit {
   destroyRef = inject(DestroyRef);
   hidePass = true;
   title?: string;
-  control: string = '';
+  role: string = '';
 
   form: FormGroup = new FormGroup({});
   email?: AbstractControl | null;
@@ -50,10 +50,10 @@ export class LoginFormComponent implements OnInit {
     const url = this.router.url;
     if (url.includes('/lessor/login')) {
       this.title = 'người cho thuê';
-      this.control = '/lessor';
+      this.role = '/lessor';
     } else if (url.includes('/admin/login')) {
       this.title = 'người quản trị';
-      this.control = '/admin';
+      this.role = '/admin';
     } else {
       this.title = 'người thuê';
     }
@@ -81,9 +81,11 @@ export class LoginFormComponent implements OnInit {
         .login(credentials)
         .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe({
-          next: () => void this.router.navigate(['/']),
-          error: () => {
-            this.toastService.error('Đăng nhập thất bại, vui lòng thử lại!');
+          next: (response) => {
+            if (response.success) {
+              this.toastService.success('Đăng nhập thành công!');
+              void this.router.navigate([this.role + '/management']);
+            }
           },
         });
     }

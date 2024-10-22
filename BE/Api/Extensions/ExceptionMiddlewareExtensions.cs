@@ -20,26 +20,18 @@ namespace Api.Extensions
                     var contextFeature = context.Features.Get<IExceptionHandlerFeature>();
                     if (contextFeature != null)
                     {
-                        int statusCode = (int)HttpStatusCode.InternalServerError;
-
-                        switch (contextFeature.Error)
+                        context.Response.StatusCode = contextFeature.Error switch
                         {
-                            case CustomizeException exception:
-                                statusCode = exception.StatusCode;
-                                break;
-                            case BadRequestException exception:
-                                statusCode = (int)HttpStatusCode.BadRequest;
-                                break;
-                            case NotFoundException exception:
-                                statusCode = (int)HttpStatusCode.NotFound;
-                                break;
-                        }
+                            CustomizeException exception => exception.StatusCode,
+                            BadRequestException => (int)HttpStatusCode.BadRequest,
+                            NotFoundException => (int)HttpStatusCode.NotFound,
+                            _ => (int)HttpStatusCode.InternalServerError
+                        };
 
-                        context.Response.StatusCode = statusCode;
                         var res = new Response()
                         {
                             Success = false,
-                            StatusCode = statusCode,
+                            StatusCode = context.Response.StatusCode,
                         };
 
                         res.Errors.Add($"{contextFeature.Error.Message} " +

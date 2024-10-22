@@ -43,7 +43,7 @@ export class RegisterFormComponent implements OnInit {
   hidePassword = true;
   hideRepassword = true;
   title?: string;
-  control: string = '';
+  role: string = '';
 
   form: FormGroup = new FormGroup({});
   email?: AbstractControl | null;
@@ -68,11 +68,11 @@ export class RegisterFormComponent implements OnInit {
     if (url.includes('/lessor/register')) {
       this.title = 'người cho thuê';
       this.roles = ['Landlord'];
-      this.control = '/lessor';
+      this.role = '/lessor';
     } else if (url.includes('/admin/register')) {
       this.title = 'người quản trị';
       this.roles = ['Admin'];
-      this.control = '/admin';
+      this.role = '/admin';
     } else {
       this.title = 'người thuê';
       this.roles = ['Tenant'];
@@ -134,11 +134,11 @@ export class RegisterFormComponent implements OnInit {
                   true
                 )
                 .pipe(take(1))
-                .subscribe(() => void this.router.navigate(['/']));
+                .subscribe(() => {
+                  void this.router.navigate([this.role + '/managemnet']);
+                });
+              this.toastService.success('Đăng ký thành công!');
             }
-          },
-          error: () => {
-            this.toastService.error('Đăng ký thất bại, vui lòng thử lại!');
           },
         });
     }

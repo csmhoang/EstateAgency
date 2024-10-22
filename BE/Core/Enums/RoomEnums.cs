@@ -6,13 +6,12 @@ using System.Threading.Tasks;
 
 namespace Core.Enums
 {
-    public class UserEnums
+    public class RoomEnums
     {
-        public enum Gender
+        public enum Status
         {
-            MALE = 0,
-            FEMALE = 1,
-            OTHER = 2
+            AVAILABLE = 0,
+            OCCUPIED = 1
         }
     }
 }

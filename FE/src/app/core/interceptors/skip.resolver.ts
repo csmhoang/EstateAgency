@@ -4,5 +4,7 @@ export const SkipPreloader = new HttpContextToken(() => false);
 
 export const SkipApi = new HttpContextToken(() => false);
 
+export const SkipToken = new HttpContextToken(() => false);
+
 
 

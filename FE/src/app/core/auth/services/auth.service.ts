@@ -5,7 +5,7 @@ import { Response } from '@core/models/response.model';
 import { Secret } from '@core/models/secret.model';
 import { CookieService } from '@core/services/cookie.service';
 import { UserService } from '@core/services/user.service';
-import { Observable, tap } from 'rxjs';
+import { Observable, take, tap } from 'rxjs';
 import { Login } from '../models/login.model';
 import { Register } from '../models/register.model';
 import { SkipPreloader } from '@core/interceptors/skip.resolver';
@@ -58,19 +58,19 @@ export class AuthService {
   }
 
   autoLogin(): void {
-    // if (this.cookie.get('isRemember') === 'true') {
-    //   const credentials: Login = {
-    //     email: this.cookie.get('email'),
-    //     password: this.cookie.get('password'),
-    //     isRemember: true,
-    //   };
-    //   this.login(credentials)
-    //     .pipe(take(1))
-    //     .subscribe({
-    //       error: () => {
-    //         this.cookie.remove();
-    //       },
-    //     });
-    // }
+    if (this.cookie.get('isRemember') === 'true') {
+      const credentials: Login = {
+        email: this.cookie.get('email'),
+        password: this.cookie.get('password'),
+        isRemember: true,
+      };
+      this.login(credentials)
+        .pipe(take(1))
+        .subscribe({
+          error: () => {
+            this.cookie.remove();
+          },
+        });
+    }
   }
 }
