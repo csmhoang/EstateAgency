@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Infrastructure.Data.Migrations
 {
-    public partial class init : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -20,7 +20,7 @@ namespace Infrastructure.Data.Migrations
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Price = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime", nullable: true, defaultValueSql: "(getdate())"),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime", nullable: true, defaultValueSql: "(getdate())")
+                    UpdatedAt = table.Column<DateTime>(type: "datetime", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -53,9 +53,12 @@ namespace Infrastructure.Data.Migrations
                     Gender = table.Column<int>(type: "int", nullable: false),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     RefreshToken = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AvatarUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PublicId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     RefreshTokenExpiryTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime", nullable: true, defaultValueSql: "(getdate())"),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime", nullable: true, defaultValueSql: "(getdate())"),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -92,12 +95,12 @@ namespace Infrastructure.Data.Migrations
                 {
                     table.PrimaryKey("PK_Messages", x => x.Id);
                     table.ForeignKey(
-                        name: "FK__Messages__Receiv__787EE5A0",
+                        name: "FK_Messages_Users_ReceiverId",
                         column: x => x.ReceiverId,
                         principalTable: "Users",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK__Messages__Sender__778AC167",
+                        name: "FK_Messages_Users_SenderId",
                         column: x => x.SenderId,
                         principalTable: "Users",
                         principalColumn: "Id");
@@ -111,22 +114,24 @@ namespace Infrastructure.Data.Migrations
                     LandlordId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: true),
                     RoomCode = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Category = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    City = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Ward = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Province = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     District = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    Price = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
+                    Bedroom = table.Column<int>(type: "int", nullable: false),
+                    Bathroom = table.Column<int>(type: "int", nullable: false),
                     Area = table.Column<decimal>(type: "decimal(10,2)", nullable: true),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    AvailableFrom = table.Column<DateTime>(type: "date", nullable: true),
-                    Status = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
+                    Condition = table.Column<int>(type: "int", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime", nullable: true, defaultValueSql: "(getdate())"),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime", nullable: true, defaultValueSql: "(getdate())")
+                    UpdatedAt = table.Column<DateTime>(type: "datetime", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Rooms", x => x.Id);
                     table.ForeignKey(
-                        name: "FK__Rooms__LandlordI__4316F928",
+                        name: "FK_Rooms_Users_LandlordId",
                         column: x => x.LandlordId,
                         principalTable: "Users",
                         principalColumn: "Id");
@@ -157,34 +162,6 @@ namespace Infrastructure.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Feedback",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "(newid())"),
-                    TenantId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: true),
-                    RoomId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: true),
-                    FeedbackCode = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Rating = table.Column<int>(type: "int", nullable: true),
-                    Comment = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime", nullable: true, defaultValueSql: "(getdate())")
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Feedback", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK__Feedback__RoomId__71D1E811",
-                        column: x => x.RoomId,
-                        principalTable: "Rooms",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK__Feedback__Tenant__70DDC3D8",
-                        column: x => x.TenantId,
-                        principalTable: "Users",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Leases",
                 columns: table => new
                 {
@@ -197,22 +174,68 @@ namespace Infrastructure.Data.Migrations
                     EndDate = table.Column<DateTime>(type: "date", nullable: true),
                     SignedOnline = table.Column<bool>(type: "bit", nullable: true, defaultValueSql: "((1))"),
                     SignedDate = table.Column<DateTime>(type: "datetime", nullable: true),
-                    Status = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime", nullable: true, defaultValueSql: "(getdate())"),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime", nullable: true, defaultValueSql: "(getdate())")
+                    UpdatedAt = table.Column<DateTime>(type: "datetime", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Leases", x => x.Id);
                     table.ForeignKey(
-                        name: "FK__Leases__RoomId__5AEE82B9",
+                        name: "FK_Leases_Rooms_RoomId",
                         column: x => x.RoomId,
                         principalTable: "Rooms",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK__Leases__TenantId__59FA5E80",
+                        name: "FK_Leases_Users_TenantId",
                         column: x => x.TenantId,
                         principalTable: "Users",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Photos",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "(newid())"),
+                    RoomId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: true),
+                    Url = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PublicId = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Photos", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Photos_Rooms_RoomId",
+                        column: x => x.RoomId,
+                        principalTable: "Rooms",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Posts",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "(newid())"),
+                    RoomId = table.Column<string>(type: "nvarchar(36)", nullable: true),
+                    PostCode = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AvailableFrom = table.Column<DateTime>(type: "date", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false),
+                    IsAccept = table.Column<int>(type: "int", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime", nullable: true, defaultValueSql: "(getdate())"),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Posts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Posts_Rooms_RoomId",
+                        column: x => x.RoomId,
+                        principalTable: "Rooms",
                         principalColumn: "Id");
                 });
 
@@ -226,20 +249,20 @@ namespace Infrastructure.Data.Migrations
                     ReservationCode = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ReservationDate = table.Column<DateTime>(type: "date", nullable: false),
-                    Status = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
+                    Status = table.Column<int>(type: "int", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime", nullable: true, defaultValueSql: "(getdate())"),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime", nullable: true, defaultValueSql: "(getdate())")
+                    UpdatedAt = table.Column<DateTime>(type: "datetime", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Reservations", x => x.Id);
                     table.ForeignKey(
-                        name: "FK__Reservati__RoomI__534D60F1",
+                        name: "FK_Reservations_Rooms_RoomId",
                         column: x => x.RoomId,
                         principalTable: "Rooms",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK__Reservati__Tenan__52593CB8",
+                        name: "FK_Reservations_Users_TenantId",
                         column: x => x.TenantId,
                         principalTable: "Users",
                         principalColumn: "Id");
@@ -274,21 +297,50 @@ namespace Infrastructure.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "(newid())"),
-                    LeaseId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: true),
+                    LeaseId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false),
                     InvoiceCode = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Amount = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
                     DueDate = table.Column<DateTime>(type: "date", nullable: true),
-                    Status = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
+                    Status = table.Column<int>(type: "int", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime", nullable: true, defaultValueSql: "(getdate())")
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Invoices", x => x.Id);
                     table.ForeignKey(
-                        name: "FK__Invoices__LeaseI__7D439ABD",
+                        name: "FK_Invoices_Leases_LeaseId",
                         column: x => x.LeaseId,
                         principalTable: "Leases",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Feedback",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "(newid())"),
+                    TenantId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: true),
+                    PostId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: true),
+                    FeedbackCode = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Rating = table.Column<int>(type: "int", nullable: true),
+                    Comment = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime", nullable: true, defaultValueSql: "(getdate())")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Feedback", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Feedback_Posts_PostId",
+                        column: x => x.PostId,
+                        principalTable: "Posts",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Feedback_Users_TenantId",
+                        column: x => x.TenantId,
+                        principalTable: "Users",
                         principalColumn: "Id");
                 });
 
@@ -298,18 +350,25 @@ namespace Infrastructure.Data.Migrations
                 {
                     Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "(newid())"),
                     LeaseId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: true),
+                    InvoiceId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: true),
                     RequestCode = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     RequestDate = table.Column<DateTime>(type: "datetime", nullable: true, defaultValueSql: "(getdate())"),
-                    Status = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime", nullable: true, defaultValueSql: "(getdate())")
+                    Status = table.Column<int>(type: "int", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime", nullable: true, defaultValueSql: "(getdate())"),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_MaintenanceRequests", x => x.Id);
                     table.ForeignKey(
-                        name: "FK__Maintenan__Lease__6A30C649",
+                        name: "FK_MaintenanceRequests_Invoices_InvoiceId",
+                        column: x => x.InvoiceId,
+                        principalTable: "Invoices",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_MaintenanceRequests_Leases_LeaseId",
                         column: x => x.LeaseId,
                         principalTable: "Leases",
                         principalColumn: "Id");
@@ -321,11 +380,12 @@ namespace Infrastructure.Data.Migrations
                 {
                     Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "(newid())"),
                     LeaseId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: true),
+                    InvoiceId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: true),
                     PaymentCode = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Amount = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
                     PaymentDate = table.Column<DateTime>(type: "datetime", nullable: true, defaultValueSql: "(getdate())"),
-                    Status = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
+                    Status = table.Column<int>(type: "int", nullable: false),
                     PaymentMethod = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime", nullable: true, defaultValueSql: "(getdate())")
                 },
@@ -333,7 +393,12 @@ namespace Infrastructure.Data.Migrations
                 {
                     table.PrimaryKey("PK_Payments", x => x.Id);
                     table.ForeignKey(
-                        name: "FK__Payments__LeaseI__628FA481",
+                        name: "FK_Payments_Invoices_InvoiceId",
+                        column: x => x.InvoiceId,
+                        principalTable: "Invoices",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Payments_Leases_LeaseId",
                         column: x => x.LeaseId,
                         principalTable: "Leases",
                         principalColumn: "Id");
@@ -342,17 +407,17 @@ namespace Infrastructure.Data.Migrations
             migrationBuilder.InsertData(
                 table: "Roles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "3ba4d2b0-f869-4bab-a0b7-30e8fc00d898", "4730e77a-1ebf-41e8-9405-ce0e1a6c174c", "Tenant", "TENANT" });
+                values: new object[] { "08b68b45-2728-478e-b9ea-ebade45456c2", "d9d686d8-1064-416f-8483-cdfe18054d2c", "landlord", "LANDLORD" });
 
             migrationBuilder.InsertData(
                 table: "Roles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "627a74e7-269b-42b5-a5e8-1a0bad66e36f", "83346ff8-6fe7-41de-9e12-950cb593f137", "Landlord", "LANDLORD" });
+                values: new object[] { "23f8c185-9524-43e2-8b29-f824f2b0af98", "6802c89e-3429-4b4c-b38b-82e18a89871e", "admin", "ADMIN" });
 
             migrationBuilder.InsertData(
                 table: "Roles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "8fbab6a5-3377-43ea-8fee-da7921d5305d", "454bc8ca-c0cf-4a11-a5a9-773fd5fb8d1c", "Admin", "ADMIN" });
+                values: new object[] { "61c9ec79-48a6-483b-8e3b-d9ff58447412", "2ec15d4f-472f-4802-b178-a50ff4358d6a", "tenant", "TENANT" });
 
             migrationBuilder.CreateIndex(
                 name: "UQ__Amenitie__300F6CA3021E4D38",
@@ -361,9 +426,9 @@ namespace Infrastructure.Data.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Feedback_RoomId",
+                name: "IX_Feedback_PostId",
                 table: "Feedback",
-                column: "RoomId");
+                column: "PostId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Feedback_TenantId",
@@ -404,6 +469,11 @@ namespace Infrastructure.Data.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_MaintenanceRequests_InvoiceId",
+                table: "MaintenanceRequests",
+                column: "InvoiceId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_MaintenanceRequests_LeaseId",
                 table: "MaintenanceRequests",
                 column: "LeaseId");
@@ -431,6 +501,13 @@ namespace Infrastructure.Data.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Payments_InvoiceId",
+                table: "Payments",
+                column: "InvoiceId",
+                unique: true,
+                filter: "[InvoiceId] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Payments_LeaseId",
                 table: "Payments",
                 column: "LeaseId");
@@ -439,6 +516,22 @@ namespace Infrastructure.Data.Migrations
                 name: "UQ__Payments__106D3BA8FEBBB92E",
                 table: "Payments",
                 column: "PaymentCode",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Photos_RoomId",
+                table: "Photos",
+                column: "RoomId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Posts_RoomId",
+                table: "Posts",
+                column: "RoomId");
+
+            migrationBuilder.CreateIndex(
+                name: "UQ__Posts__5K9D52454DASDASE",
+                table: "Posts",
+                column: "PostCode",
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -491,9 +584,6 @@ namespace Infrastructure.Data.Migrations
                 name: "Feedback");
 
             migrationBuilder.DropTable(
-                name: "Invoices");
-
-            migrationBuilder.DropTable(
                 name: "MaintenanceRequests");
 
             migrationBuilder.DropTable(
@@ -501,6 +591,9 @@ namespace Infrastructure.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Payments");
+
+            migrationBuilder.DropTable(
+                name: "Photos");
 
             migrationBuilder.DropTable(
                 name: "Reservations");
@@ -512,13 +605,19 @@ namespace Infrastructure.Data.Migrations
                 name: "UserRole");
 
             migrationBuilder.DropTable(
-                name: "Leases");
+                name: "Posts");
+
+            migrationBuilder.DropTable(
+                name: "Invoices");
 
             migrationBuilder.DropTable(
                 name: "Amenities");
 
             migrationBuilder.DropTable(
                 name: "Roles");
+
+            migrationBuilder.DropTable(
+                name: "Leases");
 
             migrationBuilder.DropTable(
                 name: "Rooms");

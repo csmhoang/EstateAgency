@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Core.Enums.ReservationEnums;
 
 namespace Core.Dtos
 {
@@ -13,11 +14,11 @@ namespace Core.Dtos
     {
         public Guid? Id { get; set; }
         public int ReservationCode { get; set; }
-        [Required(ErrorMessage = ReservationConst.ErrorEmptyTenantId)]
+        [Required(ErrorMessage = UserConst.ErrorEmptyTenantId)]
         public string? TenantId { get; set; }
-        [Required(ErrorMessage = ReservationConst.ErrorEmptyRoomId)]
+        [Required(ErrorMessage = RoomConst.ErrorEmptyId)]
         public string? RoomId { get; set; }
         public DateTime ReservationDate { get; set; }
-        public string? Status { get; set; }
+        public StatusReservation? Status { get; set; }
     }
 }

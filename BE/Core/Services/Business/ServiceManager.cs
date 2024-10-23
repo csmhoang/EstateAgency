@@ -18,6 +18,7 @@ namespace Core.Services.Business
         private readonly Lazy<IUserService> _userService;
         private readonly Lazy<Interfaces.Auth.IAuthenticationService> _authenticationService;
         private readonly Lazy<IRoomService> _roomService;
+        private readonly Lazy<IPostService> _postService;
         private readonly Lazy<IReservationService> _reservationService;
         private readonly Lazy<ILeaseService> _leaseService;
         private readonly Lazy<IInvoiceService> _invoiceService;
@@ -46,6 +47,8 @@ namespace Core.Services.Business
                 new AuthenticationService(logger, mapper, userManager, configuration));
             _roomService = new Lazy<IRoomService>(() =>
                 new RoomService(repository, photoService, logger, mapper));
+            _postService = new Lazy<IPostService>(() =>
+                new PostService(repository, logger, mapper));
             _reservationService = new Lazy<IReservationService>(() =>
                 new ReservationService(repository, logger, mapper));
             _leaseService = new Lazy<ILeaseService>(() =>
@@ -83,7 +86,9 @@ namespace Core.Services.Business
 
         public IAmenityService Amenity => _amenityService.Value;
 
-        public IPhotoService PhotoService => _photoService.Value;
+        public IPhotoService Photo => _photoService.Value;
+
+        public IPostService Post => _postService.Value;
         #endregion
     }
 }

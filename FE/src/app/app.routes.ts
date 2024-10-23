@@ -18,6 +18,8 @@ import { ServiceComponent } from '@features/service/pages/service/service.compon
 import { ProfileActionsComponent } from '@features/profiles/pages/profile-actions/profile-actions.component';
 import { LessorApartmentComponent } from '@features/management/lessor/pages/lessor-apartment/lessor-apartment.component';
 import { PostFormComponent } from '@features/post/components/post-form/post-form.component';
+import { ApartmentFormComponent } from '@features/apartment/components/apartment-form/apartment-form.component';
+import { LessorPostComponent } from '@features/management/lessor/pages/lessor-post/lessor-post.component';
 
 export const routes: Routes = [
   /*Clients*/
@@ -93,12 +95,20 @@ export const routes: Routes = [
         component: LessorDashboardComponent,
       },
       {
-        path: 'apartment/post',
-        component: PostFormComponent,
+        path: 'apartment/insert',
+        component: ApartmentFormComponent,
       },
       {
         path: 'apartment',
         component: LessorApartmentComponent,
+      },
+      {
+        path: 'post/insert',
+        component: PostFormComponent,
+      },
+      {
+        path: 'post',
+        component: LessorPostComponent,
       },
     ],
   },

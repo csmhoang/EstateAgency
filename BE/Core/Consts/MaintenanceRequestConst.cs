@@ -8,6 +8,6 @@ namespace Core.Consts
 {
     public static class MaintenanceRequestConst
     {
-        public const string ErrorEmptyLeaseId = "Id hợp đồng không được phép để trống!";
+        public const string ErrorEmptyId = "Id yêu cầu bảo trì không được phép để trống!";
     }
 }

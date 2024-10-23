@@ -11,9 +11,9 @@ namespace Core.Dtos
     public record LeaseDto
     {
         public Guid? Id { get; set; }
-        [Required(ErrorMessage = LeaseConst.ErrorEmptyTenantId)]
+        [Required(ErrorMessage = UserConst.ErrorEmptyTenantId)]
         public string? TenantId { get; set; }
-        [Required(ErrorMessage = LeaseConst.ErrorEmptyRoomId)]
+        [Required(ErrorMessage = RoomConst.ErrorEmptyId)]
         public string? RoomId { get; set; }
         public int LeaseCode { get; set; }
         public DateTime StartDate { get; set; }

@@ -1,17 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Core.Enums
 {
-    public class RoomEnums
+    public record RoomEnums
     {
-        public enum Status
+        public enum ConditionRoom
         {
-            AVAILABLE = 0,
-            OCCUPIED = 1
+            [EnumMember(Value = "Available")]
+            Available = 0,
+            [EnumMember(Value = "Occupied")]
+            Occupied = 1
         }
     }
 }

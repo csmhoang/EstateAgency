@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Core.Entities
 {
@@ -13,7 +14,9 @@ namespace Core.Entities
         }
 
         public string Id { get; set; } = null!;
+        [ForeignKey("Tenant")]
         public string? TenantId { get; set; }
+        [ForeignKey("Room")]
         public string? RoomId { get; set; }
         public int LeaseCode { get; set; }
         public DateTime StartDate { get; set; }

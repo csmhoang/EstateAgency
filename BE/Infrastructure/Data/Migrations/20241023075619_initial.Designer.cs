@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Data.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20241019013836_updateUserTable")]
-    partial class updateUserTable
+    [Migration("20241023075619_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -55,9 +55,7 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("decimal(10,2)");
 
                     b.Property<DateTime?>("UpdatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime")
-                        .HasDefaultValueSql("(getdate())");
+                        .HasColumnType("datetime");
 
                     b.HasKey("Id");
 
@@ -89,12 +87,12 @@ namespace Infrastructure.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("FeedbackCode"), 1L, 1);
 
-                    b.Property<int?>("Rating")
-                        .HasColumnType("int");
-
-                    b.Property<string>("RoomId")
+                    b.Property<string>("PostId")
                         .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
+
+                    b.Property<int?>("Rating")
+                        .HasColumnType("int");
 
                     b.Property<string>("TenantId")
                         .HasMaxLength(36)
@@ -102,7 +100,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RoomId");
+                    b.HasIndex("PostId");
 
                     b.HasIndex("TenantId");
 
@@ -142,9 +140,8 @@ namespace Infrastructure.Data.Migrations
                         .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
 
-                    b.Property<string>("Status")
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                    b.Property<int?>("StatusInvoice")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -193,18 +190,15 @@ namespace Infrastructure.Data.Migrations
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("date");
 
-                    b.Property<string>("Status")
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                    b.Property<string>("StatusInvoice")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TenantId")
                         .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
 
                     b.Property<DateTime?>("UpdatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime")
-                        .HasDefaultValueSql("(getdate())");
+                        .HasColumnType("datetime");
 
                     b.HasKey("Id");
 
@@ -227,11 +221,17 @@ namespace Infrastructure.Data.Migrations
                         .HasDefaultValueSql("(newid())");
 
                     b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime2");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime")
+                        .HasDefaultValueSql("(getdate())");
 
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("InvoiceId")
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
 
                     b.Property<string>("LeaseId")
                         .HasMaxLength(36)
@@ -248,16 +248,15 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("datetime")
                         .HasDefaultValueSql("(getdate())");
 
-                    b.Property<string>("Status")
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                    b.Property<int>("StatusInvoice")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("UpdatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime")
-                        .HasDefaultValueSql("(getdate())");
+                        .HasColumnType("datetime");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("InvoiceId");
 
                     b.HasIndex("LeaseId");
 
@@ -326,6 +325,10 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("datetime")
                         .HasDefaultValueSql("(getdate())");
 
+                    b.Property<string>("InvoiceId")
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
+
                     b.Property<string>("LeaseId")
                         .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
@@ -345,11 +348,14 @@ namespace Infrastructure.Data.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
-                    b.Property<string>("Status")
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                    b.Property<int>("StatusInvoice")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("InvoiceId")
+                        .IsUnique()
+                        .HasFilter("[InvoiceId] IS NOT NULL");
 
                     b.HasIndex("LeaseId");
 
@@ -362,13 +368,17 @@ namespace Infrastructure.Data.Migrations
             modelBuilder.Entity("Core.Entities.Photo", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)")
+                        .HasDefaultValueSql("(newid())");
 
                     b.Property<string>("PublicId")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("RoomId")
+                        .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
 
                     b.Property<string>("Url")
@@ -380,6 +390,60 @@ namespace Infrastructure.Data.Migrations
                     b.HasIndex("RoomId");
 
                     b.ToTable("Photos");
+                });
+
+            modelBuilder.Entity("Core.Entities.Post", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)")
+                        .HasDefaultValueSql("(newid())");
+
+                    b.Property<DateTime>("AvailableFrom")
+                        .HasColumnType("date");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime")
+                        .HasDefaultValueSql("(getdate())");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("IsAcceptPost")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PostCode")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PostCode"), 1L, 1);
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(10,2)");
+
+                    b.Property<string>("RoomId")
+                        .HasColumnType("nvarchar(36)");
+
+                    b.Property<int>("StatusInvoice")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoomId");
+
+                    b.HasIndex(new[] { "PostCode" }, "UQ__Posts__5K9D52454DASDASE")
+                        .IsUnique();
+
+                    b.ToTable("Posts");
                 });
 
             modelBuilder.Entity("Core.Entities.Reservation", b =>
@@ -408,18 +472,15 @@ namespace Infrastructure.Data.Migrations
                         .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
 
-                    b.Property<string>("Status")
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                    b.Property<int>("StatusInvoice")
+                        .HasColumnType("int");
 
                     b.Property<string>("TenantId")
                         .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
 
                     b.Property<DateTime?>("UpdatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime")
-                        .HasDefaultValueSql("(getdate())");
+                        .HasColumnType("datetime");
 
                     b.HasKey("Id");
 
@@ -457,22 +518,22 @@ namespace Infrastructure.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "faaed9d4-4200-4ac6-b683-277db523df23",
-                            ConcurrencyStamp = "bd518f49-ddab-46c9-a046-93b0426ccbaa",
+                            Id = "23f8c185-9524-43e2-8b29-f824f2b0af98",
+                            ConcurrencyStamp = "6802c89e-3429-4b4c-b38b-82e18a89871e",
                             Name = "admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "1c306767-103a-49eb-9e3a-a1036c58e916",
-                            ConcurrencyStamp = "c73f042f-adb0-4a65-b336-68acf9a9ba92",
+                            Id = "08b68b45-2728-478e-b9ea-ebade45456c2",
+                            ConcurrencyStamp = "d9d686d8-1064-416f-8483-cdfe18054d2c",
                             Name = "landlord",
                             NormalizedName = "LANDLORD"
                         },
                         new
                         {
-                            Id = "e68385b3-5d15-42d5-9762-3b3263b85bb3",
-                            ConcurrencyStamp = "c3d6822c-b321-4795-b788-62af144004c7",
+                            Id = "61c9ec79-48a6-483b-8e3b-d9ff58447412",
+                            ConcurrencyStamp = "2ec15d4f-472f-4802-b178-a50ff4358d6a",
                             Name = "tenant",
                             NormalizedName = "TENANT"
                         });
@@ -493,20 +554,24 @@ namespace Infrastructure.Data.Migrations
                     b.Property<decimal?>("Area")
                         .HasColumnType("decimal(10,2)");
 
-                    b.Property<DateTime?>("AvailableFrom")
-                        .HasColumnType("date");
+                    b.Property<int>("Bathroom")
+                        .HasColumnType("int");
 
-                    b.Property<string>("City")
+                    b.Property<int>("Bedroom")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Category")
+                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
+
+                    b.Property<int>("ConditionRoom")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
                         .HasDefaultValueSql("(getdate())");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("District")
                         .HasMaxLength(100)
@@ -520,8 +585,9 @@ namespace Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(10,2)");
+                    b.Property<string>("Province")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<int>("RoomCode")
                         .ValueGeneratedOnAdd()
@@ -529,14 +595,12 @@ namespace Infrastructure.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RoomCode"), 1L, 1);
 
-                    b.Property<string>("Status")
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
                     b.Property<DateTime?>("UpdatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime")
-                        .HasDefaultValueSql("(getdate())");
+                        .HasColumnType("datetime");
+
+                    b.Property<string>("Ward")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
 
@@ -630,9 +694,7 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("UpdatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime")
-                        .HasDefaultValueSql("(getdate())");
+                        .HasColumnType("datetime");
 
                     b.Property<int>("UserCode")
                         .ValueGeneratedOnAdd()
@@ -686,17 +748,15 @@ namespace Infrastructure.Data.Migrations
 
             modelBuilder.Entity("Core.Entities.Feedback", b =>
                 {
-                    b.HasOne("Core.Entities.Room", "Room")
+                    b.HasOne("Core.Entities.Post", "Post")
                         .WithMany("Feedbacks")
-                        .HasForeignKey("RoomId")
-                        .HasConstraintName("FK__Feedback__RoomId__71D1E811");
+                        .HasForeignKey("PostId");
 
                     b.HasOne("Core.Entities.User", "Tenant")
                         .WithMany("Feedbacks")
-                        .HasForeignKey("TenantId")
-                        .HasConstraintName("FK__Feedback__Tenant__70DDC3D8");
+                        .HasForeignKey("TenantId");
 
-                    b.Navigation("Room");
+                    b.Navigation("Post");
 
                     b.Navigation("Tenant");
                 });
@@ -707,8 +767,7 @@ namespace Infrastructure.Data.Migrations
                         .WithMany("Invoices")
                         .HasForeignKey("LeaseId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("FK__Invoices__LeaseI__7D439ABD");
+                        .IsRequired();
 
                     b.Navigation("Lease");
                 });
@@ -717,13 +776,11 @@ namespace Infrastructure.Data.Migrations
                 {
                     b.HasOne("Core.Entities.Room", "Room")
                         .WithMany("Leases")
-                        .HasForeignKey("RoomId")
-                        .HasConstraintName("FK__Leases__RoomId__5AEE82B9");
+                        .HasForeignKey("RoomId");
 
                     b.HasOne("Core.Entities.User", "Tenant")
                         .WithMany("Leases")
-                        .HasForeignKey("TenantId")
-                        .HasConstraintName("FK__Leases__TenantId__59FA5E80");
+                        .HasForeignKey("TenantId");
 
                     b.Navigation("Room");
 
@@ -732,10 +789,15 @@ namespace Infrastructure.Data.Migrations
 
             modelBuilder.Entity("Core.Entities.MaintenanceRequest", b =>
                 {
+                    b.HasOne("Core.Entities.Invoice", "Invoice")
+                        .WithMany("MaintenanceRequests")
+                        .HasForeignKey("InvoiceId");
+
                     b.HasOne("Core.Entities.Lease", "Lease")
                         .WithMany("MaintenanceRequests")
-                        .HasForeignKey("LeaseId")
-                        .HasConstraintName("FK__Maintenan__Lease__6A30C649");
+                        .HasForeignKey("LeaseId");
+
+                    b.Navigation("Invoice");
 
                     b.Navigation("Lease");
                 });
@@ -744,13 +806,11 @@ namespace Infrastructure.Data.Migrations
                 {
                     b.HasOne("Core.Entities.User", "Receiver")
                         .WithMany("MessageReceivers")
-                        .HasForeignKey("ReceiverId")
-                        .HasConstraintName("FK__Messages__Receiv__787EE5A0");
+                        .HasForeignKey("ReceiverId");
 
                     b.HasOne("Core.Entities.User", "Sender")
                         .WithMany("MessageSenders")
-                        .HasForeignKey("SenderId")
-                        .HasConstraintName("FK__Messages__Sender__778AC167");
+                        .HasForeignKey("SenderId");
 
                     b.Navigation("Receiver");
 
@@ -759,10 +819,15 @@ namespace Infrastructure.Data.Migrations
 
             modelBuilder.Entity("Core.Entities.Payment", b =>
                 {
+                    b.HasOne("Core.Entities.Invoice", "Invoice")
+                        .WithOne("Payment")
+                        .HasForeignKey("Core.Entities.Payment", "InvoiceId");
+
                     b.HasOne("Core.Entities.Lease", "Lease")
                         .WithMany("Payments")
-                        .HasForeignKey("LeaseId")
-                        .HasConstraintName("FK__Payments__LeaseI__628FA481");
+                        .HasForeignKey("LeaseId");
+
+                    b.Navigation("Invoice");
 
                     b.Navigation("Lease");
                 });
@@ -776,17 +841,24 @@ namespace Infrastructure.Data.Migrations
                     b.Navigation("Room");
                 });
 
+            modelBuilder.Entity("Core.Entities.Post", b =>
+                {
+                    b.HasOne("Core.Entities.Room", "Room")
+                        .WithMany()
+                        .HasForeignKey("RoomId");
+
+                    b.Navigation("Room");
+                });
+
             modelBuilder.Entity("Core.Entities.Reservation", b =>
                 {
                     b.HasOne("Core.Entities.Room", "Room")
                         .WithMany("Reservations")
-                        .HasForeignKey("RoomId")
-                        .HasConstraintName("FK__Reservati__RoomI__534D60F1");
+                        .HasForeignKey("RoomId");
 
                     b.HasOne("Core.Entities.User", "Tenant")
                         .WithMany("Reservations")
-                        .HasForeignKey("TenantId")
-                        .HasConstraintName("FK__Reservati__Tenan__52593CB8");
+                        .HasForeignKey("TenantId");
 
                     b.Navigation("Room");
 
@@ -797,8 +869,7 @@ namespace Infrastructure.Data.Migrations
                 {
                     b.HasOne("Core.Entities.User", "Landlord")
                         .WithMany("Rooms")
-                        .HasForeignKey("LandlordId")
-                        .HasConstraintName("FK__Rooms__LandlordI__4316F928");
+                        .HasForeignKey("LandlordId");
 
                     b.Navigation("Landlord");
                 });
@@ -835,6 +906,13 @@ namespace Infrastructure.Data.Migrations
                         .HasConstraintName("FK__RoomAmeni__RoomI__4D94879B");
                 });
 
+            modelBuilder.Entity("Core.Entities.Invoice", b =>
+                {
+                    b.Navigation("MaintenanceRequests");
+
+                    b.Navigation("Payment");
+                });
+
             modelBuilder.Entity("Core.Entities.Lease", b =>
                 {
                     b.Navigation("Invoices");
@@ -844,10 +922,13 @@ namespace Infrastructure.Data.Migrations
                     b.Navigation("Payments");
                 });
 
-            modelBuilder.Entity("Core.Entities.Room", b =>
+            modelBuilder.Entity("Core.Entities.Post", b =>
                 {
                     b.Navigation("Feedbacks");
+                });
 
+            modelBuilder.Entity("Core.Entities.Room", b =>
+                {
                     b.Navigation("Leases");
 
                     b.Navigation("Photos");

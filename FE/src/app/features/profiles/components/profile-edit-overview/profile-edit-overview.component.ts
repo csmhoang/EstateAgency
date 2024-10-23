@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { User } from '@core/models/user.model';
+import { Gender, User } from '@core/models/user.model';
 
 @Component({
   selector: 'app-profile-edit-overview',
@@ -12,4 +12,5 @@ import { User } from '@core/models/user.model';
 export class ProfileEditOverviewComponent {
   @Input({ required: true })
   user?: User;
+  gender = Gender[this.user?.gender || ''];
 }

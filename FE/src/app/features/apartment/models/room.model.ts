@@ -7,10 +7,9 @@ export type Room = {
   province: string;
   district: string;
   ward: string;
-  price: number;
   bedroom: number;
   bathroom: number;
   area: number;
-  description: string;
-  availableFrom: Date;
+  price: number;
+  condition: string;
 };

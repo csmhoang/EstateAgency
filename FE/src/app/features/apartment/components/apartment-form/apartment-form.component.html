@@ -1,0 +1,226 @@
+<form [formGroup]="form">
+  <a
+    [routerLink]="['/lessor/management/apartment']"
+    class="link-opacity-50-hover text-secondary d-block mt-4"
+    ><i class="fa-solid fa-arrow-left-long"></i>
+    Trở lại
+  </a>
+  <h5 class="fs-5 fw-bold my-4">Thêm phòng mới</h5>
+  <div class="row">
+    <!-- Name input -->
+    <mat-form-field class="col-lg-8" appearance="outline">
+      <mat-label>Tên phòng trọ</mat-label>
+      <input
+        matInput
+        type="text"
+        placeholder="Tiêu đề"
+        formControlName="name"
+      />
+      @if( name?.invalid && (name?.dirty || name?.touched) ){
+      <mat-error>{{ errorForName() }}</mat-error>
+      }
+    </mat-form-field>
+    <!-- Category select -->
+    <mat-form-field class="col-lg-4" appearance="outline">
+      <mat-label>Loại nhà đất</mat-label>
+      <mat-select formControlName="category">
+        <mat-option value="Phòng trọ">Phòng trọ</mat-option>
+        <mat-option value="Chung cư mini">Chung cư mini</mat-option>
+        <mat-option value="Chung cư">Chung cư</mat-option>
+        <mat-option value="Nhà riêng">Nhà riêng</mat-option>
+      </mat-select>
+      @if( category?.invalid && (category?.dirty || category?.touched) ){
+      <mat-error>{{ errorForCategory() }}</mat-error>
+      }
+    </mat-form-field>
+  </div>
+
+  <div class="row">
+    <!-- Province select -->
+    <mat-form-field class="col-lg-4" appearance="outline">
+      <mat-label>Tỉnh/Thành phố</mat-label>
+      <mat-select formControlName="province">
+        @for (place of (provices$ | async); track $index) {
+        <mat-option [value]="place">{{ place?.name }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    <!-- District select -->
+    <mat-form-field class="col-lg-4" appearance="outline">
+      <mat-label>Quận/Huyện</mat-label>
+      <mat-select formControlName="district">
+        @for (place of (districts$ | async); track $index) {
+        <mat-option [value]="place">{{ place?.name }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    <!-- Ward select -->
+    <mat-form-field class="col-lg-4" appearance="outline">
+      <mat-label>Phường/Xã</mat-label>
+      <mat-select formControlName="ward">
+        @for (place of (wards$ | async); track $index) {
+        <mat-option [value]="place">{{ place?.name }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <!-- Address input -->
+  <mat-form-field class="w-100" appearance="outline">
+    <mat-label>Địa chỉ cụ thể</mat-label>
+    <input
+      matInput
+      type="text"
+      placeholder="Địa chỉ cụ thể"
+      formControlName="address"
+    />
+    @if( address?.invalid && (address?.dirty || address?.touched) ){
+    <mat-error>{{ errorForAddress() }}</mat-error>
+    }
+  </mat-form-field>
+
+  <div class="row">
+    <!-- Bedroom input -->
+    <mat-form-field class="col-lg-6" appearance="outline">
+      <mat-label>Số phòng ngủ</mat-label>
+      <input
+        matInput
+        type="number"
+        placeholder="0"
+        min="0"
+        class="hide-spin"
+        formControlName="bedroom"
+      />
+      @if( bedroom?.invalid && (bedroom?.dirty || bedroom?.touched) ){
+      <mat-error>{{ errorForBedroom() }}</mat-error>
+      }
+    </mat-form-field>
+    <!-- Bathroom input -->
+    <mat-form-field class="col-lg-6" appearance="outline">
+      <mat-label>Số phòng tắm</mat-label>
+      <input
+        matInput
+        type="number"
+        min="0"
+        placeholder="0"
+        class="hide-spin"
+        formControlName="bathroom"
+      />
+      @if( bathroom?.invalid && (bathroom?.dirty || bathroom?.touched) ){
+      <mat-error>{{ errorForBathroom() }}</mat-error>
+      }
+    </mat-form-field>
+  </div>
+  <div class="row">
+    <!-- Area input -->
+    <mat-form-field class="col-lg-6" appearance="outline">
+      <mat-label>Diện tích</mat-label>
+      <input
+        matInput
+        type="number"
+        placeholder="0"
+        min="0"
+        class="text-end hide-spin"
+        formControlName="area"
+      />
+      <span matTextSuffix>m<sup>2</sup></span>
+      @if( area?.invalid && (area?.dirty || area?.touched) ){
+      <mat-error>{{ errorForArea() }}</mat-error>
+      }
+    </mat-form-field>
+    <!-- Price input -->
+    <mat-form-field class="col-lg-6" appearance="outline">
+      <mat-label>Giá phòng</mat-label>
+      <input
+        matInput
+        type="number"
+        class="text-end hide-spin"
+        min="0"
+        placeholder="0"
+        formControlName="price"
+      />
+      <span matTextSuffix>.000 đồng</span>
+      @if( price?.invalid && (price?.dirty || price?.touched) ){
+      <mat-error>{{ errorForPrice() }}</mat-error>
+      }
+    </mat-form-field>
+  </div>
+  <!-- Photos input -->
+  <div class="row pb-5 justify-content-between">
+    <div class="col-lg-3 pt-3">
+      <div class="">
+        <h5>Thêm ảnh</h5>
+        <div
+          ng2FileDrop
+          [ngClass]="{ 'nv-file-over': hasBaseDropzoneOver }"
+          (fileOver)="fileOverBase($event)"
+          [uploader]="uploader"
+          class="card bg-faded p-3 text-center my-drop-zone mb-4"
+        >
+          <i class="fa-solid fa-upload fa-3x p-1"></i>
+          Kéo thả ảnh vào đây
+        </div>
+      </div>
+
+      <div class="card p-3 mb-4">
+        <h5>Chọn</h5>
+        <input type="file" ng2FileSelect [uploader]="uploader" />
+      </div>
+
+      <div class="card p-3 mb-4">
+        <h5>Chọn nhiều</h5>
+        <input type="file" ng2FileSelect [uploader]="uploader" multiple />
+      </div>
+    </div>
+
+    <div
+      class="d-flex flex-column col-lg-9 bg-light rounded py-3 shadow"
+      *ngIf="uploader?.queue?.length"
+    >
+      <div>
+        <h5>Ảnh cần tải lên</h5>
+        <p class="text-secondary">Số lượng: {{ uploader.queue.length }}</p>
+      </div>
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th width="50%">Tên</th>
+            <th>Kích cỡ</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of uploader.queue">
+            <td>
+              <strong>{{ item?.file?.name }}</strong>
+            </td>
+            <td *ngIf="uploader.options.isHTML5" nowrap>
+              {{ item?.file?.size / 1024 / 1024 | number : ".2" }} MB
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="flex-fill"></div>
+      <div class="text-center">
+        <button
+          type="button"
+          class="btn btn-danger mt-2"
+          (click)="uploader.clearQueue()"
+          [disabled]="!uploader.queue.length"
+        >
+          <i class="fa-solid fa-trash-can"></i>
+          Xóa tất cả
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <button
+    type="button"
+    [disabled]="form.invalid || !form.dirty"
+    (click)="onInsert()"
+    class="btn btn-lg btn-dark w-100"
+  >
+    Thêm phòng
+  </button>
+</form>

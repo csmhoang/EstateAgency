@@ -1,7 +1,7 @@
 import { HttpClient, HttpContext } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Response } from '@core/models/response.model';
+import { Result } from '@core/models/result.model';
 import { Secret } from '@core/models/secret.model';
 import { CookieService } from '@core/services/cookie.service';
 import { UserService } from '@core/services/user.service';
@@ -24,9 +24,9 @@ export class AuthService {
   login(
     credentials: Login,
     isHideLoading: boolean = false
-  ): Observable<Response<Secret>> {
+  ): Observable<Result<Secret>> {
     return this.http
-      .post<Response<Secret>>('/authentication/login', credentials, {
+      .post<Result<Secret>>('/authentication/login', credentials, {
         context: new HttpContext().set(SkipPreloader, isHideLoading),
       })
       .pipe(
@@ -46,8 +46,8 @@ export class AuthService {
   register(
     credentials: Register,
     isHideLoading: boolean = false
-  ): Observable<Response> {
-    return this.http.post<Response>('/authentication/register', credentials, {
+  ): Observable<Result> {
+    return this.http.post<Result>('/authentication/register', credentials, {
       context: new HttpContext().set(SkipPreloader, isHideLoading),
     });
   }

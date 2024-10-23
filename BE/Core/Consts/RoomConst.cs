@@ -8,6 +8,7 @@ namespace Core.Consts
 {
     public static class RoomConst
     {
-        public const string ErrorEmptyLandlordId = "Id chủ nhà không được phép để trống!";
+        public const string ErrorEmptyId = "Id phòng không được phép để trống!";
+
     }
 }

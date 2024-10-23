@@ -8,6 +8,6 @@ namespace Core.Consts
 {
     public static class InvoiceConst
     {
-        public const string ErrorEmptyLeaseId = "Id hợp đồng không được phép để trống!";
+        public const string ErrorEmptyId = "Id hóa đơn không được phép để trống!";
     }
 }

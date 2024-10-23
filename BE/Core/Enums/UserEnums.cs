@@ -1,18 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Runtime.Serialization;
 
 namespace Core.Enums
 {
-    public class UserEnums
+    public record UserEnums
     {
         public enum Gender
         {
-            MALE = 0,
-            FEMALE = 1,
-            OTHER = 2
+            [EnumMember(Value = "Male")]
+            Male = 0,
+            [EnumMember(Value = "Female")]
+            Female = 1,
+            [EnumMember(Value = "Other")]
+            Other = 2
         }
     }
 }

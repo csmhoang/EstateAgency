@@ -10,7 +10,7 @@ import {
   tap,
 } from 'rxjs';
 import { CookieService } from './cookie.service';
-import { Response } from '@core/models/response.model';
+import { Result } from '@core/models/result.model';
 import { SkipPreloader } from '@core/interceptors/skip.resolver';
 
 @Injectable({
@@ -30,9 +30,9 @@ export class UserService {
     private readonly cookie: CookieService
   ) {}
 
-  init(isHideLoading: boolean = false): Observable<Response<User>> {
+  init(isHideLoading: boolean = false): Observable<Result<User>> {
     return this.http
-      .get<Response<User>>('/authentication/current', {
+      .get<Result<User>>('/authentication/current', {
         context: new HttpContext().set(SkipPreloader, isHideLoading),
       })
       .pipe(

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using static Core.Enums.UserEnums;
 
 namespace Core.Entities
 {
@@ -16,13 +17,7 @@ namespace Core.Entities
         public int UserCode { get; set; }
         public string FullName { get; set; } = null!;
         public DateTime? DateOfBirth { get; set; }
-        /// <summary>
-        /// Giới tính
-        /// 0 - Nam
-        /// 1 - Nữ
-        /// 3 - Không xác định
-        /// </summary>
-        public int Gender { get; set; }
+        public Gender Gender { get; set; }
         public string? Address { get; set; }
         public string? RefreshToken { get; set; }
         public string? AvatarUrl { get; set; }

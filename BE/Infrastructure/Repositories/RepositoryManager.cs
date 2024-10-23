@@ -10,6 +10,7 @@ namespace Infrastructure.Repositories
         private readonly RepositoryContext _context;
         private readonly Lazy<IUserRepository> _userRepository;
         private readonly Lazy<IRoomRepository> _roomRepository;
+        private readonly Lazy<IPostRepository> _postRepository;
         private readonly Lazy<IReservationRepository> _reservationRepository;
         private readonly Lazy<ILeaseRepository> _leaseRepository;
         private readonly Lazy<IInvoiceRepository> _invoiceRepository;
@@ -28,6 +29,7 @@ namespace Infrastructure.Repositories
             _context = context;
             _userRepository = new Lazy<IUserRepository>(() => new UserRepository(context));
             _roomRepository = new Lazy<IRoomRepository>(() => new RoomRepository(context));
+            _postRepository = new Lazy<IPostRepository>(() => new PostRepository(context));
             _reservationRepository = new Lazy<IReservationRepository>(() => new ReservationRepository(context));
             _leaseRepository = new Lazy<ILeaseRepository>(() => new LeaseRepository(context));
             _invoiceRepository = new Lazy<IInvoiceRepository>(() => new InvoiceRepository(context));
@@ -56,6 +58,8 @@ namespace Infrastructure.Repositories
         public IAmenityRepository Amenity => _amenityRequestRepository.Value;
 
         public IPhotoRepository Photo => _photoRepository.Value;
+
+        public IPostRepository Post => _postRepository.Value;
 
         public async Task SaveAsync() => await _context.SaveChangesAsync();
         #endregion

@@ -91,7 +91,7 @@ export class RegisterFormComponent implements OnInit {
         MyValidators.phone(),
       ]),
       dateOfBirth: this.formBuilder.control(''),
-      gender: this.formBuilder.control('0'),
+      gender: this.formBuilder.control('Male'),
       address: this.formBuilder.control(''),
       password: this.formBuilder.control('', [
         Validators.required,

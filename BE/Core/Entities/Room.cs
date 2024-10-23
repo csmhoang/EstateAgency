@@ -1,5 +1,9 @@
-﻿using System;
+﻿using Core.Enums;
+using Core.Enums.Extensions;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using static Core.Enums.RoomEnums;
 
 namespace Core.Entities
 {
@@ -7,7 +11,6 @@ namespace Core.Entities
     {
         public Room()
         {
-            Feedbacks = new HashSet<Feedback>();
             Leases = new HashSet<Lease>();
             Reservations = new HashSet<Reservation>();
             Amenities = new HashSet<Amenity>();
@@ -15,6 +18,7 @@ namespace Core.Entities
         }
 
         public string Id { get; set; } = null!;
+        [ForeignKey("Landlord")]
         public string? LandlordId { get; set; }
         public int RoomCode { get; set; }
         public string Name { get; set; } = null!;
@@ -23,18 +27,15 @@ namespace Core.Entities
         public string? Ward { get; set; }
         public string? Province { get; set; }
         public string? District { get; set; }
-        public decimal Price { get; set; }
         public int Bedroom { get; set; }
         public int Bathroom { get; set; }
         public decimal? Area { get; set; }
-        public string? Description { get; set; }
-        public DateTime AvailableFrom { get; set; }
-        public string? Status { get; set; } = 
+        public decimal Price { get; set; }
+        public ConditionRoom Condition { get; set; }
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
 
         public virtual User? Landlord { get; set; }
-        public virtual ICollection<Feedback> Feedbacks { get; set; }
         public virtual ICollection<Lease> Leases { get; set; }
         public virtual ICollection<Reservation> Reservations { get; set; }
         public virtual ICollection<Photo> Photos { get; set; }

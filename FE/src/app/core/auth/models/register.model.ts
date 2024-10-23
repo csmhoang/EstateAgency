@@ -3,7 +3,7 @@ export type Register = {
   fullName: string;
   phoneNumber: string;
   dateOfBirth: Date;
-  gender: number;
+  gender: string;
   password: string;
   address: string;
   roles: string[];

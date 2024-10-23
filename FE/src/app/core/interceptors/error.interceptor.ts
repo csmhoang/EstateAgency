@@ -1,6 +1,6 @@
 import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { Response } from '@core/models/response.model';
+import { Result } from '@core/models/result.model';
 import { ToastService } from '@shared/services/toast/toast.service';
 import { catchError, throwError } from 'rxjs';
 
@@ -11,7 +11,7 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
       if (err.error instanceof ErrorEvent) {
         toastService.error(err.error.message);
       } else {
-        const res = err.error as Response;
+        const res = err.error as Result;
         res.errors.forEach((error) => {
           toastService.error(error);
         });

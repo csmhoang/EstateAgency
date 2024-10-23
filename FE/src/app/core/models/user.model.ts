@@ -6,9 +6,14 @@ export type User = {
   publicId?: string;
   phoneNumber: string;
   email: string;
-  gender?: number;
+  gender?: string;
   dateOfBirth?: Date;
   address?: string;
-  genderName?: string;
   description?: string;
+};
+
+export const Gender: { [key: string]: string } = {
+  Male: 'Nam',
+  Female: 'Nữ',
+  Other: 'Khác',
 };

@@ -22,6 +22,14 @@ namespace Infrastructure.Mapping
                 {
                     opts.AllowNull();
                     opts.Condition((src, dest, srcMember) => srcMember != null);
+                });            
+            
+            CreateMap<Post, PostDto>();
+            CreateMap<PostDto, Post>()
+                .ForAllMembers(opts =>
+                {
+                    opts.AllowNull();
+                    opts.Condition((src, dest, srcMember) => srcMember != null);
                 });
 
             CreateMap<Reservation, ReservationDto>();
