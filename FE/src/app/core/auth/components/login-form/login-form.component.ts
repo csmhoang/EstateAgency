@@ -31,8 +31,6 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 export class LoginFormComponent implements OnInit {
   destroyRef = inject(DestroyRef);
   hidePass = true;
-  title?: string;
-  role: string = '';
 
   form: FormGroup = new FormGroup({});
   email?: AbstractControl | null;
@@ -47,16 +45,6 @@ export class LoginFormComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const url = this.router.url;
-    if (url.includes('/lessor/login')) {
-      this.title = 'người cho thuê';
-      this.role = '/lessor';
-    } else if (url.includes('/admin/login')) {
-      this.title = 'người quản trị';
-      this.role = '/admin';
-    } else {
-      this.title = 'người thuê';
-    }
     this.form = this.formBuilder.group({
       email: this.formBuilder.control('', [
         Validators.required,
@@ -84,7 +72,6 @@ export class LoginFormComponent implements OnInit {
           next: (response) => {
             if (response.success) {
               this.toastService.success('Đăng nhập thành công!');
-              void this.router.navigate([this.role + '/management']);
             }
           },
         });

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Data.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20241023075619_initial")]
+    [Migration("20241024045849_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -136,11 +136,10 @@ namespace Infrastructure.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("InvoiceCode"), 1L, 1);
 
                     b.Property<string>("LeaseId")
-                        .IsRequired()
                         .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
 
-                    b.Property<int?>("StatusInvoice")
+                    b.Property<int?>("Status")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -190,7 +189,7 @@ namespace Infrastructure.Data.Migrations
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("date");
 
-                    b.Property<string>("StatusInvoice")
+                    b.Property<string>("Status")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TenantId")
@@ -237,18 +236,18 @@ namespace Infrastructure.Data.Migrations
                         .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
 
-                    b.Property<int>("RequestCode")
+                    b.Property<int>("MaintenanceRequestCode")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RequestCode"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MaintenanceRequestCode"), 1L, 1);
 
                     b.Property<DateTime?>("RequestDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
                         .HasDefaultValueSql("(getdate())");
 
-                    b.Property<int>("StatusInvoice")
+                    b.Property<int>("Status")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("UpdatedAt")
@@ -260,7 +259,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasIndex("LeaseId");
 
-                    b.HasIndex(new[] { "RequestCode" }, "UQ__Maintena__CBAB82F6EC2CDA6A")
+                    b.HasIndex(new[] { "MaintenanceRequestCode" }, "UQ__Maintena__CBAB82F6EC2CDA6A")
                         .IsUnique();
 
                     b.ToTable("MaintenanceRequests");
@@ -348,7 +347,7 @@ namespace Infrastructure.Data.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
-                    b.Property<int>("StatusInvoice")
+                    b.Property<int>("Status")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -411,7 +410,7 @@ namespace Infrastructure.Data.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("IsAcceptPost")
+                    b.Property<int>("IsAccept")
                         .HasColumnType("int");
 
                     b.Property<int>("PostCode")
@@ -420,13 +419,10 @@ namespace Infrastructure.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PostCode"), 1L, 1);
 
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(10,2)");
-
                     b.Property<string>("RoomId")
                         .HasColumnType("nvarchar(36)");
 
-                    b.Property<int>("StatusInvoice")
+                    b.Property<int>("Status")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
@@ -472,7 +468,7 @@ namespace Infrastructure.Data.Migrations
                         .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
 
-                    b.Property<int>("StatusInvoice")
+                    b.Property<int>("Status")
                         .HasColumnType("int");
 
                     b.Property<string>("TenantId")
@@ -518,22 +514,22 @@ namespace Infrastructure.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "23f8c185-9524-43e2-8b29-f824f2b0af98",
-                            ConcurrencyStamp = "6802c89e-3429-4b4c-b38b-82e18a89871e",
+                            Id = "d865fd8c-e8ef-4cfe-9f75-8ae3ba316917",
+                            ConcurrencyStamp = "b7319828-14f5-4571-b27a-befcef68dfe7",
                             Name = "admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "08b68b45-2728-478e-b9ea-ebade45456c2",
-                            ConcurrencyStamp = "d9d686d8-1064-416f-8483-cdfe18054d2c",
+                            Id = "3ae296f8-1fa2-4cbf-9a67-a0bf3f9060c4",
+                            ConcurrencyStamp = "9cefdcb8-5951-4934-a14e-0b4e7c432790",
                             Name = "landlord",
                             NormalizedName = "LANDLORD"
                         },
                         new
                         {
-                            Id = "61c9ec79-48a6-483b-8e3b-d9ff58447412",
-                            ConcurrencyStamp = "2ec15d4f-472f-4802-b178-a50ff4358d6a",
+                            Id = "780467e7-e088-4922-ba7e-f4e114ae98e0",
+                            ConcurrencyStamp = "c5731768-da02-4610-9b2f-d0e05c2e4016",
                             Name = "tenant",
                             NormalizedName = "TENANT"
                         });
@@ -565,7 +561,7 @@ namespace Infrastructure.Data.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<int>("ConditionRoom")
+                    b.Property<int>("Condition")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("CreatedAt")
@@ -584,6 +580,9 @@ namespace Infrastructure.Data.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(10,2)");
 
                     b.Property<string>("Province")
                         .HasMaxLength(100)
@@ -725,7 +724,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("UserRole", (string)null);
+                    b.ToTable("UserRoles", (string)null);
                 });
 
             modelBuilder.Entity("RoomAmenity", b =>
@@ -765,9 +764,7 @@ namespace Infrastructure.Data.Migrations
                 {
                     b.HasOne("Core.Entities.Lease", "Lease")
                         .WithMany("Invoices")
-                        .HasForeignKey("LeaseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("LeaseId");
 
                     b.Navigation("Lease");
                 });
@@ -877,13 +874,13 @@ namespace Infrastructure.Data.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
                     b.HasOne("Core.Entities.Role", null)
-                        .WithMany()
+                        .WithMany("UserRoles")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Core.Entities.User", null)
-                        .WithMany()
+                        .WithMany("UserRoles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -927,6 +924,11 @@ namespace Infrastructure.Data.Migrations
                     b.Navigation("Feedbacks");
                 });
 
+            modelBuilder.Entity("Core.Entities.Role", b =>
+                {
+                    b.Navigation("UserRoles");
+                });
+
             modelBuilder.Entity("Core.Entities.Room", b =>
                 {
                     b.Navigation("Leases");
@@ -949,6 +951,8 @@ namespace Infrastructure.Data.Migrations
                     b.Navigation("Reservations");
 
                     b.Navigation("Rooms");
+
+                    b.Navigation("UserRoles");
                 });
 #pragma warning restore 612, 618
         }

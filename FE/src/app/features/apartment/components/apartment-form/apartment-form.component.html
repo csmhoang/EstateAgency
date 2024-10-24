@@ -1,6 +1,6 @@
 <form [formGroup]="form">
   <a
-    [routerLink]="['/lessor/management/apartment']"
+    [routerLink]="['/lessor/apartment']"
     class="link-opacity-50-hover text-secondary d-block mt-4"
     ><i class="fa-solid fa-arrow-left-long"></i>
     Trở lại
@@ -13,7 +13,7 @@
       <input
         matInput
         type="text"
-        placeholder="Tiêu đề"
+        placeholder="Tên phòng trọ"
         formControlName="name"
       />
       @if( name?.invalid && (name?.dirty || name?.touched) ){
@@ -38,7 +38,7 @@
   <div class="row">
     <!-- Province select -->
     <mat-form-field class="col-lg-4" appearance="outline">
-      <mat-label>Tỉnh/Thành phố</mat-label>
+      <mat-label>Tỉnh/Thành</mat-label>
       <mat-select formControlName="province">
         @for (place of (provices$ | async); track $index) {
         <mat-option [value]="place">{{ place?.name }}</mat-option>

@@ -132,4 +132,7 @@
   <data name="ChangePasswordFailing" xml:space="preserve">
     <value>Đổi mật khẩu thất bại.</value>
   </data>
+  <data name="AssignRoleFailing" xml:space="preserve">
+    <value>Quá trình gán role không thành công!</value>
+  </data>
 </root>

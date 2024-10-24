@@ -29,7 +29,9 @@ namespace Core.Entities
         public string? District { get; set; }
         public int Bedroom { get; set; }
         public int Bathroom { get; set; }
-        public decimal? Area { get; set; }
+        public int Toilet { get; set; }
+        public Interior Interior { get; set; }
+        public decimal Area { get; set; }
         public decimal Price { get; set; }
         public ConditionRoom Condition { get; set; }
         public DateTime? CreatedAt { get; set; }

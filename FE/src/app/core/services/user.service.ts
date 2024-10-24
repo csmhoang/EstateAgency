@@ -25,6 +25,14 @@ export class UserService {
 
   public isAuthenticated = this.currentUser.pipe(map((user) => !!user));
 
+  public isLandlord = this.currentUser.pipe(
+    map((user) => !!user?.roles?.includes('landlord'))
+  );
+
+  public isAdmin = this.currentUser.pipe(
+    map((user) => !!user?.roles?.includes('admin'))
+  );
+
   constructor(
     private readonly http: HttpClient,
     private readonly cookie: CookieService

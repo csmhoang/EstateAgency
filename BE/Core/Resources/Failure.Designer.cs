@@ -61,6 +61,15 @@ namespace Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Quá trình gán role không thành công!.
+        /// </summary>
+        public static string AssignRoleFailing {
+            get {
+                return ResourceManager.GetString("AssignRoleFailing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Đổi mật khẩu thất bại..
         /// </summary>
         public static string ChangePasswordFailing {

@@ -1,4 +1,8 @@
-import { APP_INITIALIZER, ApplicationConfig } from '@angular/core';
+import {
+  APP_INITIALIZER,
+  ApplicationConfig,
+  provideZoneChangeDetection,
+} from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { provideClientHydration } from '@angular/platform-browser';
@@ -14,8 +18,13 @@ import { tokenInterceptor } from '@core/interceptors/token.interceptor';
 import { AuthService } from '@core/auth/services/auth.service';
 import { errorInterceptor } from '@core/interceptors/error.interceptor';
 
+function initializeApp(authService: AuthService) {
+  return async () => await authService.autoLogin();
+}
+
 export const appConfig: ApplicationConfig = {
   providers: [
+    provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideClientHydration(),
     provideAnimationsAsync(),
@@ -28,10 +37,9 @@ export const appConfig: ApplicationConfig = {
         errorInterceptor,
       ])
     ),
-    AuthService,
     {
       provide: APP_INITIALIZER,
-      useFactory: (authService: AuthService) => () => authService.autoLogin(),
+      useFactory: initializeApp,
       deps: [AuthService],
       multi: true,
     },

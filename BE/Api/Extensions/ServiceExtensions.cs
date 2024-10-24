@@ -41,6 +41,7 @@ namespace Api.Extensions
                 o.User.RequireUniqueEmail = true;
             })
             .AddRoles<Role>()
+            .AddRoleManager<RoleManager<Role>>()
             .AddEntityFrameworkStores<RepositoryContext>()
             .AddDefaultTokenProviders();
         }

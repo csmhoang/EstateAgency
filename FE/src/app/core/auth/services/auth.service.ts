@@ -5,7 +5,7 @@ import { Result } from '@core/models/result.model';
 import { Secret } from '@core/models/secret.model';
 import { CookieService } from '@core/services/cookie.service';
 import { UserService } from '@core/services/user.service';
-import { Observable, take, tap } from 'rxjs';
+import { forkJoin, lastValueFrom, Observable, take, tap } from 'rxjs';
 import { Login } from '../models/login.model';
 import { Register } from '../models/register.model';
 import { SkipPreloader } from '@core/interceptors/skip.resolver';
@@ -37,7 +37,18 @@ export class AuthService {
               ...response.data,
             };
             this.cookie.save(secret, 7);
-            this.userService.init(isHideLoading).subscribe();
+            this.userService.init(isHideLoading).subscribe({
+              next: (user) => {
+                const roles = user.data?.roles;
+                if (roles?.includes('admin')) {
+                  void this.router.navigate(['/admin']);
+                } else if (roles?.includes('landlord')) {
+                  void this.router.navigate(['/lessor']);
+                } else {
+                  void this.router.navigate(['/']);
+                }
+              },
+            });
           }
         })
       );
@@ -57,20 +68,34 @@ export class AuthService {
     void this.router.navigate(['/']);
   }
 
-  autoLogin(): void {
+  async autoLogin() {
     if (this.cookie.get('isRemember') === 'true') {
       const credentials: Login = {
         email: this.cookie.get('email'),
         password: this.cookie.get('password'),
         isRemember: true,
       };
-      this.login(credentials)
-        .pipe(take(1))
-        .subscribe({
-          error: () => {
-            this.cookie.remove();
-          },
-        });
+      const login = this.http
+        .post<Result<Secret>>('/authentication/login', credentials)
+        .pipe(
+          take(1),
+          tap({
+            next: (response) => {
+              if (response.success) {
+                const secret: Secret = {
+                  ...credentials,
+                  ...response.data,
+                };
+                this.cookie.save(secret, 7);
+              }
+            },
+            error: () => {
+              this.cookie.remove();
+            },
+          })
+        );
+      const user = this.userService.init();
+      await lastValueFrom(forkJoin({ login, user }));
     }
   }
 }

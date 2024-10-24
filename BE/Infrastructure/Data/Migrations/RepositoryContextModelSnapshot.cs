@@ -60,7 +60,7 @@ namespace Infrastructure.Data.Migrations
                     b.HasIndex(new[] { "AmenityCode" }, "UQ__Amenitie__300F6CA3021E4D38")
                         .IsUnique();
 
-                    b.ToTable("Amenities", (string)null);
+                    b.ToTable("Amenities");
                 });
 
             modelBuilder.Entity("Core.Entities.Feedback", b =>
@@ -147,7 +147,7 @@ namespace Infrastructure.Data.Migrations
                     b.HasIndex(new[] { "InvoiceCode" }, "UQ__Invoices__0D9D7FF34AA36732")
                         .IsUnique();
 
-                    b.ToTable("Invoices", (string)null);
+                    b.ToTable("Invoices");
                 });
 
             modelBuilder.Entity("Core.Entities.Lease", b =>
@@ -206,7 +206,7 @@ namespace Infrastructure.Data.Migrations
                     b.HasIndex(new[] { "LeaseCode" }, "UQ__Leases__D568E4B4702D9CD2")
                         .IsUnique();
 
-                    b.ToTable("Leases", (string)null);
+                    b.ToTable("Leases");
                 });
 
             modelBuilder.Entity("Core.Entities.MaintenanceRequest", b =>
@@ -260,7 +260,7 @@ namespace Infrastructure.Data.Migrations
                     b.HasIndex(new[] { "MaintenanceRequestCode" }, "UQ__Maintena__CBAB82F6EC2CDA6A")
                         .IsUnique();
 
-                    b.ToTable("MaintenanceRequests", (string)null);
+                    b.ToTable("MaintenanceRequests");
                 });
 
             modelBuilder.Entity("Core.Entities.Message", b =>
@@ -303,7 +303,7 @@ namespace Infrastructure.Data.Migrations
                     b.HasIndex(new[] { "MessageCode" }, "UQ__Messages__54E8229FE4E7C357")
                         .IsUnique();
 
-                    b.ToTable("Messages", (string)null);
+                    b.ToTable("Messages");
                 });
 
             modelBuilder.Entity("Core.Entities.Payment", b =>
@@ -359,7 +359,7 @@ namespace Infrastructure.Data.Migrations
                     b.HasIndex(new[] { "PaymentCode" }, "UQ__Payments__106D3BA8FEBBB92E")
                         .IsUnique();
 
-                    b.ToTable("Payments", (string)null);
+                    b.ToTable("Payments");
                 });
 
             modelBuilder.Entity("Core.Entities.Photo", b =>
@@ -386,7 +386,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasIndex("RoomId");
 
-                    b.ToTable("Photos", (string)null);
+                    b.ToTable("Photos");
                 });
 
             modelBuilder.Entity("Core.Entities.Post", b =>
@@ -437,7 +437,7 @@ namespace Infrastructure.Data.Migrations
                     b.HasIndex(new[] { "PostCode" }, "UQ__Posts__5K9D52454DASDASE")
                         .IsUnique();
 
-                    b.ToTable("Posts", (string)null);
+                    b.ToTable("Posts");
                 });
 
             modelBuilder.Entity("Core.Entities.Reservation", b =>
@@ -485,7 +485,7 @@ namespace Infrastructure.Data.Migrations
                     b.HasIndex(new[] { "ReservationCode" }, "UQ__Reservat__2081C0BBCBCC7940")
                         .IsUnique();
 
-                    b.ToTable("Reservations", (string)null);
+                    b.ToTable("Reservations");
                 });
 
             modelBuilder.Entity("Core.Entities.Role", b =>
@@ -507,27 +507,27 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Roles", (string)null);
+                    b.ToTable("Roles");
 
                     b.HasData(
                         new
                         {
-                            Id = "6f9474f1-4dd8-4540-8256-0a310ab27237",
-                            ConcurrencyStamp = "9de0edc2-c9c0-4466-bdda-7fa1496280ec",
+                            Id = "cae1c6ac-9fc5-47e1-86e3-b616647aa000",
+                            ConcurrencyStamp = "0555f2ce-85b2-457c-99b9-182e638e107b",
                             Name = "admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "2778f566-a483-4f82-8a16-a038aeae3c97",
-                            ConcurrencyStamp = "2eaf222d-1086-45c5-8eff-2f425c42d358",
+                            Id = "6d43f94b-bff3-4847-9609-113d4ad07888",
+                            ConcurrencyStamp = "e27c3fb9-8407-4d3e-84cc-80d3735b57b7",
                             Name = "landlord",
                             NormalizedName = "LANDLORD"
                         },
                         new
                         {
-                            Id = "e8154d38-17d3-45cd-9569-884ba98ca5d0",
-                            ConcurrencyStamp = "6c44a95a-6b6a-41b6-bd8d-2448e7ae4cae",
+                            Id = "8cc53284-20f0-4ccf-8781-7da021c193db",
+                            ConcurrencyStamp = "3c639584-11b9-4c10-b21f-06c182c0f483",
                             Name = "tenant",
                             NormalizedName = "TENANT"
                         });
@@ -545,7 +545,7 @@ namespace Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal?>("Area")
+                    b.Property<decimal>("Area")
                         .HasColumnType("decimal(10,2)");
 
                     b.Property<int>("Bathroom")
@@ -571,6 +571,9 @@ namespace Infrastructure.Data.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<int>("Interior")
+                        .HasColumnType("int");
+
                     b.Property<string>("LandlordId")
                         .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
@@ -592,6 +595,9 @@ namespace Infrastructure.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RoomCode"), 1L, 1);
 
+                    b.Property<int>("Toilet")
+                        .HasColumnType("int");
+
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime");
 
@@ -606,7 +612,7 @@ namespace Infrastructure.Data.Migrations
                     b.HasIndex(new[] { "RoomCode" }, "UQ__Rooms__4F9D52313B1CAD3E")
                         .IsUnique();
 
-                    b.ToTable("Rooms", (string)null);
+                    b.ToTable("Rooms");
                 });
 
             modelBuilder.Entity("Core.Entities.User", b =>
@@ -707,7 +713,7 @@ namespace Infrastructure.Data.Migrations
                     b.HasIndex(new[] { "UserCode" }, "UQ__Users__1DF52D0C64B859D5")
                         .IsUnique();
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
@@ -722,7 +728,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("UserRole", (string)null);
+                    b.ToTable("UserRoles", (string)null);
                 });
 
             modelBuilder.Entity("RoomAmenity", b =>
@@ -872,13 +878,13 @@ namespace Infrastructure.Data.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
                     b.HasOne("Core.Entities.Role", null)
-                        .WithMany()
+                        .WithMany("UserRoles")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Core.Entities.User", null)
-                        .WithMany()
+                        .WithMany("UserRoles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -922,6 +928,11 @@ namespace Infrastructure.Data.Migrations
                     b.Navigation("Feedbacks");
                 });
 
+            modelBuilder.Entity("Core.Entities.Role", b =>
+                {
+                    b.Navigation("UserRoles");
+                });
+
             modelBuilder.Entity("Core.Entities.Room", b =>
                 {
                     b.Navigation("Leases");
@@ -944,6 +955,8 @@ namespace Infrastructure.Data.Migrations
                     b.Navigation("Reservations");
 
                     b.Navigation("Rooms");
+
+                    b.Navigation("UserRoles");
                 });
 #pragma warning restore 612, 618
         }

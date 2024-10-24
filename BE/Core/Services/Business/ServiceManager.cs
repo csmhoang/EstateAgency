@@ -38,13 +38,14 @@ namespace Core.Services.Business
             ILoggerManager logger,
             IMapper mapper,
             UserManager<User> userManager,
+            RoleManager<Role> roleManager,
             IConfiguration configuration,
             IOptions<CloudinarySettings> cloudinaryConfig)
         {
             _userService = new Lazy<IUserService>(() =>
                 new UserService(repository, photoService, logger, mapper));
             _authenticationService = new Lazy<Interfaces.Auth.IAuthenticationService>(() =>
-                new AuthenticationService(logger, mapper, userManager, configuration));
+                new AuthenticationService(logger, mapper, userManager, roleManager, configuration));
             _roomService = new Lazy<IRoomService>(() =>
                 new RoomService(repository, photoService, logger, mapper));
             _postService = new Lazy<IPostService>(() =>

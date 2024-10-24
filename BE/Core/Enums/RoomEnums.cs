@@ -16,5 +16,12 @@ namespace Core.Enums
             [EnumMember(Value = "Occupied")]
             Occupied = 1
         }
+        public enum Interior
+        {
+            [EnumMember(Value = "Empty")]
+            Empty = 0,
+            [EnumMember(Value = "Full")]
+            Full = 1
+        }
     }
 }

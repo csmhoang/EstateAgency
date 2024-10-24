@@ -8,11 +8,11 @@
 
     <nav #navmenu class="navmenu d-flex align-items-center gap-5">
       <ul>
-        <li><a routerLink="/" [routerLinkActive]="'active'" [routerLinkActiveOptions]="{ exact: true }">Trang chủ</a></li>
-        <li><a routerLink="/apartment" [routerLinkActive]="'active'">Nhà cho thuê</a></li>
-        <li><a routerLink="/lessor" [routerLinkActive]="'active'">Người cho thuê</a></li>
-        <li><a routerLink="/service" [routerLinkActive]="'active'">Dịch vụ</a></li>
-        <li><a routerLink="/contact" [routerLinkActive]="'active'">Liên hệ</a></li>
+        <li><a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Trang chủ</a></li>
+        <li><a routerLink="/apartment" routerLinkActive="active">Nhà cho thuê</a></li>
+        <li><a routerLink="/lessor" routerLinkActive="active">Người cho thuê</a></li>
+        <li><a routerLink="/service" routerLinkActive="active">Dịch vụ</a></li>
+        <li><a routerLink="/contact" routerLinkActive="active">Liên hệ</a></li>
       </ul>
       <div class="btn-navmenu d-flex gap-2">
         <button routerLink="/" class="btn btn-dark fs-4 border-0 rounded-pill">
@@ -64,9 +64,6 @@
         <div *appIfAuthenticated="false" class="d-flex gap-2">
           <button routerLink="/register" class="btn btn-dark">Đăng ký</button>
           <button routerLink="/login" class="btn btn-dark">Đăng nhập</button>
-          <button routerLink="/lessor/login" class="btn btn-dark">
-            Đăng tin
-          </button>
         </div>
       </div>
       <i #mobileNavToggle class="mobile-nav-toggle d-xl-none bi bi-list"></i>

@@ -17,5 +17,6 @@ namespace Core.Dtos
         public string? Description { get; set; }
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
+        public IEnumerable<string>? Roles { get; set; }
     }
 }

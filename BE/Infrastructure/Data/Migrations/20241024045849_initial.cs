@@ -123,6 +123,7 @@ namespace Infrastructure.Data.Migrations
                     Bedroom = table.Column<int>(type: "int", nullable: false),
                     Bathroom = table.Column<int>(type: "int", nullable: false),
                     Area = table.Column<decimal>(type: "decimal(10,2)", nullable: true),
+                    Price = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
                     Condition = table.Column<int>(type: "int", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime", nullable: true, defaultValueSql: "(getdate())"),
                     UpdatedAt = table.Column<DateTime>(type: "datetime", nullable: true)
@@ -138,7 +139,7 @@ namespace Infrastructure.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserRole",
+                name: "UserRoles",
                 columns: table => new
                 {
                     UserId = table.Column<string>(type: "nvarchar(36)", nullable: false),
@@ -146,15 +147,15 @@ namespace Infrastructure.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserRole", x => new { x.UserId, x.RoleId });
+                    table.PrimaryKey("PK_UserRoles", x => new { x.UserId, x.RoleId });
                     table.ForeignKey(
-                        name: "FK_UserRole_Roles_RoleId",
+                        name: "FK_UserRoles_Roles_RoleId",
                         column: x => x.RoleId,
                         principalTable: "Roles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_UserRole_Users_UserId",
+                        name: "FK_UserRoles_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
@@ -221,7 +222,6 @@ namespace Infrastructure.Data.Migrations
                     PostCode = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Price = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     AvailableFrom = table.Column<DateTime>(type: "date", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false),
@@ -297,7 +297,7 @@ namespace Infrastructure.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "(newid())"),
-                    LeaseId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false),
+                    LeaseId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: true),
                     InvoiceCode = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Amount = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
@@ -312,8 +312,7 @@ namespace Infrastructure.Data.Migrations
                         name: "FK_Invoices_Leases_LeaseId",
                         column: x => x.LeaseId,
                         principalTable: "Leases",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -351,7 +350,7 @@ namespace Infrastructure.Data.Migrations
                     Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "(newid())"),
                     LeaseId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: true),
                     InvoiceId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: true),
-                    RequestCode = table.Column<int>(type: "int", nullable: false)
+                    MaintenanceRequestCode = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     RequestDate = table.Column<DateTime>(type: "datetime", nullable: true, defaultValueSql: "(getdate())"),
@@ -407,17 +406,17 @@ namespace Infrastructure.Data.Migrations
             migrationBuilder.InsertData(
                 table: "Roles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "08b68b45-2728-478e-b9ea-ebade45456c2", "d9d686d8-1064-416f-8483-cdfe18054d2c", "landlord", "LANDLORD" });
+                values: new object[] { "3ae296f8-1fa2-4cbf-9a67-a0bf3f9060c4", "9cefdcb8-5951-4934-a14e-0b4e7c432790", "landlord", "LANDLORD" });
 
             migrationBuilder.InsertData(
                 table: "Roles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "23f8c185-9524-43e2-8b29-f824f2b0af98", "6802c89e-3429-4b4c-b38b-82e18a89871e", "admin", "ADMIN" });
+                values: new object[] { "780467e7-e088-4922-ba7e-f4e114ae98e0", "c5731768-da02-4610-9b2f-d0e05c2e4016", "tenant", "TENANT" });
 
             migrationBuilder.InsertData(
                 table: "Roles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "61c9ec79-48a6-483b-8e3b-d9ff58447412", "2ec15d4f-472f-4802-b178-a50ff4358d6a", "tenant", "TENANT" });
+                values: new object[] { "d865fd8c-e8ef-4cfe-9f75-8ae3ba316917", "b7319828-14f5-4571-b27a-befcef68dfe7", "admin", "ADMIN" });
 
             migrationBuilder.CreateIndex(
                 name: "UQ__Amenitie__300F6CA3021E4D38",
@@ -481,7 +480,7 @@ namespace Infrastructure.Data.Migrations
             migrationBuilder.CreateIndex(
                 name: "UQ__Maintena__CBAB82F6EC2CDA6A",
                 table: "MaintenanceRequests",
-                column: "RequestCode",
+                column: "MaintenanceRequestCode",
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -567,8 +566,8 @@ namespace Infrastructure.Data.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserRole_RoleId",
-                table: "UserRole",
+                name: "IX_UserRoles_RoleId",
+                table: "UserRoles",
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
@@ -602,7 +601,7 @@ namespace Infrastructure.Data.Migrations
                 name: "RoomAmenities");
 
             migrationBuilder.DropTable(
-                name: "UserRole");
+                name: "UserRoles");
 
             migrationBuilder.DropTable(
                 name: "Posts");

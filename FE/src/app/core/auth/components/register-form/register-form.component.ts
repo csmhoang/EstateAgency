@@ -42,8 +42,6 @@ export class RegisterFormComponent implements OnInit {
   maxDate = new Date(new Date().getFullYear() - 18, 0, 1);
   hidePassword = true;
   hideRepassword = true;
-  title?: string;
-  role: string = '';
 
   form: FormGroup = new FormGroup({});
   email?: AbstractControl | null;
@@ -59,24 +57,10 @@ export class RegisterFormComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private toastService: ToastService,
-    private authService: AuthService,
-    private router: Router
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
-    const url = this.router.url;
-    if (url.includes('/lessor/register')) {
-      this.title = 'người cho thuê';
-      this.roles = ['Landlord'];
-      this.role = '/lessor';
-    } else if (url.includes('/admin/register')) {
-      this.title = 'người quản trị';
-      this.roles = ['Admin'];
-      this.role = '/admin';
-    } else {
-      this.title = 'người thuê';
-      this.roles = ['Tenant'];
-    }
     this.form = this.formBuilder.group({
       email: this.formBuilder.control('', [
         Validators.required,
@@ -134,9 +118,7 @@ export class RegisterFormComponent implements OnInit {
                   true
                 )
                 .pipe(take(1))
-                .subscribe(() => {
-                  void this.router.navigate([this.role + '/managemnet']);
-                });
+                .subscribe();
               this.toastService.success('Đăng ký thành công!');
             }
           },

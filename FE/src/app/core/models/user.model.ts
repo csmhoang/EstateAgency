@@ -10,6 +10,7 @@ export type User = {
   dateOfBirth?: Date;
   address?: string;
   description?: string;
+  roles?: string[];
 };
 
 export const Gender: { [key: string]: string } = {

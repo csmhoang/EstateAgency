@@ -269,18 +269,6 @@ namespace Infrastructure.Data
                     .HasColumnType("datetime");
             });
 
-            modelBuilder.Entity<Role>(entity =>
-            {
-                entity.Property(e => e.Id)
-                    .HasMaxLength(36)
-                    .HasDefaultValueSql("(newid())");
-                entity.HasMany<IdentityUserRole<string>>()
-                    .WithOne()
-                    .HasForeignKey(ur => ur.RoleId)
-                    .IsRequired();
-            });
-
-
             modelBuilder.Entity<Post>(entity =>
             {
                 entity.HasIndex(e => e.PostCode, "UQ__Posts__5K9D52454DASDASE")
@@ -365,6 +353,12 @@ namespace Infrastructure.Data
                         });
             });
 
+            modelBuilder.Entity<Role>(entity =>
+            {
+                entity.Property(e => e.Id)
+                    .HasMaxLength(36)
+                    .HasDefaultValueSql("(newid())");
+            });
             modelBuilder.Entity<User>(entity =>
             {
                 entity.HasIndex(e => e.UserCode, "UQ__Users__1DF52D0C64B859D5")
@@ -388,17 +382,23 @@ namespace Infrastructure.Data
 
                 entity.Property(e => e.UpdatedAt)
                     .HasColumnType("datetime");
-
-                entity.HasMany<IdentityUserRole<string>>()
-                    .WithOne()
-                    .HasForeignKey(ur => ur.UserId)
-                    .IsRequired();
             });
 
             modelBuilder.Entity<IdentityUserRole<string>>(entity =>
             {
-                entity.ToTable("UserRole");
+                entity.ToTable("UserRoles");
+
                 entity.HasKey(e => new { e.UserId, e.RoleId });
+
+                entity.HasOne<User>()
+                    .WithMany(p => p.UserRoles)
+                    .HasForeignKey(d => d.UserId)
+                    .IsRequired();
+
+                entity.HasOne<Role>()
+                    .WithMany(p => p.UserRoles)
+                    .HasForeignKey(d => d.RoleId)
+                    .IsRequired();
             });
 
             OnModelCreatingPartial(modelBuilder);

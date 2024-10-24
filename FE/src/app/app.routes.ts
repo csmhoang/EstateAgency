@@ -20,6 +20,7 @@ import { LessorApartmentComponent } from '@features/management/lessor/pages/less
 import { PostFormComponent } from '@features/post/components/post-form/post-form.component';
 import { ApartmentFormComponent } from '@features/apartment/components/apartment-form/apartment-form.component';
 import { LessorPostComponent } from '@features/management/lessor/pages/lessor-post/lessor-post.component';
+import { isLandlord, isUserAuthenticated } from '@core/guards/auth.guard';
 
 export const routes: Routes = [
   /*Clients*/
@@ -66,6 +67,14 @@ export const routes: Routes = [
     component: ServiceComponent,
   },
   {
+    path: 'agency/detail',
+    component: LessorDetailComponent,
+  },
+  {
+    path: 'agency',
+    component: LessorComponent,
+  },
+  {
     path: 'apartment/detail',
     component: ApartmentDetailComponent,
   },
@@ -79,19 +88,13 @@ export const routes: Routes = [
   },
   /*Lessors*/
   {
-    path: 'lessor/login',
-    component: LoginComponent,
-  },
-  {
-    path: 'lessor/register',
-    component: RegisterComponent,
-  },
-  {
-    path: 'lessor/management',
+    path: 'lessor',
     component: LessorManagementComponent,
+    canActivate: [isLandlord],
+    canActivateChild: [isLandlord],
     children: [
       {
-        path: 'dashboard',
+        path: '',
         component: LessorDashboardComponent,
       },
       {
@@ -112,24 +115,8 @@ export const routes: Routes = [
       },
     ],
   },
-  {
-    path: 'lessor/detail',
-    component: LessorDetailComponent,
-  },
-  {
-    path: 'lessor',
-    component: LessorComponent,
-  },
 
   /*Admin*/
-  {
-    path: 'admin/login',
-    component: LoginComponent,
-  },
-  {
-    path: 'admin/register',
-    component: RegisterComponent,
-  },
   {
     path: '**',
     redirectTo: '/',

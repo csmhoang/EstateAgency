@@ -8,22 +8,18 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { provideNativeDateAdapter } from '@angular/material/core';
-import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { User } from '@core/models/user.model';
 import { UserService } from '@core/services/user.service';
 import { Place } from '@features/post/models/place.model';
 import { Room } from '@features/apartment/models/room.model';
-import { PostService } from '@features/post/services/post.service';
 import { ToastService } from '@shared/services/toast/toast.service';
 import { FileUploader, FileUploadModule } from 'ng2-file-upload';
 import { firstValueFrom } from 'rxjs';
 import { ApartmentService } from '@features/apartment/services/apartment.service';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-apartment-form',
@@ -68,7 +64,8 @@ export class ApartmentFormComponent implements OnInit {
     private formBuilder: FormBuilder,
     private toastService: ToastService,
     private userService: UserService,
-    public apartmentService: ApartmentService
+    private router: Router,
+    private apartmentService: ApartmentService
   ) {}
 
   ngOnInit() {
@@ -160,6 +157,7 @@ export class ApartmentFormComponent implements OnInit {
           next: (response) => {
             if (response.success) {
               this.toastService.success(response.messages);
+              void this.router.navigate(['/lessor/apartment']);
             }
           },
         });

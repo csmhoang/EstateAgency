@@ -24,6 +24,7 @@ namespace Core.Services.Auth
         private readonly ILoggerManager _logger;
         private readonly IMapper _mapper;
         private readonly UserManager<User> _userManager;
+        private readonly RoleManager<Role> _roleManager;
         private readonly IConfiguration _configuration;
         #endregion
 
@@ -35,11 +36,13 @@ namespace Core.Services.Auth
         public AuthenticationService(ILoggerManager logger,
             IMapper mapper,
             UserManager<User> userManager,
+            RoleManager<Role> roleManager,
             IConfiguration configuration)
         {
             _logger = logger;
             _mapper = mapper;
             _userManager = userManager;
+            _roleManager = roleManager;
             _configuration = configuration;
         }
         #endregion
@@ -51,6 +54,19 @@ namespace Core.Services.Auth
             {
                 throw new UserExistedException(registerDto.Email.ToLower());
             }
+
+            var roles = registerDto.Roles;
+            if (!(roles == null || !roles.Any()))
+            {
+                foreach (var role in roles)
+                {
+                    if (!await _roleManager.RoleExistsAsync(role))
+                    {
+                        throw new RoleNotFoundException(role);
+                    }
+                }
+            }
+
             var user = _mapper.Map<User>(registerDto);
             user.UserName = registerDto.Email.ToLower();
 
@@ -59,15 +75,33 @@ namespace Core.Services.Auth
 
             if (result.Succeeded)
             {
-                var roles = registerDto.Roles;
-                if (!(roles == null || !roles.Any()))
+                try
                 {
-                    await _userManager.AddToRolesAsync(user, roles);
+                    if (!(roles == null || !roles.Any()))
+                    {
+                        var roleResult = await _userManager.AddToRolesAsync(user, roles);
+                        if (!roleResult.Succeeded)
+                        {
+                            await _userManager.DeleteAsync(user);
+                            throw new CustomizeException(Failure.AssignRoleFailing);
+                        }
+                    }
+                    else
+                    {
+                        var defaultRoleResult = await _userManager.AddToRoleAsync(user, RoleConst.Tenant);
+                        if (!defaultRoleResult.Succeeded)
+                        {
+                            await _userManager.DeleteAsync(user);
+                            throw new CustomizeException(Failure.AssignRoleFailing);
+                        }
+                    }
                 }
-                else
+                catch
                 {
-                    await _userManager.AddToRoleAsync(user, RoleConst.Tenant);
+                    await _userManager.DeleteAsync(user);
+                    throw new Exception();
                 }
+
                 res.Success = true;
                 res.Messages = Successfull.RegisterSucceed;
                 res.StatusCode = (int)HttpStatusCode.Created;
@@ -98,7 +132,7 @@ namespace Core.Services.Auth
             {
                 Success = result,
                 Data = result ? await CreateToken(true) : null,
-                Messages = Failure.LoginFailing,
+                Messages = result ? Successfull.LoginSucceed : Failure.LoginFailing,
                 StatusCode = result ? (int)HttpStatusCode.OK : (int)HttpStatusCode.Unauthorized
             };
         }
@@ -257,13 +291,22 @@ namespace Core.Services.Auth
             var user = string.IsNullOrEmpty(username) ? null : await _userManager.Users
                 .SingleOrDefaultAsync(x => x.UserName == username.ToLower());
 
+            var data = _mapper.Map<UserDto>(user);
+            if (user != null)
+            {
+                var roles = _userManager.GetRolesAsync(user);
+                data.Roles = roles.Result;
+            }
+
             return new Response
             {
                 Success = true,
-                Data = _mapper.Map<UserDto>(user),
+                Data = data,
                 StatusCode = user is null ? (int)HttpStatusCode.NoContent : (int)HttpStatusCode.OK
             };
         }
+
+
         #endregion
     }
 }

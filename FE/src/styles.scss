@@ -464,7 +464,7 @@ h6 {
   inset: 0;
   z-index: 999999;
   overflow: hidden;
-  background: rgba(0, 0, 0, 0.5);
+  background: var(--background-color);
   transition: opacity 0.6s ease-out;
   opacity: 1;
 }

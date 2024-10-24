@@ -10,7 +10,6 @@ import { Observable, map } from 'rxjs';
 import { Room } from '../models/room.model';
 import { Result } from '@core/models/result.model';
 
-
 @Injectable({
   providedIn: 'root',
 })
@@ -18,6 +17,18 @@ export class ApartmentService {
   url = 'https://esgoo.net/api-tinhthanh';
 
   constructor(private http: HttpClient) {}
+
+  getAll(): Observable<Room[]> {
+    return this.http
+      .get<Result<Room[]>>('/rooms')
+      .pipe(map((response) => response.data));
+  }
+
+  getById(id: string) {
+    return this.http
+      .get<Result<Room>>(`/rooms?id=${id}`)
+      .pipe(map((response) => response.data));
+  }
 
   insert(room: Room, files: File[]): Observable<Result> {
     const form = new FormData();

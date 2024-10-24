@@ -1,4 +1,5 @@
 export type Room = {
+  id: string;
   roomCode: string;
   landlordId: string;
   name: string;
@@ -9,6 +10,8 @@ export type Room = {
   ward: string;
   bedroom: number;
   bathroom: number;
+  toilet: number;
+  interior: string;
   area: number;
   price: number;
   condition: string;
