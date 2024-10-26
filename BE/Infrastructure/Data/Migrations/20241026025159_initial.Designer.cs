@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Data.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20241024145233_changeRoom")]
-    partial class changeRoom
+    [Migration("20241026025159_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -514,22 +514,22 @@ namespace Infrastructure.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "cae1c6ac-9fc5-47e1-86e3-b616647aa000",
-                            ConcurrencyStamp = "0555f2ce-85b2-457c-99b9-182e638e107b",
+                            Id = "1a2b3c4d-1234-5678-9101-abcdefabcdef",
+                            ConcurrencyStamp = "fd1155b7-f189-4b64-aa6b-9d79f7ca812a",
                             Name = "admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "6d43f94b-bff3-4847-9609-113d4ad07888",
-                            ConcurrencyStamp = "e27c3fb9-8407-4d3e-84cc-80d3735b57b7",
+                            Id = "2b3c4d5e-2345-6789-1011-bcdefabcdef0",
+                            ConcurrencyStamp = "73497676-8833-4157-a96e-a191532be901",
                             Name = "landlord",
                             NormalizedName = "LANDLORD"
                         },
                         new
                         {
-                            Id = "8cc53284-20f0-4ccf-8781-7da021c193db",
-                            ConcurrencyStamp = "3c639584-11b9-4c10-b21f-06c182c0f483",
+                            Id = "3c4d5e6f-3456-7891-0112-cdefabcdef01",
+                            ConcurrencyStamp = "86966169-88e8-4a90-b74a-552767a238ea",
                             Name = "tenant",
                             NormalizedName = "TENANT"
                         });
@@ -556,10 +556,9 @@ namespace Infrastructure.Data.Migrations
                     b.Property<int>("Bedroom")
                         .HasColumnType("int");
 
-                    b.Property<string>("Category")
-                        .IsRequired()
+                    b.Property<int>("Category")
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("int");
 
                     b.Property<int>("Condition")
                         .HasColumnType("int");

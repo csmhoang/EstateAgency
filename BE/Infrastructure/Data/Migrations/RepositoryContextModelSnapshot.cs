@@ -60,7 +60,7 @@ namespace Infrastructure.Data.Migrations
                     b.HasIndex(new[] { "AmenityCode" }, "UQ__Amenitie__300F6CA3021E4D38")
                         .IsUnique();
 
-                    b.ToTable("Amenities");
+                    b.ToTable("Amenities", (string)null);
                 });
 
             modelBuilder.Entity("Core.Entities.Feedback", b =>
@@ -147,7 +147,7 @@ namespace Infrastructure.Data.Migrations
                     b.HasIndex(new[] { "InvoiceCode" }, "UQ__Invoices__0D9D7FF34AA36732")
                         .IsUnique();
 
-                    b.ToTable("Invoices");
+                    b.ToTable("Invoices", (string)null);
                 });
 
             modelBuilder.Entity("Core.Entities.Lease", b =>
@@ -206,7 +206,7 @@ namespace Infrastructure.Data.Migrations
                     b.HasIndex(new[] { "LeaseCode" }, "UQ__Leases__D568E4B4702D9CD2")
                         .IsUnique();
 
-                    b.ToTable("Leases");
+                    b.ToTable("Leases", (string)null);
                 });
 
             modelBuilder.Entity("Core.Entities.MaintenanceRequest", b =>
@@ -260,7 +260,7 @@ namespace Infrastructure.Data.Migrations
                     b.HasIndex(new[] { "MaintenanceRequestCode" }, "UQ__Maintena__CBAB82F6EC2CDA6A")
                         .IsUnique();
 
-                    b.ToTable("MaintenanceRequests");
+                    b.ToTable("MaintenanceRequests", (string)null);
                 });
 
             modelBuilder.Entity("Core.Entities.Message", b =>
@@ -303,7 +303,7 @@ namespace Infrastructure.Data.Migrations
                     b.HasIndex(new[] { "MessageCode" }, "UQ__Messages__54E8229FE4E7C357")
                         .IsUnique();
 
-                    b.ToTable("Messages");
+                    b.ToTable("Messages", (string)null);
                 });
 
             modelBuilder.Entity("Core.Entities.Payment", b =>
@@ -359,7 +359,7 @@ namespace Infrastructure.Data.Migrations
                     b.HasIndex(new[] { "PaymentCode" }, "UQ__Payments__106D3BA8FEBBB92E")
                         .IsUnique();
 
-                    b.ToTable("Payments");
+                    b.ToTable("Payments", (string)null);
                 });
 
             modelBuilder.Entity("Core.Entities.Photo", b =>
@@ -386,7 +386,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasIndex("RoomId");
 
-                    b.ToTable("Photos");
+                    b.ToTable("Photos", (string)null);
                 });
 
             modelBuilder.Entity("Core.Entities.Post", b =>
@@ -437,7 +437,7 @@ namespace Infrastructure.Data.Migrations
                     b.HasIndex(new[] { "PostCode" }, "UQ__Posts__5K9D52454DASDASE")
                         .IsUnique();
 
-                    b.ToTable("Posts");
+                    b.ToTable("Posts", (string)null);
                 });
 
             modelBuilder.Entity("Core.Entities.Reservation", b =>
@@ -485,7 +485,7 @@ namespace Infrastructure.Data.Migrations
                     b.HasIndex(new[] { "ReservationCode" }, "UQ__Reservat__2081C0BBCBCC7940")
                         .IsUnique();
 
-                    b.ToTable("Reservations");
+                    b.ToTable("Reservations", (string)null);
                 });
 
             modelBuilder.Entity("Core.Entities.Role", b =>
@@ -507,27 +507,27 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Roles");
+                    b.ToTable("Roles", (string)null);
 
                     b.HasData(
                         new
                         {
-                            Id = "cae1c6ac-9fc5-47e1-86e3-b616647aa000",
-                            ConcurrencyStamp = "0555f2ce-85b2-457c-99b9-182e638e107b",
+                            Id = "1a2b3c4d-1234-5678-9101-abcdefabcdef",
+                            ConcurrencyStamp = "fd1155b7-f189-4b64-aa6b-9d79f7ca812a",
                             Name = "admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "6d43f94b-bff3-4847-9609-113d4ad07888",
-                            ConcurrencyStamp = "e27c3fb9-8407-4d3e-84cc-80d3735b57b7",
+                            Id = "2b3c4d5e-2345-6789-1011-bcdefabcdef0",
+                            ConcurrencyStamp = "73497676-8833-4157-a96e-a191532be901",
                             Name = "landlord",
                             NormalizedName = "LANDLORD"
                         },
                         new
                         {
-                            Id = "8cc53284-20f0-4ccf-8781-7da021c193db",
-                            ConcurrencyStamp = "3c639584-11b9-4c10-b21f-06c182c0f483",
+                            Id = "3c4d5e6f-3456-7891-0112-cdefabcdef01",
+                            ConcurrencyStamp = "86966169-88e8-4a90-b74a-552767a238ea",
                             Name = "tenant",
                             NormalizedName = "TENANT"
                         });
@@ -554,10 +554,9 @@ namespace Infrastructure.Data.Migrations
                     b.Property<int>("Bedroom")
                         .HasColumnType("int");
 
-                    b.Property<string>("Category")
-                        .IsRequired()
+                    b.Property<int>("Category")
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("int");
 
                     b.Property<int>("Condition")
                         .HasColumnType("int");
@@ -612,7 +611,7 @@ namespace Infrastructure.Data.Migrations
                     b.HasIndex(new[] { "RoomCode" }, "UQ__Rooms__4F9D52313B1CAD3E")
                         .IsUnique();
 
-                    b.ToTable("Rooms");
+                    b.ToTable("Rooms", (string)null);
                 });
 
             modelBuilder.Entity("Core.Entities.User", b =>
@@ -713,7 +712,7 @@ namespace Infrastructure.Data.Migrations
                     b.HasIndex(new[] { "UserCode" }, "UQ__Users__1DF52D0C64B859D5")
                         .IsUnique();
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>

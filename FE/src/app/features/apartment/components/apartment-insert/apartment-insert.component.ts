@@ -22,7 +22,7 @@ import { ApartmentService } from '@features/apartment/services/apartment.service
 import { Router, RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'app-apartment-form',
+  selector: 'app-apartment-insert',
   standalone: true,
   imports: [
     MatFormFieldModule,
@@ -33,10 +33,10 @@ import { Router, RouterLink } from '@angular/router';
     FileUploadModule,
     RouterLink,
   ],
-  templateUrl: './apartment-form.component.html',
-  styleUrl: './apartment-form.component.scss',
+  templateUrl: './apartment-insert.component.html',
+  styleUrl: './apartment-insert.component.scss',
 })
-export class ApartmentFormComponent implements OnInit {
+export class ApartmentInsertComponent implements OnInit {
   uploader!: FileUploader;
   hasBaseDropzoneOver = false;
 
@@ -56,6 +56,8 @@ export class ApartmentFormComponent implements OnInit {
   ward?: AbstractControl | null;
   bedroom?: AbstractControl | null;
   bathroom?: AbstractControl | null;
+  toilet?: AbstractControl | null;
+  interior?: AbstractControl | null;
   area?: AbstractControl | null;
   price?: AbstractControl | null;
   files: File[] = [];
@@ -78,6 +80,8 @@ export class ApartmentFormComponent implements OnInit {
       district: this.formBuilder.control(''),
       ward: this.formBuilder.control(''),
       bedroom: this.formBuilder.control(0, [Validators.required]),
+      toilet: this.formBuilder.control(0, [Validators.required]),
+      interior: this.formBuilder.control('', [Validators.required]),
       bathroom: this.formBuilder.control(0, [Validators.required]),
       price: this.formBuilder.control(0, [
         Validators.required,
@@ -191,10 +195,23 @@ export class ApartmentFormComponent implements OnInit {
     }
     return '';
   }
+  errorForToilet(): string {
+    if (this.toilet?.hasError('required')) {
+      return 'Số nhà vệ sinh không được để trống!';
+    }
+    return '';
+  }
 
   errorForBathroom(): string {
     if (this.bathroom?.hasError('required')) {
       return 'Số phòng tắm không được để trống!';
+    }
+    return '';
+  }
+
+  errorForInterior(): string {
+    if (this.interior?.hasError('required')) {
+      return 'Vui lòng chọn nội thất!';
     }
     return '';
   }

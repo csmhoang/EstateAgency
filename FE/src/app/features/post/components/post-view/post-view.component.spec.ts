@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ApartmentFormComponent } from './apartment-form.component';
+import { PostViewComponent } from './post-view.component';
 
-describe('ApartmentFormComponent', () => {
-  let component: ApartmentFormComponent;
-  let fixture: ComponentFixture<ApartmentFormComponent>;
+describe('PostViewComponent', () => {
+  let component: PostViewComponent;
+  let fixture: ComponentFixture<PostViewComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ApartmentFormComponent]
+      imports: [PostViewComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(ApartmentFormComponent);
+    fixture = TestBed.createComponent(PostViewComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

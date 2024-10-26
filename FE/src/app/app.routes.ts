@@ -17,10 +17,10 @@ import { ServiceDetailComponent } from '@features/service/pages/service-detail/s
 import { ServiceComponent } from '@features/service/pages/service/service.component';
 import { ProfileActionsComponent } from '@features/profiles/pages/profile-actions/profile-actions.component';
 import { LessorApartmentComponent } from '@features/management/lessor/pages/lessor-apartment/lessor-apartment.component';
-import { PostFormComponent } from '@features/post/components/post-form/post-form.component';
-import { ApartmentFormComponent } from '@features/apartment/components/apartment-form/apartment-form.component';
 import { LessorPostComponent } from '@features/management/lessor/pages/lessor-post/lessor-post.component';
-import { isLandlord, isUserAuthenticated } from '@core/guards/auth.guard';
+import { isLandlord } from '@core/guards/auth.guard';
+import { ApartmentInsertComponent } from '@features/apartment/components/apartment-insert/apartment-insert.component';
+import { PostInsertComponent } from '@features/post/components/post-insert/post-insert.component';
 
 export const routes: Routes = [
   /*Clients*/
@@ -99,7 +99,7 @@ export const routes: Routes = [
       },
       {
         path: 'apartment/insert',
-        component: ApartmentFormComponent,
+        component: ApartmentInsertComponent,
       },
       {
         path: 'apartment',
@@ -107,7 +107,7 @@ export const routes: Routes = [
       },
       {
         path: 'post/insert',
-        component: PostFormComponent,
+        component: PostInsertComponent,
       },
       {
         path: 'post',

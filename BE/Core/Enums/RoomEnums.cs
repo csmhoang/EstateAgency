@@ -23,5 +23,14 @@ namespace Core.Enums
             [EnumMember(Value = "Full")]
             Full = 1
         }
+        public enum Category
+        {
+            [EnumMember(Value = "RentalRoom")]
+            RentalRoom = 0,
+            [EnumMember(Value = "MiniApartment")]
+            MiniApartment = 1,
+            [EnumMember(Value = "Apartment")]
+            Apartment = 2,
+        }
     }
 }

@@ -11,7 +11,7 @@ namespace Core.Dtos
         [Required(ErrorMessage = UserConst.ErrorEmptyLandlordId)]
         public string? LandlordId { get; set; } = null!;
         public string Name { get; set; } = null!;
-        public string Category { get; set; } = null!;
+        public Category Category { get; set; }
         public string Address { get; set; } = null!;
         public string? Ward { get; set; }
         public string? Province { get; set; }

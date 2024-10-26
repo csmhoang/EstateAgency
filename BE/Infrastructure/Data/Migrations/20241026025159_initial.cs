@@ -115,14 +115,16 @@ namespace Infrastructure.Data.Migrations
                     RoomCode = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Category = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Category = table.Column<int>(type: "int", maxLength: 100, nullable: false),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Ward = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     Province = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     District = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     Bedroom = table.Column<int>(type: "int", nullable: false),
                     Bathroom = table.Column<int>(type: "int", nullable: false),
-                    Area = table.Column<decimal>(type: "decimal(10,2)", nullable: true),
+                    Toilet = table.Column<int>(type: "int", nullable: false),
+                    Interior = table.Column<int>(type: "int", nullable: false),
+                    Area = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
                     Price = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
                     Condition = table.Column<int>(type: "int", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime", nullable: true, defaultValueSql: "(getdate())"),
@@ -406,17 +408,17 @@ namespace Infrastructure.Data.Migrations
             migrationBuilder.InsertData(
                 table: "Roles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "3ae296f8-1fa2-4cbf-9a67-a0bf3f9060c4", "9cefdcb8-5951-4934-a14e-0b4e7c432790", "landlord", "LANDLORD" });
+                values: new object[] { "1a2b3c4d-1234-5678-9101-abcdefabcdef", "fd1155b7-f189-4b64-aa6b-9d79f7ca812a", "admin", "ADMIN" });
 
             migrationBuilder.InsertData(
                 table: "Roles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "780467e7-e088-4922-ba7e-f4e114ae98e0", "c5731768-da02-4610-9b2f-d0e05c2e4016", "tenant", "TENANT" });
+                values: new object[] { "2b3c4d5e-2345-6789-1011-bcdefabcdef0", "73497676-8833-4157-a96e-a191532be901", "landlord", "LANDLORD" });
 
             migrationBuilder.InsertData(
                 table: "Roles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "d865fd8c-e8ef-4cfe-9f75-8ae3ba316917", "b7319828-14f5-4571-b27a-befcef68dfe7", "admin", "ADMIN" });
+                values: new object[] { "3c4d5e6f-3456-7891-0112-cdefabcdef01", "86966169-88e8-4a90-b74a-552767a238ea", "tenant", "TENANT" });
 
             migrationBuilder.CreateIndex(
                 name: "UQ__Amenitie__300F6CA3021E4D38",

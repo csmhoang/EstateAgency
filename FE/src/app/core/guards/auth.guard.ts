@@ -29,16 +29,3 @@ export const isLandlord: CanActivateFn = async (route, state) => {
     return router.parseUrl('/');
   }
 };
-
-export const isAdmin: CanActivateFn = async (route, state) => {
-  const router = inject(Router);
-  const userService = inject(UserService);
-  const isAuthenticated: boolean = await firstValueFrom(
-    userService.isAuthenticated
-  );
-  if (isAuthenticated) {
-    return true;
-  } else {
-    return router.parseUrl('/');
-  }
-};

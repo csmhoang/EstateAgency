@@ -15,11 +15,14 @@ import {
 import { preloaderInterceptor } from '@core/interceptors/preloader.interceptor';
 import { apiInterceptor } from '@core/interceptors/api.interceptor';
 import { tokenInterceptor } from '@core/interceptors/token.interceptor';
-import { AuthService } from '@core/auth/services/auth.service';
 import { errorInterceptor } from '@core/interceptors/error.interceptor';
+import { InitService } from '@core/services/init.service';
+import { lastValueFrom } from 'rxjs';
 
-function initializeApp(authService: AuthService) {
-  return async () => await authService.autoLogin();
+function initializeApp(initService: InitService) {
+  return () => {
+    lastValueFrom(initService.init());
+  };
 }
 
 export const appConfig: ApplicationConfig = {
@@ -40,7 +43,7 @@ export const appConfig: ApplicationConfig = {
     {
       provide: APP_INITIALIZER,
       useFactory: initializeApp,
-      deps: [AuthService],
+      deps: [InitService],
       multi: true,
     },
   ],

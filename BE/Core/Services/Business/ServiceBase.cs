@@ -1,4 +1,10 @@
-﻿using Core.Interfaces.Data;
+﻿using Core.Dtos;
+using Core.Entities;
+using Core.Helpers;
+using Core.Interfaces.Data;
+using Core.Interfaces.Specifications;
+using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace Core.Services.Business
 {
@@ -19,18 +25,14 @@ namespace Core.Services.Business
         #endregion
 
         #region Method
-        //protected async Task<string> NewCode()
-        //{
-        //    var order = 1;
-        //    var className = typeof(T).Name;
-        //    var last = await _repository.FindAll().LastOrDefaultAsync();
-        //    if (last is not null)
-        //    {
-        //        var code = last?.GetType().GetProperty($"{className}Code")?.GetValue(last)?.ToString();
-        //        order = Convert.ToInt32(code?.Substring(className.Length)) + 1;
-        //    }
-        //    return string.Concat(className.ToUpper(), order);
-        //}
+        protected async Task<Pagination<T>> CreatePagedResult(ISpecification<T> spec,
+            int pageIndex, int pageSize)
+        {
+            var items = await _repository.ListAsync(spec);
+            var count = await _repository.CountAsync(spec);
+            var pagination = new Pagination<T>(pageIndex, pageSize, count, items);
+            return pagination;
+        }
         #endregion
 
 

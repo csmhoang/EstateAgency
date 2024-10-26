@@ -47,6 +47,7 @@ namespace Infrastructure.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new RoleConfiguration());
+
             modelBuilder.Entity<Amenity>(entity =>
             {
                 entity.HasIndex(e => e.AmenityCode, "UQ__Amenitie__300F6CA3021E4D38")

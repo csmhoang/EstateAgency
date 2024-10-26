@@ -18,7 +18,7 @@ export class ApartmentService {
 
   constructor(private http: HttpClient) {}
 
-  getAll(): Observable<Room[]> {
+  getList(): Observable<Room[]> {
     return this.http
       .get<Result<Room[]>>('/rooms')
       .pipe(map((response) => response.data));

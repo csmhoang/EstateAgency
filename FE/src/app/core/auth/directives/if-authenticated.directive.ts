@@ -25,7 +25,6 @@ export class IfAuthenticatedDirective<T> implements OnInit {
 
   condition: boolean = false;
   hasView = false;
-  currentUser: User | null = null;
 
   ngOnInit(): void {
     this.userService.isAuthenticated

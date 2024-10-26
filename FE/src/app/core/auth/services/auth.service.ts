@@ -5,7 +5,7 @@ import { Result } from '@core/models/result.model';
 import { Secret } from '@core/models/secret.model';
 import { CookieService } from '@core/services/cookie.service';
 import { UserService } from '@core/services/user.service';
-import { forkJoin, lastValueFrom, Observable, take, tap } from 'rxjs';
+import { EMPTY, forkJoin, lastValueFrom, Observable, of, take, tap } from 'rxjs';
 import { Login } from '../models/login.model';
 import { Register } from '../models/register.model';
 import { SkipPreloader } from '@core/interceptors/skip.resolver';
@@ -68,17 +68,16 @@ export class AuthService {
     void this.router.navigate(['/']);
   }
 
-  async autoLogin() {
+  autoLogin() {
     if (this.cookie.get('isRemember') === 'true') {
       const credentials: Login = {
         email: this.cookie.get('email'),
         password: this.cookie.get('password'),
         isRemember: true,
       };
-      const login = this.http
+      return this.http
         .post<Result<Secret>>('/authentication/login', credentials)
         .pipe(
-          take(1),
           tap({
             next: (response) => {
               if (response.success) {
@@ -94,8 +93,7 @@ export class AuthService {
             },
           })
         );
-      const user = this.userService.init();
-      await lastValueFrom(forkJoin({ login, user }));
     }
+    return of(null);
   }
 }

@@ -24,10 +24,9 @@
     <mat-form-field class="col-lg-4" appearance="outline">
       <mat-label>Loại nhà đất</mat-label>
       <mat-select formControlName="category">
-        <mat-option value="Phòng trọ">Phòng trọ</mat-option>
-        <mat-option value="Chung cư mini">Chung cư mini</mat-option>
-        <mat-option value="Chung cư">Chung cư</mat-option>
-        <mat-option value="Nhà riêng">Nhà riêng</mat-option>
+        <mat-option value="RentalRoom">Phòng trọ</mat-option>
+        <mat-option value="MiniApartment">Chung cư mini</mat-option>
+        <mat-option value="Apartment">Chung cư</mat-option>
       </mat-select>
       @if( category?.invalid && (category?.dirty || category?.touched) ){
       <mat-error>{{ errorForCategory() }}</mat-error>
@@ -108,6 +107,34 @@
       />
       @if( bathroom?.invalid && (bathroom?.dirty || bathroom?.touched) ){
       <mat-error>{{ errorForBathroom() }}</mat-error>
+      }
+    </mat-form-field>
+  </div>
+  <div class="row">
+    <!-- Toilet input -->
+    <mat-form-field class="col-lg-6" appearance="outline">
+      <mat-label>Nhà vệ sinh</mat-label>
+      <input
+        matInput
+        type="number"
+        placeholder="0"
+        min="0"
+        class="text-end hide-spin"
+        formControlName="toilet"
+      />
+      @if( toilet?.invalid && (toilet?.dirty || toilet?.touched) ){
+      <mat-error>{{ errorForToilet() }}</mat-error>
+      }
+    </mat-form-field>
+    <!-- Interior select -->
+    <mat-form-field class="col-lg-6" appearance="outline">
+      <mat-label>Nội thất</mat-label>
+      <mat-select formControlName="interior">
+        <mat-option value="Empty">Không</mat-option>
+        <mat-option value="Full">Đầy đủ</mat-option>
+      </mat-select>
+      @if( interior?.invalid && (interior?.dirty || interior?.touched) ){
+      <mat-error>{{ errorForInterior() }}</mat-error>
       }
     </mat-form-field>
   </div>
