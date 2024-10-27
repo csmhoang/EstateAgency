@@ -10,7 +10,7 @@
       <app-search></app-search>
     </div>
   </div>
-  <div *ngIf="rooms &&  rooms.length > 0; else noRoom">
+  <div *ngIf="dataSource.data.length > 0; else noRoom">
     <table mat-table [dataSource]="dataSource" matSort>
       <!-- Name Column -->
       <ng-container matColumnDef="name">
@@ -80,7 +80,10 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
     <div class="pt-4">
-      <app-pagination></app-pagination>
+      <app-pagination
+        [paginationParams]="paginationParams()"
+        (pageChange)="onPageChange($event)"
+      ></app-pagination>
     </div>
   </div>
 </div>

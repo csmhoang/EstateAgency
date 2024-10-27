@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
 import {
-  AfterViewInit,
   Component,
   inject,
+  OnInit,
+  signal,
   TemplateRef,
   ViewChild,
 } from '@angular/core';
@@ -17,6 +18,8 @@ import { SearchComponent } from '@shared/components/form/search/search.component
 import { PaginationComponent } from '@shared/components/pagination/pagination.component';
 import { DialogService } from '@shared/services/dialog/dialog.service';
 import { ToastService } from '@shared/services/toast/toast.service';
+import { LessorApartmentService } from '../../services/lessor-apartment.service';
+import { PaginationParams } from '@shared/models/pagination-params.model';
 
 @Component({
   selector: 'app-lessor-apartment',
@@ -35,15 +38,7 @@ import { ToastService } from '@shared/services/toast/toast.service';
   templateUrl: './lessor-apartment.component.html',
   styleUrl: './lessor-apartment.component.scss',
 })
-export class LessorApartmentComponent implements AfterViewInit {
-  @ViewChild('maintenance', { read: TemplateRef })
-  maintenance?: TemplateRef<any>;
-
-  rooms: Room[] = [];
-
-  dialogService = inject(DialogService);
-  toastService = inject(ToastService);
-
+export class LessorApartmentComponent implements OnInit {
   displayedColumns: string[] = [
     'name',
     'category',
@@ -53,15 +48,36 @@ export class LessorApartmentComponent implements AfterViewInit {
     'condition',
     'optional',
   ];
+  dataSource = new MatTableDataSource<Room>();
+  paginationParams = signal<PaginationParams | null>(null);
 
-  dataSource = new MatTableDataSource<Room>(this.rooms);
-
+  @ViewChild('maintenance', { read: TemplateRef })
+  maintenance?: TemplateRef<any>;
   @ViewChild(MatSort) sort?: MatSort;
 
-  ngAfterViewInit() {
-    if (this.sort) {
-      this.dataSource.sort = this.sort;
+  // dialogService = inject(DialogService);
+  // toastService = inject(ToastService);
+  lessorApartmentService = inject(LessorApartmentService);
+
+  async ngOnInit() {
+    await this.lessorApartmentService.loadData();
+    const page = this.lessorApartmentService.page();
+    if (page) {
+      this.paginationParams.set(page);
+      this.dataSource.data = page.data;
+      if (this.sort) {
+        this.dataSource.sort = this.sort;
+      }
     }
+  }
+
+  onPageChange(pageIndex: number) {
+    console.log(pageIndex)
+    // this.router.navigate([], {
+    //   queryParams: { pageIndex },
+    //   queryParamsHandling: 'merge',
+    // });
+    // this.specParams.pageIndex = pageIndex;
   }
 
   onView() {}

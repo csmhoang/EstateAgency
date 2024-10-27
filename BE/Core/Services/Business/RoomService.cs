@@ -162,7 +162,13 @@ namespace Core.Services.Business
             return new Response
             {
                 Success = true,
-                Data = _mapper.Map<IEnumerable<RoomDto>>(page),
+                Data = new
+                {
+                    page.PageIndex,
+                    page.PageSize,
+                    page.Count,
+                    Data = _mapper.Map<IEnumerable<RoomDto>>(page.Data)
+                },
                 StatusCode = !page.Data.Any() ? (int)HttpStatusCode.NoContent : (int)HttpStatusCode.OK
             };
         }

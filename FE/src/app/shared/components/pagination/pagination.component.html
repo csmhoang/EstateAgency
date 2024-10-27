@@ -1,11 +1,13 @@
 <div class="container">
   <ngb-pagination
-    [collectionSize]="120"
-    [(page)]="page"
+    [collectionSize]="count"
+    [(page)]="pageIndex"
     [maxSize]="5"
+    [pageSize]="pageSize"
     [rotate]="true"
     [ellipses]="false"
     [boundaryLinks]="true"
+    (pageChange)="onPageChange()"
   >
     <ng-template ngbPaginationFirst
       ><i class="fa-solid fa-angles-left"></i

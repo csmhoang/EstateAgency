@@ -1,6 +1,6 @@
 export type Room = {
   id: string;
-  roomCode: string;
+  roomCode: number;
   landlordId: string;
   name: string;
   category: string;

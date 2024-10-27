@@ -71,17 +71,4 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-using var scope = app.Services.CreateScope();
-var services = scope.ServiceProvider;
-var context = services.GetRequiredService<RepositoryContext>();
-try
-{
-    await context.Database.MigrateAsync();
-    await StoreContextSeed.SeedAsync(context);
-}
-catch (Exception ex)
-{
-    logger.LogError($"Một lỗi xảy ra trong quá trình migration => {ex.Message}");
-}
-
 app.Run();

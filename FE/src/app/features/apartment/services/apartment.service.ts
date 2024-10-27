@@ -1,5 +1,5 @@
-import { HttpClient, HttpContext } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { HttpClient, HttpContext, HttpParams } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
 import {
   SkipApi,
   SkipToken,
@@ -9,18 +9,25 @@ import { Place } from '@features/post/models/place.model';
 import { Observable, map } from 'rxjs';
 import { Room } from '../models/room.model';
 import { Result } from '@core/models/result.model';
+import { PageData } from '@core/models/page-data.model';
+import { RoomParams } from '../models/room-params.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ApartmentService {
-  url = 'https://esgoo.net/api-tinhthanh';
+  private http = inject(HttpClient)
+  private url = 'https://esgoo.net/api-tinhthanh';
 
-  constructor(private http: HttpClient) {}
-
-  getList(): Observable<Room[]> {
+  getList(specParams: RoomParams): Observable<PageData<Room[]>> {
+    let params = new HttpParams();
+    Object.entries(specParams).forEach(([key, value]) => {
+      if (value) {
+        params = params.set(key, value);
+      }
+    });
     return this.http
-      .get<Result<Room[]>>('/rooms')
+      .get<Result<PageData<Room[]>>>('/rooms/list', { params })
       .pipe(map((response) => response.data));
   }
 
@@ -31,7 +38,7 @@ export class ApartmentService {
   }
 
   insert(room: Room, files: File[]): Observable<Result> {
-    debugger
+    debugger;
     const form = new FormData();
     Object.entries(room).forEach(([key, value]) => {
       form.append(key, value.toString());
