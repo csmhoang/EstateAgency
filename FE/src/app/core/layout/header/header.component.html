@@ -8,9 +8,20 @@
 
     <nav #navmenu class="navmenu d-flex align-items-center gap-5">
       <ul>
-        <li><a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Trang chủ</a></li>
-        <li><a routerLink="/apartment" routerLinkActive="active">Nhà cho thuê</a></li>
-        <li><a routerLink="/agency" routerLinkActive="active">Người cho thuê</a></li>
+        <li>
+          <a
+            routerLink="/"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            >Trang chủ</a
+          >
+        </li>
+        <li>
+          <a routerLink="/apartment" routerLinkActive="active">Nhà cho thuê</a>
+        </li>
+        <li>
+          <a routerLink="/agency" routerLinkActive="active">Người cho thuê</a>
+        </li>
         <li><a routerLink="/service" routerLinkActive="active">Dịch vụ</a></li>
         <li><a routerLink="/contact" routerLinkActive="active">Liên hệ</a></li>
       </ul>
@@ -35,7 +46,10 @@
             >
               <i class="bi bi-person-fill"></i>
             </button>
-            <a class="fw-bold link-opacity-75-hover" *ngIf="user$ | async as user">
+            <a
+              class="fw-bold link-opacity-75-hover"
+              *ngIf="user$ | async as user"
+            >
               {{ user.fullName }}
               <i class="fa-solid fa-square-caret-down"></i>
             </a>
@@ -59,14 +73,17 @@
               </div>
             </mat-menu>
           </div>
-          
         </div>
         <div *appIfAuthenticated="false" class="d-flex gap-2">
           <button routerLink="/register" class="btn btn-dark">Đăng ký</button>
           <button routerLink="/login" class="btn btn-dark">Đăng nhập</button>
         </div>
       </div>
-      <i #mobileNavToggle class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+      <i
+        #mobileNavToggle
+        (click)="toggleMobile()"
+        class="mobile-nav-toggle d-xl-none bi bi-list"
+      ></i>
     </nav>
   </div>
 </header>

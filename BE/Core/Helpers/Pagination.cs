@@ -12,6 +12,5 @@ namespace Core.Helpers
         public int PageSize { get; set; } = PageSize;
         public int Count { get; set; } = Count;
         public IReadOnlyList<T> Data { get; set; } = Data;
-
     }
 }

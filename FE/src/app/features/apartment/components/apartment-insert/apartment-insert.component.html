@@ -1,7 +1,7 @@
 <form [formGroup]="form">
   <a
     [routerLink]="['/lessor/apartment']"
-    class="link-opacity-50-hover text-secondary d-block mt-4"
+    class="link-opacity-50-hover text-secondary d-inline-block mt-4 pe-2 px-2"
     ><i class="fa-solid fa-arrow-left-long"></i>
     Trở lại
   </a>
@@ -119,7 +119,7 @@
         type="number"
         placeholder="0"
         min="0"
-        class="text-end hide-spin"
+        class="hide-spin"
         formControlName="toilet"
       />
       @if( toilet?.invalid && (toilet?.dirty || toilet?.touched) ){

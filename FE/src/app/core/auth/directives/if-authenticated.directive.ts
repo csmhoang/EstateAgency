@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { UserService } from '@core/services/user.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { User } from '@core/models/user.model';
+import { distinctUntilChanged } from 'rxjs';
 
 @Directive({
   selector: '[appIfAuthenticated]',
@@ -17,27 +17,36 @@ import { User } from '@core/models/user.model';
 })
 export class IfAuthenticatedDirective<T> implements OnInit {
   destroyRef = inject(DestroyRef);
+
   constructor(
     private templateRef: TemplateRef<T>,
     private userService: UserService,
     private viewContainer: ViewContainerRef
   ) {}
 
-  condition: boolean = false;
-  hasView = false;
+  private condition: boolean = false;
+  private hasView = false;
 
   ngOnInit(): void {
     this.userService.isAuthenticated
-      .pipe(takeUntilDestroyed(this.destroyRef))
+      .pipe(takeUntilDestroyed(this.destroyRef), distinctUntilChanged())
       .subscribe((isAuthenticated: boolean) => {
-        const authRequired = isAuthenticated && this.condition;
-        const unauthRequired = !isAuthenticated && !this.condition;
-        if ((authRequired || unauthRequired) && !this.hasView) {
+        const shouldShowView =
+          (isAuthenticated && this.condition) ||
+          (!isAuthenticated && !this.condition);
+          
+        if (shouldShowView && !this.hasView) {
+          // Hiển thị view nếu điều kiện khớp và view chưa được tạo
           this.viewContainer.createEmbeddedView(this.templateRef);
           this.hasView = true;
-        } else if (this.hasView) {
+        } else if (!shouldShowView && this.hasView) {
+          // Xóa view nếu điều kiện không khớp và view đã tồn tại
           this.viewContainer.clear();
           this.hasView = false;
+        } else if (!shouldShowView && !this.hasView) {
+          // Trường hợp này đảm bảo view sẽ không xuất hiện
+          this.viewContainer.createEmbeddedView(this.templateRef);
+          this.viewContainer.clear();
         }
       });
   }

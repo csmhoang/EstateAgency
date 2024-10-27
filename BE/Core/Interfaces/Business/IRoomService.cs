@@ -1,4 +1,6 @@
 ﻿using Core.Dtos;
+using Core.Params;
+using Core.Specifications;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -18,6 +20,15 @@ namespace Core.Interfaces.Business
         /// 2 - Danh sách rỗng
         /// </returns>
         Task<Response> GetAllAsync();
+        /// <summary>
+        /// Lấy danh sách thông tin phòng bằng specification
+        /// </summary>
+        /// <param name="specParams">Đối tượng tham số</param>
+        /// <returns>
+        /// 1 - Danh sách phòng
+        /// 2 - Danh sách rỗng
+        /// </returns>
+        Task<Response> GetListAsync(RoomSpecParams specParams);
         /// <summary>
         /// Lấy ra phòng bằng id
         /// </summary>

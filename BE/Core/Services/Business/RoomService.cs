@@ -5,8 +5,10 @@ using Core.Exceptions;
 using Core.Interfaces.Business;
 using Core.Interfaces.Data;
 using Core.Interfaces.Infrastructure;
+using Core.Params;
 using Core.Resources;
 using Core.Services.Infrastructure;
+using Core.Specifications;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
@@ -151,6 +153,18 @@ namespace Core.Services.Business
         public Task ValidateObject(RoomDto roomDto)
         {
             return Task.CompletedTask;
+        }
+
+        public async Task<Response> GetListAsync(RoomSpecParams specParams)
+        {
+            var spec = new RoomSpecification(specParams);
+            var page = await CreatePagedResult(spec, specParams.PageIndex, specParams.PageSize);
+            return new Response
+            {
+                Success = true,
+                Data = _mapper.Map<IEnumerable<RoomDto>>(page),
+                StatusCode = !page.Data.Any() ? (int)HttpStatusCode.NoContent : (int)HttpStatusCode.OK
+            };
         }
         #endregion
     }

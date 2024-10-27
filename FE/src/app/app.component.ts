@@ -3,21 +3,16 @@ import {
   AfterViewInit,
   Component,
   inject,
-  OnInit,
+  OnDestroy,
   PLATFORM_ID,
   Renderer2,
 } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { Login } from '@core/auth/models/login.model';
-import { AuthService } from '@core/auth/services/auth.service';
 import { FooterComponent } from '@core/layout/footer/footer.component';
 import { HeaderComponent } from '@core/layout/header/header.component';
-import { CookieService } from '@core/services/cookie.service';
-import { UserService } from '@core/services/user.service';
 import { PreloaderComponent } from '@shared/components/preloader/preloader.component';
 import { ScrollTopComponent } from '@shared/components/scroll-top/scroll-top.component';
 import { ToastComponent } from '@shared/components/toast/toast.component';
-import { take } from 'rxjs';
 
 declare var AOS: any;
 
@@ -35,19 +30,19 @@ declare var AOS: any;
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
-export class AppComponent implements AfterViewInit {
+export class AppComponent implements AfterViewInit, OnDestroy  {
   title = 'Dwello';
   platformId = inject(PLATFORM_ID);
-  userService = inject(UserService);
   renderer = inject(Renderer2);
-  constructor(
-    private cookie: CookieService,
-    private authService: AuthService
-  ) {}
+  private loadListener?: () => void; // Biến để giữ tham chiếu đến hàm hủy
 
   ngAfterViewInit() {
     if (isPlatformBrowser(this.platformId)) {
-      this.renderer.listen(window, 'load', this.aosInit);
+      if (document.readyState === 'complete') {
+        this.aosInit();
+      } else {
+        this.loadListener = this.renderer.listen(window, 'load', this.aosInit);
+      }
     }
   }
 
@@ -58,5 +53,11 @@ export class AppComponent implements AfterViewInit {
       once: true,
       mirror: false,
     });
+  }
+
+  ngOnDestroy() {
+    if (this.loadListener) {
+      this.loadListener(); // Gọi hàm hủy để giải phóng listener
+    }
   }
 }

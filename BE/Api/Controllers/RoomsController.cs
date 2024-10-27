@@ -35,6 +35,16 @@ namespace Api.Controllers
         }
 
         /// <summary>
+        /// Lấy danh sách thông tin phòng bằng specification
+        /// </summary>
+        [HttpGet("list")]
+        public async Task<IActionResult> GetList([FromQuery] RoomSpecParams specParams)
+        {
+            var response = await _service.Room.GetListAsync(specParams);
+            return Ok(response);
+        }
+
+        /// <summary>
         /// Lấy thông tin phòng bằng id
         /// </summary>
         [HttpGet("{id}")]

@@ -90,8 +90,7 @@ export const routes: Routes = [
   {
     path: 'lessor',
     component: LessorManagementComponent,
-    canActivate: [isLandlord],
-    canActivateChild: [isLandlord],
+    // canActivate: [isLandlord],
     children: [
       {
         path: '',

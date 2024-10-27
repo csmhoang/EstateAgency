@@ -145,7 +145,7 @@ export class ApartmentInsertComponent implements OnInit {
   }
 
   onInsert() {
-    if (this.form.valid) {
+    if (this.form.valid && this.user) {
       const room: Room = {
         ...this.form.value,
         province: this.province?.value.name,

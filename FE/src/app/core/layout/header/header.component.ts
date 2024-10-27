@@ -1,10 +1,5 @@
+import { CommonModule, DOCUMENT } from '@angular/common';
 import {
-  CommonModule,
-  DOCUMENT,
-  isPlatformBrowser,
-} from '@angular/common';
-import {
-  AfterViewInit,
   Component,
   DestroyRef,
   ElementRef,
@@ -34,12 +29,16 @@ import { UserService } from '@core/services/user.service';
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
-export class HeaderComponent implements AfterViewInit {
+export class HeaderComponent {
   @ViewChild('navmenu', { read: ElementRef })
   navmenu: ElementRef | undefined;
 
+  @ViewChild('mobileNavToggle', { static: true })
+  mobileNavToggleBtn!: ElementRef;
+
   destroyRef = inject(DestroyRef);
   renderer = inject(Renderer2);
+  el = inject(ElementRef);
   platformId = inject(PLATFORM_ID);
   document = inject(DOCUMENT);
 
@@ -51,36 +50,31 @@ export class HeaderComponent implements AfterViewInit {
     takeUntilDestroyed(this.destroyRef)
   );
 
-  ngAfterViewInit(): void {
-    if (isPlatformBrowser(this.platformId)) {
-      this.toggleMobile();
-    }
-  }
-
   onLogout() {
     this.authService.logout();
   }
 
   toggleMobile() {
-    const mobileNavToggleBtn =
-      this.document.querySelector('.mobile-nav-toggle');
-    const body = this.document.querySelector('body');
+    const body = document.querySelector('body');
+
     let mobileNavToogle = () => {
       body!.classList.toggle('mobile-nav-active');
-      mobileNavToggleBtn!.classList.toggle('bi-list');
-      mobileNavToggleBtn!.classList.toggle('bi-x');
+      this.mobileNavToggleBtn.nativeElement.classList.toggle('bi-list');
+      this.mobileNavToggleBtn.nativeElement.classList.toggle('bi-x');
     };
 
-    if (mobileNavToggleBtn) {
-      this.renderer.listen(mobileNavToggleBtn, 'click', mobileNavToogle);
+    if (this.mobileNavToggleBtn) {
+      mobileNavToogle();
     }
 
-    this.document.querySelectorAll('.navmenu a').forEach((nav) => {
-      this.renderer.listen(nav, 'click', () => {
-        if (this.document.querySelector('.mobile-nav-active')) {
-          mobileNavToogle();
-        }
+    this.el.nativeElement
+      .querySelectorAll('.navmenu a')
+      .forEach((nav: HTMLElement) => {
+        this.renderer.listen(nav, 'click', () => {
+          if (body!.classList.contains('mobile-nav-active')) {
+            mobileNavToogle();
+          }
+        });
       });
-    });
   }
 }

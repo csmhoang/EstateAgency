@@ -5,7 +5,7 @@ import { Result } from '@core/models/result.model';
 import { Secret } from '@core/models/secret.model';
 import { CookieService } from '@core/services/cookie.service';
 import { UserService } from '@core/services/user.service';
-import { EMPTY, forkJoin, lastValueFrom, Observable, of, take, tap } from 'rxjs';
+import { map, Observable, of, tap } from 'rxjs';
 import { Login } from '../models/login.model';
 import { Register } from '../models/register.model';
 import { SkipPreloader } from '@core/interceptors/skip.resolver';
@@ -78,16 +78,16 @@ export class AuthService {
       return this.http
         .post<Result<Secret>>('/authentication/login', credentials)
         .pipe(
+          map((response)=>{
+            if (response.success) {
+              const secret: Secret = {
+                ...credentials,
+                ...response.data,
+              };
+              this.cookie.save(secret, 7);
+            }
+          }),
           tap({
-            next: (response) => {
-              if (response.success) {
-                const secret: Secret = {
-                  ...credentials,
-                  ...response.data,
-                };
-                this.cookie.save(secret, 7);
-              }
-            },
             error: () => {
               this.cookie.remove();
             },

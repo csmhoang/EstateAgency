@@ -31,6 +31,7 @@ export class ApartmentService {
   }
 
   insert(room: Room, files: File[]): Observable<Result> {
+    debugger
     const form = new FormData();
     Object.entries(room).forEach(([key, value]) => {
       form.append(key, value.toString());

@@ -8,11 +8,11 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
   const toastService = inject(ToastService);
   return next(req).pipe(
     catchError((err: HttpErrorResponse) => {
-      if (err.error instanceof ErrorEvent) {
+      if (err.error instanceof HttpErrorResponse) {
         toastService.error(err.error.message);
       } else {
         const res = err.error as Result;
-        res.errors.forEach((error) => {
+        res.errors?.forEach((error) => {
           toastService.error(error);
         });
         if (res.messages) {

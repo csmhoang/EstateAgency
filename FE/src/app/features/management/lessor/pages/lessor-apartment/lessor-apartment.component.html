@@ -10,78 +10,84 @@
       <app-search></app-search>
     </div>
   </div>
-  <table mat-table [dataSource]="dataSource" matSort>
-    <!-- Name Column -->
-    <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Tên phòng</th>
-      <td mat-cell *matCellDef="let element">{{ element?.name }}</td>
-    </ng-container>
+  <div *ngIf="rooms &&  rooms.length > 0; else noRoom">
+    <table mat-table [dataSource]="dataSource" matSort>
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Tên phòng</th>
+        <td mat-cell *matCellDef="let element">{{ element?.name }}</td>
+      </ng-container>
 
-    <!-- Category Column -->
-    <ng-container matColumnDef="category">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Thể loại</th>
-      <td mat-cell *matCellDef="let element">{{ element?.category }}</td>
-    </ng-container>
+      <!-- Category Column -->
+      <ng-container matColumnDef="category">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Thể loại</th>
+        <td mat-cell *matCellDef="let element">{{ element?.category }}</td>
+      </ng-container>
 
-    <!-- Address Column-->
-    <ng-container matColumnDef="address">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Địa chỉ</th>
-      <td mat-cell *matCellDef="let element">{{ element?.address }}</td>
-    </ng-container>
+      <!-- Address Column-->
+      <ng-container matColumnDef="address">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Địa chỉ</th>
+        <td mat-cell *matCellDef="let element">{{ element?.address }}</td>
+      </ng-container>
 
-    <!-- Area Column-->
-    <ng-container matColumnDef="area">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Diện tích</th>
-      <td mat-cell *matCellDef="let element">{{ element?.area }}</td>
-    </ng-container>
+      <!-- Area Column-->
+      <ng-container matColumnDef="area">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Diện tích</th>
+        <td mat-cell *matCellDef="let element">{{ element?.area }}</td>
+      </ng-container>
 
-    <!-- Price Column-->
-    <ng-container matColumnDef="price">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Giá</th>
-      <td mat-cell *matCellDef="let element">{{ element?.price }}</td>
-    </ng-container>
+      <!-- Price Column-->
+      <ng-container matColumnDef="price">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Giá</th>
+        <td mat-cell *matCellDef="let element">{{ element?.price }}</td>
+      </ng-container>
 
-    <!-- Condition Column-->
-    <ng-container matColumnDef="condition">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Tình trạng</th>
-      <td mat-cell *matCellDef="let element">{{ element?.condition }}</td>
-    </ng-container>
+      <!-- Condition Column-->
+      <ng-container matColumnDef="condition">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Tình trạng</th>
+        <td mat-cell *matCellDef="let element">{{ element?.condition }}</td>
+      </ng-container>
 
-    <!-- Optional Column-->
-    <ng-container matColumnDef="optional">
-      <th mat-header-cell *matHeaderCellDef></th>
-      <td mat-cell *matCellDef="let element">
-        <button
-          mat-icon-button
-          [matMenuTriggerFor]="menu"
-          class="d-flex justify-content-center align-items-center"
-        >
-          <i class="fa-solid fa-ellipsis-vertical"></i>
-        </button>
-        <mat-menu #menu class="px-1">
-          <button (click)="onView()" mat-menu-item>
-            <i class="fa-solid fa-eye"></i>
-            <span>Xem</span>
+      <!-- Optional Column-->
+      <ng-container matColumnDef="optional">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element">
+          <button
+            mat-icon-button
+            [matMenuTriggerFor]="menu"
+            class="d-flex justify-content-center align-items-center"
+          >
+            <i class="fa-solid fa-ellipsis-vertical"></i>
           </button>
-          <button (click)="onUpdate()" mat-menu-item>
-            <i class="fa-solid fa-wrench"></i>
-            <span>Sửa</span>
-          </button>
-          <button (click)="onDelete()" mat-menu-item>
-            <i class="fa-solid fa-trash"></i>
-            <span>Xóa</span>
-          </button>
-        </mat-menu>
-      </td>
-    </ng-container>
+          <mat-menu #menu class="px-1">
+            <button (click)="onView()" mat-menu-item>
+              <i class="fa-solid fa-eye"></i>
+              <span>Xem</span>
+            </button>
+            <button (click)="onUpdate()" mat-menu-item>
+              <i class="fa-solid fa-wrench"></i>
+              <span>Sửa</span>
+            </button>
+            <button (click)="onDelete()" mat-menu-item>
+              <i class="fa-solid fa-trash"></i>
+              <span>Xóa</span>
+            </button>
+          </mat-menu>
+        </td>
+      </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-  </table>
-  <div class="pt-4">
-    <app-pagination></app-pagination>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+    <div class="pt-4">
+      <app-pagination></app-pagination>
+    </div>
   </div>
 </div>
+
+<ng-template #noRoom>
+  <p class="fs-4 py-5 text-center">Bạn chưa có phòng trọ nào!</p>
+</ng-template>
 
 <ng-template #maintenance>
   <app-maintenance-form></app-maintenance-form>

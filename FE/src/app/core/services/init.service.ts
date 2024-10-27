@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { AuthService } from '@core/auth/services/auth.service';
 import { UserService } from './user.service';
-import { forkJoin } from 'rxjs';
+import { catchError, forkJoin, map, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +12,9 @@ export class InitService {
 
   init() {
     const autoLogin = this.authService.autoLogin();
-    const currentUser = this.userService.init();
+    const currentUser = this.userService.init().pipe(
+      catchError(() => of(null))
+    );
     return forkJoin({
       autoLogin,
       currentUser,

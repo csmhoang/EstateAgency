@@ -19,10 +19,9 @@ import { errorInterceptor } from '@core/interceptors/error.interceptor';
 import { InitService } from '@core/services/init.service';
 import { lastValueFrom } from 'rxjs';
 
+
 function initializeApp(initService: InitService) {
-  return () => {
-    lastValueFrom(initService.init());
-  };
+  return () => lastValueFrom(initService.init());
 }
 
 export const appConfig: ApplicationConfig = {

@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
   Component,
@@ -29,6 +30,7 @@ import { ToastService } from '@shared/services/toast/toast.service';
     MaintenanceFormComponent,
     SearchComponent,
     RouterLink,
+    CommonModule,
   ],
   templateUrl: './lessor-apartment.component.html',
   styleUrl: './lessor-apartment.component.scss',
@@ -62,15 +64,9 @@ export class LessorApartmentComponent implements AfterViewInit {
     }
   }
 
-  onView(){
+  onView() {}
 
-  }
-  
-  onUpdate(){
+  onUpdate() {}
 
-  }
-
-  onDelete(){
-    
-  }
+  onDelete() {}
 }

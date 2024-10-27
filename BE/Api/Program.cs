@@ -1,8 +1,10 @@
 ﻿using Api.Extensions;
 using Core.Helpers;
 using Core.Interfaces.Infrastructure;
+using Infrastructure.Data;
 using Infrastructure.Mapping;
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using NLog;
 using System.Reflection;
@@ -46,6 +48,7 @@ var app = builder.Build();
 var logger = app.Services.GetRequiredService<ILoggerManager>();
 app.ConfigureExceptionHandler(logger);
 
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -67,5 +70,18 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+using var scope = app.Services.CreateScope();
+var services = scope.ServiceProvider;
+var context = services.GetRequiredService<RepositoryContext>();
+try
+{
+    await context.Database.MigrateAsync();
+    await StoreContextSeed.SeedAsync(context);
+}
+catch (Exception ex)
+{
+    logger.LogError($"Một lỗi xảy ra trong quá trình migration => {ex.Message}");
+}
 
 app.Run();
