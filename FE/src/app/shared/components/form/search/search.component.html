@@ -6,11 +6,13 @@
     <input
       type="text"
       class="form-control"
-      placeholder="Nhập tối đa 5 địa điểm, dự án."
+      [placeholder]="placeholder()"
+      [formControl]="query"
+      (keydown.enter)="onSearch()"
     />
   </div>
   
   <div class="col-md-3">
-    <button class="btn btn-dark w-100">Tìm kiếm</button>
+    <button class="btn btn-dark w-100" (click)="onSearch()">Tìm kiếm</button>
   </div>
 </div>

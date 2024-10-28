@@ -18,7 +18,6 @@ import { ServiceComponent } from '@features/service/pages/service/service.compon
 import { ProfileActionsComponent } from '@features/profiles/pages/profile-actions/profile-actions.component';
 import { LessorApartmentComponent } from '@features/management/lessor/pages/lessor-apartment/lessor-apartment.component';
 import { LessorPostComponent } from '@features/management/lessor/pages/lessor-post/lessor-post.component';
-import { isLandlord } from '@core/guards/auth.guard';
 import { ApartmentInsertComponent } from '@features/apartment/components/apartment-insert/apartment-insert.component';
 import { PostInsertComponent } from '@features/post/components/post-insert/post-insert.component';
 

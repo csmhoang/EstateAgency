@@ -16,18 +16,25 @@ import { RoomParams } from '../models/room-params.model';
   providedIn: 'root',
 })
 export class ApartmentService {
-  private http = inject(HttpClient)
+  private http = inject(HttpClient);
   private url = 'https://esgoo.net/api-tinhthanh';
 
-  getList(specParams: RoomParams): Observable<PageData<Room[]>> {
+  getList(
+    specParams: RoomParams,
+    isHideLoading: boolean = false
+  ): Observable<PageData<Room[]>> {
     let params = new HttpParams();
     Object.entries(specParams).forEach(([key, value]) => {
       if (value) {
         params = params.set(key, value);
       }
     });
+
     return this.http
-      .get<Result<PageData<Room[]>>>('/rooms/list', { params })
+      .get<Result<PageData<Room[]>>>('/rooms/list', {
+        params,
+        context: new HttpContext().set(SkipPreloader, isHideLoading),
+      })
       .pipe(map((response) => response.data));
   }
 

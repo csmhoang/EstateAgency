@@ -6,5 +6,7 @@ export const SkipApi = new HttpContextToken(() => false);
 
 export const SkipToken = new HttpContextToken(() => false);
 
+export const SkipMiniLoad = new HttpContextToken(() => false);
+
 
 

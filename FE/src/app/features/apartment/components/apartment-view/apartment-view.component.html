@@ -1,1 +1,96 @@
-<p>apartment-view works!</p>
+<div class="container">
+  <!-- Apartment Photos -->
+  <app-apartment-detail-photos></app-apartment-detail-photos>
+
+  <div>
+    <h5 class="fs-5 fw-bold mb-4">Chi tiết</h5>
+    <table class="table table-striped">
+      <tbody>
+        <tr>
+          <th scope="row">Mã số</th>
+          <td>
+            {{ room().roomCode }}
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">Tên phòng</th>
+          <td>
+            {{ room().name }}
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">Thể loại</th>
+          <td>
+            {{ category[room().category] }}
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">Tỉnh/Thành</th>
+          <td>
+            {{ room().province }}
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">Quận/Huyện</th>
+          <td>
+            {{ room().district }}
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">Phường/Xã</th>
+          <td>
+            {{ room().ward }}
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">Địa chỉ</th>
+          <td>
+            {{ room().address }}
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">Diện tích</th>
+          <td>
+            {{ room().area }}
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">Giá</th>
+          <td>
+            {{ room().price }}
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">Nội thất</th>
+          <td>
+            {{ interior[room().interior] }}
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">Số phòng ngủ</th>
+          <td>
+            {{ room().bedroom }}
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">Số phòng tắm</th>
+          <td>
+            {{ room().bathroom }}
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">Số nhà vệ sinh</th>
+          <td>
+            {{ room().toilet }}
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">Tình trạng</th>
+          <td>
+            {{ condition[room().condition] }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -18,7 +18,7 @@ import { tokenInterceptor } from '@core/interceptors/token.interceptor';
 import { errorInterceptor } from '@core/interceptors/error.interceptor';
 import { InitService } from '@core/services/init.service';
 import { lastValueFrom } from 'rxjs';
-
+import { miniLoadInterceptor } from '@core/interceptors/mini-load.interceptor';
 
 function initializeApp(initService: InitService) {
   return () => lastValueFrom(initService.init());
@@ -36,6 +36,7 @@ export const appConfig: ApplicationConfig = {
         apiInterceptor,
         tokenInterceptor,
         preloaderInterceptor,
+        miniLoadInterceptor,
         errorInterceptor,
       ])
     ),

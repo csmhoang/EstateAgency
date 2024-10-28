@@ -7,10 +7,16 @@
       </button>
     </div>
     <div class="col-lg-8">
-      <app-search></app-search>
+      <app-search
+        [placeholder]="'Tìm kiếm...'"
+        (search)="onSearch($event)"
+      ></app-search>
     </div>
   </div>
-  <div *ngIf="dataSource.data.length > 0; else noRoom">
+  <div
+    class="position-relative"
+    *ngIf="dataSource.data.length > 0; else noRoom"
+  >
     <table mat-table [dataSource]="dataSource" matSort>
       <!-- Name Column -->
       <ng-container matColumnDef="name">
@@ -21,7 +27,9 @@
       <!-- Category Column -->
       <ng-container matColumnDef="category">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Thể loại</th>
-        <td mat-cell *matCellDef="let element">{{ element?.category }}</td>
+        <td mat-cell *matCellDef="let element">
+          {{ category[element?.category] }}
+        </td>
       </ng-container>
 
       <!-- Address Column-->
@@ -45,7 +53,9 @@
       <!-- Condition Column-->
       <ng-container matColumnDef="condition">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Tình trạng</th>
-        <td mat-cell *matCellDef="let element">{{ element?.condition }}</td>
+        <td mat-cell *matCellDef="let element">
+          {{ condition[element?.condition] }}
+        </td>
       </ng-container>
 
       <!-- Optional Column-->
@@ -60,15 +70,15 @@
             <i class="fa-solid fa-ellipsis-vertical"></i>
           </button>
           <mat-menu #menu class="px-1">
-            <button (click)="onView()" mat-menu-item>
+            <button (click)="onView(element)" mat-menu-item>
               <i class="fa-solid fa-eye"></i>
               <span>Xem</span>
             </button>
-            <button (click)="onUpdate()" mat-menu-item>
+            <button (click)="onUpdate(element)" mat-menu-item>
               <i class="fa-solid fa-wrench"></i>
               <span>Sửa</span>
             </button>
-            <button (click)="onDelete()" mat-menu-item>
+            <button (click)="onDelete(element)" mat-menu-item>
               <i class="fa-solid fa-trash"></i>
               <span>Xóa</span>
             </button>
@@ -85,6 +95,8 @@
         (pageChange)="onPageChange($event)"
       ></app-pagination>
     </div>
+    <!-- Mini Loading -->
+    <app-mini-load></app-mini-load>
   </div>
 </div>
 
@@ -92,6 +104,6 @@
   <p class="fs-4 py-5 text-center">Bạn chưa có phòng trọ nào!</p>
 </ng-template>
 
-<ng-template #maintenance>
-  <app-maintenance-form></app-maintenance-form>
+<ng-template #apartmentView>
+  <app-apartment-view [room]="room"></app-apartment-view>
 </ng-template>

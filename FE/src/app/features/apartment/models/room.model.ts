@@ -16,3 +16,19 @@ export type Room = {
   price: number;
   condition: string;
 };
+
+export const Condition: { [key: string]: string } = {
+  Available: 'Trống',
+  Occupied: 'Đã thuê',
+};
+
+export const Category: { [key: string]: string } = {
+  RentalRoom: 'Phòng trọ',
+  MiniApartment: 'Chung cư mini',
+  Apartment: 'Chung cư',
+};
+
+export const Interior: { [key: string]: string } = {
+  Empty: 'Không',
+  Full: 'Đầy đủ',
+};

@@ -12,7 +12,7 @@ export class InitService {
 
   init() {
     const autoLogin = this.authService.autoLogin();
-    const currentUser = this.userService.init().pipe(
+    const currentUser = this.userService.init(true).pipe(
       catchError(() => of(null))
     );
     return forkJoin({

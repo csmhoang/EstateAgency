@@ -9,11 +9,7 @@ import { PreloaderService } from '@shared/services/preloader/preloader.service';
 import { delay, finalize, of } from 'rxjs';
 import { SkipPreloader } from './skip.resolver';
 
-
-export const preloaderInterceptor: HttpInterceptorFn = (
-  req: HttpRequest<unknown>,
-  next: HttpHandlerFn
-) => {
+export const preloaderInterceptor: HttpInterceptorFn = (req, next) => {
   if (req.context.get(SkipPreloader)) {
     return next(req);
   }

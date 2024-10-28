@@ -76,9 +76,11 @@ export class AuthService {
         isRemember: true,
       };
       return this.http
-        .post<Result<Secret>>('/authentication/login', credentials)
+        .post<Result<Secret>>('/authentication/login', credentials, {
+          context: new HttpContext().set(SkipPreloader, true),
+        })
         .pipe(
-          map((response)=>{
+          map((response) => {
             if (response.success) {
               const secret: Secret = {
                 ...credentials,
