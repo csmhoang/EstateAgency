@@ -11,10 +11,9 @@ export const miniLoadInterceptor: HttpInterceptorFn = (req, next) => {
   const miniloadService = inject(MiniLoadService);
   miniloadService.loadingOn();
   return next(req).pipe(
+    delay(1000),
     finalize(() => {
-      of(null)
-        .pipe(delay(1000))
-        .subscribe(() => miniloadService.loadingOff());
+      miniloadService.loadingOff()
     })
   );
 };

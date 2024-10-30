@@ -1,4 +1,5 @@
 ﻿using Core.Consts;
+using Core.Entities;
 using System.ComponentModel.DataAnnotations;
 using static Core.Enums.RoomEnums;
 
@@ -9,7 +10,7 @@ namespace Core.Dtos
         public Guid? Id { get; set; }
         public int RoomCode { get; set; }
         [Required(ErrorMessage = UserConst.ErrorEmptyLandlordId)]
-        public string? LandlordId { get; set; } = null!;
+        public string? LandlordId { get; set; }
         public string Name { get; set; } = null!;
         public Category Category { get; set; }
         public string Address { get; set; } = null!;
@@ -23,5 +24,6 @@ namespace Core.Dtos
         public decimal Area { get; set; }
         public decimal Price { get; set; }
         public ConditionRoom Condition { get; set; }
+        public ICollection<PhotoDto>? Photos { get; set; }
     }
 }

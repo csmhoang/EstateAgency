@@ -61,11 +61,31 @@ namespace Core.Interfaces.Business
         /// Thêm phòng
         /// </summary>
         /// <param name="roomDto">Phòng</param>
-        /// <param name="files">Danh sách ảnh của phòng</param>
+        /// <param name="files">Danh sách tệp phòng</param>
         /// <returns>
         /// 1 - Thông báo thành công
         /// 2 - Ngoại lệ
         /// </returns>
         Task<Response> InsertAsync(RoomDto roomDto, IFormFile[]? files);
+        /// <summary>
+        /// Thêm ảnh cho phòng
+        /// </summary>
+        /// <param name="roomId">Mã phòng</param>
+        /// <param name="file">Tệp ảnh</param>
+        /// <returns>
+        /// Ảnh phòng thêm
+        /// </returns>
+        Task<Response> InsertPhotoAsync(string roomId, IFormFile file);
+        /// <summary>
+        /// Xóa ảnh phòng
+        /// </summary>
+        /// <param name="roomId">Mã phòng</param>
+        /// <param name="photoId">Mã ảnh</param>
+        /// <returns>        
+        /// 1 - Thông báo thành công
+        /// 2 - Ngoại lệ
+        /// </returns>
+        Task<Response> DeletePhotoAsync(string roomId, string photoId);
+
     }
 }

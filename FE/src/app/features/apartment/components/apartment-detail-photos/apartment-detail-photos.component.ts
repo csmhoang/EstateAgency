@@ -1,5 +1,13 @@
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
-import { AfterViewInit, Component, inject, PLATFORM_ID } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  inject,
+  Input,
+  input,
+  PLATFORM_ID,
+} from '@angular/core';
+import { Photo } from '@features/apartment/models/photo.model';
 
 declare var Swiper: any;
 declare var initSwiperWithCustomPagination: (
@@ -15,6 +23,8 @@ declare var initSwiperWithCustomPagination: (
   styleUrl: './apartment-detail-photos.component.scss',
 })
 export class ApartmentDetailPhotosComponent implements AfterViewInit {
+  @Input()
+  photos: Photo[] = [];
   platformId = inject(PLATFORM_ID);
   document = inject(DOCUMENT);
 
@@ -25,11 +35,12 @@ export class ApartmentDetailPhotosComponent implements AfterViewInit {
   }
 
   initSwiper() {
+    const isLoop = this.photos.length > 3;
     this.document
       .querySelectorAll('.init-swiper')
       .forEach(function (swiperElement) {
         let config = {
-          loop: true,
+          loop: isLoop,
           speed: 600,
           autoplay: {
             delay: 5000,

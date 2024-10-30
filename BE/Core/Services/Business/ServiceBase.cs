@@ -33,6 +33,14 @@ namespace Core.Services.Business
             var pagination = new Pagination<T>(pageIndex, pageSize, count, items);
             return pagination;
         }
+        protected async Task<Pagination<TResult>> CreatePagedResult<TResult>(ISpecification<T, TResult> spec,
+            int pageIndex, int pageSize)
+        {
+            var items = await _repository.ListAsync(spec);
+            var count = await _repository.CountAsync(spec);
+            var pagination = new Pagination<TResult>(pageIndex, pageSize, count, items);
+            return pagination;
+        }
         #endregion
 
 

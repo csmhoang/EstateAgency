@@ -1,18 +1,14 @@
 <div class="portfolio-details-slider swiper init-swiper">
   <div class="swiper-wrapper align-items-center">
+    @for (photo of photos; track $index) {
     <div class="swiper-slide">
-      <img src="assets/img/property-slide/property-slide-1.jpg" alt="" />
+      <img [src]="photo.url" />
     </div>
-
-    <div class="swiper-slide">
-      <img src="assets/img/property-slide/property-slide-2.jpg" alt="" />
-    </div>
-
-    <div class="swiper-slide">
-      <img src="assets/img/property-slide/property-slide-3.jpg" alt="" />
-    </div>
+    }
   </div>
+  @if(photos.length > 1){
   <div class="swiper-button-prev"></div>
   <div class="swiper-button-next"></div>
   <div class="swiper-pagination"></div>
+  }
 </div>

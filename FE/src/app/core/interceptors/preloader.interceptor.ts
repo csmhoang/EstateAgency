@@ -16,10 +16,9 @@ export const preloaderInterceptor: HttpInterceptorFn = (req, next) => {
   const preloaderService = inject(PreloaderService);
   preloaderService.loadingOn();
   return next(req).pipe(
+    delay(1000),
     finalize(() => {
-      of(null)
-        .pipe(delay(1000))
-        .subscribe(() => preloaderService.loadingOff());
+      preloaderService.loadingOff()
     })
   );
 };

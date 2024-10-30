@@ -13,6 +13,7 @@ namespace Core.Specifications
         #region Property
         public Expression<Func<T, object>>? OrderBy { get; private set; }
         public Expression<Func<T, object>>? OrderByDescending { get; private set; }
+        public Expression<Func<T, object>>[]? Includes { get; private set; }
         public bool IsDistinct { get; private set; }
         public int Take { get; private set; }
         public int Skip { get; private set; }
@@ -45,6 +46,10 @@ namespace Core.Specifications
         protected void AddOrderByDescending(Expression<Func<T, object>> orderByDescExpression)
         {
             OrderByDescending = orderByDescExpression;
+        }
+        protected void AddIncludes(Expression<Func<T, object>>[] includesExpression)
+        {
+            Includes = includesExpression;
         }
 
         protected void ApplyDistinct()

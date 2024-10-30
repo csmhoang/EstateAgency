@@ -1,5 +1,6 @@
 ﻿using Core.Interfaces.Specifications;
 using Infrastructure.Repositories;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,6 +38,14 @@ namespace Infrastructure.Data
                 query = query.OrderByDescending(spec.OrderByDescending);
             }
 
+            if (spec.Includes != null)
+            {
+                foreach (var inculde in spec.Includes)
+                {
+                    query = query.Include(inculde);
+                }
+            }
+
             if (spec.IsDistinct)
             {
                 query = query.Distinct();
@@ -72,6 +81,7 @@ namespace Infrastructure.Data
 
             if (spec.Select != null)
             {
+                query = query.Include(spec.Select);
                 selectQuery = query.Select(spec.Select);
             }
 

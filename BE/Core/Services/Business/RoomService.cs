@@ -2,6 +2,7 @@
 using Core.Dtos;
 using Core.Entities;
 using Core.Exceptions;
+using Core.Helpers;
 using Core.Interfaces.Business;
 using Core.Interfaces.Data;
 using Core.Interfaces.Infrastructure;
@@ -69,6 +70,7 @@ namespace Core.Services.Business
                 .FirstOrDefaultAsync();
             if (roomDelete is not null)
             {
+                await DeletePhotosAsync(id);
                 _repository.Room.Delete(roomDelete);
                 await _repository.SaveAsync();
                 return new Response
@@ -83,6 +85,25 @@ namespace Core.Services.Business
                 throw new RoomNotFoundException(id);
             }
         }
+
+        public async Task DeletePhotosAsync(string roomId)
+        {
+            var photos = await _repository.Photo.FindCondition(r => r.RoomId!.Equals(roomId))
+                .ToListAsync();
+            var count = 0;
+            foreach (var photo in photos)
+            {
+                var deleteResult = await _photoService.DeletePhotoAsync(photo.PublicId);
+                if (deleteResult.Error != null || deleteResult.Result == "not found")
+                {
+                    throw new CustomizeException(Failure.DeletePhotoFailing);
+                }
+                _repository.Photo.Delete(photo);
+                count++;
+            }
+            if (count != 0) await _repository.SaveAsync();
+        }
+
         public async Task<Response> InsertAsync(RoomDto roomDto, IFormFile[]? files)
         {
             await ValidateObject(roomDto);
@@ -91,16 +112,7 @@ namespace Core.Services.Business
             _repository.Room.Create(room);
             await _repository.SaveAsync();
 
-            if (files != null)
-            {
-                var count = 0;
-                foreach (var file in files)
-                {
-                    await InsertPhoto(room.Id, file);
-                    count++;
-                }
-                if (count != 0) await _repository.SaveAsync();
-            }
+            await InsertPhotosAsync(room.Id, files);
 
             return new Response
             {
@@ -110,20 +122,88 @@ namespace Core.Services.Business
             };
         }
 
-        public async Task InsertPhoto(string roomId, IFormFile file)
+        public async Task<Response> InsertPhotoAsync(string roomId, IFormFile file)
         {
-            var uploadPhotoResult = await _photoService.UploadPhotoAsync(file);
-            if (uploadPhotoResult.Error != null)
+            var room = await _repository.Room.FindCondition(r => r.Id.Equals(roomId))
+                .FirstOrDefaultAsync();
+            if (room != null)
             {
-                throw new CustomizeException(Failure.UploadPhotoFailing);
+                var uploadPhotoResult = await _photoService.UploadPhotoAsync(file);
+                if (uploadPhotoResult.Error != null)
+                {
+                    throw new CustomizeException(Failure.UploadPhotoFailing);
+                }
+                var photo = new Photo
+                {
+                    RoomId = room.Id,
+                    Url = uploadPhotoResult.SecureUrl.AbsoluteUri,
+                    PublicId = uploadPhotoResult.PublicId,
+                };
+                _repository.Photo.Create(photo);
+                await _repository.SaveAsync();
+                return new Response
+                {
+                    Success = true,
+                    Data = _mapper.Map<PhotoDto>(photo),
+                    StatusCode = photo != null ? (int)HttpStatusCode.OK : (int)HttpStatusCode.NoContent
+                };
             }
-            var photo = new Photo
+            else
             {
-                RoomId = roomId,
-                Url = uploadPhotoResult.SecureUrl.AbsoluteUri,
-                PublicId = uploadPhotoResult.PublicId,
-            };
-            _repository.Photo.Create(photo);
+                throw new RoomNotFoundException(roomId);
+            }
+        }
+        public async Task<Response> DeletePhotoAsync(string roomId, string photoId)
+        {
+            var photo = await _repository.Photo.FindCondition(
+                p => p.RoomId!.Equals(roomId) && p.Id.Equals(photoId)
+            ).FirstOrDefaultAsync();
+            if (photo != null)
+            {
+                var deleteResult = await _photoService.DeletePhotoAsync(photo.PublicId);
+                if (deleteResult.Error != null || deleteResult.Result == "not found")
+                {
+                    throw new CustomizeException(Failure.DeletePhotoFailing);
+                }
+                _repository.Photo.Delete(photo);
+                await _repository.SaveAsync();
+
+                return new Response
+                {
+                    Success = true,
+                    Messages = Successfull.DeleteSucceed,
+                    StatusCode = (int)HttpStatusCode.NoContent
+                };
+            }
+            else
+            {
+                throw new PhotoNotFoundException(roomId);
+            }
+        }
+
+        public async Task InsertPhotosAsync(string roomId, IFormFile[]? files)
+        {
+            if (files != null)
+            {
+                var count = 0;
+                foreach (var file in files)
+                {
+                    var uploadPhotoResult = await _photoService.UploadPhotoAsync(file);
+                    if (uploadPhotoResult.Error != null)
+                    {
+                        throw new CustomizeException(Failure.UploadPhotoFailing);
+                    }
+                    var photo = new Photo
+                    {
+                        RoomId = roomId,
+                        Url = uploadPhotoResult.SecureUrl.AbsoluteUri,
+                        PublicId = uploadPhotoResult.PublicId,
+                    };
+                    _repository.Photo.Create(photo);
+                    count++;
+                }
+                if (count != 0) await _repository.SaveAsync();
+            }
         }
 
         public async Task<Response> UpdateAsync(string id, RoomDto roomDto)

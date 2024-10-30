@@ -4,7 +4,7 @@ import { PageData } from '@core/models/page-data.model';
 import { RoomParams } from '@features/apartment/models/room-params.model';
 import { Room } from '@features/apartment/models/room.model';
 import { ApartmentService } from '@features/apartment/services/apartment.service';
-import { catchError, EMPTY, lastValueFrom, map, of } from 'rxjs';
+import { catchError, lastValueFrom, map, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -33,5 +33,9 @@ export class LessorApartmentService {
         catchError(() => of(null))
       )
     );
+  }
+
+  async delete(idRoom: string) {
+    return await lastValueFrom(this.apartmentService.delete(idRoom));
   }
 }

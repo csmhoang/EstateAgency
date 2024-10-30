@@ -1,8 +1,10 @@
-﻿using Core.Entities;
+﻿using Core.Dtos;
+using Core.Entities;
 using Core.Params;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -22,6 +24,10 @@ namespace Core.Specifications
         (specParams.Province.Count == 0 || specParams.Province.Contains(x.Province!))
         )
         {
+            AddIncludes(new Expression<Func<Room, object>>[] {
+                x => x.Photos
+            });
+
             ApplyPaging(specParams.PageSize * (specParams.PageIndex - 1), specParams.PageSize);
 
             switch (specParams.Sort)

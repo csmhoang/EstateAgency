@@ -15,8 +15,13 @@ export class DialogService {
     return modalRef.result;
   }
 
-  form(modal: Modal): Promise<boolean> {
-    const modalRef = this.modalService.open(ModalComponent, { size: 'xl' });
+  view(modal: Modal, size: string = 'lg') {
+    const modalRef = this.modalService.open(ModalComponent, { size });
+    modalRef.componentInstance.modal = modal;
+  }
+
+  form(modal: Modal, size: string = 'xl'): Promise<boolean> {
+    const modalRef = this.modalService.open(ModalComponent, { size });
     modalRef.componentInstance.modal = modal;
     return modalRef.result;
   }

@@ -58,11 +58,35 @@ namespace Api.Controllers
         /// Thêm phòng
         /// </summary>
         /// <param name="model">Phòng</param>
-        /// <param name="files">Danh sách ảnh của phòng</param>
+        /// <param name="files">Danh sách tệp ảnh</param>
         [HttpPost]
         public async Task<IActionResult> Create([FromForm] RoomDto model, IFormFile[]? files)
         {
             var response = await _service.Room.InsertAsync(model, files);
+            return Ok(response);
+        }
+
+        /// <summary>
+        /// Thêm ảnh cho phòng
+        /// </summary>
+        /// <param name="roomId">Mã phòng</param>
+        /// <param name="file">Tệp ảnh</param>
+        [HttpPost("insert-photo/{roomId}")]
+        public async Task<IActionResult> InsertPhoto(string roomId, IFormFile file)
+        {
+            var response = await _service.Room.InsertPhotoAsync(roomId, file);
+            return Ok(response);
+        }
+
+        /// <summary>
+        /// Xóa ảnh phòng
+        /// </summary>
+        /// <param name="roomId">Mã phòng</param>
+        /// <param name="photoId">Mã ảnh</param>
+        [HttpDelete("delete-photo")]
+        public async Task<IActionResult> DeletePhoto(string roomId, string photoId)
+        {
+            var response = await _service.Room.DeletePhotoAsync(roomId, photoId);
             return Ok(response);
         }
 

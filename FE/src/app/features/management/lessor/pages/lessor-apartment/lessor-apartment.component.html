@@ -13,97 +13,106 @@
       ></app-search>
     </div>
   </div>
-  <div
-    class="position-relative"
-    *ngIf="dataSource.data.length > 0; else noRoom"
-  >
-    <table mat-table [dataSource]="dataSource" matSort>
-      <!-- Name Column -->
-      <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Tên phòng</th>
-        <td mat-cell *matCellDef="let element">{{ element?.name }}</td>
-      </ng-container>
+  <div class="position-relative">
+    <div [hidden]="dataSource.data.length == 0">
+      <table mat-table [dataSource]="dataSource" matSort>
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Tên phòng</th>
+          <td mat-cell *matCellDef="let element">{{ element?.name }}</td>
+        </ng-container>
 
-      <!-- Category Column -->
-      <ng-container matColumnDef="category">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Thể loại</th>
-        <td mat-cell *matCellDef="let element">
-          {{ category[element?.category] }}
-        </td>
-      </ng-container>
+        <!-- Category Column -->
+        <ng-container matColumnDef="category">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Thể loại</th>
+          <td mat-cell *matCellDef="let element">
+            {{ category[element?.category] }}
+          </td>
+        </ng-container>
 
-      <!-- Address Column-->
-      <ng-container matColumnDef="address">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Địa chỉ</th>
-        <td mat-cell *matCellDef="let element">{{ element?.address }}</td>
-      </ng-container>
+        <!-- Address Column-->
+        <ng-container matColumnDef="address">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Địa chỉ</th>
+          <td mat-cell *matCellDef="let element">{{ element?.address }}</td>
+        </ng-container>
 
-      <!-- Area Column-->
-      <ng-container matColumnDef="area">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Diện tích</th>
-        <td mat-cell *matCellDef="let element">{{ element?.area }}</td>
-      </ng-container>
+        <!-- Area Column-->
+        <ng-container matColumnDef="area">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Diện tích</th>
+          <td mat-cell *matCellDef="let element">{{ element?.area }}</td>
+        </ng-container>
 
-      <!-- Price Column-->
-      <ng-container matColumnDef="price">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Giá</th>
-        <td mat-cell *matCellDef="let element">{{ element?.price }}</td>
-      </ng-container>
+        <!-- Price Column-->
+        <ng-container matColumnDef="price">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Giá</th>
+          <td mat-cell *matCellDef="let element">{{ element?.price }}</td>
+        </ng-container>
 
-      <!-- Condition Column-->
-      <ng-container matColumnDef="condition">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Tình trạng</th>
-        <td mat-cell *matCellDef="let element">
-          {{ condition[element?.condition] }}
-        </td>
-      </ng-container>
+        <!-- Condition Column-->
+        <ng-container matColumnDef="condition">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Tình trạng</th>
+          <td mat-cell *matCellDef="let element">
+            {{ condition[element?.condition] }}
+          </td>
+        </ng-container>
 
-      <!-- Optional Column-->
-      <ng-container matColumnDef="optional">
-        <th mat-header-cell *matHeaderCellDef></th>
-        <td mat-cell *matCellDef="let element">
-          <button
-            mat-icon-button
-            [matMenuTriggerFor]="menu"
-            class="d-flex justify-content-center align-items-center"
-          >
-            <i class="fa-solid fa-ellipsis-vertical"></i>
-          </button>
-          <mat-menu #menu class="px-1">
-            <button (click)="onView(element)" mat-menu-item>
-              <i class="fa-solid fa-eye"></i>
-              <span>Xem</span>
+        <!-- Optional Column-->
+        <ng-container matColumnDef="optional">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let element">
+            <button
+              mat-icon-button
+              [matMenuTriggerFor]="menu"
+              class="d-flex justify-content-center align-items-center"
+            >
+              <i class="fa-solid fa-ellipsis-vertical"></i>
             </button>
-            <button (click)="onUpdate(element)" mat-menu-item>
-              <i class="fa-solid fa-wrench"></i>
-              <span>Sửa</span>
-            </button>
-            <button (click)="onDelete(element)" mat-menu-item>
-              <i class="fa-solid fa-trash"></i>
-              <span>Xóa</span>
-            </button>
-          </mat-menu>
-        </td>
-      </ng-container>
+            <mat-menu #menu class="px-1">
+              <button (click)="onView(element)" mat-menu-item>
+                <i class="fa-solid fa-eye"></i>
+                <span>Xem</span>
+              </button>
+              <button (click)="onUpdate(element)" mat-menu-item>
+                <i class="fa-solid fa-wrench"></i>
+                <span>Sửa</span>
+              </button>
+              <button (click)="onDelete(element?.id)" mat-menu-item>
+                <i class="fa-solid fa-trash"></i>
+                <span>Xóa</span>
+              </button>
+            </mat-menu>
+          </td>
+        </ng-container>
 
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-    </table>
-    <div class="pt-4">
-      <app-pagination
-        [paginationParams]="paginationParams()"
-        (pageChange)="onPageChange($event)"
-      ></app-pagination>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+
+      <!-- Pagination -->
+      <div class="pt-4">
+        <app-pagination
+          [paginationParams]="paginationParams()"
+          (pageChange)="onPageChange($event)"
+        ></app-pagination>
+      </div>
     </div>
+
+    <!-- Empty table -->
+    <ng-container *ngIf="dataSource.data.length == 0">
+      <p class="fs-4 py-5 text-center">Bạn chưa có phòng trọ nào!</p>
+    </ng-container>
+
     <!-- Mini Loading -->
     <app-mini-load></app-mini-load>
   </div>
 </div>
 
-<ng-template #noRoom>
-  <p class="fs-4 py-5 text-center">Bạn chưa có phòng trọ nào!</p>
+<!-- View Modal -->
+<ng-template #viewModal>
+  <app-apartment-view [room]="room"></app-apartment-view>
 </ng-template>
 
-<ng-template #apartmentView>
-  <app-apartment-view [room]="room"></app-apartment-view>
+<!-- Update Modal -->
+<ng-template #updateModal>
+  <app-apartment-update [room]="room"></app-apartment-update>
 </ng-template>

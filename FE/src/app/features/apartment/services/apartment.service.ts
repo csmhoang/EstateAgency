@@ -38,6 +38,25 @@ export class ApartmentService {
       .pipe(map((response) => response.data));
   }
 
+  delete(roomId: string): Observable<Result> {
+    const params = new HttpParams().set('id', roomId);
+    return this.http.delete<Result>('/rooms', { params });
+  }
+
+  update(room: Room) {
+    return this.http.put<Result>('/rooms', room);
+  }
+
+  deletePhoto(roomId: string, photoId: string) {
+    const params = new HttpParams()
+      .set('roomId', roomId)
+      .set('photoId', photoId);
+    return this.http.delete<Result>('/rooms/delete-photo', {
+      params,
+      context: new HttpContext().set(SkipPreloader, true),
+    });
+  }
+
   getById(id: string) {
     return this.http
       .get<Result<Room>>(`/rooms?id=${id}`)
@@ -45,10 +64,11 @@ export class ApartmentService {
   }
 
   insert(room: Room, files: File[]): Observable<Result> {
-    debugger;
     const form = new FormData();
     Object.entries(room).forEach(([key, value]) => {
-      form.append(key, value.toString());
+      if (value) {
+        form.append(key, value.toString());
+      }
     });
     files.forEach((file) => {
       form.append('files', file);

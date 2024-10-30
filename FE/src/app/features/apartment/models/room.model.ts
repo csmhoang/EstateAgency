@@ -1,3 +1,5 @@
+import { Photo } from './photo.model';
+
 export type Room = {
   id: string;
   roomCode: number;
@@ -15,6 +17,7 @@ export type Room = {
   area: number;
   price: number;
   condition: string;
+  photos?: Photo[];
 };
 
 export const Condition: { [key: string]: string } = {

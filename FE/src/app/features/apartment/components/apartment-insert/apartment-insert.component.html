@@ -166,7 +166,7 @@
         placeholder="0"
         formControlName="price"
       />
-      <span matTextSuffix>.000 đồng</span>
+      <span matTextSuffix>&nbsp;đồng</span>
       @if( price?.invalid && (price?.dirty || price?.touched) ){
       <mat-error>{{ errorForPrice() }}</mat-error>
       }
@@ -244,7 +244,7 @@
 
   <button
     type="button"
-    [disabled]="form.invalid || !form.dirty"
+    [disabled]="form.invalid || !form.dirty || !user"
     (click)="onInsert()"
     class="btn btn-lg btn-dark w-100"
   >

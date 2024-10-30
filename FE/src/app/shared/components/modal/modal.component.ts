@@ -1,5 +1,10 @@
 import { CommonModule, NgTemplateOutlet } from '@angular/common';
-import { Component, ComponentRef, inject, Input, TemplateRef } from '@angular/core';
+import {
+  Component,
+  inject,
+  Input,
+  TemplateRef,
+} from '@angular/core';
 import { NgbActiveModal, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { Modal } from '@shared/models/modal.model';
 
@@ -8,7 +13,7 @@ import { Modal } from '@shared/models/modal.model';
   standalone: true,
   imports: [NgbModalModule, CommonModule, NgTemplateOutlet],
   templateUrl: './modal.component.html',
-  styleUrl: './modal.component.scss'
+  styleUrl: './modal.component.scss',
 })
 export class ModalComponent {
   activeModal = inject(NgbActiveModal);
@@ -16,8 +21,8 @@ export class ModalComponent {
   @Input({ required: true })
   modal?: Modal;
 
-  isTemplate(modal: any) {
-    return modal.content instanceof TemplateRef;
+  isTemplate(modal?: Modal) {
+    return modal?.content instanceof TemplateRef;
   }
 
   accept() {
