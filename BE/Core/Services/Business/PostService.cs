@@ -5,15 +5,12 @@ using Core.Exceptions;
 using Core.Interfaces.Business;
 using Core.Interfaces.Data;
 using Core.Interfaces.Infrastructure;
+using Core.Params;
 using Core.Resources;
-using Microsoft.AspNetCore.Http;
+using Core.Specifications;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
+using static Core.Enums.PostEnums;
 
 namespace Core.Services.Business
 {
@@ -62,6 +59,25 @@ namespace Core.Services.Business
                 StatusCode = post is null ? (int)HttpStatusCode.NoContent : (int)HttpStatusCode.OK
             };
         }
+        
+        public async Task<Response> GetListAsync(PostSpecParams specParams)
+        {
+            var spec = new PostSpecification(specParams);
+            var page = await CreatePagedResult(spec, specParams.PageIndex, specParams.PageSize);
+            return new Response
+            {
+                Success = true,
+                Data = new
+                {
+                    page.PageIndex,
+                    page.PageSize,
+                    page.Count,
+                    Data = _mapper.Map<IEnumerable<PostDto>>(page.Data)
+                },
+                StatusCode = !page.Data.Any() ? (int)HttpStatusCode.NoContent : (int)HttpStatusCode.OK
+            };
+        }
+
         public async Task<Response> DeleteAsync(string id)
         {
             var postDelete = await _repository.Post.FindCondition(r => r.Id.Equals(id))
@@ -98,15 +114,15 @@ namespace Core.Services.Business
             };
         }
 
-        public async Task<Response> UpdateAsync(string id, PostDto postDto)
+        public async Task<Response> UpdateAsync(string id, PostUpdateDto postUpdateDto)
         {
-            await ValidateObject(postDto);
+            await ValidateObject(postUpdateDto);
 
             var post = await _repository.Post.FindCondition(r => r.Id.Equals(id))
                 .FirstOrDefaultAsync();
             if (post is not null)
             {
-                _mapper.Map(postDto, post);
+                _mapper.Map(postUpdateDto, post);
                 _repository.Post.Update(post);
                 await _repository.SaveAsync();
             }
@@ -122,9 +138,32 @@ namespace Core.Services.Business
                 StatusCode = (int)HttpStatusCode.OK
             };
         }
-        public Task ValidateObject(PostDto postDto)
+        public Task ValidateObject<T>(T model)
         {
             return Task.CompletedTask;
+        }
+
+        public async Task<Response> RemoveAsync(string id)
+        {
+            var post = await _repository.Post.FindCondition(r => r.Id.Equals(id))
+               .FirstOrDefaultAsync();
+            if (post is not null)
+            {
+                post.Status = StatusPost.Deleted;
+                _repository.Post.Update(post);
+                await _repository.SaveAsync();
+            }
+            else
+            {
+                throw new PostNotFoundException(id);
+            }
+
+            return new Response
+            {
+                Success = true,
+                Messages = Successfull.RemovePost,
+                StatusCode = (int)HttpStatusCode.OK
+            };
         }
         #endregion
     }

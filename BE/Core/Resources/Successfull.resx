@@ -135,4 +135,7 @@
   <data name="ChangePasswordSucceed" xml:space="preserve">
     <value>Đổi mật khẩu thành công.</value>
   </data>
+  <data name="RemovePost" xml:space="preserve">
+    <value>Gỡ bài đăng thành công.</value>
+  </data>
 </root>

@@ -106,6 +106,15 @@ namespace Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Gỡ bài đăng thành công..
+        /// </summary>
+        public static string RemovePost {
+            get {
+                return ResourceManager.GetString("RemovePost", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cập nhật thành công..
         /// </summary>
         public static string UpdateSucceed {

@@ -10,18 +10,18 @@ import {
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { Place } from '@features/post/models/place.model';
 import { Room } from '@features/apartment/models/room.model';
 import { FileUploader, FileUploadModule } from 'ng2-file-upload';
-import { firstValueFrom } from 'rxjs';
+import { catchError, firstValueFrom, of } from 'rxjs';
 import { ApartmentService } from '@features/apartment/services/apartment.service';
-import { RouterLink } from '@angular/router';
 import { Result } from '@core/models/result.model';
 import { Photo } from '@features/apartment/models/photo.model';
 import { MiniLoadComponent } from '@shared/components/mini-load/mini-load.component';
 import { environment } from '@environment/environment.development';
 import { CookieService } from '@core/services/cookie.service';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-apartment-update',
@@ -33,23 +33,28 @@ import { CookieService } from '@core/services/cookie.service';
     MatSelectModule,
     CommonModule,
     FileUploadModule,
-    RouterLink,
     MiniLoadComponent,
-    MatSlideToggleModule
   ],
   templateUrl: './apartment-update.component.html',
   styleUrl: './apartment-update.component.scss',
 })
 export class ApartmentUpdateComponent implements OnInit {
-  @Input() room!: Room;
+  @Input() data!: Room;
 
   destroyRef = inject(DestroyRef);
+  activeModal = inject(NgbActiveModal);
+
   private baseUrl = environment.apiRoot;
   uploader!: FileUploader;
   hasBaseDropzoneOver = false;
-  provices$ = firstValueFrom(this.apartmentService.getProvince());
-  districts$?: Promise<Place[]>;
-  wards$?: Promise<Place[]>;
+  provices$ = firstValueFrom(
+    this.apartmentService.getProvince().pipe(
+      takeUntilDestroyed(this.destroyRef),
+      catchError(() => of(null))
+    )
+  );
+  districts$?: Promise<Place[] | null>;
+  wards$?: Promise<Place[] | null>;
 
   form: FormGroup = new FormGroup({});
   name?: AbstractControl | null;
@@ -76,28 +81,28 @@ export class ApartmentUpdateComponent implements OnInit {
   ngOnInit() {
     this.initializeUploader();
     this.form = this.formBuilder.group({
-      name: this.formBuilder.control(this.room.name, [Validators.required]),
-      category: this.formBuilder.control(this.room.category),
-      condition: this.formBuilder.control(this.room.condition),
-      address: this.formBuilder.control(this.room.address, [
+      name: this.formBuilder.control(this.data.name, [Validators.required]),
+      category: this.formBuilder.control(this.data.category),
+      condition: this.formBuilder.control(this.data.condition),
+      address: this.formBuilder.control(this.data.address, [
         Validators.required,
       ]),
       province: this.formBuilder.control(''),
       district: this.formBuilder.control(''),
       ward: this.formBuilder.control(''),
-      bedroom: this.formBuilder.control(this.room.bedroom, [
+      bedroom: this.formBuilder.control(this.data.bedroom, [
         Validators.required,
       ]),
-      toilet: this.formBuilder.control(this.room.toilet, [Validators.required]),
-      interior: this.formBuilder.control(this.room.interior),
-      bathroom: this.formBuilder.control(this.room.bathroom, [
+      toilet: this.formBuilder.control(this.data.toilet, [Validators.required]),
+      interior: this.formBuilder.control(this.data.interior),
+      bathroom: this.formBuilder.control(this.data.bathroom, [
         Validators.required,
       ]),
-      price: this.formBuilder.control(this.room.price, [
+      price: this.formBuilder.control(this.data.price, [
         Validators.required,
         Validators.min(1),
       ]),
-      area: this.formBuilder.control(this.room.area, [
+      area: this.formBuilder.control(this.data.area, [
         Validators.required,
         Validators.min(1),
       ]),
@@ -116,7 +121,10 @@ export class ApartmentUpdateComponent implements OnInit {
     this.province?.valueChanges.subscribe((value) => {
       if (value) {
         this.districts$ = firstValueFrom(
-          this.apartmentService.getDistrict(value.id)
+          this.apartmentService.getDistrict(value.id).pipe(
+            takeUntilDestroyed(this.destroyRef),
+            catchError(() => of(null))
+          )
         );
         this.wards$ = undefined;
       }
@@ -124,7 +132,12 @@ export class ApartmentUpdateComponent implements OnInit {
 
     this.district?.valueChanges.subscribe((value) => {
       if (value) {
-        this.wards$ = firstValueFrom(this.apartmentService.getWard(value.id));
+        this.wards$ = firstValueFrom(
+          this.apartmentService.getWard(value.id).pipe(
+            takeUntilDestroyed(this.destroyRef),
+            catchError(() => of(null))
+          )
+        );
       }
     });
   }
@@ -133,9 +146,17 @@ export class ApartmentUpdateComponent implements OnInit {
     this.hasBaseDropzoneOver = e;
   }
 
+  accept() {
+    this.onUpdate();
+  }
+
+  decline() {
+    this.activeModal.dismiss(false);
+  }
+
   initializeUploader() {
     this.uploader = new FileUploader({
-      url: `${this.baseUrl}/api/v1/rooms/insert-photo/${this.room.id}`,
+      url: `${this.baseUrl}/api/v1/rooms/insert-photo/${this.data.id}`,
       authToken: `Bearer ${this.cookie.get('token')}`,
       isHTML5: true,
       allowedFileType: ['image'],
@@ -151,12 +172,12 @@ export class ApartmentUpdateComponent implements OnInit {
     this.uploader.onSuccessItem = (item, response, status, headers) => {
       if (response) {
         const res: Result<Photo> = JSON.parse(response);
-        this.room.photos?.push(res.data);
+        this.data.photos?.push(res.data);
       }
     };
   }
 
-  onUpdate(){
+  onUpdate() {
     if (this.form.valid) {
       const room: Room = {
         ...this.form.value,
@@ -164,12 +185,23 @@ export class ApartmentUpdateComponent implements OnInit {
         district: this.district?.value.name,
         ward: this.ward?.value?.name,
       };
+      this.apartmentService
+        .update(this.data.id, room)
+        .pipe(
+          takeUntilDestroyed(this.destroyRef),
+          catchError(() => of(null))
+        )
+        .subscribe((response) => {
+          if (response?.success) {
+            this.activeModal.close(true);
+          }
+        });
     }
   }
 
   onDeletePhoto(photoId: string) {
-    this.apartmentService.deletePhoto(this.room.id, photoId).subscribe(() => {
-      this.room.photos = this.room.photos?.filter((x) => x.id !== photoId);
+    this.apartmentService.deletePhoto(this.data.id, photoId).subscribe(() => {
+      this.data.photos = this.data.photos?.filter((x) => x.id !== photoId);
     });
   }
 

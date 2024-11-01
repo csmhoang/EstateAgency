@@ -1,21 +1,20 @@
 ﻿using Core.Consts;
-using Core.Entities;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using static Core.Enums.PostEnums;
 
 namespace Core.Dtos
 {
-    public record PostDto
+    public record PostUpdateDto
     {
-        public Guid? Id { get; set; }
-        public int PostCode { get; set; }
-        [Required(ErrorMessage = RoomConst.ErrorEmptyId)]
-        public string? RoomId { get; set; }
         public string Title { get; set; } = null!;
         public string? Description { get; set; }
         public DateTime AvailableFrom { get; set; }
         public IsAcceptPost? IsAccept { get; set; }
         public StatusPost? Status { get; set; }
-        public RoomDto? Room { get; set; }
     }
 }

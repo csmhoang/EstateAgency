@@ -28,7 +28,7 @@ namespace Infrastructure.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)")
-                        .HasDefaultValueSql("(newid())");
+                        .HasDefaultValueSql("lower(newid())");
 
                     b.Property<int>("AmenityCode")
                         .ValueGeneratedOnAdd()
@@ -60,7 +60,7 @@ namespace Infrastructure.Data.Migrations
                     b.HasIndex(new[] { "AmenityCode" }, "UQ__Amenitie__300F6CA3021E4D38")
                         .IsUnique();
 
-                    b.ToTable("Amenities", (string)null);
+                    b.ToTable("Amenities");
                 });
 
             modelBuilder.Entity("Core.Entities.Feedback", b =>
@@ -69,7 +69,7 @@ namespace Infrastructure.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)")
-                        .HasDefaultValueSql("(newid())");
+                        .HasDefaultValueSql("lower(newid())");
 
                     b.Property<string>("Comment")
                         .HasColumnType("nvarchar(max)");
@@ -114,7 +114,7 @@ namespace Infrastructure.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)")
-                        .HasDefaultValueSql("(newid())");
+                        .HasDefaultValueSql("lower(newid())");
 
                     b.Property<decimal>("Amount")
                         .HasColumnType("decimal(10,2)");
@@ -147,7 +147,7 @@ namespace Infrastructure.Data.Migrations
                     b.HasIndex(new[] { "InvoiceCode" }, "UQ__Invoices__0D9D7FF34AA36732")
                         .IsUnique();
 
-                    b.ToTable("Invoices", (string)null);
+                    b.ToTable("Invoices");
                 });
 
             modelBuilder.Entity("Core.Entities.Lease", b =>
@@ -156,7 +156,7 @@ namespace Infrastructure.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)")
-                        .HasDefaultValueSql("(newid())");
+                        .HasDefaultValueSql("lower(newid())");
 
                     b.Property<DateTime?>("CreatedAt")
                         .ValueGeneratedOnAdd()
@@ -206,7 +206,7 @@ namespace Infrastructure.Data.Migrations
                     b.HasIndex(new[] { "LeaseCode" }, "UQ__Leases__D568E4B4702D9CD2")
                         .IsUnique();
 
-                    b.ToTable("Leases", (string)null);
+                    b.ToTable("Leases");
                 });
 
             modelBuilder.Entity("Core.Entities.MaintenanceRequest", b =>
@@ -215,7 +215,7 @@ namespace Infrastructure.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)")
-                        .HasDefaultValueSql("(newid())");
+                        .HasDefaultValueSql("lower(newid())");
 
                     b.Property<DateTime?>("CreatedAt")
                         .ValueGeneratedOnAdd()
@@ -260,7 +260,7 @@ namespace Infrastructure.Data.Migrations
                     b.HasIndex(new[] { "MaintenanceRequestCode" }, "UQ__Maintena__CBAB82F6EC2CDA6A")
                         .IsUnique();
 
-                    b.ToTable("MaintenanceRequests", (string)null);
+                    b.ToTable("MaintenanceRequests");
                 });
 
             modelBuilder.Entity("Core.Entities.Message", b =>
@@ -269,7 +269,7 @@ namespace Infrastructure.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)")
-                        .HasDefaultValueSql("(newid())");
+                        .HasDefaultValueSql("lower(newid())");
 
                     b.Property<string>("Content")
                         .IsRequired()
@@ -303,7 +303,7 @@ namespace Infrastructure.Data.Migrations
                     b.HasIndex(new[] { "MessageCode" }, "UQ__Messages__54E8229FE4E7C357")
                         .IsUnique();
 
-                    b.ToTable("Messages", (string)null);
+                    b.ToTable("Messages");
                 });
 
             modelBuilder.Entity("Core.Entities.Payment", b =>
@@ -312,7 +312,7 @@ namespace Infrastructure.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)")
-                        .HasDefaultValueSql("(newid())");
+                        .HasDefaultValueSql("lower(newid())");
 
                     b.Property<decimal>("Amount")
                         .HasColumnType("decimal(10,2)");
@@ -359,7 +359,7 @@ namespace Infrastructure.Data.Migrations
                     b.HasIndex(new[] { "PaymentCode" }, "UQ__Payments__106D3BA8FEBBB92E")
                         .IsUnique();
 
-                    b.ToTable("Payments", (string)null);
+                    b.ToTable("Payments");
                 });
 
             modelBuilder.Entity("Core.Entities.Photo", b =>
@@ -368,7 +368,7 @@ namespace Infrastructure.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)")
-                        .HasDefaultValueSql("(newid())");
+                        .HasDefaultValueSql("lower(newid())");
 
                     b.Property<string>("PublicId")
                         .IsRequired()
@@ -386,7 +386,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasIndex("RoomId");
 
-                    b.ToTable("Photos", (string)null);
+                    b.ToTable("Photos");
                 });
 
             modelBuilder.Entity("Core.Entities.Post", b =>
@@ -395,7 +395,7 @@ namespace Infrastructure.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)")
-                        .HasDefaultValueSql("(newid())");
+                        .HasDefaultValueSql("lower(newid())");
 
                     b.Property<DateTime>("AvailableFrom")
                         .HasColumnType("date");
@@ -418,6 +418,7 @@ namespace Infrastructure.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PostCode"), 1L, 1);
 
                     b.Property<string>("RoomId")
+                        .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
 
                     b.Property<int>("Status")
@@ -437,7 +438,7 @@ namespace Infrastructure.Data.Migrations
                     b.HasIndex(new[] { "PostCode" }, "UQ__Posts__5K9D52454DASDASE")
                         .IsUnique();
 
-                    b.ToTable("Posts", (string)null);
+                    b.ToTable("Posts");
                 });
 
             modelBuilder.Entity("Core.Entities.Reservation", b =>
@@ -446,7 +447,7 @@ namespace Infrastructure.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)")
-                        .HasDefaultValueSql("(newid())");
+                        .HasDefaultValueSql("lower(newid())");
 
                     b.Property<DateTime?>("CreatedAt")
                         .ValueGeneratedOnAdd()
@@ -485,7 +486,7 @@ namespace Infrastructure.Data.Migrations
                     b.HasIndex(new[] { "ReservationCode" }, "UQ__Reservat__2081C0BBCBCC7940")
                         .IsUnique();
 
-                    b.ToTable("Reservations", (string)null);
+                    b.ToTable("Reservations");
                 });
 
             modelBuilder.Entity("Core.Entities.Role", b =>
@@ -494,7 +495,7 @@ namespace Infrastructure.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)")
-                        .HasDefaultValueSql("(newid())");
+                        .HasDefaultValueSql("lower(newid())");
 
                     b.Property<string>("ConcurrencyStamp")
                         .HasColumnType("nvarchar(max)");
@@ -507,7 +508,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Roles", (string)null);
+                    b.ToTable("Roles");
 
                     b.HasData(
                         new
@@ -539,7 +540,7 @@ namespace Infrastructure.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)")
-                        .HasDefaultValueSql("(newid())");
+                        .HasDefaultValueSql("lower(newid())");
 
                     b.Property<string>("Address")
                         .IsRequired()
@@ -611,7 +612,7 @@ namespace Infrastructure.Data.Migrations
                     b.HasIndex(new[] { "RoomCode" }, "UQ__Rooms__4F9D52313B1CAD3E")
                         .IsUnique();
 
-                    b.ToTable("Rooms", (string)null);
+                    b.ToTable("Rooms");
                 });
 
             modelBuilder.Entity("Core.Entities.User", b =>
@@ -620,7 +621,7 @@ namespace Infrastructure.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)")
-                        .HasDefaultValueSql("(newid())");
+                        .HasDefaultValueSql("lower(newid())");
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
@@ -712,7 +713,7 @@ namespace Infrastructure.Data.Migrations
                     b.HasIndex(new[] { "UserCode" }, "UQ__Users__1DF52D0C64B859D5")
                         .IsUnique();
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
@@ -844,7 +845,7 @@ namespace Infrastructure.Data.Migrations
             modelBuilder.Entity("Core.Entities.Post", b =>
                 {
                     b.HasOne("Core.Entities.Room", "Room")
-                        .WithMany()
+                        .WithMany("Posts")
                         .HasForeignKey("RoomId");
 
                     b.Navigation("Room");
@@ -937,6 +938,8 @@ namespace Infrastructure.Data.Migrations
                     b.Navigation("Leases");
 
                     b.Navigation("Photos");
+
+                    b.Navigation("Posts");
 
                     b.Navigation("Reservations");
                 });

@@ -12,12 +12,6 @@ namespace Core.Specifications
 {
     public class RoomSpecification : BaseSpecification<Room>
     {
-        #region Declaration
-        #endregion
-
-        #region Property
-        #endregion
-
         #region Constructor
         public RoomSpecification(RoomSpecParams specParams) : base(x =>
         (string.IsNullOrEmpty(specParams.Search) || x.Name.ToLower().Contains(specParams.Search)) &&
@@ -38,9 +32,5 @@ namespace Core.Specifications
             }
         }
         #endregion
-
-        #region Method
-        #endregion
-
     }
 }

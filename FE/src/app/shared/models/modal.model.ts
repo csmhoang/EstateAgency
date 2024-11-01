@@ -1,7 +1,7 @@
-export type Modal = {
+export type Confirm = {
   title: string;
-  content: any;
-  button?: {
+  content: string;
+  button: {
     accept: string;
     decline: string;
   };

@@ -74,7 +74,7 @@ export const routes: Routes = [
     component: LessorComponent,
   },
   {
-    path: 'apartment/detail',
+    path: 'apartment/detail/:id',
     component: ApartmentDetailComponent,
   },
   {

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Data.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20241026025159_initial")]
+    [Migration("20241101170055_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -30,7 +30,7 @@ namespace Infrastructure.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)")
-                        .HasDefaultValueSql("(newid())");
+                        .HasDefaultValueSql("lower(newid())");
 
                     b.Property<int>("AmenityCode")
                         .ValueGeneratedOnAdd()
@@ -71,7 +71,7 @@ namespace Infrastructure.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)")
-                        .HasDefaultValueSql("(newid())");
+                        .HasDefaultValueSql("lower(newid())");
 
                     b.Property<string>("Comment")
                         .HasColumnType("nvarchar(max)");
@@ -116,7 +116,7 @@ namespace Infrastructure.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)")
-                        .HasDefaultValueSql("(newid())");
+                        .HasDefaultValueSql("lower(newid())");
 
                     b.Property<decimal>("Amount")
                         .HasColumnType("decimal(10,2)");
@@ -158,7 +158,7 @@ namespace Infrastructure.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)")
-                        .HasDefaultValueSql("(newid())");
+                        .HasDefaultValueSql("lower(newid())");
 
                     b.Property<DateTime?>("CreatedAt")
                         .ValueGeneratedOnAdd()
@@ -217,7 +217,7 @@ namespace Infrastructure.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)")
-                        .HasDefaultValueSql("(newid())");
+                        .HasDefaultValueSql("lower(newid())");
 
                     b.Property<DateTime?>("CreatedAt")
                         .ValueGeneratedOnAdd()
@@ -271,7 +271,7 @@ namespace Infrastructure.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)")
-                        .HasDefaultValueSql("(newid())");
+                        .HasDefaultValueSql("lower(newid())");
 
                     b.Property<string>("Content")
                         .IsRequired()
@@ -314,7 +314,7 @@ namespace Infrastructure.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)")
-                        .HasDefaultValueSql("(newid())");
+                        .HasDefaultValueSql("lower(newid())");
 
                     b.Property<decimal>("Amount")
                         .HasColumnType("decimal(10,2)");
@@ -370,7 +370,7 @@ namespace Infrastructure.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)")
-                        .HasDefaultValueSql("(newid())");
+                        .HasDefaultValueSql("lower(newid())");
 
                     b.Property<string>("PublicId")
                         .IsRequired()
@@ -397,7 +397,7 @@ namespace Infrastructure.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)")
-                        .HasDefaultValueSql("(newid())");
+                        .HasDefaultValueSql("lower(newid())");
 
                     b.Property<DateTime>("AvailableFrom")
                         .HasColumnType("date");
@@ -420,6 +420,7 @@ namespace Infrastructure.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PostCode"), 1L, 1);
 
                     b.Property<string>("RoomId")
+                        .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
 
                     b.Property<int>("Status")
@@ -448,7 +449,7 @@ namespace Infrastructure.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)")
-                        .HasDefaultValueSql("(newid())");
+                        .HasDefaultValueSql("lower(newid())");
 
                     b.Property<DateTime?>("CreatedAt")
                         .ValueGeneratedOnAdd()
@@ -496,7 +497,7 @@ namespace Infrastructure.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)")
-                        .HasDefaultValueSql("(newid())");
+                        .HasDefaultValueSql("lower(newid())");
 
                     b.Property<string>("ConcurrencyStamp")
                         .HasColumnType("nvarchar(max)");
@@ -541,7 +542,7 @@ namespace Infrastructure.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)")
-                        .HasDefaultValueSql("(newid())");
+                        .HasDefaultValueSql("lower(newid())");
 
                     b.Property<string>("Address")
                         .IsRequired()
@@ -622,7 +623,7 @@ namespace Infrastructure.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)")
-                        .HasDefaultValueSql("(newid())");
+                        .HasDefaultValueSql("lower(newid())");
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
@@ -846,7 +847,7 @@ namespace Infrastructure.Data.Migrations
             modelBuilder.Entity("Core.Entities.Post", b =>
                 {
                     b.HasOne("Core.Entities.Room", "Room")
-                        .WithMany()
+                        .WithMany("Posts")
                         .HasForeignKey("RoomId");
 
                     b.Navigation("Room");
@@ -939,6 +940,8 @@ namespace Infrastructure.Data.Migrations
                     b.Navigation("Leases");
 
                     b.Navigation("Photos");
+
+                    b.Navigation("Posts");
 
                     b.Navigation("Reservations");
                 });

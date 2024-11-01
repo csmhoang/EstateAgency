@@ -1,98 +1,111 @@
-<div class="container">
-  <!-- Apartment Photos -->
-  <div class="real-estate-2">
-    <app-apartment-detail-photos
-      [photos]="room.photos || []"
-    ></app-apartment-detail-photos>
-  </div>
+<div class="modal-header">
+  <h4 class="modal-title">Xem thông tin phòng</h4>
+  <button
+    type="button"
+    class="btn-close"
+    aria-label="Close"
+    (click)="decline()"
+  ></button>
+</div>
+<div class="modal-body">
+  <div class="container">
+    <!-- Apartment Photos -->
+    @if(data.photos){
+    <div class="real-estate-2">
+      <app-apartment-detail-photos
+        [photos]="data.photos"
+      ></app-apartment-detail-photos>
+    </div>
+    }
 
-  <div class="mt-4">
-    <h5 class="fs-5 fw-bold mb-4">Chi tiết</h5>
-    <table class="table table-striped">
-      <tbody>
-        <tr>
-          <th scope="row">Mã số</th>
-          <td>
-            {{ room.roomCode }}
-          </td>
-        </tr>
-        <tr>
-          <th scope="row">Tên phòng</th>
-          <td>
-            {{ room.name }}
-          </td>
-        </tr>
-        <tr>
-          <th scope="row">Thể loại</th>
-          <td>
-            {{ category[room.category || ""] }}
-          </td>
-        </tr>
-        <tr>
-          <th scope="row">Tỉnh/Thành</th>
-          <td>
-            {{ room.province }}
-          </td>
-        </tr>
-        <tr>
-          <th scope="row">Quận/Huyện</th>
-          <td>
-            {{ room.district }}
-          </td>
-        </tr>
-        <tr>
-          <th scope="row">Phường/Xã</th>
-          <td>
-            {{ room.ward }}
-          </td>
-        </tr>
-        <tr>
-          <th scope="row">Địa chỉ</th>
-          <td>
-            {{ room.address }}
-          </td>
-        </tr>
-        <tr>
-          <th scope="row">Diện tích</th>
-          <td>
-            {{ room.area }}<span>m<sup>2</sup></span>
-          </td>
-        </tr>
-        <tr>
-          <th scope="row">Giá</th>
-          <td>{{ room.price }} đồng</td>
-        </tr>
-        <tr>
-          <th scope="row">Nội thất</th>
-          <td>
-            {{ interior[room.interior || ""] }}
-          </td>
-        </tr>
-        <tr>
-          <th scope="row">Số phòng ngủ</th>
-          <td>
-            {{ room.bedroom }}
-          </td>
-        </tr>
-        <tr>
-          <th scope="row">Số phòng tắm</th>
-          <td>
-            {{ room.bathroom }}
-          </td>
-        </tr>
-        <tr>
-          <th scope="row">Số nhà vệ sinh</th>
-          <td>
-            {{ room.toilet }}
-          </td>
-        </tr>
-        <tr>
-          <th scope="row">Tình trạng</th>
-          <td>
-            {{ condition[room.condition || ""] }}
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="mt-4">
+      <h5 class="fs-5 fw-bold mb-4">Chi tiết</h5>
+      <table class="table table-striped">
+        <tbody>
+          <tr>
+            <th scope="row">Mã số</th>
+            <td>
+              {{ data.roomCode }}
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">Tên phòng</th>
+            <td>
+              {{ data.name }}
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">Thể loại</th>
+            <td>
+              {{ category[data.category] }}
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">Tỉnh/Thành</th>
+            <td>
+              {{ data.province }}
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">Quận/Huyện</th>
+            <td>
+              {{ data.district }}
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">Phường/Xã</th>
+            <td>
+              {{ data.ward }}
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">Địa chỉ</th>
+            <td>
+              {{ data.address }}
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">Diện tích</th>
+            <td>
+              {{ data.area }}<span>m<sup>2</sup></span>
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">Giá</th>
+            <td>{{ data.price }} đồng</td>
+          </tr>
+          <tr>
+            <th scope="row">Nội thất</th>
+            <td>
+              {{ interior[data.interior] }}
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">Số phòng ngủ</th>
+            <td>
+              {{ data.bedroom }}
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">Số phòng tắm</th>
+            <td>
+              {{ data.bathroom }}
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">Số nhà vệ sinh</th>
+            <td>
+              {{ data.toilet }}
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">Tình trạng</th>
+            <td>
+              {{ condition[data.condition] }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>

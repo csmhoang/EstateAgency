@@ -13,7 +13,7 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
       } else {
         const res = err.error as Result;
         res.errors?.forEach((error) => {
-          toastService.error(error);
+          toastService.error(error.toString());
         });
         if (res.messages) {
           toastService.warn(res.messages);

@@ -1,7 +1,8 @@
 import { inject, Injectable } from '@angular/core';
+import { Room } from '@features/apartment/models/room.model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ModalComponent } from '@shared/components/modal/modal.component';
-import { Modal } from '@shared/models/modal.model';
+import { ConfirmModalComponent } from '@shared/components/modal/confirm-modal/confirm-modal.component';
+import { Confirm } from '@shared/models/modal.model';
 
 @Injectable({
   providedIn: 'root',
@@ -9,20 +10,24 @@ import { Modal } from '@shared/models/modal.model';
 export class DialogService {
   modalService = inject(NgbModal);
 
-  confirm(modal: Modal): Promise<boolean> {
-    const modalRef = this.modalService.open(ModalComponent);
+  confirm(modal: Confirm): Promise<boolean> {
+    const modalRef = this.modalService.open(ConfirmModalComponent);
     modalRef.componentInstance.modal = modal;
     return modalRef.result;
   }
 
-  view(modal: Modal, size: string = 'lg') {
-    const modalRef = this.modalService.open(ModalComponent, { size });
-    modalRef.componentInstance.modal = modal;
+  view(modal: any, data: any, size: string = 'lg') {
+    const modalRef = this.modalService.open(modal, { size });
+    if (data) {
+      modalRef.componentInstance.data = data;
+    }
   }
 
-  form(modal: Modal, size: string = 'xl'): Promise<boolean> {
-    const modalRef = this.modalService.open(ModalComponent, { size });
-    modalRef.componentInstance.modal = modal;
+  form(modal: any, data: any, size: string = 'xl'): Promise<boolean> {
+    const modalRef = this.modalService.open(modal, { size });
+    if (data) {
+      modalRef.componentInstance.data = data;
+    }
     return modalRef.result;
   }
 }

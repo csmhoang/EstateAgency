@@ -1,11 +1,11 @@
 <form [formGroup]="form">
   <a
     [routerLink]="['/lessor/post']"
-    class="link-opacity-50-hover text-secondary d-block mt-4"
+    class="link-opacity-50-hover text-secondary d-inline-block mt-4 pe-2 px-2"
     ><i class="fa-solid fa-arrow-left-long"></i>
     Trở lại
   </a>
-  <h5 class="fs-5 fw-bold my-4">Đăng tin mới</h5>
+  <h5 class="fs-5 fw-bold my-4">Tạo bài đăng</h5>
   <!-- Title input -->
   <mat-form-field class="w-100" appearance="outline">
     <mat-label>Tiêu đề</mat-label>
@@ -17,18 +17,17 @@
   <div class="row">
     <!-- Room select -->
     <mat-form-field class="col-lg-6" appearance="outline">
-      <mat-label>Chọn phòng</mat-label>
-      <mat-select formControlName="roomId">
-        <mat-option value="Phòng trọ">Phòng trọ</mat-option>
-        <mat-option value="Chung cư mini">Chung cư mini</mat-option>
-        <mat-option value="Chung cư">Chung cư</mat-option>
-        <mat-option value="Nhà riêng">Nhà riêng</mat-option>
+      <mat-label>Phòng</mat-label>
+      <mat-select formControlName="room">
+        @for (room of (room$ | async); track $index) {
+        <mat-option [value]="room">{{ room?.name }}</mat-option>
+        }
       </mat-select>
-      @if( roomId?.invalid && (roomId?.dirty || roomId?.touched) ){
-      <mat-error>{{ errorForRoomId() }}</mat-error>
+      @if( room?.invalid && (room?.dirty || room?.touched) ){
+      <mat-error>{{ errorForRoom() }}</mat-error>
       }
     </mat-form-field>
-    <!-- Available From input -->
+    <!-- AvailableFrom select -->
     <mat-form-field class="col-lg-6" appearance="outline">
       <mat-label>Ngày có sẵn</mat-label>
       <input
@@ -45,7 +44,7 @@
 
   <!-- Description input -->
   <mat-form-field class="w-100" appearance="outline">
-    <mat-label>Mô tả</mat-label>
+    <mat-label>Mô tả chi tiết</mat-label>
     <textarea matInput formControlName="description"></textarea>
   </mat-form-field>
 
@@ -55,6 +54,6 @@
     (click)="onInsert()"
     class="btn btn-lg btn-dark w-100"
   >
-    Đăng tin
+    Đăng
   </button>
 </form>

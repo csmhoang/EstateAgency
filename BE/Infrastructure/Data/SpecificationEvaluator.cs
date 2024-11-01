@@ -23,6 +23,14 @@ namespace Infrastructure.Data
         #region Method
         public static IQueryable<T> GetQuery(IQueryable<T> query, ISpecification<T> spec)
         {
+            if (spec.Includes != null)
+            {
+                foreach (var inculde in spec.Includes)
+                {
+                    query = query.Include(inculde);
+                }
+            }
+
             if (spec.Criteria != null)
             {
                 query = query.Where(spec.Criteria);
@@ -36,14 +44,6 @@ namespace Infrastructure.Data
             if (spec.OrderByDescending != null)
             {
                 query = query.OrderByDescending(spec.OrderByDescending);
-            }
-
-            if (spec.Includes != null)
-            {
-                foreach (var inculde in spec.Includes)
-                {
-                    query = query.Include(inculde);
-                }
             }
 
             if (spec.IsDistinct)
@@ -81,7 +81,6 @@ namespace Infrastructure.Data
 
             if (spec.Select != null)
             {
-                query = query.Include(spec.Select);
                 selectQuery = query.Select(spec.Select);
             }
 

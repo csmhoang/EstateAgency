@@ -5,7 +5,7 @@ import { Result } from '@core/models/result.model';
 import { Secret } from '@core/models/secret.model';
 import { CookieService } from '@core/services/cookie.service';
 import { UserService } from '@core/services/user.service';
-import { map, Observable, of, tap } from 'rxjs';
+import { catchError, map, Observable, of, tap } from 'rxjs';
 import { Login } from '../models/login.model';
 import { Register } from '../models/register.model';
 import { SkipPreloader } from '@core/interceptors/skip.resolver';
@@ -93,7 +93,8 @@ export class AuthService {
             error: () => {
               this.cookie.remove();
             },
-          })
+          }),
+          catchError(() => of(null))
         );
     }
     return of(null);

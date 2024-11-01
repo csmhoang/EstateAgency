@@ -17,7 +17,7 @@ import { Place } from '@features/post/models/place.model';
 import { Room } from '@features/apartment/models/room.model';
 import { ToastService } from '@shared/services/toast/toast.service';
 import { FileUploader, FileUploadModule } from 'ng2-file-upload';
-import { firstValueFrom } from 'rxjs';
+import { catchError, firstValueFrom, of } from 'rxjs';
 import { ApartmentService } from '@features/apartment/services/apartment.service';
 import { Router, RouterLink } from '@angular/router';
 
@@ -42,9 +42,14 @@ export class ApartmentInsertComponent implements OnInit {
 
   destroyRef = inject(DestroyRef);
   user?: User | null;
-  provices$ = firstValueFrom(this.apartmentService.getProvince());
-  districts$?: Promise<Place[]>;
-  wards$?: Promise<Place[]>;
+  provices$ = firstValueFrom(
+    this.apartmentService.getProvince().pipe(
+      takeUntilDestroyed(this.destroyRef),
+      catchError(() => of(null))
+    )
+  );
+  districts$?: Promise<Place[] | null>;
+  wards$?: Promise<Place[] | null>;
 
   form: FormGroup = new FormGroup({});
 
@@ -107,7 +112,10 @@ export class ApartmentInsertComponent implements OnInit {
     this.province?.valueChanges.subscribe((value) => {
       if (value) {
         this.districts$ = firstValueFrom(
-          this.apartmentService.getDistrict(value.id)
+          this.apartmentService.getDistrict(value.id).pipe(
+            takeUntilDestroyed(this.destroyRef),
+            catchError(() => of(null))
+          )
         );
         this.wards$ = undefined;
       }
@@ -115,7 +123,12 @@ export class ApartmentInsertComponent implements OnInit {
 
     this.district?.valueChanges.subscribe((value) => {
       if (value) {
-        this.wards$ = firstValueFrom(this.apartmentService.getWard(value.id));
+        this.wards$ = firstValueFrom(
+          this.apartmentService.getWard(value.id).pipe(
+            takeUntilDestroyed(this.destroyRef),
+            catchError(() => of(null))
+          )
+        );
       }
     });
 
@@ -156,11 +169,14 @@ export class ApartmentInsertComponent implements OnInit {
 
       this.apartmentService
         .insert(room, this.files)
-        .pipe(takeUntilDestroyed(this.destroyRef))
+        .pipe(
+          takeUntilDestroyed(this.destroyRef),
+          catchError(() => of(null))
+        )
         .subscribe({
           next: (response) => {
-            if (response.success) {
-              this.toastService.success(response.messages);
+            if (response?.success) {
+              this.toastService.success('Thêm phòng thành công');
               void this.router.navigate(['/lessor/apartment']);
             }
           },

@@ -57,8 +57,6 @@ namespace Api.Controllers
         /// <summary>
         /// Thêm phòng
         /// </summary>
-        /// <param name="model">Phòng</param>
-        /// <param name="files">Danh sách tệp ảnh</param>
         [HttpPost]
         public async Task<IActionResult> Create([FromForm] RoomDto model, IFormFile[]? files)
         {
@@ -69,8 +67,6 @@ namespace Api.Controllers
         /// <summary>
         /// Thêm ảnh cho phòng
         /// </summary>
-        /// <param name="roomId">Mã phòng</param>
-        /// <param name="file">Tệp ảnh</param>
         [HttpPost("insert-photo/{roomId}")]
         public async Task<IActionResult> InsertPhoto(string roomId, IFormFile file)
         {
@@ -81,8 +77,6 @@ namespace Api.Controllers
         /// <summary>
         /// Xóa ảnh phòng
         /// </summary>
-        /// <param name="roomId">Mã phòng</param>
-        /// <param name="photoId">Mã ảnh</param>
         [HttpDelete("delete-photo")]
         public async Task<IActionResult> DeletePhoto(string roomId, string photoId)
         {
@@ -96,7 +90,7 @@ namespace Api.Controllers
         /// <param name="id">Id phòng</param>
         /// <param name="model">Phòng</param>
         [HttpPut]
-        public async Task<IActionResult> Update(string id, [FromBody] RoomDto model)
+        public async Task<IActionResult> Update(string id, [FromBody] RoomUpdateDto model)
         {
             var response = await _service.Room.UpdateAsync(id, model);
             return Ok(response);

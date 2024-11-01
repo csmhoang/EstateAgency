@@ -206,15 +206,15 @@ namespace Core.Services.Business
             }
         }
 
-        public async Task<Response> UpdateAsync(string id, RoomDto roomDto)
+        public async Task<Response> UpdateAsync(string id, RoomUpdateDto roomUpdateDto)
         {
-            await ValidateObject(roomDto);
+            await ValidateObject(roomUpdateDto);
 
             var room = await _repository.Room.FindCondition(r => r.Id.Equals(id))
                 .FirstOrDefaultAsync();
             if (room is not null)
             {
-                _mapper.Map(roomDto, room);
+                _mapper.Map(roomUpdateDto, room);
                 _repository.Room.Update(room);
                 await _repository.SaveAsync();
             }
@@ -230,7 +230,7 @@ namespace Core.Services.Business
                 StatusCode = (int)HttpStatusCode.OK
             };
         }
-        public Task ValidateObject(RoomDto roomDto)
+        public Task ValidateObject<T>(T model)
         {
             return Task.CompletedTask;
         }

@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using Core.Entities;
+﻿using Core.Entities;
 using Infrastructure.Data.Configurations;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
-using static Dapper.SqlMapper;
 
 namespace Infrastructure.Data
 {
@@ -55,7 +51,7 @@ namespace Infrastructure.Data
 
                 entity.Property(e => e.Id)
                     .HasMaxLength(36)
-                    .HasDefaultValueSql("(newid())");
+                    .HasDefaultValueSql("lower(newid())");
 
                 entity.Property(e => e.AmenityCode)
                     .ValueGeneratedOnAdd()
@@ -82,7 +78,7 @@ namespace Infrastructure.Data
 
                 entity.Property(e => e.Id)
                     .HasMaxLength(36)
-                    .HasDefaultValueSql("(newid())");
+                    .HasDefaultValueSql("lower(newid())");
 
                 entity.Property(e => e.FeedbackCode)
                     .ValueGeneratedOnAdd()
@@ -104,7 +100,7 @@ namespace Infrastructure.Data
 
                 entity.Property(e => e.Id)
                     .HasMaxLength(36)
-                    .HasDefaultValueSql("(newid())");
+                    .HasDefaultValueSql("lower(newid())");
 
                 entity.Property(e => e.InvoiceCode)
                     .ValueGeneratedOnAdd()
@@ -128,7 +124,7 @@ namespace Infrastructure.Data
 
                 entity.Property(e => e.Id)
                     .HasMaxLength(36)
-                    .HasDefaultValueSql("(newid())");
+                    .HasDefaultValueSql("lower(newid())");
 
                 entity.Property(e => e.LeaseCode)
                     .ValueGeneratedOnAdd()
@@ -161,7 +157,7 @@ namespace Infrastructure.Data
 
                 entity.Property(e => e.Id)
                     .HasMaxLength(36)
-                    .HasDefaultValueSql("(newid())");
+                    .HasDefaultValueSql("lower(newid())");
 
                 entity.Property(e => e.MaintenanceRequestCode)
                     .ValueGeneratedOnAdd()
@@ -190,7 +186,7 @@ namespace Infrastructure.Data
 
                 entity.Property(e => e.Id)
                     .HasMaxLength(36)
-                    .HasDefaultValueSql("(newid())");
+                    .HasDefaultValueSql("lower(newid())");
 
                 entity.Property(e => e.MessageCode)
                     .ValueGeneratedOnAdd()
@@ -220,7 +216,7 @@ namespace Infrastructure.Data
 
                 entity.Property(e => e.Id)
                     .HasMaxLength(36)
-                    .HasDefaultValueSql("(newid())");
+                    .HasDefaultValueSql("lower(newid())");
 
                 entity.Property(e => e.PaymentCode)
                     .ValueGeneratedOnAdd()
@@ -250,7 +246,7 @@ namespace Infrastructure.Data
 
                 entity.Property(e => e.Id)
                     .HasMaxLength(36)
-                    .HasDefaultValueSql("(newid())");
+                    .HasDefaultValueSql("lower(newid())");
 
                 entity.Property(e => e.ReservationCode)
                     .ValueGeneratedOnAdd()
@@ -277,7 +273,9 @@ namespace Infrastructure.Data
 
                 entity.Property(e => e.Id)
                     .HasMaxLength(36)
-                    .HasDefaultValueSql("(newid())");
+                    .HasDefaultValueSql("lower(newid())");
+
+                entity.Property(e => e.RoomId).HasMaxLength(36);
 
                 entity.Property(e => e.PostCode)
                     .ValueGeneratedOnAdd()
@@ -297,7 +295,7 @@ namespace Infrastructure.Data
             {
                 entity.Property(e => e.Id)
                     .HasMaxLength(36)
-                    .HasDefaultValueSql("(newid())");
+                    .HasDefaultValueSql("lower(newid())");
 
                 entity.Property(e => e.RoomId).HasMaxLength(36);
             });
@@ -309,7 +307,7 @@ namespace Infrastructure.Data
 
                 entity.Property(e => e.Id)
                     .HasMaxLength(36)
-                    .HasDefaultValueSql("(newid())");
+                    .HasDefaultValueSql("lower(newid())");
 
                 entity.Property(e => e.RoomCode)
                     .ValueGeneratedOnAdd()
@@ -358,7 +356,7 @@ namespace Infrastructure.Data
             {
                 entity.Property(e => e.Id)
                     .HasMaxLength(36)
-                    .HasDefaultValueSql("(newid())");
+                    .HasDefaultValueSql("lower(newid())");
             });
             modelBuilder.Entity<User>(entity =>
             {
@@ -367,7 +365,7 @@ namespace Infrastructure.Data
 
                 entity.Property(e => e.Id)
                     .HasMaxLength(36)
-                    .HasDefaultValueSql("(newid())");
+                    .HasDefaultValueSql("lower(newid())");
 
                 entity.Property(e => e.UserCode)
                     .ValueGeneratedOnAdd()

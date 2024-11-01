@@ -22,8 +22,14 @@ namespace Infrastructure.Mapping
                 {
                     opts.AllowNull();
                     opts.Condition((src, dest, srcMember) => srcMember != null);
-                }); 
-            
+                });
+            CreateMap<RoomUpdateDto, Room>()
+                .ForAllMembers(opts =>
+                {
+                    opts.AllowNull();
+                    opts.Condition((src, dest, srcMember) => srcMember != null);
+                });
+
             CreateMap<Photo, PhotoDto>();
             CreateMap<PhotoDto, Photo>()
                .ForAllMembers(opts =>
@@ -34,6 +40,13 @@ namespace Infrastructure.Mapping
 
             CreateMap<Post, PostDto>();
             CreateMap<PostDto, Post>()
+                .ForAllMembers(opts =>
+                {
+                    opts.AllowNull();
+                    opts.Condition((src, dest, srcMember) => srcMember != null);
+                });
+
+            CreateMap<PostUpdateDto, Post>()
                 .ForAllMembers(opts =>
                 {
                     opts.AllowNull();

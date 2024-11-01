@@ -14,6 +14,7 @@ import { Login } from '@core/auth/models/login.model';
 import { ToastService } from '@shared/services/toast/toast.service';
 import { AuthService } from '@core/auth/services/auth.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { catchError, of } from 'rxjs';
 
 @Component({
   selector: 'app-login-form',
@@ -67,10 +68,13 @@ export class LoginFormComponent implements OnInit {
       const credentials: Login = this.form.value;
       this.authService
         .login(credentials)
-        .pipe(takeUntilDestroyed(this.destroyRef))
+        .pipe(
+          takeUntilDestroyed(this.destroyRef),
+          catchError(() => of(null))
+        )
         .subscribe({
           next: (response) => {
-            if (response.success) {
+            if (response?.success) {
               this.toastService.success('Đăng nhập thành công!');
             }
           },

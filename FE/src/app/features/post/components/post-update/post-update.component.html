@@ -1,1 +1,58 @@
-<p>post-update works!</p>
+<div class="modal-header">
+  <h4 class="modal-title">Cập nhật bài đăng</h4>
+  <button
+    type="button"
+    class="btn-close"
+    aria-label="Close"
+    (click)="decline()"
+  ></button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="form">
+    <div class="row">
+      <!-- Title input -->
+      <mat-form-field class="col-lg-6" appearance="outline">
+        <mat-label>Tiêu đề</mat-label>
+        <input
+          matInput
+          type="text"
+          placeholder="Tiêu đề"
+          formControlName="title"
+        />
+        @if( title?.invalid && (title?.dirty || title?.touched) ){
+        <mat-error>{{ errorForTitle() }}</mat-error>
+        }
+      </mat-form-field>
+      <!-- AvailableFrom select -->
+      <mat-form-field class="col-lg-6" appearance="outline">
+        <mat-label>Ngày có sẵn</mat-label>
+        <input
+          matInput
+          [matDatepicker]="picker"
+          placeholder="MM/DD/YYYY"
+          formControlName="availableFrom"
+        />
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </div>
+    <!-- Description input -->
+    <mat-form-field class="w-100" appearance="outline">
+      <mat-label>Mô tả chi tiết</mat-label>
+      <textarea matInput formControlName="description"></textarea>
+    </mat-form-field>
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-light" (click)="decline()">
+    Hủy bỏ
+  </button>
+  <button
+    type="button"
+    class="btn btn-dark"
+    (click)="accept()"
+    [disabled]="form.invalid || !form.dirty"
+  >
+    Cập nhật
+  </button>
+</div>

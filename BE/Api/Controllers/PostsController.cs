@@ -1,5 +1,6 @@
 ﻿using Core.Dtos;
 using Core.Interfaces.Business;
+using Core.Params;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -33,6 +34,16 @@ namespace Api.Controllers
         }
 
         /// <summary>
+        /// Lấy danh sách thông tin bài đăng bằng specification
+        /// </summary>
+        [HttpGet("list")]
+        public async Task<IActionResult> GetList([FromQuery] PostSpecParams specParams)
+        {
+            var response = await _service.Post.GetListAsync(specParams);
+            return Ok(response);
+        }
+
+        /// <summary>
         /// Lấy thông tin bài đăng bằng id
         /// </summary>
         [HttpGet("{id}")]
@@ -59,7 +70,7 @@ namespace Api.Controllers
         /// <param name="id">Id bài đăng</param>
         /// <param name="model">Bài đăng</param>
         [HttpPut]
-        public async Task<IActionResult> Update(string id, [FromBody] PostDto model)
+        public async Task<IActionResult> Update(string id, [FromBody] PostUpdateDto model)
         {
             var response = await _service.Post.UpdateAsync(id, model);
             return Ok(response);
@@ -73,6 +84,17 @@ namespace Api.Controllers
         public async Task<IActionResult> Delete(string id)
         {
             var response = await _service.Post.DeleteAsync(id);
+            return Ok(response);
+        }
+
+        /// <summary>
+        /// Gỡ bài đăng
+        /// </summary>
+        /// <param name="id">Id bài đăng</param>
+        [HttpDelete("remove")]
+        public async Task<IActionResult> Remove(string id)
+        {
+            var response = await _service.Post.RemoveAsync(id);
             return Ok(response);
         }
         #endregion

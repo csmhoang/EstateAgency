@@ -1,4 +1,5 @@
 ﻿using Core.Dtos;
+using Core.Params;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,15 @@ namespace Core.Interfaces.Business
         /// </returns>
         Task<Response> GetAllAsync();
         /// <summary>
+        /// Lấy danh sách thông tin bài đăng bằng specification
+        /// </summary>
+        /// <param name="specParams">Đối tượng tham số</param>
+        /// <returns>
+        /// 1 - Danh sách bài đăng
+        /// 2 - Danh sách rỗng
+        /// </returns>
+        Task<Response> GetListAsync(PostSpecParams specParams);
+        /// <summary>
         /// Lấy ra bài đăng bằng id
         /// </summary>
         /// <param name="id">Id bài đăng</param>
@@ -37,15 +47,24 @@ namespace Core.Interfaces.Business
         /// </returns>
         Task<Response> DeleteAsync(string id);
         /// <summary>
-        /// Cập nhật bài đăng
+        /// Gỡ bài đăng bằng id
         /// </summary>
         /// <param name="id">Id bài đăng</param>
-        /// <param name="postDto">Bài đăng</param>
         /// <returns>
         /// 1 - Thông báo thành công
         /// 2 - Ngoại lệ
         /// </returns>
-        Task<Response> UpdateAsync(string id, PostDto postDto);
+        Task<Response> RemoveAsync(string id);
+        /// <summary>
+        /// Cập nhật bài đăng
+        /// </summary>
+        /// <param name="id">Id bài đăng</param>
+        /// <param name="postUpdateDto">Bài đăng</param>
+        /// <returns>
+        /// 1 - Thông báo thành công
+        /// 2 - Ngoại lệ
+        /// </returns>
+        Task<Response> UpdateAsync(string id, PostUpdateDto postUpdateDto);
         /// <summary>
         /// Thêm bài đăng
         /// </summary>

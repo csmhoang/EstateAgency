@@ -10,7 +10,7 @@ import { Observable, map } from 'rxjs';
 import { Room } from '../models/room.model';
 import { Result } from '@core/models/result.model';
 import { PageData } from '@core/models/page-data.model';
-import { RoomParams } from '../models/room-params.model';
+import { SpecParams } from '@core/models/spec-params.model';
 
 @Injectable({
   providedIn: 'root',
@@ -20,7 +20,7 @@ export class ApartmentService {
   private url = 'https://esgoo.net/api-tinhthanh';
 
   getList(
-    specParams: RoomParams,
+    specParams: SpecParams,
     isHideLoading: boolean = false
   ): Observable<PageData<Room[]>> {
     let params = new HttpParams();
@@ -38,13 +38,20 @@ export class ApartmentService {
       .pipe(map((response) => response.data));
   }
 
-  delete(roomId: string): Observable<Result> {
-    const params = new HttpParams().set('id', roomId);
-    return this.http.delete<Result>('/rooms', { params });
+  get(isHideLoading: boolean = false): Observable<Room[]> {
+    return this.http
+      .get<Result<Room[]>>('/rooms', {
+        context: new HttpContext().set(SkipPreloader, isHideLoading),
+      })
+      .pipe(map((response) => response.data));
   }
 
-  update(room: Room) {
-    return this.http.put<Result>('/rooms', room);
+  delete(roomId: string) {
+    return this.http.delete<Result>(`/rooms?id=${roomId}`);
+  }
+
+  update(id: string, room: Room) {
+    return this.http.put<Result>(`/rooms?id=${id}`, room);
   }
 
   deletePhoto(roomId: string, photoId: string) {

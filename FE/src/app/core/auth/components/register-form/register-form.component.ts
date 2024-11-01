@@ -18,7 +18,7 @@ import { AuthService } from '@core/auth/services/auth.service';
 import { MyValidators } from '@shared/validators/my-validators';
 import { Register } from '@core/auth/models/register.model';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { take } from 'rxjs';
+import { catchError, of, take } from 'rxjs';
 import { Login } from '@core/auth/models/login.model';
 
 @Component({
@@ -104,10 +104,13 @@ export class RegisterFormComponent implements OnInit {
       };
       this.authService
         .register(credentials)
-        .pipe(takeUntilDestroyed(this.destroyRef))
+        .pipe(
+          takeUntilDestroyed(this.destroyRef),
+          catchError(() => of(null))
+        )
         .subscribe({
           next: (response) => {
-            if (response.success) {
+            if (response?.success) {
               this.authService
                 .login(
                   {
@@ -117,7 +120,10 @@ export class RegisterFormComponent implements OnInit {
                   } as Login,
                   true
                 )
-                .pipe(take(1))
+                .pipe(
+                  take(1),
+                  catchError(() => of(null))
+                )
                 .subscribe();
               this.toastService.success('Đăng ký thành công!');
             }

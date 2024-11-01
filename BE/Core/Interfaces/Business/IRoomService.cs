@@ -51,12 +51,12 @@ namespace Core.Interfaces.Business
         /// Cập nhật phòng
         /// </summary>
         /// <param name="id">Id phòng</param>
-        /// <param name="roomDto">Phòng</param>
+        /// <param name="roomUpdateDto">Phòng</param>
         /// <returns>
         /// 1 - Thông báo thành công
         /// 2 - Ngoại lệ
         /// </returns>
-        Task<Response> UpdateAsync(string id, RoomDto roomDto);
+        Task<Response> UpdateAsync(string id, RoomUpdateDto roomUpdateDto);
         /// <summary>
         /// Thêm phòng
         /// </summary>

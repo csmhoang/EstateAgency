@@ -13,7 +13,7 @@ namespace Infrastructure.Data.Migrations
                 name: "Amenities",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "(newid())"),
+                    Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "lower(newid())"),
                     AmenityCode = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
@@ -31,7 +31,7 @@ namespace Infrastructure.Data.Migrations
                 name: "Roles",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "(newid())"),
+                    Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "lower(newid())"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     NormalizedName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -45,7 +45,7 @@ namespace Infrastructure.Data.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "(newid())"),
+                    Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "lower(newid())"),
                     UserCode = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     FullName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
@@ -83,7 +83,7 @@ namespace Infrastructure.Data.Migrations
                 name: "Messages",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "(newid())"),
+                    Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "lower(newid())"),
                     SenderId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: true),
                     ReceiverId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: true),
                     MessageCode = table.Column<int>(type: "int", nullable: false)
@@ -110,7 +110,7 @@ namespace Infrastructure.Data.Migrations
                 name: "Rooms",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "(newid())"),
+                    Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "lower(newid())"),
                     LandlordId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: true),
                     RoomCode = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
@@ -168,7 +168,7 @@ namespace Infrastructure.Data.Migrations
                 name: "Leases",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "(newid())"),
+                    Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "lower(newid())"),
                     TenantId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: true),
                     RoomId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: true),
                     LeaseCode = table.Column<int>(type: "int", nullable: false)
@@ -200,7 +200,7 @@ namespace Infrastructure.Data.Migrations
                 name: "Photos",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "(newid())"),
+                    Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "lower(newid())"),
                     RoomId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: true),
                     Url = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PublicId = table.Column<string>(type: "nvarchar(max)", nullable: false)
@@ -219,8 +219,8 @@ namespace Infrastructure.Data.Migrations
                 name: "Posts",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "(newid())"),
-                    RoomId = table.Column<string>(type: "nvarchar(36)", nullable: true),
+                    Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "lower(newid())"),
+                    RoomId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: true),
                     PostCode = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -245,7 +245,7 @@ namespace Infrastructure.Data.Migrations
                 name: "Reservations",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "(newid())"),
+                    Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "lower(newid())"),
                     TenantId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: true),
                     RoomId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: true),
                     ReservationCode = table.Column<int>(type: "int", nullable: false)
@@ -298,7 +298,7 @@ namespace Infrastructure.Data.Migrations
                 name: "Invoices",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "(newid())"),
+                    Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "lower(newid())"),
                     LeaseId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: true),
                     InvoiceCode = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
@@ -321,7 +321,7 @@ namespace Infrastructure.Data.Migrations
                 name: "Feedback",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "(newid())"),
+                    Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "lower(newid())"),
                     TenantId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: true),
                     PostId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: true),
                     FeedbackCode = table.Column<int>(type: "int", nullable: false)
@@ -349,7 +349,7 @@ namespace Infrastructure.Data.Migrations
                 name: "MaintenanceRequests",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "(newid())"),
+                    Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "lower(newid())"),
                     LeaseId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: true),
                     InvoiceId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: true),
                     MaintenanceRequestCode = table.Column<int>(type: "int", nullable: false)
@@ -379,7 +379,7 @@ namespace Infrastructure.Data.Migrations
                 name: "Payments",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "(newid())"),
+                    Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "lower(newid())"),
                     LeaseId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: true),
                     InvoiceId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: true),
                     PaymentCode = table.Column<int>(type: "int", nullable: false)

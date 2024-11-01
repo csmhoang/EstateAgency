@@ -73,19 +73,4 @@ export class RentedHistoryComponent implements AfterViewInit {
       this.dataSource.sort = this.sort;
     }
   }
-
-  onToast() {
-    this.toastService.success('Lỗi 404');
-  }
-
-  onForm() {
-    this.dialogService.form({
-      title: 'Thông báo xác nhận',
-      content: this.maintenance,
-      button: {
-        accept: 'Đồng ý',
-        decline: 'Hủy bỏ',
-      },
-    });
-  }
 }

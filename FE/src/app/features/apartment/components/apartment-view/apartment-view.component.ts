@@ -1,11 +1,12 @@
-import { Component, Input, input } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { ApartmentDetailPhotosComponent } from '../apartment-detail-photos/apartment-detail-photos.component';
 import {
   Category,
-  Condition,
+  ConditionRoom,
   Interior,
   Room,
 } from '@features/apartment/models/room.model';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-apartment-view',
@@ -15,8 +16,13 @@ import {
   styleUrl: './apartment-view.component.scss',
 })
 export class ApartmentViewComponent {
-  @Input() room!: Room;
-  condition = Condition;
+  @Input() data!: Room;
+  activeModal = inject(NgbActiveModal);
+  condition = ConditionRoom;
   category = Category;
   interior = Interior;
+
+  decline() {
+    this.activeModal.dismiss(false);
+  }
 }

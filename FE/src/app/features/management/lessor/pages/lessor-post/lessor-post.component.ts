@@ -1,8 +1,9 @@
+import { CommonModule } from '@angular/common';
 import {
-  AfterViewInit,
   Component,
+  DestroyRef,
   inject,
-  TemplateRef,
+  signal,
   ViewChild,
 } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
@@ -11,29 +12,18 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { RouterLink } from '@angular/router';
 import { MaintenanceFormComponent } from '@features/maintenance/components/maintenance-form/maintenance-form.component';
+import { IsAccept, Post, StatusPost } from '@features/post/models/post.model';
 import { SearchComponent } from '@shared/components/form/search/search.component';
 import { PaginationComponent } from '@shared/components/pagination/pagination.component';
+import { PaginationParams } from '@shared/models/pagination-params.model';
 import { DialogService } from '@shared/services/dialog/dialog.service';
 import { ToastService } from '@shared/services/toast/toast.service';
+import { LessorPostService } from '../../services/lessor-post.service';
+import { MiniLoadComponent } from '@shared/components/mini-load/mini-load.component';
+import { catchError, firstValueFrom, lastValueFrom, of } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { PostUpdateComponent } from '@features/post/components/post-update/post-update.component';
 
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-}
-const ELEMENT_DATA: PeriodicElement[] = [
-  { position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H' },
-  { position: 2, name: 'Helium', weight: 4.0026, symbol: 'He' },
-  { position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li' },
-  { position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be' },
-  { position: 5, name: 'Boron', weight: 10.811, symbol: 'B' },
-  { position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C' },
-  { position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N' },
-  { position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O' },
-  { position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F' },
-  { position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne' },
-];
 @Component({
   selector: 'app-lessor-post',
   standalone: true,
@@ -45,49 +35,108 @@ const ELEMENT_DATA: PeriodicElement[] = [
     PaginationComponent,
     MaintenanceFormComponent,
     SearchComponent,
-    RouterLink
+    CommonModule,
+    RouterLink,
+    MiniLoadComponent,
   ],
   templateUrl: './lessor-post.component.html',
-  styleUrl: './lessor-post.component.scss'
+  styleUrl: './lessor-post.component.scss',
 })
-export class LessorPostComponent implements AfterViewInit {
-  @ViewChild('maintenance', { read: TemplateRef })
-  maintenance?: TemplateRef<any>;
-
-  dialogService = inject(DialogService);
-  toastService = inject(ToastService);
+export class LessorPostComponent {
+  destroyRef = inject(DestroyRef);
 
   displayedColumns: string[] = [
+    'title',
     'name',
-    'lessor',
-    'phoneNumber',
-    'price',
-    'duration',
+    'availableFrom',
     'status',
-    'disabled',
+    'isAccept',
+    'optional',
   ];
-  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
+  dataSource = new MatTableDataSource<Post>();
+
+  paginationParams = signal<PaginationParams>({
+    pageSize: 0,
+    count: 0,
+    pageIndex: 1,
+  });
+  isAccept = IsAccept;
+  status = StatusPost;
 
   @ViewChild(MatSort) sort?: MatSort;
 
-  ngAfterViewInit() {
-    if (this.sort) {
-      this.dataSource.sort = this.sort;
+  constructor(
+    private dialogService: DialogService,
+    private toastService: ToastService,
+    private lessorPostService: LessorPostService
+  ) {}
+  async ngOnInit() {
+    await this.init();
+  }
+
+  async init() {
+    await lastValueFrom(
+      this.lessorPostService.loadData(true).pipe(
+        takeUntilDestroyed(this.destroyRef),
+        catchError(() => of(null))
+      )
+    );
+
+    const page = this.lessorPostService.page();
+    if (page) {
+      this.paginationParams.set(page);
+      this.dataSource.data = page.data;
+      if (this.sort) {
+        this.dataSource.sort = this.sort;
+      }
     }
   }
 
-  onToast() {
-    this.toastService.success('Lỗi 404');
+  onUpdate(post: Post) {
+    this.dialogService.form(PostUpdateComponent, post).then(async () => {
+      this.toastService.success('Cập nhật bài đăng thành công!');
+      await this.init();
+    });
   }
 
-  onForm() {
-    this.dialogService.form({
-      title: 'Thông báo xác nhận',
-      content: this.maintenance,
-      button: {
-        accept: 'Đồng ý',
-        decline: 'Hủy bỏ',
-      },
-    });
+  onDelete(postId: string) {
+    this.dialogService
+      .confirm({
+        title: 'Xác nhận gỡ bài đăng',
+        content: 'Bạn có chắc muốn gỡ bài đăng này không?',
+        button: {
+          accept: 'Gỡ',
+          decline: 'Hủy bỏ',
+        },
+      })
+      .then(async () => {
+        const response = await firstValueFrom(
+          this.lessorPostService.remove(postId).pipe(
+            takeUntilDestroyed(this.destroyRef),
+            catchError(() => of(null))
+          )
+        );
+        if (response?.success) {
+          this.toastService.success('Xóa bản phòng thành công!');
+          await this.init();
+        }
+      });
+  }
+
+  async onSearch(query: string) {
+    this.lessorPostService.specParams.update((value) => ({
+      ...value,
+      search: query,
+      pageIndex: 1,
+    }));
+    await this.init();
+  }
+
+  async onPageChange(pageIndex: number) {
+    this.lessorPostService.specParams.update((value) => ({
+      ...value,
+      pageIndex: pageIndex,
+    }));
+    await this.init();
   }
 }

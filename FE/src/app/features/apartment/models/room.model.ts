@@ -20,7 +20,7 @@ export type Room = {
   photos?: Photo[];
 };
 
-export const Condition: { [key: string]: string } = {
+export const ConditionRoom: { [key: string]: string } = {
   Available: 'Trống',
   Occupied: 'Đã thuê',
 };

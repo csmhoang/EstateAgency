@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
 import {
   Component,
+  DestroyRef,
   inject,
   OnInit,
   signal,
-  TemplateRef,
   ViewChild,
 } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
@@ -14,7 +14,7 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { RouterLink } from '@angular/router';
 import {
   Category,
-  Condition,
+  ConditionRoom,
   Room,
 } from '@features/apartment/models/room.model';
 import { SearchComponent } from '@shared/components/form/search/search.component';
@@ -27,6 +27,8 @@ import { ApartmentInsertComponent } from '@features/apartment/components/apartme
 import { ApartmentViewComponent } from '@features/apartment/components/apartment-view/apartment-view.component';
 import { ApartmentUpdateComponent } from '@features/apartment/components/apartment-update/apartment-update.component';
 import { ToastService } from '@shared/services/toast/toast.service';
+import { catchError, firstValueFrom, lastValueFrom, of } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-lessor-apartment',
@@ -49,6 +51,8 @@ import { ToastService } from '@shared/services/toast/toast.service';
   styleUrl: './lessor-apartment.component.scss',
 })
 export class LessorApartmentComponent implements OnInit {
+  destroyRef = inject(DestroyRef);
+
   displayedColumns: string[] = [
     'name',
     'category',
@@ -64,28 +68,29 @@ export class LessorApartmentComponent implements OnInit {
     count: 0,
     pageIndex: 1,
   });
-  room!: Room;
-  condition = Condition;
+  condition = ConditionRoom;
   category = Category;
-
-  @ViewChild('viewModal', { read: TemplateRef })
-  viewModal?: TemplateRef<any>;
-
-  @ViewChild('updateModal', { read: TemplateRef })
-  updateModal?: TemplateRef<any>;
 
   @ViewChild(MatSort) sort?: MatSort;
 
-  dialogService = inject(DialogService);
-  toastService = inject(ToastService);
-  lessorApartmentService = inject(LessorApartmentService);
+  constructor(
+    private dialogService: DialogService,
+    private toastService: ToastService,
+    private lessorApartmentService: LessorApartmentService
+  ) {}
 
   async ngOnInit() {
     await this.init();
   }
 
   async init() {
-    await this.lessorApartmentService.loadData(true);
+    await lastValueFrom(
+      this.lessorApartmentService.loadData(true).pipe(
+        takeUntilDestroyed(this.destroyRef),
+        catchError(() => of(null))
+      )
+    );
+    
     const page = this.lessorApartmentService.page();
     if (page) {
       this.paginationParams.set(page);
@@ -114,24 +119,13 @@ export class LessorApartmentComponent implements OnInit {
   }
 
   onView(room: Room) {
-    this.room = room;
-    if (this.viewModal) {
-      this.dialogService.view({
-        title: 'Thông tin phòng',
-        content: this.viewModal,
-      });
-    }
+    this.dialogService.view(ApartmentViewComponent, room);
   }
 
   onUpdate(room: Room) {
-    this.room = room;
-    this.dialogService.form({
-      title: 'Cập nhật phòng',
-      content: this.updateModal,
-      button: {
-        accept: 'Cập nhật',
-        decline: 'Hủy bỏ',
-      },
+    this.dialogService.form(ApartmentUpdateComponent, room).then(async () => {
+      this.toastService.success('Cập nhật phòng thành công!');
+      await this.init();
     });
   }
 
@@ -146,9 +140,13 @@ export class LessorApartmentComponent implements OnInit {
         },
       })
       .then(async () => {
-        debugger
-        const response = await this.lessorApartmentService.delete(idRoom);
-        if (response.success) {
+        const response = await firstValueFrom(
+          this.lessorApartmentService.delete(idRoom).pipe(
+            takeUntilDestroyed(this.destroyRef),
+            catchError(() => of(null))
+          )
+        );
+        if (response?.success) {
           this.toastService.success('Xóa bản phòng thành công!');
           await this.init();
         }
