@@ -17,7 +17,8 @@ namespace Core.Specifications
         )
         {
             AddIncludes(new Expression<Func<Post, object>>[] {
-                x => x.Room!
+                x => x.Room!,
+                x=>x.Room!.Photos
             });
 
             ApplyPaging(specParams.PageSize * (specParams.PageIndex - 1), specParams.PageSize);

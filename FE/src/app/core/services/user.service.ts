@@ -62,4 +62,14 @@ export class UserService {
     this.cookie.remove();
     this.currentUserSubject.next(null);
   }
+
+  update(id: string, user: User) {
+    return this.http.put<Result>(`/users?id=${id}`, user);
+  }
+
+  avatar(id: string, file: File) {
+    const form = new FormData();
+    form.append('file', file);
+    return this.http.put<Result>(`/users/avatar?id=${id}`, form);
+  }
 }

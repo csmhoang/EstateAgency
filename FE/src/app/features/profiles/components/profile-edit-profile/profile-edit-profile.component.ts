@@ -1,4 +1,5 @@
 import { Component, DestroyRef, inject, Input, OnInit } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   AbstractControl,
   FormBuilder,
@@ -12,8 +13,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { User } from '@core/models/user.model';
+import { UserService } from '@core/services/user.service';
 import { ToastService } from '@shared/services/toast/toast.service';
 import { MyValidators } from '@shared/validators/my-validators';
+import { catchError, of } from 'rxjs';
 
 @Component({
   selector: 'app-profile-edit-profile',
@@ -30,8 +33,8 @@ import { MyValidators } from '@shared/validators/my-validators';
   styleUrl: './profile-edit-profile.component.scss',
 })
 export class ProfileEditProfileComponent implements OnInit {
-  @Input({ required: true })
-  user?: User;
+  @Input()
+  user?: User | null;
 
   destroyRef = inject(DestroyRef);
   maxDate = new Date(new Date().getFullYear() - 18, 0, 1);
@@ -45,7 +48,8 @@ export class ProfileEditProfileComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private userService: UserService
   ) {}
 
   ngOnInit(): void {
@@ -72,35 +76,29 @@ export class ProfileEditProfileComponent implements OnInit {
   }
 
   onUpdate() {
-    // if (this.form.valid) {
-    //   const credentials: Register = {
-    //     ...this.form.value,
-    //     roles: this.roles,
-    //   };
-    //   this.authService
-    //     .register(credentials)
-    //     .pipe(takeUntilDestroyed(this.destroyRef))
-    //     .subscribe({
-    //       next: (response) => {
-    //         if (response.success) {
-    //           this.authService
-    //             .login(
-    //               {
-    //                 email: credentials.email,
-    //                 password: credentials.password,
-    //                 isRemember: true,
-    //               } as Login,
-    //               true
-    //             )
-    //             .pipe(take(1))
-    //             .subscribe(() => void this.router.navigate(['/']));
-    //         }
-    //       },
-    //       error: () => {
-    //         this.toastService.error('Đăng ký thất bại, vui lòng thử lại!');
-    //       },
-    //     });
-    // }
+    if (this.form.valid && this.user) {
+      const user: User = {
+        ...this.form.value,
+      };
+      this.userService
+        .update(this.user?.id, user)
+        .pipe(
+          takeUntilDestroyed(this.destroyRef),
+          catchError(() => of(null))
+        )
+        .subscribe((response) => {
+          if (response?.success) {
+            this.toastService.success('Cập nhật thông tin cá nhân thành công!');
+            this.userService
+              .init(true)
+              .pipe(
+                takeUntilDestroyed(this.destroyRef),
+                catchError(() => of(null))
+              )
+              .subscribe();
+          }
+        });
+    }
   }
 
   errorForFullname(): string {

@@ -18,9 +18,9 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 export class ApartmentViewComponent {
   @Input() data!: Room;
   activeModal = inject(NgbActiveModal);
-  condition = ConditionRoom;
-  category = Category;
-  interior = Interior;
+  conditionFilter = ConditionRoom;
+  categoryFilter = Category;
+  interiorFilter = Interior;
 
   decline() {
     this.activeModal.dismiss(false);

@@ -3,7 +3,7 @@
   <app-header></app-header>
   <main class="main">
     <!-- Page Title -->
-    <div class="page-title" data-aos="fade">
+    <div class="page-title">
       <div class="heading">
         <div class="container">
           <div class="row d-flex justify-content-center text-center">
@@ -31,14 +31,14 @@
 
     <!-- Apartment Detail Section -->
     <section id="real-estate-2" class="real-estate-2 section">
-      <div class="container" data-aos="fade-up">
+      <div class="container">
         <!-- Apartment Photos -->
         <app-apartment-detail-photos
           [photos]="[]"
         ></app-apartment-detail-photos>
 
         <div class="row justify-content-between gy-4 mt-4">
-          <div class="col-lg-7" data-aos="fade-up">
+          <div class="col-lg-7">
             <!-- Introduction Detail-->
             <div class="portfolio-description">
               <h2>Giới thiệu chi tiết</h2>
@@ -78,24 +78,24 @@
           </div>
 
           <!-- Primary Information -->
-          <div class="row col-lg-4" data-aos="fade-up" data-aos-delay="100">
+          <div class="row col-lg-4">
             <!-- Lessor Information -->
             <div class="col-12 mb-4">
               <app-lessor-info-card></app-lessor-info-card>
             </div>
 
             <!-- Apartment Information -->
-            <div class="col-12" data-aos-delay="200">
+            <div class="col-12">
               <app-apartment-primary-info></app-apartment-primary-info>
             </div>
           </div>
 
           <!-- Apartment Relationship -->
-          <div class="col-12" data-aos="fade-up" data-aos-delay="400">
+          <div class="col-12">
             <app-apartment-relationship></app-apartment-relationship>
           </div>
           <!-- Comment -->
-          <div class="col-lg-8" data-aos="fade-up" data-aos-delay="300">
+          <div class="col-lg-8">
             <app-comment></app-comment>
           </div>
         </div>

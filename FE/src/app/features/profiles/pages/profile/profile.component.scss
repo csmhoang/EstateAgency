@@ -8,7 +8,7 @@
     i {
       min-width: 28px;
     }
-    &:hover{
+    &:hover {
       background-color: #d9d9d9;
     }
     &.active {
@@ -22,4 +22,8 @@ mat-sidenav-content {
   .btn-open {
     background: #2eca6a;
   }
+}
+
+input[type="file"] {
+  display: none;
 }

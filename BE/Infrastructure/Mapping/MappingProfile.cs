@@ -16,6 +16,8 @@ namespace Infrastructure.Mapping
 
             CreateMap<RegisterDto, User>();
 
+            CreateMap<UserUpdateDto, User>();
+
             CreateMap<Room, RoomDto>();
             CreateMap<RoomDto, Room>()
                 .ForAllMembers(opts =>

@@ -59,6 +59,7 @@ export class LessorApartmentComponent implements OnInit {
     'address',
     'area',
     'price',
+    'createdAt',
     'condition',
     'optional',
   ];
@@ -68,8 +69,8 @@ export class LessorApartmentComponent implements OnInit {
     count: 0,
     pageIndex: 1,
   });
-  condition = ConditionRoom;
-  category = Category;
+  conditionFilter = ConditionRoom;
+  categoryFilter = Category;
 
   @ViewChild(MatSort) sort?: MatSort;
 

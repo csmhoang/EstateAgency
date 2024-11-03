@@ -16,6 +16,8 @@ namespace Core.Dtos
         public DateTime AvailableFrom { get; set; }
         public IsAcceptPost? IsAccept { get; set; }
         public StatusPost? Status { get; set; }
+        public DateTime? CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
         public RoomDto? Room { get; set; }
     }
 }

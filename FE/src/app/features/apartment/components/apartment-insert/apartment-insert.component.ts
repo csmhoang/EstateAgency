@@ -18,7 +18,7 @@ import { Room } from '@features/apartment/models/room.model';
 import { ToastService } from '@shared/services/toast/toast.service';
 import { FileUploader, FileUploadModule } from 'ng2-file-upload';
 import { catchError, firstValueFrom, of } from 'rxjs';
-import { ApartmentService } from '@features/apartment/services/apartment.service';
+import { RoomService } from '@features/apartment/services/room.service';
 import { Router, RouterLink } from '@angular/router';
 
 @Component({
@@ -43,7 +43,7 @@ export class ApartmentInsertComponent implements OnInit {
   destroyRef = inject(DestroyRef);
   user?: User | null;
   provices$ = firstValueFrom(
-    this.apartmentService.getProvince().pipe(
+    this.roomService.getProvince().pipe(
       takeUntilDestroyed(this.destroyRef),
       catchError(() => of(null))
     )
@@ -72,7 +72,7 @@ export class ApartmentInsertComponent implements OnInit {
     private toastService: ToastService,
     private userService: UserService,
     private router: Router,
-    private apartmentService: ApartmentService
+    private roomService: RoomService
   ) {}
 
   ngOnInit() {
@@ -112,7 +112,7 @@ export class ApartmentInsertComponent implements OnInit {
     this.province?.valueChanges.subscribe((value) => {
       if (value) {
         this.districts$ = firstValueFrom(
-          this.apartmentService.getDistrict(value.id).pipe(
+          this.roomService.getDistrict(value.id).pipe(
             takeUntilDestroyed(this.destroyRef),
             catchError(() => of(null))
           )
@@ -124,7 +124,7 @@ export class ApartmentInsertComponent implements OnInit {
     this.district?.valueChanges.subscribe((value) => {
       if (value) {
         this.wards$ = firstValueFrom(
-          this.apartmentService.getWard(value.id).pipe(
+          this.roomService.getWard(value.id).pipe(
             takeUntilDestroyed(this.destroyRef),
             catchError(() => of(null))
           )
@@ -167,7 +167,7 @@ export class ApartmentInsertComponent implements OnInit {
         landlordId: this.user?.id,
       };
 
-      this.apartmentService
+      this.roomService
         .insert(room, this.files)
         .pipe(
           takeUntilDestroyed(this.destroyRef),

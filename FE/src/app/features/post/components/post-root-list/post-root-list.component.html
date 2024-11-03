@@ -1,12 +1,8 @@
 <div class="container">
-  @for (item of [1,2,3,4,5,6]; track $index) {
+  @for (post of posts; track $index) {
   <!-- Property Item -->
-  <div class="" data-aos="fade-up" data-aos-delay="100">
-    <app-post-root-item></app-post-root-item>
+  <div class="">
+    <app-post-root-item [post]="post"></app-post-root-item>
   </div>
   }
-  <div class="pt-5">
-    <!-- Pagination -->
-    <!-- <app-pagination></app-pagination> -->
-  </div>
 </div>

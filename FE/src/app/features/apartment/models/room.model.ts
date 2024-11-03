@@ -18,6 +18,8 @@ export type Room = {
   price: number;
   condition: string;
   photos?: Photo[];
+  createdAt?: Date;
+  updatedAt?: Date;
 };
 
 export const ConditionRoom: { [key: string]: string } = {
@@ -34,4 +36,15 @@ export const Category: { [key: string]: string } = {
 export const Interior: { [key: string]: string } = {
   Empty: 'Không',
   Full: 'Đầy đủ',
+};
+
+export const Price = (value: number) => {
+  if (value >= 1_000_000) {
+    const millions = (value / 1_000_000).toFixed(1);
+    return `${millions} triệu/tháng`;
+  } else if (value >= 1_000) {
+    const hundred = (value / 1_000).toFixed(1);
+    return `${hundred} trăm/tháng`;
+  }
+  return value.toString();
 };

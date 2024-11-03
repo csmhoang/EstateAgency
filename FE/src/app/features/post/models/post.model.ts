@@ -1,4 +1,4 @@
-import { Room } from "@features/apartment/models/room.model";
+import { Room } from '@features/apartment/models/room.model';
 
 export type Post = {
   id: string;
@@ -10,6 +10,8 @@ export type Post = {
   isAccept: string;
   status: string;
   room?: Room;
+  createdAt?: Date;
+  updatedAt?: Date;
 };
 
 export const IsAccept: { [key: string]: string } = {

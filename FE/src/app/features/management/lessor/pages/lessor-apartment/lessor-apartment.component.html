@@ -13,7 +13,7 @@
       ></app-search>
     </div>
   </div>
-  
+
   <div class="position-relative">
     <div [hidden]="dataSource.data.length == 0">
       <table mat-table [dataSource]="dataSource" matSort>
@@ -27,7 +27,7 @@
         <ng-container matColumnDef="category">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Thể loại</th>
           <td mat-cell *matCellDef="let element">
-            {{ category[element.category] }}
+            {{ categoryFilter[element.category] }}
           </td>
         </ng-container>
 
@@ -49,11 +49,17 @@
           <td mat-cell *matCellDef="let element">{{ element.price }}</td>
         </ng-container>
 
+        <!-- CreatedAt Column-->
+        <ng-container matColumnDef="createdAt">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Ngày tạo</th>
+          <td mat-cell *matCellDef="let element">{{ element.createdAt }}</td>
+        </ng-container>
+
         <!-- Condition Column-->
         <ng-container matColumnDef="condition">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Tình trạng</th>
           <td mat-cell *matCellDef="let element">
-            {{ condition[element.condition] }}
+            {{ conditionFilter[element.condition] }}
           </td>
         </ng-container>
 

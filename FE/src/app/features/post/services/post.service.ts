@@ -6,7 +6,7 @@ import { map, Observable } from 'rxjs';
 import { SpecParams } from '@core/models/spec-params.model';
 import { PageData } from '@core/models/page-data.model';
 import { SkipPreloader } from '@core/interceptors/skip.resolver';
-import { ApartmentService } from '@features/apartment/services/apartment.service';
+import { RoomService } from '@features/apartment/services/room.service';
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +14,7 @@ import { ApartmentService } from '@features/apartment/services/apartment.service
 export class PostService {
   constructor(
     private http: HttpClient,
-    private apartmentService: ApartmentService
+    private roomService: RoomService
   ) {}
 
   getList(
@@ -24,7 +24,7 @@ export class PostService {
     let params = new HttpParams();
     Object.entries(specParams).forEach(([key, value]) => {
       if (value) {
-        params = params.set(key, value);
+        params = params.set(key, value.toString());
       }
     });
 
@@ -37,7 +37,7 @@ export class PostService {
   }
 
   getRooms() {
-    return this.apartmentService.get(true);
+    return this.roomService.get(true);
   }
 
   insert(post: Post) {

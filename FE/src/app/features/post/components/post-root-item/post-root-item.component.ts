@@ -1,48 +1,48 @@
 import { Component, Input } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { Price } from '@features/apartment/models/room.model';
+import { Post } from '@features/post/models/post.model';
 import { NgbCarouselModule } from '@ng-bootstrap/ng-bootstrap';
 import { LikeComponent } from '@shared/components/like/like.component';
 
 @Component({
   selector: 'app-post-root-item',
   standalone: true,
-  imports: [NgbCarouselModule, LikeComponent],
+  imports: [NgbCarouselModule, LikeComponent, RouterLink],
   templateUrl: './post-root-item.component.html',
   styleUrl: './post-root-item.component.scss',
 })
 export class PostRootItemComponent {
-  @Input()
-  item: any;
+  @Input() post!: Post;
 
-  images = [
-    {
-      url: '/assets/img/properties/property-1.jpg',
-      title: 'Bedroom',
-      description: 'Spacious bedroom with king-size bed',
-    },
-    {
-      url: '/assets/img/properties/property-2.jpg',
-      title: 'Bathroom',
-      description: 'Modern bathroom with rainfall shower',
-    },
-    {
-      url: '/assets/img/properties/property-3.jpg',
-      title: 'Living Area',
-      description: 'Comfortable living space with city view',
-    },
-    {
-      url: '/assets/img/properties/property-4.jpg',
-      title: 'Kitchenette',
-      description: 'Fully equipped kitchenette',
-    },
-    {
-      url: '/assets/img/properties/property-5.jpg',
-      title: 'Work Desk',
-      description: 'Ergonomic work area',
-    },
-    {
-      url: '/assets/img/properties/property-6.jpg',
-      title: 'Balcony',
-      description: 'Private balcony with seating',
-    },
-  ];
+  priceFilter = Price;
+
+  timeSinceUpdateFilter(time: Date) {
+    if (this.post.updatedAt) {
+      time = this.post.updatedAt;
+    }
+    const now = new Date();
+    const seconds = Math.floor(
+      (now.getTime() - new Date(time).getTime()) / 1000
+    );
+
+    const intervals: { [key: string]: number } = {
+      năm: 31536000,
+      tháng: 2592000,
+      tuần: 604800,
+      ngày: 86400,
+      giờ: 3600,
+      phút: 60,
+      giây: 1,
+    };
+
+    for (const [unit, value] of Object.entries(intervals)) {
+      const interval = Math.floor(seconds / value);
+      if (interval >= 1) {
+        return `${interval} ${unit} trước`;
+      }
+    }
+
+    return 'Vừa xong';
+  }
 }

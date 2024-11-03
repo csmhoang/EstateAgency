@@ -6,7 +6,7 @@
     </a>
   </li>
   <li>
-    <a class="nav-link" data-bs-toggle="pill" href="#profile">Hô sơ</a>
+    <a class="nav-link" data-bs-toggle="pill" href="#profile">Hồ sơ</a>
   </li>
   <li>
     <a class="nav-link" data-bs-toggle="pill" href="#account">Tài khoản</a>
@@ -17,16 +17,16 @@
 <div class="tab-content mt-3">
   <!-- Content one -->
   <div class="tab-pane fade show active" id="overview">
-    <app-profile-edit-overview [user]="user"></app-profile-edit-overview>
+    <app-profile-edit-overview [user]="user()"></app-profile-edit-overview>
   </div>
 
   <!-- Content two -->
   <div class="tab-pane fade" id="profile">
-    <app-profile-edit-profile [user]="user"></app-profile-edit-profile>
+    <app-profile-edit-profile [user]="user()"></app-profile-edit-profile>
   </div>
 
   <!-- Content three -->
   <div class="tab-pane fade" id="account">
-    <app-profile-edit-account [user]="user"></app-profile-edit-account>
+    <app-profile-edit-account [user]="user()"></app-profile-edit-account>
   </div>
 </div>

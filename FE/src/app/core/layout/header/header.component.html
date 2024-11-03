@@ -26,9 +26,6 @@
         <li><a routerLink="/contact" routerLinkActive="active">Liên hệ</a></li>
       </ul>
       <div class="btn-navmenu d-flex gap-2">
-        <button routerLink="/" class="btn btn-dark fs-4 border-0 rounded-pill">
-          <i class="bi bi-search"></i>
-        </button>
         <div *appIfAuthenticated="true" class="d-flex gap-2">
           <button
             routerLink="/"
@@ -55,10 +52,8 @@
             </a>
             <mat-menu #menu="matMenu" class="profile-dropdown">
               <div class="px-2">
-                <button mat-menu-item>Edit Profile</button>
-                <button mat-menu-item>Account</button>
-                <button mat-menu-item>Change Password</button>
-                <button mat-menu-item>My Settings</button>
+                <button mat-menu-item routerLink="/profile">Hồ sơ cá nhân</button>
+                <button mat-menu-item routerLink="/profile/history">Lịch sử thuê trọ</button>
               </div>
               <hr />
               <div class="px-2">

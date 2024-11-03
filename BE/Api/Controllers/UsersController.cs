@@ -49,11 +49,21 @@ namespace Api.Controllers
         /// </summary>
         /// <param name="id">Id người dùng</param>
         /// <param name="model">Người dùng</param>
-        /// <param name="file">Avatar</param>
         [HttpPut]
-        public async Task<IActionResult> Update(string id, [FromBody] UserDto? model, IFormFile? file)
+        public async Task<IActionResult> Update(string id, [FromBody] UserUpdateDto model)
         {
-            var response = await _service.User.UpdateAsync(id, model, file);
+            var response = await _service.User.UpdateAsync(id, model, null);
+            return Ok(response);
+        }
+        /// <summary>
+        /// Cập nhật Avatar
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="file"></param>
+        [HttpPut("avatar")]
+        public async Task<IActionResult> SetAvatar(string id, IFormFile file)
+        {
+            var response = await _service.User.UpdateAsync(id, null, file);
             return Ok(response);
         }
 

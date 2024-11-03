@@ -41,12 +41,12 @@ namespace Core.Interfaces.Business
         /// Cập nhật người dùng
         /// </summary>
         /// <param name="id">Id người dùng</param>
-        /// <param name="userDto">Người dùng</param>
+        /// <param name="userUpdateDto">Người dùng</param>
         /// <param name="file">Avatar (Nullable)</param>
         /// <returns>
         /// 1 - Thông báo thành công
         /// 2 - Ngoại lệ
         /// </returns>
-        Task<Response> UpdateAsync(string id, UserDto? userDto, IFormFile? file);
+        Task<Response> UpdateAsync(string id, UserUpdateDto? userUpdateDto, IFormFile? file);
     }
 }

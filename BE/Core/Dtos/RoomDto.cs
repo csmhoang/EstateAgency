@@ -24,6 +24,8 @@ namespace Core.Dtos
         public decimal Area { get; set; }
         public decimal Price { get; set; }
         public ConditionRoom Condition { get; set; }
+        public DateTime? CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
         public ICollection<PhotoDto>? Photos { get; set; }
     }
 }

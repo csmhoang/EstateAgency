@@ -43,9 +43,6 @@ $FE-theme: mat.define-light-theme(
 /* Importing bootstrap-icon CSS file. */
 @import "bootstrap-icons/font/bootstrap-icons.css";
 
-/* Importing aos CSS file. */
-@import "assets/vendor/aos/aos.css";
-
 /* Importing swiper CSS file. */
 @import "assets/vendor/swiper/swiper-bundle.min.css";
 
@@ -525,15 +522,6 @@ h6 {
 .scroll-top.active {
   visibility: visible;
   opacity: 1;
-}
-
-/*--------------------------------------------------------------
-  # Disable aos animation delay on mobile devices
-  --------------------------------------------------------------*/
-@media screen and (max-width: 768px) {
-  [data-aos-delay] {
-    transition-delay: 0 !important;
-  }
 }
 
 /*--------------------------------------------------------------

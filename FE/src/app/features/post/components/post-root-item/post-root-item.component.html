@@ -2,12 +2,12 @@
   <div class="row g-0">
     <div class="col-md-4">
       <ngb-carousel>
-        @for (image of images; track $index;) {
+        @for (photo of post.room?.photos || []; track $index;) {
         <ng-template ngbSlide>
-          <img [src]="image.url" class="img-fluid rounded-start" />
+          <img [src]="photo.url" class="img-fluid rounded-start" />
           <div class="carousel-caption d-none d-md-block">
-            <h5 class="text-white">{{ image.title }}</h5>
-            <p>{{ image.description }}</p>
+            <h5 class="text-white">{{ "" }}</h5>
+            <p>{{ "" }}</p>
           </div>
         </ng-template>
         }
@@ -16,42 +16,46 @@
     <div class="col-md-8">
       <div class="card-body d-flex flex-column h-100">
         <div class="d-flex">
-          <h5 class="card-title flex-fill">Tiêu đề bài đăng</h5>
+          <h5 class="card-title flex-fill">{{ post.title }}</h5>
           <app-like></app-like>
         </div>
         <div class="d-flex">
-          <span class="card-text text-danger fw-bold pe-2">4 triệu/tháng</span>
-          <span class="card-text fw-bold pe-2">30m2</span>
+          <span class="card-text text-danger fw-bold pe-2">{{
+            priceFilter(post.room?.price || 1)
+          }}</span>
+          <span class="card-text fw-bold pe-2">
+            {{ post.room?.area }}
+            <span>m<sup>2</sup></span>
+          </span>
           <span class="card-text pe-2">
-            {{ 1 }}
+            {{ post.room?.bedroom }}
             <i class="fa-solid fa-bed pe-2"></i>
           </span>
+          <span class="card-text pe-2">
+            {{ post.room?.bathroom }}
+            <i class="fa-solid fa-toilet"></i>
+          </span>
           <span class="card-text">
-            {{ 1 }}
+            {{ post.room?.toilet }}
             <i class="fa-solid fa-bath"></i>
           </span>
         </div>
         <div class="card-text text-muted py-1">
           <i class="fa-solid fa-location-dot"></i>
-          Tây Hồ, Hà Nội
+          {{ post.room?.address }}
         </div>
         <div class="card-text flex-fill pt-3">
           <p class="text-muted multi-truncate">
-            Luxurious VIP room with modern amenities and stunning views. Perfect
-            for a comfortable and memorable stay. You can relay on our amazing
-            features list and also our customer services will be great
-            experience for you without doubt and in no-time Luxurious VIP room
-            with modern amenities and stunning views. Perfect for a comfortable
-            and memorable stay. You can relay on our amazing features list and
-            also our customer services will be great experience for you without
-            doubt and in no-time
+            {{ post.description }}
           </p>
         </div>
         <div class="d-flex">
           <p class="card-text flex-fill">
-            <small class="text-body-secondary">Last updated 3 mins ago</small>
+            <small class="text-body-secondary">{{
+              timeSinceUpdateFilter(post.createdAt!)
+            }}</small>
           </p>
-          <a href="#" class="readmore"
+          <a [routerLink]="['/apartment/detail', post.id]" class="readmore"
             >Xem chi tiết <i class="bi bi-arrow-right"></i
           ></a>
         </div>

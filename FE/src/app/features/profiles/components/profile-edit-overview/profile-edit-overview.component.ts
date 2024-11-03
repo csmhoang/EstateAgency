@@ -10,7 +10,7 @@ import { Gender, User } from '@core/models/user.model';
   styleUrl: './profile-edit-overview.component.scss',
 })
 export class ProfileEditOverviewComponent {
-  @Input({ required: true })
-  user?: User;
-  gender = Gender[this.user?.gender || ''];
+  @Input()
+  user?: User | null; 
+  genderFilter = Gender;
 }

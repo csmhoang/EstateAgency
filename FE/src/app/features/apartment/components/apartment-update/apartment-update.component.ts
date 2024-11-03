@@ -14,7 +14,7 @@ import { Place } from '@features/post/models/place.model';
 import { Room } from '@features/apartment/models/room.model';
 import { FileUploader, FileUploadModule } from 'ng2-file-upload';
 import { catchError, firstValueFrom, of } from 'rxjs';
-import { ApartmentService } from '@features/apartment/services/apartment.service';
+import { RoomService } from '@features/apartment/services/room.service';
 import { Result } from '@core/models/result.model';
 import { Photo } from '@features/apartment/models/photo.model';
 import { MiniLoadComponent } from '@shared/components/mini-load/mini-load.component';
@@ -48,7 +48,7 @@ export class ApartmentUpdateComponent implements OnInit {
   uploader!: FileUploader;
   hasBaseDropzoneOver = false;
   provices$ = firstValueFrom(
-    this.apartmentService.getProvince().pipe(
+    this.roomService.getProvince().pipe(
       takeUntilDestroyed(this.destroyRef),
       catchError(() => of(null))
     )
@@ -74,7 +74,7 @@ export class ApartmentUpdateComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private apartmentService: ApartmentService,
+    private roomService: RoomService,
     private cookie: CookieService
   ) {}
 
@@ -121,7 +121,7 @@ export class ApartmentUpdateComponent implements OnInit {
     this.province?.valueChanges.subscribe((value) => {
       if (value) {
         this.districts$ = firstValueFrom(
-          this.apartmentService.getDistrict(value.id).pipe(
+          this.roomService.getDistrict(value.id).pipe(
             takeUntilDestroyed(this.destroyRef),
             catchError(() => of(null))
           )
@@ -133,7 +133,7 @@ export class ApartmentUpdateComponent implements OnInit {
     this.district?.valueChanges.subscribe((value) => {
       if (value) {
         this.wards$ = firstValueFrom(
-          this.apartmentService.getWard(value.id).pipe(
+          this.roomService.getWard(value.id).pipe(
             takeUntilDestroyed(this.destroyRef),
             catchError(() => of(null))
           )
@@ -185,7 +185,7 @@ export class ApartmentUpdateComponent implements OnInit {
         district: this.district?.value.name,
         ward: this.ward?.value?.name,
       };
-      this.apartmentService
+      this.roomService
         .update(this.data.id, room)
         .pipe(
           takeUntilDestroyed(this.destroyRef),
@@ -200,7 +200,7 @@ export class ApartmentUpdateComponent implements OnInit {
   }
 
   onDeletePhoto(photoId: string) {
-    this.apartmentService.deletePhoto(this.data.id, photoId).subscribe(() => {
+    this.roomService.deletePhoto(this.data.id, photoId).subscribe(() => {
       this.data.photos = this.data.photos?.filter((x) => x.id !== photoId);
     });
   }

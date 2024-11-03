@@ -18,13 +18,16 @@
               <div class="d-flex flex-column gap-2">
                 <img
                   class="rounded-circle"
-                  src="/assets/img/team/team-2.jpg"
+                  [src]="user?.avatarUrl || '/assets/img/avatar_default.jpg'"
                   width="80"
                 />
-                <button class="btn btn-dark">Sửa</button>
+                <button class="btn btn-dark" (click)="fileInput.click()">
+                  Sửa
+                  <input #fileInput type="file" (change)="setAvatar($event)" />
+                </button>
               </div>
               <div class="d-flex flex-column">
-                <div class="fw-bold">Hoàng</div>
+                <div class="fw-bold">{{ user?.fullName }}</div>
                 <div class="text-secondary">Người theo dõi {{ 0 }}</div>
                 <div class="text-secondary">Người đang dõi {{ 0 }}</div>
               </div>

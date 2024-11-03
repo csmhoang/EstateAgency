@@ -2,7 +2,7 @@ import { Injectable, signal } from '@angular/core';
 import { PageData } from '@core/models/page-data.model';
 import { SpecParams } from '@core/models/spec-params.model';
 import { Room } from '@features/apartment/models/room.model';
-import { ApartmentService } from '@features/apartment/services/apartment.service';
+import { RoomService } from '@features/apartment/services/room.service';
 import { tap } from 'rxjs';
 
 @Injectable({
@@ -16,10 +16,10 @@ export class LessorApartmentService {
     pageIndex: 1,
   });
 
-  constructor(private apartmentService: ApartmentService) {}
+  constructor(private roomService: RoomService) {}
 
   loadData(isHideLoading: boolean = false) {
-    return this.apartmentService.getList(this.specParams(), isHideLoading).pipe(
+    return this.roomService.getList(this.specParams(), isHideLoading).pipe(
       tap({
         next: (page) => {
           if (page) {
@@ -31,6 +31,6 @@ export class LessorApartmentService {
   }
 
   delete(idRoom: string) {
-    return this.apartmentService.delete(idRoom);
+    return this.roomService.delete(idRoom);
   }
 }

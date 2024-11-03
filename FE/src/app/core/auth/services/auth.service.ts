@@ -9,6 +9,7 @@ import { catchError, map, Observable, of, tap } from 'rxjs';
 import { Login } from '../models/login.model';
 import { Register } from '../models/register.model';
 import { SkipPreloader } from '@core/interceptors/skip.resolver';
+import { ChangePassword } from '../models/changePassword.model';
 
 @Injectable({
   providedIn: 'root',
@@ -66,6 +67,13 @@ export class AuthService {
   logout(): void {
     this.userService.purAuth();
     void this.router.navigate(['/']);
+  }
+
+  changePassWord(credentials: ChangePassword) {
+    return this.http.post<Result<Secret>>(
+      '/authentication/password',
+      credentials
+    );
   }
 
   autoLogin() {

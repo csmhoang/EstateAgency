@@ -83,16 +83,16 @@ namespace Core.Services.Business
             }
         }
 
-        public async Task<Response> UpdateAsync(string id, UserDto? userDto, IFormFile? file)
+        public async Task<Response> UpdateAsync(string id, UserUpdateDto? userUpdateDto, IFormFile? file)
         {
             var user = await _repository.User.FindCondition(u => u.Id.Equals(id))
                 .SingleOrDefaultAsync();
             if (user != null)
             {
-                if (userDto != null)
+                if (userUpdateDto != null)
                 {
-                    await ValidateObject(userDto);
-                    _mapper.Map(userDto, user);
+                    await ValidateObjectUpdate(id, userUpdateDto);
+                    _mapper.Map(userUpdateDto, user);
                 }
                 if (file != null)
                 {
@@ -133,15 +133,10 @@ namespace Core.Services.Business
             user.AvatarUrl = uploadPhotoResult.SecureUrl.AbsoluteUri;
             user.PublicId = uploadPhotoResult.PublicId;
         }
-        public async Task ValidateObject(UserDto userDto)
+        public async Task ValidateObjectUpdate(string id, UserUpdateDto userUpdateDto)
         {
-            var isDuplicateUserEmail = await _repository.User.FindCondition(u => u.Email.Equals(userDto.Email)).FirstOrDefaultAsync();
-            if (isDuplicateUserEmail is not null)
-            {
-                throw new CustomizeException(Invalidate.EmailDuplication);
-            }
-            var isDuplicateUserNumberPhone = await _repository.User.FindCondition(u => u.PhoneNumber.Equals(userDto.PhoneNumber)).FirstOrDefaultAsync();
-            if (isDuplicateUserNumberPhone is not null)
+            var isDuplicateUserNumberPhone = await _repository.User.FindCondition(u => u.PhoneNumber.Equals(userUpdateDto.PhoneNumber)).FirstOrDefaultAsync();
+            if (isDuplicateUserNumberPhone != null && isDuplicateUserNumberPhone.Id != id)
             {
                 throw new CustomizeException(Invalidate.NumberPhoneDuplication);
             }

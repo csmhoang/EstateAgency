@@ -1,4 +1,5 @@
-import { Component, Input } from '@angular/core';
+import { Component, DestroyRef, inject, Input } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   AbstractControl,
   FormBuilder,
@@ -9,9 +10,12 @@ import {
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { ChangePassword } from '@core/auth/models/changePassword.model';
+import { AuthService } from '@core/auth/services/auth.service';
 import { User } from '@core/models/user.model';
 import { ToastService } from '@shared/services/toast/toast.service';
 import { MyValidators } from '@shared/validators/my-validators';
+import { catchError, of } from 'rxjs';
 
 @Component({
   selector: 'app-profile-edit-account',
@@ -26,8 +30,9 @@ import { MyValidators } from '@shared/validators/my-validators';
   styleUrl: './profile-edit-account.component.scss',
 })
 export class ProfileEditAccountComponent {
-  @Input({ required: true })
-  user?: User;
+  destroyRef = inject(DestroyRef);
+  @Input()
+  user?: User | null;
 
   hideOldPassword = true;
   hideNewPassword = true;
@@ -40,7 +45,8 @@ export class ProfileEditAccountComponent {
 
   constructor(
     private formBuilder: FormBuilder,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -65,35 +71,26 @@ export class ProfileEditAccountComponent {
   }
 
   onChangePassword() {
-    // if (this.form.valid) {
-    //   const credentials: Register = {
-    //     ...this.form.value,
-    //     roles: this.roles,
-    //   };
-    //   this.authService
-    //     .register(credentials)
-    //     .pipe(takeUntilDestroyed(this.destroyRef))
-    //     .subscribe({
-    //       next: (response) => {
-    //         if (response.success) {
-    //           this.authService
-    //             .login(
-    //               {
-    //                 email: credentials.email,
-    //                 password: credentials.password,
-    //                 isRemember: true,
-    //               } as Login,
-    //               true
-    //             )
-    //             .pipe(take(1))
-    //             .subscribe(() => void this.router.navigate(['/']));
-    //         }
-    //       },
-    //       error: () => {
-    //         this.toastService.error('Đăng ký thất bại, vui lòng thử lại!');
-    //       },
-    //     });
-    // }
+    if (this.form.valid && this.user) {
+      const credentials: ChangePassword = {
+        email: this.user.email,
+        password: this.oldPassword?.value,
+        newPassword: this.newPassword?.value,
+      };
+      this.authService
+        .changePassWord(credentials)
+        .pipe(
+          takeUntilDestroyed(this.destroyRef),
+          catchError(() => of(null))
+        )
+        .subscribe({
+          next: (response) => {
+            if (response?.success) {
+              this.toastService.success('Đổi mật khẩu thành công!');
+            }
+          },
+        });
+    }
   }
   errorForOldPassword(): string {
     if (this.oldPassword?.hasError('required')) {

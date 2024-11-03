@@ -51,6 +51,7 @@ export class LessorPostComponent {
     'availableFrom',
     'status',
     'isAccept',
+    'createdAt',
     'optional',
   ];
   dataSource = new MatTableDataSource<Post>();
@@ -60,8 +61,8 @@ export class LessorPostComponent {
     count: 0,
     pageIndex: 1,
   });
-  isAccept = IsAccept;
-  status = StatusPost;
+  isAcceptFilter = IsAccept;
+  statusFilter = StatusPost;
 
   @ViewChild(MatSort) sort?: MatSort;
 
