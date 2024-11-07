@@ -26,6 +26,8 @@ namespace Core.Dtos
         public ConditionRoom Condition { get; set; }
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
+        public UserDto? Landlord { get; set; }
         public ICollection<PhotoDto>? Photos { get; set; }
+
     }
 }

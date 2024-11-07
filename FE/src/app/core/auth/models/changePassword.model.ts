@@ -1,6 +1,5 @@
 export type ChangePassword = {
-    email: string;
-    password: string;
-    newPassword: string;
-  };
-  
+  email: string;
+  password: string;
+  newPassword: string;
+};

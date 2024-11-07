@@ -88,6 +88,26 @@ namespace Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Email chưa xác thực..
+        /// </summary>
+        public static string EmailConfirmFailing {
+            get {
+                return ResourceManager.GetString("EmailConfirmFailing", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Gửi Email thất bại.
+        /// </summary>
+        public static string EmailSendFailing
+        {
+            get
+            {
+                return ResourceManager.GetString("EmailSendFailing", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to Đăng nhập thấy bại. Tài khoản hoặc mật khẩu chưa chính xác!.
         /// </summary>
         public static string LoginFailing {

@@ -6,6 +6,8 @@ using Core.Exceptions;
 using Core.Interfaces.Infrastructure;
 using Core.Resources;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -24,6 +26,7 @@ namespace Core.Services.Auth
         private readonly ILoggerManager _logger;
         private readonly IMapper _mapper;
         private readonly UserManager<User> _userManager;
+        private readonly IEmailSender _emailSender;
         private readonly RoleManager<Role> _roleManager;
         private readonly IConfiguration _configuration;
         #endregion
@@ -35,6 +38,7 @@ namespace Core.Services.Auth
         #region Constructor
         public AuthenticationService(ILoggerManager logger,
             IMapper mapper,
+            IEmailSender emailSender,
             UserManager<User> userManager,
             RoleManager<Role> roleManager,
             IConfiguration configuration)
@@ -42,6 +46,7 @@ namespace Core.Services.Auth
             _logger = logger;
             _mapper = mapper;
             _userManager = userManager;
+            _emailSender = emailSender;
             _roleManager = roleManager;
             _configuration = configuration;
         }
@@ -119,6 +124,109 @@ namespace Core.Services.Auth
 
             return res;
         }
+
+        public async Task<Response> EmailConfirm(string email, string token)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user == null)
+            {
+                throw new UserNotFoundException();
+            }
+
+            var decodedTokenBytes = WebEncoders.Base64UrlDecode(token);
+            var decodedToken = Encoding.UTF8.GetString(decodedTokenBytes);
+            var result = await _userManager.ConfirmEmailAsync(user, decodedToken);
+
+            if (result.Succeeded)
+            {
+                return new Response
+                {
+                    Success = true,
+                    Messages = Successfull.EmailConfirmSucceed,
+                    StatusCode = (int)HttpStatusCode.OK
+                };
+            }
+            return new Response
+            {
+                Success = false,
+                Messages = Failure.EmailConfirmFailing,
+                StatusCode = (int)HttpStatusCode.Unauthorized
+            };
+        }
+
+        public async Task<Response> SendEmailConfirm(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user == null)
+            {
+                throw new UserNotFoundException();
+            }
+
+            var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            var encodeEmailToken = Encoding.UTF8.GetBytes(token);
+            var ValidateEmailToken = WebEncoders.Base64UrlEncode(encodeEmailToken);
+            var message = $"<p>Email Confirm Token: {ValidateEmailToken}</p>";
+            await _emailSender.SendEmailAsync(user.Email, "Xác thực Email", message);
+
+            return new Response
+            {
+                Success = true,
+                Messages = Successfull.SendEmailSucceed,
+                StatusCode = (int)HttpStatusCode.OK
+            };
+        }
+
+        public async Task<Response> SendEmailForgot(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user == null)
+            {
+                throw new UserNotFoundException();
+            }
+
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var encodeForgotToken = Encoding.UTF8.GetBytes(token);
+            var ValidateForgotToken = WebEncoders.Base64UrlEncode(encodeForgotToken);
+            var message = $"<p>Reset Password Token: {ValidateForgotToken}</p>";
+            await _emailSender.SendEmailAsync(user.Email, "Đặt lại mật khẩu", message);
+
+            return new Response
+            {
+                Success = true,
+                Messages = Successfull.SendEmailSucceed,
+                StatusCode = (int)HttpStatusCode.OK
+            };
+        }
+
+        public async Task<Response> ResetPassword(ResetPasswordDto forgotPasswordDto)
+        {
+            var user = await _userManager.FindByEmailAsync(forgotPasswordDto.Email);
+            if (user == null)
+            {
+                throw new UserNotFoundException();
+            }
+
+            var decodedTokenBytes = WebEncoders.Base64UrlDecode(forgotPasswordDto.Token);
+            var decodedToken = Encoding.UTF8.GetString(decodedTokenBytes);
+            var result = await _userManager.ResetPasswordAsync(user, decodedToken, forgotPasswordDto.NewPassword);
+
+            if (result.Succeeded)
+            {
+                return new Response
+                {
+                    Success = true,
+                    Messages = Successfull.ChangePasswordSucceed,
+                    StatusCode = (int)HttpStatusCode.OK
+                };
+            }
+            return new Response
+            {
+                Success = false,
+                Messages = Failure.ChangePasswordFailing,
+                StatusCode = (int)HttpStatusCode.Unauthorized
+            };
+        }
+
         public async Task<Response> Login(LoginDto loginDto)
         {
             _user = await _userManager.FindByNameAsync(loginDto.Email.ToLower());
@@ -305,8 +413,6 @@ namespace Core.Services.Auth
                 StatusCode = user is null ? (int)HttpStatusCode.NoContent : (int)HttpStatusCode.OK
             };
         }
-
-
         #endregion
     }
 }

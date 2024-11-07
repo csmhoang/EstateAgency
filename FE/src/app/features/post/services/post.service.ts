@@ -12,10 +12,7 @@ import { RoomService } from '@features/apartment/services/room.service';
   providedIn: 'root',
 })
 export class PostService {
-  constructor(
-    private http: HttpClient,
-    private roomService: RoomService
-  ) {}
+  constructor(private http: HttpClient, private roomService: RoomService) {}
 
   getList(
     specParams: SpecParams,
@@ -33,6 +30,12 @@ export class PostService {
         params,
         context: new HttpContext().set(SkipPreloader, isHideLoading),
       })
+      .pipe(map((response) => response.data));
+  }
+
+  getDetail(id: string) {
+    return this.http
+      .get<Result<Post>>(`/posts/detail/${id}`)
       .pipe(map((response) => response.data));
   }
 

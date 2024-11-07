@@ -79,6 +79,15 @@ namespace Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Email không tồn tại!.
+        /// </summary>
+        public static string EmailNotExist {
+            get {
+                return ResourceManager.GetString("EmailNotExist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tên đăng nhập hoặc mật khẩu không chính xác!.
         /// </summary>
         public static string IncorrectAccount {

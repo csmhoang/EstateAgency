@@ -1,3 +1,4 @@
+import { User } from '@core/models/user.model';
 import { Photo } from './photo.model';
 
 export type Room = {
@@ -17,6 +18,7 @@ export type Room = {
   area: number;
   price: number;
   condition: string;
+  landlord?: User;
   photos?: Photo[];
   createdAt?: Date;
   updatedAt?: Date;

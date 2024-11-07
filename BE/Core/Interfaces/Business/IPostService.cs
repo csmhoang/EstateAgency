@@ -38,6 +38,15 @@ namespace Core.Interfaces.Business
         /// </returns>
         Task<Response> GetAsync(string id);
         /// <summary>
+        /// Lấy ra chi tiết bài đăng bằng id
+        /// </summary>
+        /// <param name="id">Id bài đăng</param>
+        /// <returns>
+        /// 1 - Bài đăng
+        /// 2 - Null
+        /// </returns>
+        Task<Response> GetDetailAsync(string id);
+        /// <summary>
         /// Xóa bài đăng bằng id
         /// </summary>
         /// <param name="id">Id bài đăng</param>

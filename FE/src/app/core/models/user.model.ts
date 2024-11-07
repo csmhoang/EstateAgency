@@ -9,6 +9,8 @@ export type User = {
   gender?: string;
   dateOfBirth?: Date;
   address?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
   description?: string;
   roles?: string[];
 };

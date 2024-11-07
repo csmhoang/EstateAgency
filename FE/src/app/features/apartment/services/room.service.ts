@@ -66,7 +66,7 @@ export class RoomService {
 
   getById(id: string) {
     return this.http
-      .get<Result<Room>>(`/rooms?id=${id}`)
+      .get<Result<Room>>(`/rooms/${id}`)
       .pipe(map((response) => response.data));
   }
 

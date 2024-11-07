@@ -135,4 +135,10 @@
   <data name="AssignRoleFailing" xml:space="preserve">
     <value>Quá trình gán role không thành công!</value>
   </data>
+  <data name="EmailConfirmFailing" xml:space="preserve">
+    <value>Email chưa xác thực.</value>
+  </data>
+  <data name="EmailSendFailing" xml:space="preserve">
+    <value>Gửi Email thất bại.</value>
+  </data>
 </root>

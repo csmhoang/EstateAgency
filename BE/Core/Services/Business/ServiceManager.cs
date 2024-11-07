@@ -7,6 +7,7 @@ using Core.Interfaces.Infrastructure;
 using Core.Services.Auth;
 using Core.Services.Infrastructure;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 
@@ -35,6 +36,7 @@ namespace Core.Services.Business
         public ServiceManager(
             IRepositoryManager repository,
             IPhotoService photoService,
+            IEmailSender emailSender,
             ILoggerManager logger,
             IMapper mapper,
             UserManager<User> userManager,
@@ -45,7 +47,7 @@ namespace Core.Services.Business
             _userService = new Lazy<IUserService>(() =>
                 new UserService(repository, photoService, logger, mapper));
             _authenticationService = new Lazy<Interfaces.Auth.IAuthenticationService>(() =>
-                new AuthenticationService(logger, mapper, userManager, roleManager, configuration));
+                new AuthenticationService(logger, mapper, emailSender, userManager, roleManager, configuration));
             _roomService = new Lazy<IRoomService>(() =>
                 new RoomService(repository, photoService, logger, mapper));
             _postService = new Lazy<IPostService>(() =>

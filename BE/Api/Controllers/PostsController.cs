@@ -54,6 +54,16 @@ namespace Api.Controllers
         }
 
         /// <summary>
+        /// Lấy thông tin chi tiết bài đăng bằng id
+        /// </summary>
+        [HttpGet("detail/{id}")]
+        public async Task<IActionResult> GetDetail(string id)
+        {
+            var response = await _service.Post.GetDetailAsync(id);
+            return Ok(response);
+        }
+
+        /// <summary>
         /// Thêm bài đăng
         /// </summary>
         /// <param name="model">Bài đăng</param>

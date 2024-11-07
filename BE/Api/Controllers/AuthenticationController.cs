@@ -1,9 +1,6 @@
 ﻿using Api.Extensions;
-using Core.Consts;
 using Core.Dtos;
 using Core.Interfaces.Business;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
@@ -37,6 +34,43 @@ namespace Api.Controllers
             var response = await _service.Authentication.UserCurrent(username);
             return Ok(response);
         }
+        /// <summary>
+        /// Xác nhận Email
+        /// </summary>
+        [HttpGet("email-confirm")]
+        public async Task<IActionResult> EmailConfirm(string email, string token)
+        {
+            var response = await _service.Authentication.EmailConfirm(email, token);
+            return Ok(response);
+        }
+        /// <summary>
+        /// Gửi Email xác thực
+        /// </summary>
+        [HttpGet("send-email-confirm")]
+        public async Task<IActionResult> ResendEmailConfirmationLink(string email)
+        {
+            var response = await _service.Authentication.SendEmailConfirm(email);
+            return Ok(response);
+        }
+        /// <summary>
+        /// Gửi Email quên mật khẩu
+        /// </summary>
+        [HttpGet("send-email-forgot")]
+        public async Task<IActionResult> SendEmailForgot(string email)
+        {
+            var response = await _service.Authentication.SendEmailForgot(email);
+            return Ok(response);
+        }
+        /// <summary>
+        /// Đặt mật khẩu mới
+        /// </summary>
+        [HttpPost("reset-password")]
+        public async Task<IActionResult> ResetPassword(ResetPasswordDto resetPasswordDto)
+        {
+            var response = await _service.Authentication.ResetPassword(resetPasswordDto);
+            return Ok(response);
+        }
+
         /// <summary>
         /// Đăng ký
         /// </summary>

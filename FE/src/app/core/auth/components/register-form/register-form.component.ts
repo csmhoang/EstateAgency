@@ -18,7 +18,7 @@ import { AuthService } from '@core/auth/services/auth.service';
 import { MyValidators } from '@shared/validators/my-validators';
 import { Register } from '@core/auth/models/register.model';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { catchError, of, take } from 'rxjs';
+import { catchError, of } from 'rxjs';
 import { Login } from '@core/auth/models/login.model';
 
 @Component({
@@ -39,6 +39,7 @@ import { Login } from '@core/auth/models/login.model';
 })
 export class RegisterFormComponent implements OnInit {
   destroyRef = inject(DestroyRef);
+  router = inject(Router);
   maxDate = new Date(new Date().getFullYear() - 18, 0, 1);
   hidePassword = true;
   hideRepassword = true;
@@ -111,21 +112,25 @@ export class RegisterFormComponent implements OnInit {
         .subscribe({
           next: (response) => {
             if (response?.success) {
+              this.authService.account.set({
+                email: credentials.email,
+                password: credentials.password,
+                isRemember: true,
+              } as Login);
               this.authService
-                .login(
-                  {
-                    email: credentials.email,
-                    password: credentials.password,
-                    isRemember: true,
-                  } as Login,
-                  true
-                )
+                .sendEmailConfirm(credentials.email)
                 .pipe(
-                  take(1),
+                  takeUntilDestroyed(this.destroyRef),
                   catchError(() => of(null))
                 )
-                .subscribe();
-              this.toastService.success('Đăng ký thành công!');
+                .subscribe((response) => {
+                  if (response?.success) {
+                    this.router.navigate(['/verify-email']);
+                  }
+                });
+              this.toastService.success(
+                'Đăng ký thành công, vui lòng xác thực email!'
+              );
             }
           },
         });

@@ -62,5 +62,41 @@ namespace Core.Interfaces.Auth
         /// 2 - Null
         /// </returns>
         Task<Response> UserCurrent(string username);
+        /// <summary>
+        /// Xác thực email
+        /// </summary>
+        /// <param name="email">Email người dùng</param>
+        /// <param name="token">Chuỗi xác thực</param>
+        /// <returns>
+        /// 1 - Xác thực thành công
+        /// 2 - Xác thực thất bại
+        /// </returns>
+        Task<Response> EmailConfirm(string email, string token);
+        /// <summary>
+        /// Gửi email xác thực
+        /// </summary>
+        /// <param name="email">Email người dùng</param>
+        /// <returns>Gửi Email xác thực thành công</returns>
+        Task<Response> SendEmailConfirm(string email);
+        /// <summary>
+        /// Gửi Email quên mật khẩu
+        /// </summary>
+        /// <param name="email">Tài khoản Email</param>
+        /// <returns>
+        /// Gửi Email quên mật khẩu thành công
+        /// </returns>
+        Task<Response> SendEmailForgot(string email);
+        /// <summary>
+        /// Đặt mật khẩu mới
+        /// </summary>
+        /// <param name="resetPasswordDto">
+        /// - Email
+        /// - Mật khẩu mới
+        /// - Token
+        /// </param>
+        /// <returns>
+        /// Thông báo đổi mật khẩu thành công
+        /// </returns>
+        Task<Response> ResetPassword(ResetPasswordDto resetPasswordDto);
     }
 }

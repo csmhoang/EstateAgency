@@ -59,7 +59,7 @@ namespace Core.Services.Business
                 StatusCode = post is null ? (int)HttpStatusCode.NoContent : (int)HttpStatusCode.OK
             };
         }
-        
+
         public async Task<Response> GetListAsync(PostSpecParams specParams)
         {
             var spec = new PostSpecification(specParams);
@@ -123,6 +123,7 @@ namespace Core.Services.Business
             if (post is not null)
             {
                 _mapper.Map(postUpdateDto, post);
+                post.UpdatedAt = DateTime.Now;
                 _repository.Post.Update(post);
                 await _repository.SaveAsync();
             }
@@ -163,6 +164,18 @@ namespace Core.Services.Business
                 Success = true,
                 Messages = Successfull.RemovePost,
                 StatusCode = (int)HttpStatusCode.OK
+            };
+        }
+
+        public async Task<Response> GetDetailAsync(string id)
+        {
+            var post = await _repository.Post.GetDetail(id)
+                .FirstOrDefaultAsync();
+            return new Response
+            {
+                Success = true,
+                Data = _mapper.Map<PostDto>(post),
+                StatusCode = post is null ? (int)HttpStatusCode.NoContent : (int)HttpStatusCode.OK
             };
         }
         #endregion

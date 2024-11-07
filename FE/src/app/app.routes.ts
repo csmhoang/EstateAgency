@@ -20,6 +20,9 @@ import { LessorApartmentComponent } from '@features/management/lessor/pages/less
 import { LessorPostComponent } from '@features/management/lessor/pages/lessor-post/lessor-post.component';
 import { ApartmentInsertComponent } from '@features/apartment/components/apartment-insert/apartment-insert.component';
 import { PostInsertComponent } from '@features/post/components/post-insert/post-insert.component';
+import { apartmentDetailResolver } from '@features/apartment/resolver/apartment-detail.resolver';
+import { VerifyEmailComponent } from '@core/auth/pages/verify-email/verify-email.component';
+import { VerifyResetPasswordComponent } from '@core/auth/pages/verify-reset-password/verify-reset-password.component';
 
 export const routes: Routes = [
   /*Clients*/
@@ -34,6 +37,14 @@ export const routes: Routes = [
   {
     path: 'register',
     component: RegisterComponent,
+  },
+  {
+    path: 'verify-email',
+    component: VerifyEmailComponent,
+  },
+  {
+    path: 'verify-reset-password',
+    component: VerifyResetPasswordComponent,
   },
   {
     path: 'profile',
@@ -76,6 +87,9 @@ export const routes: Routes = [
   {
     path: 'apartment/detail/:id',
     component: ApartmentDetailComponent,
+    resolve: {
+      post: apartmentDetailResolver,
+    },
   },
   {
     path: 'apartment',

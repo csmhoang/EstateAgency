@@ -4,7 +4,6 @@ import {
   Component,
   inject,
   Input,
-  input,
   PLATFORM_ID,
 } from '@angular/core';
 import { Photo } from '@features/apartment/models/photo.model';

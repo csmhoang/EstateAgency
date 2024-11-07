@@ -1,5 +1,5 @@
 import { HttpClient, HttpContext } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { Result } from '@core/models/result.model';
 import { Secret } from '@core/models/secret.model';
@@ -10,11 +10,14 @@ import { Login } from '../models/login.model';
 import { Register } from '../models/register.model';
 import { SkipPreloader } from '@core/interceptors/skip.resolver';
 import { ChangePassword } from '../models/changePassword.model';
+import { ResetPassword } from '../models/reset-password.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
+  public account = signal<Login | null>(null);
+
   constructor(
     private http: HttpClient,
     private router: Router,
@@ -67,6 +70,34 @@ export class AuthService {
   logout(): void {
     this.userService.purAuth();
     void this.router.navigate(['/']);
+  }
+
+  emailConfirm(email: string, token: string) {
+    return this.http.get<Result>(
+      `/authentication/email-confirm?email=${email}&token=${token}`,
+      {
+        context: new HttpContext().set(SkipPreloader, true),
+      }
+    );
+  }
+
+  sendEmailConfirm(email: string) {
+    return this.http.get<Result>(
+      `/authentication/send-email-confirm?email=${email}`
+    );
+  }
+
+  resetPassword(credentials: ResetPassword) {
+    return this.http.post<Result>(
+      '/authentication/reset-password',
+      credentials
+    );
+  }
+
+  sendForgotPassword(email: string) {
+    return this.http.get<Result>(
+      `/authentication/send-email-forgot?email=${email}`
+    );
   }
 
   changePassWord(credentials: ChangePassword) {

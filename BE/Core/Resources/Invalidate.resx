@@ -135,4 +135,7 @@
   <data name="TenantIdAndLandlordIdDuplication" xml:space="preserve">
     <value>Id người thuê và chủ nhà không được trùng nhau!</value>
   </data>
+  <data name="EmailNotExist" xml:space="preserve">
+    <value>Email không tồn tại!</value>
+  </data>
 </root>

@@ -1,15 +1,19 @@
 ﻿using Core.Entities;
+using Core.Helpers;
 using Core.Interfaces.Business;
 using Core.Interfaces.Data;
 using Core.Interfaces.Infrastructure;
 using Core.Services.Business;
 using Core.Services.Infrastructure;
 using Infrastructure.Data;
+using Infrastructure.Email;
 using Infrastructure.Logging;
 using Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
@@ -39,11 +43,17 @@ namespace Api.Extensions
                 o.Password.RequiredLength = 6;
                 o.Password.RequiredUniqueChars = 1;
                 o.User.RequireUniqueEmail = true;
+                o.SignIn.RequireConfirmedEmail = true;
             })
             .AddRoles<Role>()
             .AddRoleManager<RoleManager<Role>>()
             .AddEntityFrameworkStores<RepositoryContext>()
             .AddDefaultTokenProviders();
+
+            services.Configure<DataProtectionTokenProviderOptions>(o =>
+            {
+                o.TokenLifespan = TimeSpan.FromHours(24);
+            });
         }
         public static void ConfigureJWT(this IServiceCollection services, IConfiguration configuration)
         {
@@ -74,6 +84,7 @@ namespace Api.Extensions
             services.AddScoped<IRepositoryManager, RepositoryManager>();
         public static void ConfigureServiceManager(this IServiceCollection services)
         {
+            services.AddScoped<IEmailSender, EmailSender>();
             services.AddScoped<IPhotoService, PhotoService>();
             services.AddScoped<IServiceManager, ServiceManager>();
         }

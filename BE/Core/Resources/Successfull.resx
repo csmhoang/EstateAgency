@@ -127,7 +127,7 @@
     <value>Cập nhật thành công.</value>
   </data>
   <data name="RegisterSucceed" xml:space="preserve">
-    <value>Đăng ký thành công.</value>
+    <value>Đăng ký thành công. Vui lòng xác thực Email để đăng nhập.</value>
   </data>
   <data name="LoginSucceed" xml:space="preserve">
     <value>Đăng nhập thành công.</value>
@@ -137,5 +137,11 @@
   </data>
   <data name="RemovePost" xml:space="preserve">
     <value>Gỡ bài đăng thành công.</value>
+  </data>
+  <data name="EmailConfirmSucceed" xml:space="preserve">
+    <value>Xác thực email thành công. Bạn có thể đăng nhập.</value>
+  </data>
+  <data name="SendEmailSucceed" xml:space="preserve">
+    <value>Đã gửi Email xác thực.</value>
   </data>
 </root>

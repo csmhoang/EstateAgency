@@ -79,7 +79,7 @@ namespace Core.Services.Business
             }
             else
             {
-                throw new UserNotFoundException(id);
+                throw new UserNotFoundException();
             }
         }
 
@@ -98,12 +98,13 @@ namespace Core.Services.Business
                 {
                     await SetAvatar(user, file);
                 }
+                user.UpdatedAt = DateTime.Now;
                 _repository.User.Update(user);
                 await _repository.SaveAsync();
             }
             else
             {
-                throw new UserNotFoundException(id);
+                throw new UserNotFoundException();
             }
 
             return new Response

@@ -79,6 +79,15 @@ namespace Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Xác thực email thành công. Bạn có thể đăng nhập..
+        /// </summary>
+        public static string EmailConfirmSucceed {
+            get {
+                return ResourceManager.GetString("EmailConfirmSucceed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Thêm thành công..
         /// </summary>
         public static string InsertSucceed {
@@ -97,7 +106,7 @@ namespace Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Đăng ký thành công..
+        ///   Looks up a localized string similar to Đăng ký thành công. Vui lòng xác thực Email để đăng nhập..
         /// </summary>
         public static string RegisterSucceed {
             get {
@@ -111,6 +120,15 @@ namespace Core.Resources {
         public static string RemovePost {
             get {
                 return ResourceManager.GetString("RemovePost", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Đã gửi Email xác thực..
+        /// </summary>
+        public static string SendEmailSucceed {
+            get {
+                return ResourceManager.GetString("SendEmailSucceed", resourceCulture);
             }
         }
         

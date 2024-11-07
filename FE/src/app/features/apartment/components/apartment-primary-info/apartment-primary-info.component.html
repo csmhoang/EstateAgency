@@ -7,43 +7,45 @@
     <div class="col-lg-12 col-6">
       <li>
         <strong> <i class="fa-solid fa-border-all"></i>Diện tích:</strong
-        ><span> 340m <sup>2</sup></span>
+        ><span> {{ post.room?.area }}m<sup>2</sup></span>
       </li>
       <li>
         <strong><i class="fa-solid fa-sack-dollar"></i>Mức giá:</strong>
-        3,5 triệu/tháng
+        {{ priceFilter(post.room?.price || 1) }}
       </li>
       <li>
         <strong><i class="fa-solid fa-location-dot"></i>Địa điểm:</strong>
-        Minh Khai, Bắc Từ Liêm, Hà Nội
+        {{ post.room?.address }}
       </li>
       <li>
         <strong><i class="fa-solid fa-layer-group"></i>Loại:</strong>
-        Trung cư
+        {{ categoryFilter[post.room!.category] }}
       </li>
       <li>
-        <strong><i class="fa-solid fa-bed"></i>Phòng ngủ:</strong> 1
+        <strong><i class="fa-solid fa-bed"></i>Phòng ngủ:</strong>
+        {{ post.room?.bedroom }}
       </li>
       <li>
-        <strong><i class="fa-solid fa-toilet"></i>Toilet:</strong> 1
+        <strong><i class="fa-solid fa-toilet"></i>Toilet:</strong>
+        {{ post.room?.toilet }}
       </li>
     </div>
     <div class="col-lg-12 col-6">
       <li>
         <strong><i class="fa-solid fa-bath"></i>Phòng tắm:</strong>
-        1
+        {{ post.room?.bathroom }}
       </li>
       <li>
         <strong><i class="fa-solid fa-couch"></i>Nội thất:</strong>
-        Đầy đủ
+        {{ interiorFilter[post.room!.interior] }}
       </li>
       <li>
         <strong><i class="fa-regular fa-clock"></i>Cập nhật:</strong>
-        5 ngày trước
+        {{ timeSinceUpdateFilter(post.createdAt!) }}
       </li>
       <li>
         <strong><i class="fa-regular fa-calendar-plus"></i>Ngày đăng:</strong>
-        05/10/2024
+        {{ post.createdAt | date : "MM/dd/yyyy" }}
       </li>
     </div>
   </ul>

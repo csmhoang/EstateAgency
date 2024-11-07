@@ -1,0 +1,46 @@
+<div class="register-page">
+  <!-- Header -->
+  <app-header></app-header>
+  <div class="main">
+    <section class="pb-0">
+      <div class="container mt-4">
+        <div class="row justify-content-xl-between justify-content-md-center">
+          <div class="col-md-8 col-lg-6 col-xl-6 mt-4">
+            <!-- Form -->
+            <form [formGroup]="form">
+              <div class="divider d-flex align-items-center my-4">
+                <p class="text-center fw-bold mx-3 mb-0">Xác thực email</p>
+              </div>
+              <!-- Token input -->
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Token</mat-label>
+                <input
+                  matInput
+                  type="text"
+                  placeholder="Token"
+                  formControlName="token"
+                />
+
+                @if( token?.invalid && (token?.dirty || token?.touched) ){
+                <mat-error>{{ errorForToken() }}</mat-error>
+                }
+              </mat-form-field>
+
+              <button
+                type="button"
+                [disabled]="form.invalid"
+                (click)="onConfirmEmail()"
+                class="btn btn-lg btn-dark w-100"
+              >
+                Xác thực
+              </button>
+            </form>
+          </div>
+          <div class="col-md-9 col-lg-6 col-xl-5 d-none d-lg-block">
+            <img src="/assets/img/banner.svg" class="img-fluid" />
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
