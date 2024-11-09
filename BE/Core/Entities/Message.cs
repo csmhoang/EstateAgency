@@ -11,7 +11,6 @@ namespace Core.Entities
         public string? SenderId { get; set; }
         [ForeignKey("Receiver")]
         public string? ReceiverId { get; set; }
-        public int MessageCode { get; set; }
         public string Content { get; set; } = null!;
         public DateTime? SentAt { get; set; }
 

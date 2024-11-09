@@ -51,7 +51,7 @@
         <div class="d-flex">
           <p class="card-text flex-fill">
             <small class="text-body-secondary">{{
-              timeSinceUpdateFilter(post.createdAt!)
+              timeSinceUpdateFilter(post.updatedAt!)
             }}</small>
           </p>
           <a [routerLink]="['/apartment/detail', post.id]" class="readmore"

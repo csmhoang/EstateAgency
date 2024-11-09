@@ -81,7 +81,7 @@ export class ApartmentInsertComponent implements OnInit {
       name: this.formBuilder.control('', [Validators.required]),
       category: this.formBuilder.control('', [Validators.required]),
       address: this.formBuilder.control('', [Validators.required]),
-      province: this.formBuilder.control(''),
+      province: this.formBuilder.control('', [Validators.required]),
       district: this.formBuilder.control(''),
       ward: this.formBuilder.control(''),
       bedroom: this.formBuilder.control(0, [Validators.required]),
@@ -194,6 +194,13 @@ export class ApartmentInsertComponent implements OnInit {
   errorForCategory(): string {
     if (this.category?.hasError('required')) {
       return 'Vui lòng chọn loại nhà đất!';
+    }
+    return '';
+  }
+
+  errorForProvince(): string {
+    if (this.category?.hasError('required')) {
+      return 'Vui lòng chọn Tỉnh/Thành!';
     }
     return '';
   }

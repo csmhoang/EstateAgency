@@ -16,7 +16,6 @@ namespace Core.Entities
         public string Id { get; set; } = null!;
         [ForeignKey("Lease")]
         public string? LeaseId { get; set; }
-        public int InvoiceCode { get; set; }
         public decimal Amount { get; set; }
         public DateTime? DueDate { get; set; }
         public StatusInvoice? Status { get; set; }

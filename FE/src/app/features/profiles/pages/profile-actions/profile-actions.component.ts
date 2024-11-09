@@ -13,9 +13,6 @@ import { ProfileEditProfileComponent } from '@features/profiles/components/profi
   standalone: true,
   imports: [
     CommonModule,
-    ProfileEditOverviewComponent,
-    ProfileEditProfileComponent,
-    ProfileEditAccountComponent,
     LessorListComponent,
     PostListComponent,
   ],
@@ -25,7 +22,6 @@ import { ProfileEditProfileComponent } from '@features/profiles/components/profi
 export class ProfileActionsComponent {
   user: User = {
     id: '3243124324234',
-    userCode: 1,
     fullName: 'Cao Sỹ Minh Hoàng',
     phoneNumber: '0393212312',
     email: 'mhoang@gmail.com',

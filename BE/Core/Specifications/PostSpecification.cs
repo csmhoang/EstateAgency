@@ -13,7 +13,34 @@ namespace Core.Specifications
     {
         #region Constructor
         public PostSpecification(PostSpecParams specParams) : base(x =>
-        (string.IsNullOrEmpty(specParams.Search) || x.Title.ToLower().Contains(specParams.Search))
+            (
+                string.IsNullOrEmpty(specParams.Search) ||
+                x.Title.ToLower().Contains(specParams.Search) ||
+                x.Room!.Name.ToLower().Contains(specParams.Search) ||
+                x.Room!.Address.ToLower().Contains(specParams.Search)
+            )
+        &&
+            (
+                specParams.Province.Count == 0 ||
+                specParams.Province.Contains(x.Room!.Province!)
+            )
+        &&
+            (
+                specParams.Category == null ||
+                specParams.Category == x.Room!.Category
+            )
+        &&
+            (
+                specParams.MinPrice == null ||
+                specParams.MaxPrice == null ||
+                (x.Room!.Price >= specParams.MinPrice && x.Room!.Price <= specParams.MaxPrice)
+            )
+        &&
+            (
+                specParams.MinArea == null ||
+                specParams.MaxArea == null ||
+                (x.Room!.Area >= specParams.MinArea && x.Room!.Area <= specParams.MaxArea)
+            )
         )
         {
             AddIncludes(new Expression<Func<Post, object>>[] {
@@ -22,8 +49,33 @@ namespace Core.Specifications
             });
 
             ApplyPaging(specParams.PageSize * (specParams.PageIndex - 1), specParams.PageSize);
+
+
+            switch (specParams.SortPrice)
+            {
+                case "PriceAsc": AddOrderBy(x => x.Room!.Price); break;
+                case "PriceDesc": AddOrderByDescending(x => x.Room!.Price); break;
+            }
+
+            switch (specParams.SortArea)
+            {
+                case "AreaAsc": AddOrderBy(x => x.Room!.Area); break;
+                case "AreaDesc": AddOrderByDescending(x => x.Room!.Area); break;
+            }
+
+            switch (specParams.SortExtra)
+            {
+                case "New": AddOrderBy(x => x.CreatedAt!); break;
+                case "Favorite": AddOrderBy(x => x.SavePosts.Count()); break;
+                case "New/Favorite":
+                    AddOrderThenBy(new Expression<Func<Post, object>>[] {
+                        x => x.CreatedAt!,
+                        x => x.SavePosts.Count()
+                    });
+                    break;
+                default: AddOrderBy(x => x.Title); break;
+            }
         }
         #endregion
-
     }
 }

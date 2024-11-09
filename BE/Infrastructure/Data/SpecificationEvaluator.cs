@@ -36,6 +36,11 @@ namespace Infrastructure.Data
                 query = query.Where(spec.Criteria);
             }
 
+            if (spec.OrderThenBy != null)
+            {
+                query = query.OrderBy(spec.OrderThenBy[0]).ThenBy(spec.OrderThenBy[1]);
+            }
+
             if (spec.OrderBy != null)
             {
                 query = query.OrderBy(spec.OrderBy);

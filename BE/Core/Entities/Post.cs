@@ -8,12 +8,13 @@ namespace Core.Entities
         public Post()
         {
             Feedbacks = new HashSet<Feedback>();
+            SavePosts = new HashSet<SavePost>();
         }
 
         public string Id { get; set; } = null!;
         [ForeignKey("Room")]
         public string? RoomId { get; set; }
-        public int PostCode { get; set; }
+
         public string Title { get; set; } = null!;
         public string? Description { get; set; }
         public DateTime AvailableFrom { get; set; }
@@ -23,6 +24,7 @@ namespace Core.Entities
         public DateTime? UpdatedAt { get; set; }
 
         public virtual Room? Room { get; set; }
+        public virtual ICollection<SavePost> SavePosts { get; set; }
         public virtual ICollection<Feedback> Feedbacks { get; set; }
     }
 }

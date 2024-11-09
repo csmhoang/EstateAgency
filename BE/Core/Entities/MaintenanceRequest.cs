@@ -12,7 +12,6 @@ namespace Core.Entities
         public string? LeaseId { get; set; }
         [ForeignKey("Invoice")]
         public string? InvoiceId { get; set; }
-        public int MaintenanceRequestCode { get; set; }
         public string Description { get; set; } = null!;
         public DateTime? RequestDate { get; set; }
         public StatusMaintenanceRequest Status { get; set; }

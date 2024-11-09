@@ -5,7 +5,6 @@ namespace Core.Dtos
     public record UserDto
     {
         public Guid? Id { get; set; }
-        public int UserCode { get; set; }
         public string FullName { get; set; } = null!;
         public string? AvatarUrl { get; set; }
         public string? PublicId { get; set; }

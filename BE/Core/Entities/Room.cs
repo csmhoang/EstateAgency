@@ -21,12 +21,11 @@ namespace Core.Entities
         public string Id { get; set; } = null!;
         [ForeignKey("Landlord")]
         public string? LandlordId { get; set; }
-        public int RoomCode { get; set; }
         public string Name { get; set; } = null!;
         public Category Category { get; set; }
         public string Address { get; set; } = null!;
         public string? Ward { get; set; }
-        public string? Province { get; set; }
+        public string Province { get; set; } = null!;
         public string? District { get; set; }
         public int Bedroom { get; set; }
         public int Bathroom { get; set; }

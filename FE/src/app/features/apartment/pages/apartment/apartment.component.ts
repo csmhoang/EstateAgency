@@ -1,18 +1,31 @@
-import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import {
+  Component,
+  DestroyRef,
+  inject,
+  OnDestroy,
+  OnInit,
+  signal,
+} from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { FooterComponent } from '@core/layout/footer/footer.component';
 import { HeaderComponent } from '@core/layout/header/header.component';
-import { ApartmentFilterComponent } from '@features/apartment/components/apartment-filter/apartment-filter.component';
 import { ApartmentService } from '@features/apartment/services/apartment.service';
 import { RoomService } from '@features/apartment/services/room.service';
 import { PostRootListComponent } from '@features/post/components/post-root-list/post-root-list.component';
 import { Post } from '@features/post/models/post.model';
-import { AutoCompleteComponent } from '@shared/components/form/auto-complete/auto-complete.component';
+import { SpecPostParams } from '@features/post/models/SpecPostParams.model';
 import { MiniLoadComponent } from '@shared/components/mini-load/mini-load.component';
 import { PaginationComponent } from '@shared/components/pagination/pagination.component';
 import { PaginationParams } from '@shared/models/pagination-params.model';
-import { catchError, lastValueFrom, of } from 'rxjs';
+import { catchError, firstValueFrom, lastValueFrom, of } from 'rxjs';
 
 @Component({
   selector: 'app-apartment',
@@ -20,12 +33,12 @@ import { catchError, lastValueFrom, of } from 'rxjs';
   imports: [
     HeaderComponent,
     FooterComponent,
-    AutoCompleteComponent,
-    ApartmentFilterComponent,
     PostRootListComponent,
     RouterLink,
     PaginationComponent,
     MiniLoadComponent,
+    CommonModule,
+    ReactiveFormsModule,
   ],
   templateUrl: './apartment.component.html',
   styleUrl: './apartment.component.scss',
@@ -39,9 +52,54 @@ export class ApartmentComponent implements OnInit {
     pageIndex: 1,
   });
 
-  constructor(private apartmentService: ApartmentService) {}
+  provices$ = firstValueFrom(
+    this.roomService.getProvince().pipe(
+      takeUntilDestroyed(this.destroyRef),
+      catchError(() => of(null))
+    )
+  );
+
+  form: FormGroup = new FormGroup({});
+
+  province?: AbstractControl | null;
+  search?: AbstractControl | null;
+  category?: AbstractControl | null;
+  price?: AbstractControl | null;
+  area?: AbstractControl | null;
+  new?: AbstractControl | null;
+  favorite?: AbstractControl | null;
+  priceSort?: AbstractControl | null;
+  areaSort?: AbstractControl | null;
+
+  constructor(
+    private formBuilder: FormBuilder,
+    private apartmentService: ApartmentService,
+    private roomService: RoomService
+  ) {}
 
   async ngOnInit() {
+    this.form = this.formBuilder.group({
+      province: this.formBuilder.control(''),
+      search: this.formBuilder.control(''),
+      category: this.formBuilder.control(''),
+      price: this.formBuilder.control(''),
+      area: this.formBuilder.control(''),
+      new: this.formBuilder.control(true),
+      favorite: this.formBuilder.control(true),
+      priceSort: this.formBuilder.control(''),
+      areaSort: this.formBuilder.control(''),
+    });
+    this.province = this.form.get('province');
+    this.search = this.form.get('search');
+    this.category = this.form.get('category');
+    this.price = this.form.get('price');
+    this.area = this.form.get('area');
+    this.new = this.form.get('new');
+    this.favorite = this.form.get('favorite');
+    this.priceSort = this.form.get('priceSort');
+    this.areaSort = this.form.get('areaSort');
+
+    this.apartmentService.specPostParams.set({ pageSize: 10, pageIndex: 1 });
     await this.init();
   }
 
@@ -60,8 +118,38 @@ export class ApartmentComponent implements OnInit {
     }
   }
 
+  async onFilter() {
+    if (this.form.dirty) {
+      this.apartmentService.specPostParams.update((value) => {
+        const specs: SpecPostParams = {
+          ...value,
+          province: this.province?.value.name,
+          search: this.search?.value,
+          category: this.category?.value,
+          minPrice: this.price?.value.min,
+          maxPrice: this.price?.value.max,
+          minArea: this.area?.value.min,
+          maxArea: this.area?.value.max,
+          sortPrice: this.priceSort?.value,
+          sortArea: this.areaSort?.value,
+        };
+
+        if (!this.new?.value && !this.favorite?.value) {
+          specs.sortExtra = 'New/Favorite';
+        } else if (!this.new?.value) {
+          specs.sortExtra = 'New';
+        } else if (!this.favorite?.value) {
+          specs.sortExtra = 'Favorite';
+        }
+
+        return specs;
+      });
+    }
+    await this.init();
+  }
+
   async onPageChange(pageIndex: number) {
-    this.apartmentService.specParams.update((value) => ({
+    this.apartmentService.specPostParams.update((value) => ({
       ...value,
       pageIndex: pageIndex,
     }));

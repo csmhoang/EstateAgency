@@ -11,7 +11,6 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { RouterLink } from '@angular/router';
-import { MaintenanceFormComponent } from '@features/maintenance/components/maintenance-form/maintenance-form.component';
 import { IsAccept, Post, StatusPost } from '@features/post/models/post.model';
 import { SearchComponent } from '@shared/components/form/search/search.component';
 import { PaginationComponent } from '@shared/components/pagination/pagination.component';
@@ -33,7 +32,6 @@ import { PostUpdateComponent } from '@features/post/components/post-update/post-
     MatButtonModule,
     MatMenuModule,
     PaginationComponent,
-    MaintenanceFormComponent,
     SearchComponent,
     CommonModule,
     RouterLink,
@@ -72,6 +70,7 @@ export class LessorPostComponent {
     private lessorPostService: LessorPostService
   ) {}
   async ngOnInit() {
+    this.lessorPostService.specParams.set({ pageSize: 10, pageIndex: 1 });
     await this.init();
   }
 

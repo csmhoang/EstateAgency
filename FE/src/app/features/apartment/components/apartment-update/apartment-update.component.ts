@@ -87,7 +87,7 @@ export class ApartmentUpdateComponent implements OnInit {
       address: this.formBuilder.control(this.data.address, [
         Validators.required,
       ]),
-      province: this.formBuilder.control(''),
+      province: this.formBuilder.control('', [Validators.required]),
       district: this.formBuilder.control(''),
       ward: this.formBuilder.control(''),
       bedroom: this.formBuilder.control(this.data.bedroom, [
@@ -208,6 +208,13 @@ export class ApartmentUpdateComponent implements OnInit {
   errorForName(): string {
     if (this.name?.hasError('required')) {
       return 'Tên phòng trọ không được để trống!';
+    }
+    return '';
+  }
+
+  errorForProvince(): string {
+    if (this.category?.hasError('required')) {
+      return 'Vui lòng chọn Tỉnh/Thành!';
     }
     return '';
   }

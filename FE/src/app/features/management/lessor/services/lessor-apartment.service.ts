@@ -11,10 +11,7 @@ import { tap } from 'rxjs';
 export class LessorApartmentService {
   pageSignal = signal<PageData<Room[]> | null>(null);
   public page = this.pageSignal.asReadonly();
-  public specParams = signal<SpecParams>({
-    pageSize: 5,
-    pageIndex: 1,
-  });
+  public specParams = signal<SpecParams>({});
 
   constructor(private roomService: RoomService) {}
 

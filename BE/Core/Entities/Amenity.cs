@@ -11,7 +11,6 @@ namespace Core.Entities
         }
 
         public string Id { get; set; } = null!;
-        public int AmenityCode { get; set; }
         public string Name { get; set; } = null!;
         public string? Description { get; set; }
         public decimal Price { get; set; }

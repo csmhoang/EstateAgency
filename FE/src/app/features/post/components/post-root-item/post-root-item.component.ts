@@ -18,9 +18,6 @@ export class PostRootItemComponent {
   priceFilter = Price;
 
   timeSinceUpdateFilter(time: Date) {
-    if (this.post.updatedAt) {
-      time = this.post.updatedAt;
-    }
     const now = new Date();
     const seconds = Math.floor(
       (now.getTime() - new Date(time).getTime()) / 1000

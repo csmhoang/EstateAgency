@@ -51,6 +51,9 @@
           <mat-option [value]="place">{{ place?.name }}</mat-option>
           }
         </mat-select>
+        @if( province?.invalid && (province?.dirty || province?.touched) ){
+        <mat-error>{{ errorForProvince() }}</mat-error>
+        }
       </mat-form-field>
       <!-- District select -->
       <mat-form-field class="col-lg-4" appearance="outline">

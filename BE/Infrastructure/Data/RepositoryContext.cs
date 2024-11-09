@@ -30,6 +30,9 @@ namespace Infrastructure.Data
         public virtual DbSet<Post> Posts { get; set; } = null!;
         public virtual DbSet<Photo> Photos { get; set; } = null!;
         public virtual DbSet<User> Users { get; set; } = null!;
+        public virtual DbSet<Follow> Follows { get; set; } = null!;
+        public virtual DbSet<Favorite> Favorites { get; set; } = null!;
+        public virtual DbSet<SavePost> SavePosts { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -46,16 +49,9 @@ namespace Infrastructure.Data
 
             modelBuilder.Entity<Amenity>(entity =>
             {
-                entity.HasIndex(e => e.AmenityCode, "UQ__Amenitie__300F6CA3021E4D38")
-                    .IsUnique();
-
                 entity.Property(e => e.Id)
                     .HasMaxLength(36)
                     .HasDefaultValueSql("lower(newid())");
-
-                entity.Property(e => e.AmenityCode)
-                    .ValueGeneratedOnAdd()
-                    .Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
 
                 entity.Property(e => e.CreatedAt)
                     .HasColumnType("datetime")
@@ -66,23 +62,17 @@ namespace Infrastructure.Data
                 entity.Property(e => e.Price).HasColumnType("decimal(10, 2)");
 
                 entity.Property(e => e.UpdatedAt)
-                    .HasColumnType("datetime");
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
             });
 
             modelBuilder.Entity<Feedback>(entity =>
             {
                 entity.ToTable("Feedback");
 
-                entity.HasIndex(e => e.FeedbackCode, "UQ__Feedback__BCE37B663CEFBD99")
-                    .IsUnique();
-
                 entity.Property(e => e.Id)
                     .HasMaxLength(36)
                     .HasDefaultValueSql("lower(newid())");
-
-                entity.Property(e => e.FeedbackCode)
-                    .ValueGeneratedOnAdd()
-                    .Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
 
                 entity.Property(e => e.CreatedAt)
                     .HasColumnType("datetime")
@@ -95,16 +85,10 @@ namespace Infrastructure.Data
 
             modelBuilder.Entity<Invoice>(entity =>
             {
-                entity.HasIndex(e => e.InvoiceCode, "UQ__Invoices__0D9D7FF34AA36732")
-                    .IsUnique();
 
                 entity.Property(e => e.Id)
                     .HasMaxLength(36)
                     .HasDefaultValueSql("lower(newid())");
-
-                entity.Property(e => e.InvoiceCode)
-                    .ValueGeneratedOnAdd()
-                    .Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
 
                 entity.Property(e => e.Amount).HasColumnType("decimal(10, 2)");
 
@@ -119,16 +103,9 @@ namespace Infrastructure.Data
 
             modelBuilder.Entity<Lease>(entity =>
             {
-                entity.HasIndex(e => e.LeaseCode, "UQ__Leases__D568E4B4702D9CD2")
-                    .IsUnique();
-
                 entity.Property(e => e.Id)
                     .HasMaxLength(36)
                     .HasDefaultValueSql("lower(newid())");
-
-                entity.Property(e => e.LeaseCode)
-                    .ValueGeneratedOnAdd()
-                    .Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
 
                 entity.Property(e => e.CreatedAt)
                     .HasColumnType("datetime")
@@ -147,21 +124,15 @@ namespace Infrastructure.Data
                 entity.Property(e => e.TenantId).HasMaxLength(36);
 
                 entity.Property(e => e.UpdatedAt)
-                    .HasColumnType("datetime");
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
             });
 
             modelBuilder.Entity<MaintenanceRequest>(entity =>
             {
-                entity.HasIndex(e => e.MaintenanceRequestCode, "UQ__Maintena__CBAB82F6EC2CDA6A")
-                    .IsUnique();
-
                 entity.Property(e => e.Id)
                     .HasMaxLength(36)
                     .HasDefaultValueSql("lower(newid())");
-
-                entity.Property(e => e.MaintenanceRequestCode)
-                    .ValueGeneratedOnAdd()
-                    .Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
 
                 entity.Property(e => e.LeaseId).HasMaxLength(36);
 
@@ -176,21 +147,15 @@ namespace Infrastructure.Data
                     .HasDefaultValueSql("(getdate())");
 
                 entity.Property(e => e.UpdatedAt)
-                    .HasColumnType("datetime");
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
             });
 
             modelBuilder.Entity<Message>(entity =>
             {
-                entity.HasIndex(e => e.MessageCode, "UQ__Messages__54E8229FE4E7C357")
-                    .IsUnique();
-
                 entity.Property(e => e.Id)
                     .HasMaxLength(36)
                     .HasDefaultValueSql("lower(newid())");
-
-                entity.Property(e => e.MessageCode)
-                    .ValueGeneratedOnAdd()
-                    .Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
 
                 entity.Property(e => e.ReceiverId).HasMaxLength(36);
 
@@ -211,16 +176,9 @@ namespace Infrastructure.Data
 
             modelBuilder.Entity<Payment>(entity =>
             {
-                entity.HasIndex(e => e.PaymentCode, "UQ__Payments__106D3BA8FEBBB92E")
-                    .IsUnique();
-
                 entity.Property(e => e.Id)
                     .HasMaxLength(36)
                     .HasDefaultValueSql("lower(newid())");
-
-                entity.Property(e => e.PaymentCode)
-                    .ValueGeneratedOnAdd()
-                    .Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
 
                 entity.Property(e => e.Amount).HasColumnType("decimal(10, 2)");
 
@@ -241,16 +199,10 @@ namespace Infrastructure.Data
 
             modelBuilder.Entity<Reservation>(entity =>
             {
-                entity.HasIndex(e => e.ReservationCode, "UQ__Reservat__2081C0BBCBCC7940")
-                    .IsUnique();
-
                 entity.Property(e => e.Id)
                     .HasMaxLength(36)
                     .HasDefaultValueSql("lower(newid())");
 
-                entity.Property(e => e.ReservationCode)
-                    .ValueGeneratedOnAdd()
-                    .Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
 
                 entity.Property(e => e.CreatedAt)
                     .HasColumnType("datetime")
@@ -263,23 +215,17 @@ namespace Infrastructure.Data
                 entity.Property(e => e.TenantId).HasMaxLength(36);
 
                 entity.Property(e => e.UpdatedAt)
-                    .HasColumnType("datetime");
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
             });
 
             modelBuilder.Entity<Post>(entity =>
             {
-                entity.HasIndex(e => e.PostCode, "UQ__Posts__5K9D52454DASDASE")
-                   .IsUnique();
-
                 entity.Property(e => e.Id)
                     .HasMaxLength(36)
                     .HasDefaultValueSql("lower(newid())");
 
                 entity.Property(e => e.RoomId).HasMaxLength(36);
-
-                entity.Property(e => e.PostCode)
-                    .ValueGeneratedOnAdd()
-                    .Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
 
                 entity.Property(e => e.AvailableFrom).HasColumnType("date");
 
@@ -288,7 +234,8 @@ namespace Infrastructure.Data
                     .HasDefaultValueSql("(getdate())");
 
                 entity.Property(e => e.UpdatedAt)
-                    .HasColumnType("datetime");
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
             });
 
             modelBuilder.Entity<Photo>(entity =>
@@ -302,16 +249,9 @@ namespace Infrastructure.Data
 
             modelBuilder.Entity<Room>(entity =>
             {
-                entity.HasIndex(e => e.RoomCode, "UQ__Rooms__4F9D52313B1CAD3E")
-                    .IsUnique();
-
                 entity.Property(e => e.Id)
                     .HasMaxLength(36)
                     .HasDefaultValueSql("lower(newid())");
-
-                entity.Property(e => e.RoomCode)
-                    .ValueGeneratedOnAdd()
-                    .Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
 
                 entity.Property(e => e.Area).HasColumnType("decimal(10, 2)");
 
@@ -332,7 +272,8 @@ namespace Infrastructure.Data
                 entity.Property(e => e.LandlordId).HasMaxLength(36);
 
                 entity.Property(e => e.UpdatedAt)
-                    .HasColumnType("datetime");
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
 
                 entity.HasMany(d => d.Amenities)
                     .WithMany(p => p.Rooms)
@@ -352,24 +293,63 @@ namespace Infrastructure.Data
                         });
             });
 
+            modelBuilder.Entity<Favorite>(entity =>
+            {
+                entity.Property(e => e.Id)
+                    .HasMaxLength(36)
+                    .HasDefaultValueSql("lower(newid())");
+
+                entity.Property(e => e.UserId).HasMaxLength(36);
+            });
+
+            modelBuilder.Entity<SavePost>(entity =>
+            {
+                entity.Property(e => e.Id)
+                    .HasMaxLength(36)
+                    .HasDefaultValueSql("lower(newid())");
+
+                entity.Property(e => e.FavoriteId).HasMaxLength(36);
+
+                entity.Property(e => e.PostId).HasMaxLength(36);
+
+                entity.Property(e => e.CreatedAt)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.UpdatedAt)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
+            });
+
+            modelBuilder.Entity<Follow>(entity =>
+            {
+                entity.Property(e => e.Id)
+                    .HasMaxLength(36)
+                    .HasDefaultValueSql("lower(newid())");
+
+                entity.Property(e => e.FollowerId).HasMaxLength(36);
+
+                entity.Property(e => e.CreatedAt)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.UpdatedAt)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
+            });
+
             modelBuilder.Entity<Role>(entity =>
             {
                 entity.Property(e => e.Id)
                     .HasMaxLength(36)
                     .HasDefaultValueSql("lower(newid())");
             });
+
             modelBuilder.Entity<User>(entity =>
             {
-                entity.HasIndex(e => e.UserCode, "UQ__Users__1DF52D0C64B859D5")
-                    .IsUnique();
-
                 entity.Property(e => e.Id)
                     .HasMaxLength(36)
                     .HasDefaultValueSql("lower(newid())");
-
-                entity.Property(e => e.UserCode)
-                    .ValueGeneratedOnAdd()
-                    .Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
 
                 entity.Property(e => e.CreatedAt)
                     .HasColumnType("datetime")
@@ -380,7 +360,8 @@ namespace Infrastructure.Data
                 entity.Property(e => e.FullName).HasMaxLength(100);
 
                 entity.Property(e => e.UpdatedAt)
-                    .HasColumnType("datetime");
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
             });
 
             modelBuilder.Entity<IdentityUserRole<string>>(entity =>

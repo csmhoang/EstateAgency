@@ -11,7 +11,6 @@ namespace Core.Dtos
         public string? LeaseId { get; set; }
         [Required(ErrorMessage = InvoiceConst.ErrorEmptyId)]
         public string? InvoiceId { get; set; }
-        public int MaintenanceRequestCode { get; set; }
         public string Description { get; set; } = null!;
         public DateTime? RequestDate { get; set; }
         public StatusMaintenanceRequest? Status { get; set; }

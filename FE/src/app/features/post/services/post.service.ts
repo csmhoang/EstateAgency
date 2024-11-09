@@ -20,7 +20,7 @@ export class PostService {
   ): Observable<PageData<Post[]>> {
     let params = new HttpParams();
     Object.entries(specParams).forEach(([key, value]) => {
-      if (value) {
+      if (value !== undefined && value !== null && value !== '') {
         params = params.set(key, value.toString());
       }
     });

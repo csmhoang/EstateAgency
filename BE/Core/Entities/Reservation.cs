@@ -12,7 +12,6 @@ namespace Core.Entities
         public string? TenantId { get; set; }
         [ForeignKey("Room")]
         public string? RoomId { get; set; }
-        public int ReservationCode { get; set; }
         public DateTime ReservationDate { get; set; }
         public StatusReservation Status { get; set; }
         public DateTime? CreatedAt { get; set; }

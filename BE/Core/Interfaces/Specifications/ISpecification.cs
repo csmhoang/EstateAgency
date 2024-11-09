@@ -7,6 +7,7 @@ namespace Core.Interfaces.Specifications
         Expression<Func<T, bool>>? Criteria { get; }
         Expression<Func<T, object>>? OrderBy { get; }
         Expression<Func<T, object>>[]? Includes { get; }
+        Expression<Func<T, object>>[]? OrderThenBy { get; }
         Expression<Func<T, object>>? OrderByDescending { get; }
         bool IsDistinct { get; }
         int Take { get; }

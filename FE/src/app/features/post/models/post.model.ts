@@ -2,7 +2,6 @@ import { Room } from '@features/apartment/models/room.model';
 
 export type Post = {
   id: string;
-  postCode: string;
   roomId: string;
   title: string;
   description: string;

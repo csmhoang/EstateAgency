@@ -8,6 +8,7 @@ namespace Core.Entities
         public User()
         {
             Feedbacks = new HashSet<Feedback>();
+            Followers = new HashSet<Follow>();
             Leases = new HashSet<Lease>();
             MessageReceivers = new HashSet<Message>();
             MessageSenders = new HashSet<Message>();
@@ -15,7 +16,6 @@ namespace Core.Entities
             Rooms = new HashSet<Room>();
             UserRoles = new HashSet<IdentityUserRole<string>>();
         }
-        public int UserCode { get; set; }
         public string FullName { get; set; } = null!;
         public DateTime? DateOfBirth { get; set; }
         public Gender Gender { get; set; }
@@ -28,7 +28,9 @@ namespace Core.Entities
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
 
+        public virtual Favorite? Favorite { get; set; }
         public virtual ICollection<Feedback> Feedbacks { get; set; }
+        public virtual ICollection<Follow> Followers { get; set; }
         public virtual ICollection<Lease> Leases { get; set; }
         public virtual ICollection<Message> MessageReceivers { get; set; }
         public virtual ICollection<Message> MessageSenders { get; set; }

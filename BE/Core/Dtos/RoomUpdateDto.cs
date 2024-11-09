@@ -15,7 +15,7 @@ namespace Core.Dtos
         public Category Category { get; set; }
         public string Address { get; set; } = null!;
         public string? Ward { get; set; }
-        public string? Province { get; set; }
+        public string Province { get; set; } = null!;
         public string? District { get; set; }
         public int Bedroom { get; set; }
         public int Bathroom { get; set; }

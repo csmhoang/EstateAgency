@@ -15,7 +15,6 @@ namespace Core.Dtos
         public string? TenantId { get; set; }
         [Required(ErrorMessage = RoomConst.ErrorEmptyId)]
         public string? RoomId { get; set; }
-        public int LeaseCode { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime? EndDate { get; set; }
         public bool? SignedOnline { get; set; }

@@ -12,7 +12,6 @@ namespace Core.Entities
         public string? LeaseId { get; set; }
         [ForeignKey("Invoice")]
         public string? InvoiceId { get; set; }
-        public int PaymentCode { get; set; }
         public decimal Amount { get; set; }
         public DateTime? PaymentDate { get; set; }
         public StatusPayment Status { get; set; }

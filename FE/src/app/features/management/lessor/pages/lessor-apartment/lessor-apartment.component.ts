@@ -23,7 +23,6 @@ import { DialogService } from '@shared/services/dialog/dialog.service';
 import { LessorApartmentService } from '../../services/lessor-apartment.service';
 import { PaginationParams } from '@shared/models/pagination-params.model';
 import { MiniLoadComponent } from '@shared/components/mini-load/mini-load.component';
-import { ApartmentInsertComponent } from '@features/apartment/components/apartment-insert/apartment-insert.component';
 import { ApartmentViewComponent } from '@features/apartment/components/apartment-view/apartment-view.component';
 import { ApartmentUpdateComponent } from '@features/apartment/components/apartment-update/apartment-update.component';
 import { ToastService } from '@shared/services/toast/toast.service';
@@ -39,13 +38,10 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
     MatButtonModule,
     MatMenuModule,
     PaginationComponent,
-    ApartmentViewComponent,
-    ApartmentUpdateComponent,
     SearchComponent,
     RouterLink,
     CommonModule,
     MiniLoadComponent,
-    ApartmentInsertComponent,
   ],
   templateUrl: './lessor-apartment.component.html',
   styleUrl: './lessor-apartment.component.scss',
@@ -81,6 +77,7 @@ export class LessorApartmentComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
+    this.lessorApartmentService.specParams.set({ pageSize: 10, pageIndex: 1 });
     await this.init();
   }
 
@@ -91,7 +88,7 @@ export class LessorApartmentComponent implements OnInit {
         catchError(() => of(null))
       )
     );
-    
+
     const page = this.lessorApartmentService.page();
     if (page) {
       this.paginationParams.set(page);
