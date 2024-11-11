@@ -1,12 +1,15 @@
 ﻿using Core.Entities;
 using Infrastructure.Data.Configurations;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace Infrastructure.Data
 {
-    public partial class RepositoryContext : DbContext
+    public partial class RepositoryContext : IdentityDbContext<User, Role, string,
+        IdentityUserClaim<string>, UserRole, IdentityUserLogin<string>,
+        IdentityRoleClaim<string>, IdentityUserToken<string>>
     {
         public RepositoryContext()
         {
@@ -25,11 +28,9 @@ namespace Infrastructure.Data
         public virtual DbSet<Message> Messages { get; set; } = null!;
         public virtual DbSet<Payment> Payments { get; set; } = null!;
         public virtual DbSet<Reservation> Reservations { get; set; } = null!;
-        public virtual DbSet<Role> Roles { get; set; } = null!;
         public virtual DbSet<Room> Rooms { get; set; } = null!;
         public virtual DbSet<Post> Posts { get; set; } = null!;
         public virtual DbSet<Photo> Photos { get; set; } = null!;
-        public virtual DbSet<User> Users { get; set; } = null!;
         public virtual DbSet<Follow> Follows { get; set; } = null!;
         public virtual DbSet<Favorite> Favorites { get; set; } = null!;
         public virtual DbSet<SavePost> SavePosts { get; set; } = null!;
@@ -46,6 +47,8 @@ namespace Infrastructure.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new RoleConfiguration());
+
+            base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<Amenity>(entity =>
             {
@@ -85,7 +88,6 @@ namespace Infrastructure.Data
 
             modelBuilder.Entity<Invoice>(entity =>
             {
-
                 entity.Property(e => e.Id)
                     .HasMaxLength(36)
                     .HasDefaultValueSql("lower(newid())");
@@ -340,13 +342,22 @@ namespace Infrastructure.Data
 
             modelBuilder.Entity<Role>(entity =>
             {
+                entity.ToTable("Roles");
+
                 entity.Property(e => e.Id)
                     .HasMaxLength(36)
                     .HasDefaultValueSql("lower(newid())");
+
+                entity.HasMany(e => e.UserRoles)
+                    .WithOne(e => e.Role)
+                    .HasForeignKey(ur => ur.RoleId)
+                    .IsRequired();
             });
 
             modelBuilder.Entity<User>(entity =>
             {
+                entity.ToTable("Users");
+
                 entity.Property(e => e.Id)
                     .HasMaxLength(36)
                     .HasDefaultValueSql("lower(newid())");
@@ -362,24 +373,22 @@ namespace Infrastructure.Data
                 entity.Property(e => e.UpdatedAt)
                     .HasColumnType("datetime")
                     .HasDefaultValueSql("(getdate())");
+
+                entity.HasMany(e => e.UserRoles)
+                    .WithOne(e => e.User)
+                    .HasForeignKey(ur => ur.UserId)
+                    .IsRequired();
             });
 
-            modelBuilder.Entity<IdentityUserRole<string>>(entity =>
+            modelBuilder.Entity<UserRole>(entity =>
             {
                 entity.ToTable("UserRoles");
-
-                entity.HasKey(e => new { e.UserId, e.RoleId });
-
-                entity.HasOne<User>()
-                    .WithMany(p => p.UserRoles)
-                    .HasForeignKey(d => d.UserId)
-                    .IsRequired();
-
-                entity.HasOne<Role>()
-                    .WithMany(p => p.UserRoles)
-                    .HasForeignKey(d => d.RoleId)
-                    .IsRequired();
             });
+
+            modelBuilder.Ignore<IdentityUserClaim<string>>();
+            modelBuilder.Ignore<IdentityRoleClaim<string>>();
+            modelBuilder.Ignore<IdentityUserLogin<string>>();
+            modelBuilder.Ignore<IdentityUserToken<string>>();
 
             OnModelCreatingPartial(modelBuilder);
         }

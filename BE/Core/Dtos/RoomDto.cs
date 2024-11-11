@@ -27,6 +27,6 @@ namespace Core.Dtos
         public DateTime? UpdatedAt { get; set; }
         public UserDto? Landlord { get; set; }
         public ICollection<PhotoDto>? Photos { get; set; }
-
+        public ICollection<PostDto>? Posts { get; set; }
     }
 }

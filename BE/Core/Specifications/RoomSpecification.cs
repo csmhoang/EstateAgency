@@ -1,6 +1,7 @@
 ﻿using Core.Dtos;
 using Core.Entities;
 using Core.Params;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,17 +19,15 @@ namespace Core.Specifications
         (specParams.Province.Count == 0 || specParams.Province.Contains(x.Province!))
         )
         {
-            AddIncludes(new Expression<Func<Room, object>>[] {
-                x => x.Photos
-            });
+            AddInclude(x => x.Include(r => r.Photos));
 
             ApplyPaging(specParams.PageSize * (specParams.PageIndex - 1), specParams.PageSize);
 
             switch (specParams.Sort)
             {
-                case "priceAsc": AddOrderBy(x => x.Price); break;
-                case "priceDesc": AddOrderByDescending(x => x.Price); break;
-                default: AddOrderBy(x => x.Name); break;
+                case "priceAsc": AddOrder(x => x.OrderBy(r => r.Price)); break;
+                case "priceDesc": AddOrder(x => x.OrderByDescending(r => r.Price)); break;
+                default: AddOrder(x => x.OrderBy(r => r.Name)); break;
             }
         }
         #endregion

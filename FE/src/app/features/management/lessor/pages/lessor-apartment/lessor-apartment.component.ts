@@ -83,7 +83,7 @@ export class LessorApartmentComponent implements OnInit {
 
   async init() {
     await lastValueFrom(
-      this.lessorApartmentService.loadData(true).pipe(
+      this.lessorApartmentService.loadData().pipe(
         takeUntilDestroyed(this.destroyRef),
         catchError(() => of(null))
       )

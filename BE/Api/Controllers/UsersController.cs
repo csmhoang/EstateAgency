@@ -1,6 +1,7 @@
 ﻿using Core.Consts;
 using Core.Dtos;
 using Core.Interfaces.Business;
+using Core.Params;
 using Core.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -44,6 +45,35 @@ namespace Api.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// Lấy thông tin chi tiết bài đăng bằng id
+        /// </summary>
+        [HttpGet("detail/{id}")]
+        public async Task<IActionResult> GetDetail(string id)
+        {
+            var response = await _service.User.GetDetailAsync(id);
+            return Ok(response);
+        }
+
+        /// <summary>
+        /// Lấy danh sách thông tin người dùng bằng specification
+        /// </summary>
+        [HttpGet("list")]
+        public async Task<IActionResult> GetList([FromQuery] UserSpecParams specParams)
+        {
+            var response = await _service.User.GetListAsync(specParams);
+            return Ok(response);
+        }
+
+        /// <summary>
+        /// Lấy danh sách gợi ý cho bộ tìm kiếm
+        /// </summary>
+        [HttpGet("search-options")]
+        public async Task<IActionResult> GetSearchOptions()
+        {
+            var response = await _service.User.GetSearchOptionsAsync();
+            return Ok(response);
+        }
         /// <summary>
         /// Cập nhật người dùng
         /// </summary>

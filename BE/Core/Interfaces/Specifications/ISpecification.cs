@@ -1,14 +1,13 @@
-﻿using System.Linq.Expressions;
+﻿using Microsoft.EntityFrameworkCore.Query;
+using System.Linq.Expressions;
 
 namespace Core.Interfaces.Specifications
 {
     public interface ISpecification<T> where T : class
     {
         Expression<Func<T, bool>>? Criteria { get; }
-        Expression<Func<T, object>>? OrderBy { get; }
-        Expression<Func<T, object>>[]? Includes { get; }
-        Expression<Func<T, object>>[]? OrderThenBy { get; }
-        Expression<Func<T, object>>? OrderByDescending { get; }
+        List<Func<IQueryable<T>, IIncludableQueryable<T, object>>> Includes { get; }
+        List<Func<IQueryable<T>, IOrderedQueryable<T>>> Orders { get; }
         bool IsDistinct { get; }
         int Take { get; }
         int Skip { get; }

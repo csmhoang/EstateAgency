@@ -104,7 +104,7 @@ namespace Core.Services.Auth
                 catch
                 {
                     await _userManager.DeleteAsync(user);
-                    throw new Exception();
+                    throw new CustomizeException(Failure.AddRoleFailing);
                 }
 
                 res.Success = true;
@@ -397,19 +397,14 @@ namespace Core.Services.Auth
         public async Task<Response> UserCurrent(string username)
         {
             var user = string.IsNullOrEmpty(username) ? null : await _userManager.Users
+                .Include(u => u.UserRoles)
+                .ThenInclude(ur => ur.Role)
                 .SingleOrDefaultAsync(x => x.UserName == username.ToLower());
-
-            var data = _mapper.Map<UserDto>(user);
-            if (user != null)
-            {
-                var roles = _userManager.GetRolesAsync(user);
-                data.Roles = roles.Result;
-            }
 
             return new Response
             {
                 Success = true,
-                Data = data,
+                Data = _mapper.Map<UserDto>(user),
                 StatusCode = user is null ? (int)HttpStatusCode.NoContent : (int)HttpStatusCode.OK
             };
         }

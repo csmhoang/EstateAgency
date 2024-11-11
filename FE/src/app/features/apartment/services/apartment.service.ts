@@ -3,7 +3,7 @@ import { PageData } from '@core/models/page-data.model';
 import { Post } from '@features/post/models/post.model';
 import { tap } from 'rxjs';
 import { PostService } from '@features/post/services/post.service';
-import { SpecPostParams } from '@features/post/models/SpecPostParams.model';
+import { SpecPostParams } from '@features/post/models/spec-post-params.model';
 
 @Injectable({
   providedIn: 'root',
@@ -15,8 +15,8 @@ export class ApartmentService {
 
   constructor(private postService: PostService) {}
 
-  loadData(isHideLoading: boolean = false) {
-    return this.postService.getList(this.specPostParams(), isHideLoading).pipe(
+  loadData(isDisplayMiniLoading: boolean = true) {
+    return this.postService.getList(this.specPostParams(), isDisplayMiniLoading).pipe(
       tap({
         next: (page) => {
           if (page) {

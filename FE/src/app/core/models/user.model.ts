@@ -1,3 +1,6 @@
+import { Room } from '@features/apartment/models/room.model';
+import { UserRole } from './user-role.model';
+
 export type User = {
   id: string;
   fullName: string;
@@ -5,13 +8,15 @@ export type User = {
   publicId?: string;
   phoneNumber: string;
   email: string;
+  numberOfFollowers?: number;
   gender?: string;
   dateOfBirth?: Date;
-  address?: string;
+  address: string;
   createdAt?: Date;
   updatedAt?: Date;
   description?: string;
-  roles?: string[];
+  userRoles?: UserRole[];
+  rooms?: Room[];
 };
 
 export const Gender: { [key: string]: string } = {

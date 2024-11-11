@@ -12,10 +12,12 @@ namespace Core.Dtos
         public string PhoneNumber { get; set; } = null!;
         public DateTime? DateOfBirth { get; set; }
         public Gender Gender { get; set; }
-        public string? Address { get; set; }
+        public string Address { get; set; } = null!;
         public string? Description { get; set; }
+        public int NumberOfFollowers { get; set; }
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
-        public IEnumerable<string>? Roles { get; set; }
+        public ICollection<RoomDto>? Rooms { get; set; }
+        public ICollection<UserRoleDto>? UserRoles { get; set; }
     }
 }

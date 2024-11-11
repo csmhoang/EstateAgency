@@ -3,15 +3,16 @@ import {
   Component,
   DestroyRef,
   inject,
-  OnDestroy,
   OnInit,
   signal,
+  ViewChild,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   AbstractControl,
   FormBuilder,
   FormGroup,
+  FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
 import { RouterLink } from '@angular/router';
@@ -21,11 +22,23 @@ import { ApartmentService } from '@features/apartment/services/apartment.service
 import { RoomService } from '@features/apartment/services/room.service';
 import { PostRootListComponent } from '@features/post/components/post-root-list/post-root-list.component';
 import { Post } from '@features/post/models/post.model';
-import { SpecPostParams } from '@features/post/models/SpecPostParams.model';
+import { SpecPostParams } from '@features/post/models/spec-post-params.model';
+import { PostService } from '@features/post/services/post.service';
+import { NgbTypeaheadModule, NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
 import { MiniLoadComponent } from '@shared/components/mini-load/mini-load.component';
 import { PaginationComponent } from '@shared/components/pagination/pagination.component';
 import { PaginationParams } from '@shared/models/pagination-params.model';
-import { catchError, firstValueFrom, lastValueFrom, of } from 'rxjs';
+import {
+  catchError,
+  debounceTime,
+  distinctUntilChanged,
+  firstValueFrom,
+  lastValueFrom,
+  map,
+  Observable,
+  of,
+  OperatorFunction,
+} from 'rxjs';
 
 @Component({
   selector: 'app-apartment',
@@ -39,6 +52,8 @@ import { catchError, firstValueFrom, lastValueFrom, of } from 'rxjs';
     MiniLoadComponent,
     CommonModule,
     ReactiveFormsModule,
+    NgbTypeaheadModule,
+    FormsModule,
   ],
   templateUrl: './apartment.component.html',
   styleUrl: './apartment.component.scss',
@@ -52,12 +67,32 @@ export class ApartmentComponent implements OnInit {
     pageIndex: 1,
   });
 
+  options: string[] = [];
+
   provices$ = firstValueFrom(
     this.roomService.getProvince().pipe(
       takeUntilDestroyed(this.destroyRef),
       catchError(() => of(null))
     )
   );
+
+  select: OperatorFunction<string, readonly string[]> = (
+    text$: Observable<string>
+  ) =>
+    text$.pipe(
+      debounceTime(200),
+      distinctUntilChanged(),
+      map((term) =>
+        (term === ''
+          ? this.options
+          : this.options.filter(
+              (v) => v.toLowerCase().indexOf(term.toLowerCase()) > -1
+            )
+        ).slice(0, 10)
+      )
+    );
+
+  @ViewChild('instance', { static: true }) instance!: NgbTypeahead;
 
   form: FormGroup = new FormGroup({});
 
@@ -74,7 +109,8 @@ export class ApartmentComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private apartmentService: ApartmentService,
-    private roomService: RoomService
+    private roomService: RoomService,
+    private postService: PostService
   ) {}
 
   async ngOnInit() {
@@ -99,13 +135,20 @@ export class ApartmentComponent implements OnInit {
     this.priceSort = this.form.get('priceSort');
     this.areaSort = this.form.get('areaSort');
 
+    this.options = await firstValueFrom(
+      this.postService.getSearchOptions().pipe(
+        takeUntilDestroyed(this.destroyRef),
+        catchError(() => of([]))
+      )
+    );
+    
     this.apartmentService.specPostParams.set({ pageSize: 10, pageIndex: 1 });
     await this.init();
   }
 
   async init() {
     await lastValueFrom(
-      this.apartmentService.loadData(true).pipe(
+      this.apartmentService.loadData().pipe(
         takeUntilDestroyed(this.destroyRef),
         catchError(() => of(null))
       )

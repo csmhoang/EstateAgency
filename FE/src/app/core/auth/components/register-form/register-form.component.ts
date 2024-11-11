@@ -77,7 +77,7 @@ export class RegisterFormComponent implements OnInit {
       ]),
       dateOfBirth: this.formBuilder.control(''),
       gender: this.formBuilder.control('Male'),
-      address: this.formBuilder.control(''),
+      address: this.formBuilder.control('', [Validators.required]),
       password: this.formBuilder.control('', [
         Validators.required,
         Validators.minLength(6),
@@ -143,6 +143,13 @@ export class RegisterFormComponent implements OnInit {
     }
     if (this.email?.hasError('email')) {
       return 'Email không hợp lệ!';
+    }
+    return '';
+  }
+
+  errorForAddress(): string {
+    if (this.address?.hasError('required')) {
+      return 'Địa chỉ cụ thể không được để trống!';
     }
     return '';
   }

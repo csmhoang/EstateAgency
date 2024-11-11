@@ -15,8 +15,8 @@ export class LessorPostService {
 
   constructor(private postService: PostService) {}
 
-  loadData(isHideLoading: boolean = false) {
-    return this.postService.getList(this.specParams(), isHideLoading).pipe(
+  loadData(isDisplayMiniLoading: boolean = true) {
+    return this.postService.getList(this.specParams(), isDisplayMiniLoading).pipe(
       tap({
         next: (page) => {
           if (page) {

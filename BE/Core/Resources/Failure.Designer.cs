@@ -61,6 +61,15 @@ namespace Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Thêm Role thất bại..
+        /// </summary>
+        public static string AddRoleFailing {
+            get {
+                return ResourceManager.GetString("AddRoleFailing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Quá trình gán role không thành công!.
         /// </summary>
         public static string AssignRoleFailing {
@@ -95,18 +104,16 @@ namespace Core.Resources {
                 return ResourceManager.GetString("EmailConfirmFailing", resourceCulture);
             }
         }
-
+        
         /// <summary>
-        ///   Looks up a localized string similar to Gửi Email thất bại.
+        ///   Looks up a localized string similar to Gửi Email thất bại..
         /// </summary>
-        public static string EmailSendFailing
-        {
-            get
-            {
+        public static string EmailSendFailing {
+            get {
                 return ResourceManager.GetString("EmailSendFailing", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Đăng nhập thấy bại. Tài khoản hoặc mật khẩu chưa chính xác!.
         /// </summary>

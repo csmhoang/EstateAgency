@@ -7,6 +7,7 @@ import { SpecParams } from '@core/models/spec-params.model';
 import { PageData } from '@core/models/page-data.model';
 import { SkipPreloader } from '@core/interceptors/skip.resolver';
 import { RoomService } from '@features/apartment/services/room.service';
+import { TakeMiniLoad } from '@core/interceptors/take.resolver';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +17,7 @@ export class PostService {
 
   getList(
     specParams: SpecParams,
-    isHideLoading: boolean = false
+    isDisplayMiniLoading: boolean = false
   ): Observable<PageData<Post[]>> {
     let params = new HttpParams();
     Object.entries(specParams).forEach(([key, value]) => {
@@ -28,7 +29,9 @@ export class PostService {
     return this.http
       .get<Result<PageData<Post[]>>>('/posts/list', {
         params,
-        context: new HttpContext().set(SkipPreloader, isHideLoading),
+        context: new HttpContext()
+          .set(SkipPreloader, true)
+          .set(TakeMiniLoad, isDisplayMiniLoading),
       })
       .pipe(map((response) => response.data));
   }
@@ -36,6 +39,14 @@ export class PostService {
   getDetail(id: string) {
     return this.http
       .get<Result<Post>>(`/posts/detail/${id}`)
+      .pipe(map((response) => response.data));
+  }
+
+  getSearchOptions() {
+    return this.http
+      .get<Result<string[]>>('/posts/search-options', {
+        context: new HttpContext().set(SkipPreloader, true),
+      })
       .pipe(map((response) => response.data));
   }
 

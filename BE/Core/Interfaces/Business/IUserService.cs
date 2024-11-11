@@ -1,5 +1,6 @@
 ﻿using Core.Dtos;
 using Core.Entities;
+using Core.Params;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -29,6 +30,24 @@ namespace Core.Interfaces.Business
         /// </returns>
         Task<Response> GetAsync(string id);
         /// <summary>
+        /// Lấy ra chi tiết người dùng bằng id
+        /// </summary>
+        /// <param name="id">Id người dùng</param>
+        /// <returns>
+        /// 1 - Người dùng
+        /// 2 - Null
+        /// </returns>
+        Task<Response> GetDetailAsync(string id);
+        /// <summary>
+        /// Lấy danh sách thông tin người dùng bằng specification
+        /// </summary>
+        /// <param name="specParams">Đối tượng tham số</param>
+        /// <returns>
+        /// 1 - Danh sách người dùng
+        /// 2 - Danh sách rỗng
+        /// </returns>
+        Task<Response> GetListAsync(UserSpecParams specParams);
+        /// <summary>
         /// Xóa người dùng bằng id
         /// </summary>
         /// <param name="id">Id người dùng</param>
@@ -37,6 +56,13 @@ namespace Core.Interfaces.Business
         /// 2 - Ngoại lệ
         /// </returns>
         Task<Response> DeleteAsync(string id);
+        /// <summary>
+        /// Lấy danh sách gợi ý cho bộ tìm kiếm
+        /// </summary>
+        /// <returns>
+        /// Danh sách option gồm (fullname, address)
+        /// </returns>
+        Task<Response> GetSearchOptionsAsync();
         /// <summary>
         /// Cập nhật người dùng
         /// </summary>

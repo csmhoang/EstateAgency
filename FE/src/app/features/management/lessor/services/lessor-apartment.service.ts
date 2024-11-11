@@ -15,8 +15,8 @@ export class LessorApartmentService {
 
   constructor(private roomService: RoomService) {}
 
-  loadData(isHideLoading: boolean = false) {
-    return this.roomService.getList(this.specParams(), isHideLoading).pipe(
+  loadData(isDisplayMiniLoading: boolean = true) {
+    return this.roomService.getList(this.specParams(), isDisplayMiniLoading).pipe(
       tap({
         next: (page) => {
           if (page) {

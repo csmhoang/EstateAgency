@@ -141,4 +141,7 @@
   <data name="EmailSendFailing" xml:space="preserve">
     <value>Gửi Email thất bại.</value>
   </data>
+  <data name="AddRoleFailing" xml:space="preserve">
+    <value>Thêm Role thất bại.</value>
+  </data>
 </root>

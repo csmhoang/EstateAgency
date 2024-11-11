@@ -1,5 +1,6 @@
 ﻿using Core.Entities;
 using Core.Params;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,37 +44,37 @@ namespace Core.Specifications
             )
         )
         {
-            AddIncludes(new Expression<Func<Post, object>>[] {
-                x => x.Room!,
-                x=>x.Room!.Photos
-            });
+            AddInclude(x => x
+                .Include(p => p.Room!)
+                .ThenInclude(r => r.Photos)
+            );
 
             ApplyPaging(specParams.PageSize * (specParams.PageIndex - 1), specParams.PageSize);
 
 
             switch (specParams.SortPrice)
             {
-                case "PriceAsc": AddOrderBy(x => x.Room!.Price); break;
-                case "PriceDesc": AddOrderByDescending(x => x.Room!.Price); break;
+                case "PriceAsc": AddOrder(x => x.OrderBy(p => p.Room!.Price)); break;
+                case "PriceDesc": AddOrder(x => x.OrderByDescending(p => p.Room!.Price)); break;
             }
 
             switch (specParams.SortArea)
             {
-                case "AreaAsc": AddOrderBy(x => x.Room!.Area); break;
-                case "AreaDesc": AddOrderByDescending(x => x.Room!.Area); break;
+                case "AreaAsc": AddOrder(x => x.OrderBy(p => p.Room!.Area)); break;
+                case "AreaDesc": AddOrder(x => x.OrderByDescending(p => p.Room!.Price)); break;
             }
 
             switch (specParams.SortExtra)
             {
-                case "New": AddOrderBy(x => x.CreatedAt!); break;
-                case "Favorite": AddOrderBy(x => x.SavePosts.Count()); break;
+                case "New": AddOrder(x => x.OrderBy(p => p.CreatedAt)); break;
+                case "Favorite": AddOrder(x => x.OrderBy(p => p.SavePosts.Count())); break;
                 case "New/Favorite":
-                    AddOrderThenBy(new Expression<Func<Post, object>>[] {
-                        x => x.CreatedAt!,
-                        x => x.SavePosts.Count()
-                    });
+                    AddOrder(x => x
+                        .OrderBy(p => p.CreatedAt)
+                        .ThenBy(p => p.SavePosts.Count())
+                    );
                     break;
-                default: AddOrderBy(x => x.Title); break;
+                default: AddOrder(x => x.OrderBy(p => p.Title)); break;
             }
         }
         #endregion

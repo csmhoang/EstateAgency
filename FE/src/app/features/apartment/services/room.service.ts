@@ -6,11 +6,12 @@ import {
   SkipPreloader,
 } from '@core/interceptors/skip.resolver';
 import { Place } from '@features/post/models/place.model';
-import { Observable, map, tap } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { Room } from '../models/room.model';
 import { Result } from '@core/models/result.model';
 import { PageData } from '@core/models/page-data.model';
 import { SpecParams } from '@core/models/spec-params.model';
+import { TakeMiniLoad } from '@core/interceptors/take.resolver';
 
 @Injectable({
   providedIn: 'root',
@@ -21,7 +22,7 @@ export class RoomService {
 
   getList(
     specParams: SpecParams,
-    isHideLoading: boolean = false
+    isDisplayMiniLoading: boolean = false
   ): Observable<PageData<Room[]>> {
     let params = new HttpParams();
     Object.entries(specParams).forEach(([key, value]) => {
@@ -33,7 +34,9 @@ export class RoomService {
     return this.http
       .get<Result<PageData<Room[]>>>('/rooms/list', {
         params,
-        context: new HttpContext().set(SkipPreloader, isHideLoading),
+        context: new HttpContext()
+          .set(SkipPreloader, true)
+          .set(TakeMiniLoad, isDisplayMiniLoading),
       })
       .pipe(map((response) => response.data));
   }

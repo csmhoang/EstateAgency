@@ -60,6 +60,18 @@ namespace Core.Services.Business
             };
         }
 
+        public async Task<Response> GetDetailAsync(string id)
+        {
+            var post = await _repository.Post.GetDetail(id)
+                .FirstOrDefaultAsync();
+            return new Response
+            {
+                Success = true,
+                Data = _mapper.Map<PostDto>(post),
+                StatusCode = post is null ? (int)HttpStatusCode.NoContent : (int)HttpStatusCode.OK
+            };
+        }
+
         public async Task<Response> GetListAsync(PostSpecParams specParams)
         {
             var spec = new PostSpecification(specParams);
@@ -167,15 +179,19 @@ namespace Core.Services.Business
             };
         }
 
-        public async Task<Response> GetDetailAsync(string id)
+        public async Task<Response> GetSearchOptionsAsync()
         {
-            var post = await _repository.Post.GetDetail(id)
-                .FirstOrDefaultAsync();
+            var options = await _repository.Post.GetAllDetail().Select(p => new
+            {
+                p.Title,
+                p.Room!.Name,
+                p.Room!.Address
+            }).ToListAsync();
             return new Response
             {
                 Success = true,
-                Data = _mapper.Map<PostDto>(post),
-                StatusCode = post is null ? (int)HttpStatusCode.NoContent : (int)HttpStatusCode.OK
+                Data = options.SelectMany(o => new[] { o.Title, o.Name, o.Address }),
+                StatusCode = !options.Any() ? (int)HttpStatusCode.NoContent : (int)HttpStatusCode.OK
             };
         }
         #endregion

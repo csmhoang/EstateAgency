@@ -1,9 +1,11 @@
 ﻿using Core.Interfaces.Specifications;
 using Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -23,11 +25,12 @@ namespace Infrastructure.Data
         #region Method
         public static IQueryable<T> GetQuery(IQueryable<T> query, ISpecification<T> spec)
         {
-            if (spec.Includes != null)
+
+            if (spec.Includes.Any())
             {
-                foreach (var inculde in spec.Includes)
+                foreach (var include in spec.Includes)
                 {
-                    query = query.Include(inculde);
+                    query = include(query);
                 }
             }
 
@@ -36,19 +39,12 @@ namespace Infrastructure.Data
                 query = query.Where(spec.Criteria);
             }
 
-            if (spec.OrderThenBy != null)
+            if (spec.Orders.Any())
             {
-                query = query.OrderBy(spec.OrderThenBy[0]).ThenBy(spec.OrderThenBy[1]);
-            }
-
-            if (spec.OrderBy != null)
-            {
-                query = query.OrderBy(spec.OrderBy);
-            }
-
-            if (spec.OrderByDescending != null)
-            {
-                query = query.OrderByDescending(spec.OrderByDescending);
+                foreach (var order in spec.Orders)
+                {
+                    query = order(query);
+                }
             }
 
             if (spec.IsDistinct)
@@ -67,19 +63,25 @@ namespace Infrastructure.Data
         public static IQueryable<TResult> GetQuery<TSpec, TResult>(IQueryable<T> query,
             ISpecification<T, TResult> spec)
         {
+            if (spec.Includes.Any())
+            {
+                foreach (var include in spec.Includes)
+                {
+                    query = include(query);
+                }
+            }
+
             if (spec.Criteria != null)
             {
                 query = query.Where(spec.Criteria);
             }
 
-            if (spec.OrderBy != null)
+            if (spec.Orders.Any())
             {
-                query = query.OrderBy(spec.OrderBy);
-            }
-
-            if (spec.OrderByDescending != null)
-            {
-                query = query.OrderByDescending(spec.OrderByDescending);
+                foreach (var order in spec.Orders)
+                {
+                    query = order(query);
+                }
             }
 
             var selectQuery = query as IQueryable<TResult>;

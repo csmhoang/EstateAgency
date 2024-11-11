@@ -76,7 +76,7 @@ export class LessorPostComponent {
 
   async init() {
     await lastValueFrom(
-      this.lessorPostService.loadData(true).pipe(
+      this.lessorPostService.loadData().pipe(
         takeUntilDestroyed(this.destroyRef),
         catchError(() => of(null))
       )

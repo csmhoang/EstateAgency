@@ -23,6 +23,7 @@ import { PostInsertComponent } from '@features/post/components/post-insert/post-
 import { apartmentDetailResolver } from '@features/apartment/resolver/apartment-detail.resolver';
 import { VerifyEmailComponent } from '@core/auth/pages/verify-email/verify-email.component';
 import { VerifyResetPasswordComponent } from '@core/auth/pages/verify-reset-password/verify-reset-password.component';
+import { lessorDetailResolver } from '@features/lessor/resolver/lessor-detail.resolver';
 
 export const routes: Routes = [
   /*Clients*/
@@ -77,8 +78,11 @@ export const routes: Routes = [
     component: ServiceComponent,
   },
   {
-    path: 'agency/detail',
+    path: 'agency/detail/:id',
     component: LessorDetailComponent,
+    resolve: {
+      lessor: lessorDetailResolver,
+    },
   },
   {
     path: 'agency',

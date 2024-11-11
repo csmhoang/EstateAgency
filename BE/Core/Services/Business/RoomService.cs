@@ -64,6 +64,25 @@ namespace Core.Services.Business
                 StatusCode = room is null ? (int)HttpStatusCode.NoContent : (int)HttpStatusCode.OK
             };
         }
+
+        public async Task<Response> GetListAsync(RoomSpecParams specParams)
+        {
+            var spec = new RoomSpecification(specParams);
+            var page = await CreatePagedResult(spec, specParams.PageIndex, specParams.PageSize);
+            return new Response
+            {
+                Success = true,
+                Data = new
+                {
+                    page.PageIndex,
+                    page.PageSize,
+                    page.Count,
+                    Data = _mapper.Map<IEnumerable<RoomDto>>(page.Data)
+                },
+                StatusCode = !page.Data.Any() ? (int)HttpStatusCode.NoContent : (int)HttpStatusCode.OK
+            };
+        }
+
         public async Task<Response> DeleteAsync(string id)
         {
             var roomDelete = await _repository.Room.FindCondition(r => r.Id.Equals(id))
@@ -234,24 +253,6 @@ namespace Core.Services.Business
         public Task ValidateObject<T>(T model)
         {
             return Task.CompletedTask;
-        }
-
-        public async Task<Response> GetListAsync(RoomSpecParams specParams)
-        {
-            var spec = new RoomSpecification(specParams);
-            var page = await CreatePagedResult(spec, specParams.PageIndex, specParams.PageSize);
-            return new Response
-            {
-                Success = true,
-                Data = new
-                {
-                    page.PageIndex,
-                    page.PageSize,
-                    page.Count,
-                    Data = _mapper.Map<IEnumerable<RoomDto>>(page.Data)
-                },
-                StatusCode = !page.Data.Any() ? (int)HttpStatusCode.NoContent : (int)HttpStatusCode.OK
-            };
         }
         #endregion
     }

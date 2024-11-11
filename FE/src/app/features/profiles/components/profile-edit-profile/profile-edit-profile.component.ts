@@ -64,7 +64,9 @@ export class ProfileEditProfileComponent implements OnInit {
       ]),
       dateOfBirth: this.formBuilder.control(this.user?.dateOfBirth),
       gender: this.formBuilder.control(this.user?.gender),
-      address: this.formBuilder.control(this.user?.address),
+      address: this.formBuilder.control(this.user?.address, [
+        Validators.required,
+      ]),
       description: this.formBuilder.control(this.user?.description),
     });
 
@@ -107,6 +109,13 @@ export class ProfileEditProfileComponent implements OnInit {
     }
     if (this.fullname?.hasError('letter')) {
       return 'Họ và tên không được chứa số và ký tự!';
+    }
+    return '';
+  }
+
+  errorForAddress(): string {
+    if (this.address?.hasError('required')) {
+      return 'Địa chỉ cụ thể không được để trống!';
     }
     return '';
   }

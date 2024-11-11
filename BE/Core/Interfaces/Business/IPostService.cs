@@ -29,6 +29,13 @@ namespace Core.Interfaces.Business
         /// </returns>
         Task<Response> GetListAsync(PostSpecParams specParams);
         /// <summary>
+        /// Lấy danh sách gợi ý cho bộ tìm kiếm
+        /// </summary>
+        /// <returns>
+        /// Danh sách option gồm (title, room name, room address)
+        /// </returns>
+        Task<Response> GetSearchOptionsAsync();
+        /// <summary>
         /// Lấy ra bài đăng bằng id
         /// </summary>
         /// <param name="id">Id bài đăng</param>

@@ -27,7 +27,9 @@ namespace Infrastructure.Repositories
                 .Include(p => p.Room!)
                 .ThenInclude(r => r.Photos)
                 .Where(p => p.Id.Equals(id));
-
+        public IQueryable<Post> GetAllDetail() =>
+            _context.Posts
+                .Include(p => p.Room!);
 
         #endregion
     }

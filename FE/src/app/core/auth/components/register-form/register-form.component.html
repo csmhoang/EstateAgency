@@ -89,6 +89,9 @@
       placeholder="Địa chỉ"
       formControlName="address"
     />
+    @if( address?.invalid && (address?.dirty || address?.touched) ){
+    <mat-error>{{ errorForAddress() }}</mat-error>
+    }
   </mat-form-field>
 
   <!-- Password input -->

@@ -1,4 +1,3 @@
-import { JsonPipe } from '@angular/common';
 import {
   Component,
   EventEmitter,
@@ -27,7 +26,6 @@ import {
   imports: [
     NgbTypeaheadModule,
     FormsModule,
-    JsonPipe,
     MatFormFieldModule,
     MatInputModule,
   ],

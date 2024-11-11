@@ -1,1 +1,4 @@
-export type Role = 'Tenant' | 'Landlord' | 'Admin';
+export type Role = {
+  id: string;
+  name: string;
+};

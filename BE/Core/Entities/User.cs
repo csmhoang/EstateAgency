@@ -14,12 +14,12 @@ namespace Core.Entities
             MessageSenders = new HashSet<Message>();
             Reservations = new HashSet<Reservation>();
             Rooms = new HashSet<Room>();
-            UserRoles = new HashSet<IdentityUserRole<string>>();
+            UserRoles = new HashSet<UserRole>();
         }
         public string FullName { get; set; } = null!;
         public DateTime? DateOfBirth { get; set; }
         public Gender Gender { get; set; }
-        public string? Address { get; set; }
+        public string Address { get; set; } = null!;
         public string? RefreshToken { get; set; }
         public string? AvatarUrl { get; set; }
         public string? PublicId { get; set; }
@@ -36,6 +36,6 @@ namespace Core.Entities
         public virtual ICollection<Message> MessageSenders { get; set; }
         public virtual ICollection<Reservation> Reservations { get; set; }
         public virtual ICollection<Room> Rooms { get; set; }
-        public virtual ICollection<IdentityUserRole<string>> UserRoles { get; set; }
+        public virtual ICollection<UserRole> UserRoles { get; set; }
     }
 }

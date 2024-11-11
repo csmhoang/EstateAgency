@@ -1,4 +1,5 @@
 ﻿using Core.Interfaces.Specifications;
+using Microsoft.EntityFrameworkCore.Query;
 using System.Linq.Expressions;
 
 namespace Core.Specifications
@@ -11,10 +12,10 @@ namespace Core.Specifications
         #endregion
 
         #region Property
-        public Expression<Func<T, object>>? OrderBy { get; private set; }
-        public Expression<Func<T, object>>? OrderByDescending { get; private set; }
-        public Expression<Func<T, object>>[]? OrderThenBy { get; private set; }
-        public Expression<Func<T, object>>[]? Includes { get; private set; }
+        public List<Func<IQueryable<T>, IOrderedQueryable<T>>> Orders { get; }
+            = new List<Func<IQueryable<T>, IOrderedQueryable<T>>>();        
+        public List<Func<IQueryable<T>, IIncludableQueryable<T, object>>> Includes { get; }
+            = new List<Func<IQueryable<T>, IIncludableQueryable<T, object>>>();
         public bool IsDistinct { get; private set; }
         public int Take { get; private set; }
         public int Skip { get; private set; }
@@ -39,22 +40,14 @@ namespace Core.Specifications
             return query;
         }
 
-        protected void AddOrderBy(Expression<Func<T, object>> orderByExpression)
+        protected void AddOrder(Func<IQueryable<T>, IOrderedQueryable<T>> orderExpression)
         {
-            OrderBy = orderByExpression;
+            Orders.Add(orderExpression);
         }
 
-        protected void AddOrderByDescending(Expression<Func<T, object>> orderByDescExpression)
+        protected void AddInclude(Func<IQueryable<T>, IIncludableQueryable<T, object>> includeExpression)
         {
-            OrderByDescending = orderByDescExpression;
-        }
-        protected void AddIncludes(Expression<Func<T, object>>[] includesExpression)
-        {
-            Includes = includesExpression;
-        }        
-        protected void AddOrderThenBy(Expression<Func<T, object>>[] orderThenByExpression)
-        {
-            OrderThenBy = orderThenByExpression;
+            Includes.Add(includeExpression);
         }
 
         protected void ApplyDistinct()

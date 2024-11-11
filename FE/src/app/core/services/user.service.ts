@@ -1,4 +1,4 @@
-import { HttpClient, HttpContext } from '@angular/common/http';
+import { HttpClient, HttpContext, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { User } from '@core/models/user.model';
 import {
@@ -12,6 +12,9 @@ import {
 import { CookieService } from './cookie.service';
 import { Result } from '@core/models/result.model';
 import { SkipPreloader } from '@core/interceptors/skip.resolver';
+import { PageData } from '@core/models/page-data.model';
+import { SpecUserParams } from '@core/models/spec-user-params.model';
+import { TakeMiniLoad } from '@core/interceptors/take.resolver';
 
 @Injectable({
   providedIn: 'root',
@@ -26,11 +29,21 @@ export class UserService {
   public isAuthenticated = this.currentUser.pipe(map((user) => !!user));
 
   public isLandlord = this.currentUser.pipe(
-    map((user) => !!user?.roles?.includes('landlord'))
+    map(
+      (user) =>
+        !!user?.userRoles
+          ?.map((userRole) => userRole.role?.name)
+          .includes('landlord')
+    )
   );
 
   public isAdmin = this.currentUser.pipe(
-    map((user) => !!user?.roles?.includes('admin'))
+    map(
+      (user) =>
+        !!user?.userRoles
+          ?.map((userRole) => userRole.role?.name)
+          .includes('admin')
+    )
   );
 
   constructor(
@@ -52,6 +65,33 @@ export class UserService {
         }),
         shareReplay(1)
       );
+  }
+
+  getList(
+    specUserParams: SpecUserParams,
+    isDisplayMiniLoading: boolean = false
+  ): Observable<PageData<User[]>> {
+    let params = new HttpParams();
+    Object.entries(specUserParams).forEach(([key, value]) => {
+      if (value !== undefined && value !== null && value !== '') {
+        params = params.set(key, value.toString());
+      }
+    });
+
+    return this.http
+      .get<Result<PageData<User[]>>>('/users/list', {
+        params,
+        context: new HttpContext()
+          .set(SkipPreloader, true)
+          .set(TakeMiniLoad, isDisplayMiniLoading),
+      })
+      .pipe(map((response) => response.data));
+  }
+
+  getDetail(id: string) {
+    return this.http
+      .get<Result<User>>(`/users/detail/${id}`)
+      .pipe(map((response) => response.data));
   }
 
   setAuth(user: User): void {

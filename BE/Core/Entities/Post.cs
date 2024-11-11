@@ -14,7 +14,6 @@ namespace Core.Entities
         public string Id { get; set; } = null!;
         [ForeignKey("Room")]
         public string? RoomId { get; set; }
-
         public string Title { get; set; } = null!;
         public string? Description { get; set; }
         public DateTime AvailableFrom { get; set; }

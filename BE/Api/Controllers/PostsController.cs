@@ -64,6 +64,16 @@ namespace Api.Controllers
         }
 
         /// <summary>
+        /// Lấy danh sách gợi ý cho bộ tìm kiếm
+        /// </summary>
+        [HttpGet("search-options")]
+        public async Task<IActionResult> GetSearchOptions()
+        {
+            var response = await _service.Post.GetSearchOptionsAsync();
+            return Ok(response);
+        }
+
+        /// <summary>
         /// Thêm bài đăng
         /// </summary>
         /// <param name="model">Bài đăng</param>

@@ -42,8 +42,10 @@ export class AuthService {
             };
             this.cookie.save(secret, 7);
             this.userService.init(isHideLoading).subscribe({
-              next: (user) => {
-                const roles = user.data?.roles;
+              next: (page) => {
+                const roles = page.data?.userRoles?.map(
+                  (userRole) => userRole.role?.name
+                );
                 if (roles?.includes('admin')) {
                   void this.router.navigate(['/admin']);
                 } else if (roles?.includes('landlord')) {
@@ -115,9 +117,7 @@ export class AuthService {
         isRemember: true,
       };
       return this.http
-        .post<Result<Secret>>('/authentication/login', credentials, {
-          context: new HttpContext().set(SkipPreloader, true),
-        })
+        .post<Result<Secret>>('/authentication/login', credentials)
         .pipe(
           map((response) => {
             if (response.success) {

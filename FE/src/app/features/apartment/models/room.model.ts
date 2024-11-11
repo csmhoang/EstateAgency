@@ -1,5 +1,6 @@
 import { User } from '@core/models/user.model';
 import { Photo } from './photo.model';
+import { Post } from '@features/post/models/post.model';
 
 export type Room = {
   id: string;
@@ -21,6 +22,7 @@ export type Room = {
   photos?: Photo[];
   createdAt?: Date;
   updatedAt?: Date;
+  posts?: Post[];
 };
 
 export const ConditionRoom: { [key: string]: string } = {

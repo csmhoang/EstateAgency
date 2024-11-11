@@ -64,15 +64,15 @@
       placeholder="Địa chỉ"
       formControlName="address"
     />
+    @if( address?.invalid && (address?.dirty || address?.touched) ){
+    <mat-error>{{ errorForAddress() }}</mat-error>
+    }
   </mat-form-field>
-  
+
   <!-- Description input -->
   <mat-form-field class="w-100" appearance="outline">
     <mat-label>Mô tả</mat-label>
-    <textarea
-      matInput
-      formControlName="description"
-    ></textarea>
+    <textarea matInput formControlName="description"></textarea>
   </mat-form-field>
 
   <button

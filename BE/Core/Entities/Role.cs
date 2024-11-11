@@ -6,8 +6,9 @@ namespace Core.Entities
     {
         public Role()
         {
-            UserRoles = new HashSet<IdentityUserRole<string>>();
+            UserRoles = new HashSet<UserRole>();
         }
-        public virtual ICollection<IdentityUserRole<string>> UserRoles { get; set; }
+
+        public virtual ICollection<UserRole> UserRoles { get; set; }
     }
 }

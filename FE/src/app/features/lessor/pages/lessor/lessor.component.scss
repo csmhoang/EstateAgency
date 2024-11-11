@@ -1,0 +1,22 @@
+.filter-engine {
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  margin-top: 24px;
+}
+
+.search {
+  position: relative;
+  height: 36px;
+  .icon {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 36px;
+    transform: translateY(-50%) translateX(30%);
+    pointer-events: none;
+  }
+  input {
+    padding-left: 48px;
+  }
+}

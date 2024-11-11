@@ -10,6 +10,8 @@ using System.Net;
 using Core.Interfaces.Business;
 using Microsoft.AspNetCore.Http;
 using Core.Services.Infrastructure;
+using Core.Params;
+using Core.Specifications;
 
 namespace Core.Services.Business
 {
@@ -62,6 +64,37 @@ namespace Core.Services.Business
                 StatusCode = user is null ? (int)HttpStatusCode.NoContent : (int)HttpStatusCode.OK
             };
         }
+
+        public async Task<Response> GetDetailAsync(string id)
+        {
+            var user = await _repository.User.GetDetail(id)
+                .FirstOrDefaultAsync();
+            return new Response
+            {
+                Success = true,
+                Data = _mapper.Map<UserDto>(user),
+                StatusCode = user is null ? (int)HttpStatusCode.NoContent : (int)HttpStatusCode.OK
+            };
+        }
+
+        public async Task<Response> GetListAsync(UserSpecParams specParams)
+        {
+            var spec = new UserSpecification(specParams);
+            var page = await CreatePagedResult(spec, specParams.PageIndex, specParams.PageSize);
+            return new Response
+            {
+                Success = true,
+                Data = new
+                {
+                    page.PageIndex,
+                    page.PageSize,
+                    page.Count,
+                    Data = _mapper.Map<IEnumerable<UserDto>>(page.Data)
+                },
+                StatusCode = !page.Data.Any() ? (int)HttpStatusCode.NoContent : (int)HttpStatusCode.OK
+            };
+        }
+
         public async Task<Response> DeleteAsync(string id)
         {
             var userDelete = await _repository.User.FindCondition(e => e.Id.Equals(id))
@@ -134,6 +167,21 @@ namespace Core.Services.Business
             user.AvatarUrl = uploadPhotoResult.SecureUrl.AbsoluteUri;
             user.PublicId = uploadPhotoResult.PublicId;
         }
+        public async Task<Response> GetSearchOptionsAsync()
+        {
+            var options = await _repository.User.FindAll().Select(u => new
+            {
+                u.FullName,
+                u.Address
+            }).ToListAsync();
+            return new Response
+            {
+                Success = true,
+                Data = options.SelectMany(o => new[] { o.FullName, o.Address }),
+                StatusCode = !options.Any() ? (int)HttpStatusCode.NoContent : (int)HttpStatusCode.OK
+            };
+        }
+
         public async Task ValidateObjectUpdate(string id, UserUpdateDto userUpdateDto)
         {
             var isDuplicateUserNumberPhone = await _repository.User.FindCondition(u => u.PhoneNumber.Equals(userUpdateDto.PhoneNumber)).FirstOrDefaultAsync();
