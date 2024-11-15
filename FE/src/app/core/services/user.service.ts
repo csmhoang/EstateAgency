@@ -1,9 +1,7 @@
 import { HttpClient, HttpContext, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { computed, Injectable, signal } from '@angular/core';
 import { User } from '@core/models/user.model';
 import {
-  BehaviorSubject,
-  distinctUntilChanged,
   map,
   Observable,
   shareReplay,
@@ -20,30 +18,23 @@ import { TakeMiniLoad } from '@core/interceptors/take.resolver';
   providedIn: 'root',
 })
 export class UserService {
-  private currentUserSubject = new BehaviorSubject<User | null>(null);
+  private currentUserSignal = signal<User | null>(null);
+  public currentUser = this.currentUserSignal.asReadonly();
 
-  public currentUser = this.currentUserSubject
-    .asObservable()
-    .pipe(distinctUntilChanged());
+  public isAuthenticated = computed(() => !!this.currentUser());
 
-  public isAuthenticated = this.currentUser.pipe(map((user) => !!user));
-
-  public isLandlord = this.currentUser.pipe(
-    map(
-      (user) =>
-        !!user?.userRoles
-          ?.map((userRole) => userRole.role?.name)
-          .includes('landlord')
-    )
+  public isLandlord = computed(
+    () =>
+      !!this.currentUser()
+        ?.userRoles?.map((userRole) => userRole.role?.name)
+        .includes('landlord')
   );
 
-  public isAdmin = this.currentUser.pipe(
-    map(
-      (user) =>
-        !!user?.userRoles
-          ?.map((userRole) => userRole.role?.name)
-          .includes('admin')
-    )
+  public isAdmin = computed(
+    () =>
+      !!this.currentUser()
+        ?.userRoles?.map((userRole) => userRole.role?.name)
+        .includes('admin')
   );
 
   constructor(
@@ -95,12 +86,12 @@ export class UserService {
   }
 
   setAuth(user: User): void {
-    this.currentUserSubject.next(user);
+    this.currentUserSignal.set(user);
   }
 
   purAuth(): void {
     this.cookie.remove();
-    this.currentUserSubject.next(null);
+    this.currentUserSignal.set(null);
   }
 
   update(id: string, user: User) {

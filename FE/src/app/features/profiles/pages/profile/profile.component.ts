@@ -32,7 +32,7 @@ import { Observable, catchError, map, of, shareReplay } from 'rxjs';
 })
 export class ProfileComponent implements OnInit {
   destroyRef = inject(DestroyRef);
-  user?: User | null;
+  user = this.userService.currentUser();
   isHandset$: Observable<boolean> = this.breakpointObserver
     .observe(Breakpoints.Handset)
     .pipe(
@@ -48,12 +48,7 @@ export class ProfileComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.userService.currentUser
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((user) => {
-        this.user = user;
-        this.profileService.user.set(user);
-      });
+    this.profileService.user.set(this.user);
   }
 
   setAvatar(event: Event) {

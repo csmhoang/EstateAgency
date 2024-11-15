@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -14,7 +15,9 @@ namespace Core.Enums
             [EnumMember(Value = "Available")]
             Available = 0,
             [EnumMember(Value = "Occupied")]
-            Occupied = 1
+            Occupied = 1,
+            [EnumMember(Value = "PostingForRent")]
+            PostingForRent = 2
         }
         public enum Interior
         {

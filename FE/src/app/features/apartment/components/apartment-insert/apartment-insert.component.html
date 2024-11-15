@@ -55,6 +55,9 @@
         <mat-option [value]="place">{{ place?.name }}</mat-option>
         }
       </mat-select>
+      @if( district?.invalid && (district?.dirty || district?.touched) ){
+      <mat-error>{{ errorForDistrict() }}</mat-error>
+      }
     </mat-form-field>
     <!-- Ward select -->
     <mat-form-field class="col-lg-4" appearance="outline">
@@ -64,6 +67,9 @@
         <mat-option [value]="place">{{ place?.name }}</mat-option>
         }
       </mat-select>
+      @if( ward?.invalid && (ward?.dirty || ward?.touched) ){
+      <mat-error>{{ errorForWard() }}</mat-error>
+      }
     </mat-form-field>
   </div>
 

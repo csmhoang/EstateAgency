@@ -13,13 +13,13 @@ namespace Core.Dtos
     {
         public Guid? Id { get; set; }
         [Required(ErrorMessage = LeaseConst.ErrorEmptyId)]
-        public string? LeaseId { get; set; }
+        public string LeaseId { get; set; } = null!;
         [Required(ErrorMessage = InvoiceConst.ErrorEmptyId)]
-        public string? InvoiceId { get; set; }
+        public string InvoiceId { get; set; } = null!;
         public decimal Amount { get; set; }
-        public DateTime? PaymentDate { get; set; }
+        public DateTime PaymentDate { get; set; }
+        public PaymentMethod? PaymentMethod { get; set; }
         public StatusPayment? Status { get; set; }
-        public string? PaymentMethod { get; set; }
         public DateTime? CreatedAt { get; set; }
     }
 }

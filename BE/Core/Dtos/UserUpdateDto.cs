@@ -13,7 +13,7 @@ namespace Core.Dtos
         public string PhoneNumber { get; set; } = null!;
         public DateTime? DateOfBirth { get; set; }
         public Gender Gender { get; set; }
-        public string? Address { get; set; }
+        public string Address { get; set; } = null!;
         public string? Description { get; set; }
     }
 }

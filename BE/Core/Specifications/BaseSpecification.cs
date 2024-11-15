@@ -4,7 +4,7 @@ using System.Linq.Expressions;
 
 namespace Core.Specifications
 {
-    public abstract class BaseSpecification<T> : ISpecification<T> where T : class
+    public class BaseSpecification<T> : ISpecification<T> where T : class
     {
         #region Declaration
         private readonly Expression<Func<T, bool>>? criteria;
@@ -27,7 +27,7 @@ namespace Core.Specifications
         {
             this.criteria = criteria;
         }
-        protected BaseSpecification() : this(null) { }
+        public BaseSpecification() : this(null) { }
         #endregion
 
         #region Method
@@ -40,22 +40,22 @@ namespace Core.Specifications
             return query;
         }
 
-        protected void AddOrder(Func<IQueryable<T>, IOrderedQueryable<T>> orderExpression)
+        public void AddOrder(Func<IQueryable<T>, IOrderedQueryable<T>> orderExpression)
         {
             Orders.Add(orderExpression);
         }
 
-        protected void AddInclude(Func<IQueryable<T>, IIncludableQueryable<T, object>> includeExpression)
+        public void AddInclude(Func<IQueryable<T>, IIncludableQueryable<T, object>> includeExpression)
         {
             Includes.Add(includeExpression);
         }
 
-        protected void ApplyDistinct()
+        public void ApplyDistinct()
         {
             IsDistinct = true;
         }
 
-        protected void ApplyPaging(int skip, int take)
+        public void ApplyPaging(int skip, int take)
         {
             Skip = skip;
             Take = take;
@@ -76,11 +76,11 @@ namespace Core.Specifications
 
         #region Constructor
         public BaseSpecification(Expression<Func<T, bool>>? criteria) : base(criteria) { }
-        protected BaseSpecification() : this(null) { }
+        public BaseSpecification() : this(null) { }
         #endregion
 
         #region Method
-        protected void AddSelect(Expression<Func<T, TResult>> selectExpression)
+        public void AddSelect(Expression<Func<T, TResult>> selectExpression)
         {
             Select = selectExpression;
         }

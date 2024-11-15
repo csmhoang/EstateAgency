@@ -16,6 +16,8 @@ namespace Core.Consts
 
         public const string ErrorEmptyEmail = "Email không được phép để trống!";
 
+        public const string ErrorEmptyPhone = "Số điện thoại không được phép để trống!";
+
         public const string ErrorEmptyUsername = "Tên đăng nhập người dùng không được phép để trống!";
 
         public const string ErrorEmptyPassword = "Mật khẩu không được phép để trống!";

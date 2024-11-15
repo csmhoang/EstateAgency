@@ -14,8 +14,8 @@ namespace Core.Entities
         public string Name { get; set; } = null!;
         public string? Description { get; set; }
         public decimal Price { get; set; }
-        public DateTime? CreatedAt { get; set; }
-        public DateTime? UpdatedAt { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
 
         public virtual ICollection<Room> Rooms { get; set; }
     }

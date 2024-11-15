@@ -1,5 +1,5 @@
-﻿using Api.Extensions;
-using Core.Dtos;
+﻿using Core.Dtos;
+using Core.Extensions;
 using Core.Interfaces.Business;
 using Microsoft.AspNetCore.Mvc;
 

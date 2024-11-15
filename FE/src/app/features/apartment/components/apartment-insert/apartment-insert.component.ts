@@ -41,7 +41,7 @@ export class ApartmentInsertComponent implements OnInit {
   hasBaseDropzoneOver = false;
 
   destroyRef = inject(DestroyRef);
-  user?: User | null;
+  user = this.userService.currentUser();
   provices$ = firstValueFrom(
     this.roomService.getProvince().pipe(
       takeUntilDestroyed(this.destroyRef),
@@ -82,8 +82,8 @@ export class ApartmentInsertComponent implements OnInit {
       category: this.formBuilder.control('', [Validators.required]),
       address: this.formBuilder.control('', [Validators.required]),
       province: this.formBuilder.control('', [Validators.required]),
-      district: this.formBuilder.control(''),
-      ward: this.formBuilder.control(''),
+      district: this.formBuilder.control('', [Validators.required]),
+      ward: this.formBuilder.control('', [Validators.required]),
       bedroom: this.formBuilder.control(0, [Validators.required]),
       toilet: this.formBuilder.control(0, [Validators.required]),
       interior: this.formBuilder.control('', [Validators.required]),
@@ -131,10 +131,6 @@ export class ApartmentInsertComponent implements OnInit {
         );
       }
     });
-
-    this.userService.currentUser
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((user) => (this.user = user));
   }
 
   fileOverBase(e: any) {
@@ -199,8 +195,22 @@ export class ApartmentInsertComponent implements OnInit {
   }
 
   errorForProvince(): string {
-    if (this.category?.hasError('required')) {
+    if (this.province?.hasError('required')) {
       return 'Vui lòng chọn Tỉnh/Thành!';
+    }
+    return '';
+  }
+
+  errorForDistrict(): string {
+    if (this.district?.hasError('required')) {
+      return 'Vui lòng chọn Quận/Huyện!';
+    }
+    return '';
+  }
+
+  errorForWard(): string {
+    if (this.ward?.hasError('required')) {
+      return 'Vui lòng chọn Phường/Xã!';
     }
     return '';
   }

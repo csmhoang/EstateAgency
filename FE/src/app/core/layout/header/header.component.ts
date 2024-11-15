@@ -41,14 +41,11 @@ export class HeaderComponent {
   el = inject(ElementRef);
   platformId = inject(PLATFORM_ID);
   document = inject(DOCUMENT);
-
-  constructor(private authService: AuthService) {}
-
   nav: ElementRef | undefined;
+  
+  user = this.userService.currentUser()
 
-  user$ = inject(UserService).currentUser.pipe(
-    takeUntilDestroyed(this.destroyRef)
-  );
+  constructor(private authService: AuthService, private userService: UserService) {}
 
   onLogout() {
     this.authService.logout();

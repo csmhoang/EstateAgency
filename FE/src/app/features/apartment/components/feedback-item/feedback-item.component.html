@@ -1,0 +1,69 @@
+<!-- Feedback -->
+<div class="comment">
+  <div class="d-flex">
+    <div class="comment-img">
+      <img
+        [src]="feedback.tenant?.avatarUrl || '/assets/img/avatar_default.jpg'"
+      />
+    </div>
+    <div class="flex-fill">
+      <h5>
+        <span>{{ feedback.tenant?.fullName }}</span>
+        <a
+          class="reply"
+          (click)="collapse.toggle()"
+          [attr.aria-expanded]="!isCollapsed"
+          ><i class="bi bi-reply-fill"></i> Trả lời</a
+        >
+      </h5>
+      <div class="d-flex gap-2">
+        <time>{{ timeSinceUpdateFilter(feedback.createdAt!) }}</time>
+        <ngb-rating
+          [rate]="feedback.rating"
+          [max]="5"
+          [readonly]="true"
+        ></ngb-rating>
+      </div>
+      <p>
+        {{ feedback.comment }}
+      </p>
+      <div #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsed">
+        <form [formGroup]="form" class="d-flex gap-2">
+          <textarea
+            class="form-control"
+            formControlName="comment"
+            placeholder="Trả lời của bạn..."
+          ></textarea>
+          <button
+            class="btn btn-lg btn-dark"
+            (click)="onReply(feedback.id)"
+            [disabled]="form.invalid || !form.dirty"
+          >
+            <i class="fa-solid fa-right-long"></i>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+  @for (reply of feedback.replies; track $index) {
+
+  <div class="comment comment-reply">
+    <div class="d-flex">
+      <div class="comment-img">
+        <img
+          [src]="reply.tenant?.avatarUrl || '/assets/img/avatar_default.jpg'"
+        />
+      </div>
+      <div>
+        <h5>
+          <span>{{ reply.tenant?.fullName }}</span>
+        </h5>
+        <time>{{ timeSinceUpdateFilter(reply.createdAt!) }}</time>
+        <p>
+          {{ reply.comment }}
+        </p>
+      </div>
+    </div>
+  </div>
+  }
+</div>

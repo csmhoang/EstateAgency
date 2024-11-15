@@ -67,8 +67,16 @@ namespace Core.Services.Business
 
         public async Task<Response> GetDetailAsync(string id)
         {
-            var user = await _repository.User.GetDetail(id)
-                .FirstOrDefaultAsync();
+            var spec = new BaseSpecification<User>(p =>
+                p.Id.Equals(id)
+            );
+            spec.AddInclude(x => x
+                .Include(u => u.Posts!)
+                .ThenInclude(p => p.Room!)
+                .ThenInclude(r => r.Photos)
+            );
+
+            var user = await _repository.User.GetEntityWithSpec(spec);
             return new Response
             {
                 Success = true,

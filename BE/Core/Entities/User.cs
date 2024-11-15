@@ -14,6 +14,7 @@ namespace Core.Entities
             MessageSenders = new HashSet<Message>();
             Reservations = new HashSet<Reservation>();
             Rooms = new HashSet<Room>();
+            Posts = new HashSet<Post>();
             UserRoles = new HashSet<UserRole>();
         }
         public string FullName { get; set; } = null!;
@@ -24,11 +25,12 @@ namespace Core.Entities
         public string? AvatarUrl { get; set; }
         public string? PublicId { get; set; }
         public string? Description { get; set; }
-        public DateTime RefreshTokenExpiryTime { get; set; }
-        public DateTime? CreatedAt { get; set; }
-        public DateTime? UpdatedAt { get; set; }
+        public DateTime? RefreshTokenExpiryTime { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
 
         public virtual Favorite? Favorite { get; set; }
+        public virtual ICollection<Post> Posts { get; set; }
         public virtual ICollection<Feedback> Feedbacks { get; set; }
         public virtual ICollection<Follow> Followers { get; set; }
         public virtual ICollection<Lease> Leases { get; set; }

@@ -16,8 +16,9 @@ import { PostService } from '@features/post/services/post.service';
 import { ToastService } from '@shared/services/toast/toast.service';
 import { Router, RouterLink } from '@angular/router';
 import { Post } from '@features/post/models/post.model';
-import { catchError, lastValueFrom, of } from 'rxjs';
+import { catchError, lastValueFrom, map, of } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { UserService } from '@core/services/user.service';
 @Component({
   selector: 'app-post-insert',
   standalone: true,
@@ -37,8 +38,10 @@ import { CommonModule } from '@angular/common';
 export class PostInsertComponent implements OnInit {
   destroyRef = inject(DestroyRef);
   minDate = new Date();
+  user = this.userService.currentUser();
   room$ = lastValueFrom(
     this.postService.getRooms().pipe(
+      map((data) => data.filter((r) => r.condition === 'Available')),
       takeUntilDestroyed(this.destroyRef),
       catchError(() => of(null))
     )
@@ -54,6 +57,7 @@ export class PostInsertComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private toastService: ToastService,
+    private userService: UserService,
     private router: Router,
     private postService: PostService
   ) {}
@@ -78,6 +82,7 @@ export class PostInsertComponent implements OnInit {
         ...this.form.value,
         room: null,
         roomId: this.room?.value.id,
+        landlordId: this.user?.id,
       };
 
       this.postService

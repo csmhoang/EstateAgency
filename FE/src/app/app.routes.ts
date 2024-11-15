@@ -24,6 +24,7 @@ import { apartmentDetailResolver } from '@features/apartment/resolver/apartment-
 import { VerifyEmailComponent } from '@core/auth/pages/verify-email/verify-email.component';
 import { VerifyResetPasswordComponent } from '@core/auth/pages/verify-reset-password/verify-reset-password.component';
 import { lessorDetailResolver } from '@features/lessor/resolver/lessor-detail.resolver';
+import { isLandlord } from '@core/guards/auth.guard';
 
 export const routes: Routes = [
   /*Clients*/
@@ -107,7 +108,7 @@ export const routes: Routes = [
   {
     path: 'lessor',
     component: LessorManagementComponent,
-    // canActivate: [isLandlord],
+    canActivate: [isLandlord],
     children: [
       {
         path: '',

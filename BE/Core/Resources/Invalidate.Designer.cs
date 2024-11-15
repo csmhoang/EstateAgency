@@ -88,6 +88,15 @@ namespace Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Mã không được để trống!.
+        /// </summary>
+        public static string IdRequired {
+            get {
+                return ResourceManager.GetString("IdRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tên đăng nhập hoặc mật khẩu không chính xác!.
         /// </summary>
         public static string IncorrectAccount {

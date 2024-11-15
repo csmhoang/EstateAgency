@@ -63,6 +63,8 @@ namespace Api.Controllers
             return Ok(response);
         }
 
+
+
         /// <summary>
         /// Lấy danh sách gợi ý cho bộ tìm kiếm
         /// </summary>

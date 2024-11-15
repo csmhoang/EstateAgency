@@ -24,11 +24,6 @@ namespace Infrastructure.Repositories
         #endregion
 
         #region Method
-        public IQueryable<User> GetDetail(string id) =>
-            _context.Users
-        .Include(u => u.Rooms)
-        .ThenInclude(p => p.Posts)
-        .Where(p => p.Id.Equals(id));
         #endregion
     }
 }

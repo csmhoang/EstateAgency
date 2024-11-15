@@ -13,7 +13,7 @@ namespace Core.Dtos
     {
         public Guid? Id { get; set; }
         [Required(ErrorMessage = LeaseConst.ErrorEmptyId)]
-        public string? LeaseId { get; set; }
+        public string LeaseId { get; set; } = null!;
         public decimal Amount { get; set; }
         public DateTime? DueDate { get; set; }
         public StatusInvoice? Status { get; set; }

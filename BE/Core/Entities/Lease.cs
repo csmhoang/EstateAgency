@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using static Core.Enums.LeaseEnums;
 
 namespace Core.Entities
 {
@@ -21,10 +22,10 @@ namespace Core.Entities
         public DateTime StartDate { get; set; }
         public DateTime? EndDate { get; set; }
         public bool? SignedOnline { get; set; }
-        public DateTime? SignedDate { get; set; }
-        public string? Status { get; set; }
-        public DateTime? CreatedAt { get; set; }
-        public DateTime? UpdatedAt { get; set; }
+        public DateTime SignedDate { get; set; }
+        public StatusLeasse Status { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
 
         public virtual Room? Room { get; set; }
         public virtual User? Tenant { get; set; }

@@ -39,7 +39,6 @@ namespace Infrastructure.Data
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
                 optionsBuilder.UseSqlServer("Data Source=MSI;Initial Catalog=RentalHouse;Integrated Security=True;Trust Server Certificate=True");
             }
         }
@@ -76,6 +75,8 @@ namespace Infrastructure.Data
                 entity.Property(e => e.Id)
                     .HasMaxLength(36)
                     .HasDefaultValueSql("lower(newid())");
+
+                entity.Property(e => e.ReplyId).HasMaxLength(36);
 
                 entity.Property(e => e.CreatedAt)
                     .HasColumnType("datetime")
@@ -227,7 +228,11 @@ namespace Infrastructure.Data
                     .HasMaxLength(36)
                     .HasDefaultValueSql("lower(newid())");
 
+                entity.Property(e => e.Title).HasMaxLength(256);
+
                 entity.Property(e => e.RoomId).HasMaxLength(36);
+
+                entity.Property(e => e.LandlordId).HasMaxLength(36);
 
                 entity.Property(e => e.AvailableFrom).HasColumnType("date");
 
@@ -260,6 +265,8 @@ namespace Infrastructure.Data
                 entity.Property(e => e.Price).HasColumnType("decimal(10, 2)");
 
                 entity.Property(e => e.Province).HasMaxLength(100);
+
+                entity.Property(e => e.Name).HasMaxLength(256);
 
                 entity.Property(e => e.CreatedAt)
                     .HasColumnType("datetime")

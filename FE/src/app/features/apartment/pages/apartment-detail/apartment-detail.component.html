@@ -25,6 +25,7 @@
 
     <!-- Apartment Detail Section -->
     <section id="real-estate-2" class="real-estate-2 section">
+      @if(post){
       <div class="container">
         <!-- Apartment Photos -->
         <app-apartment-detail-photos
@@ -70,12 +71,50 @@
           </div>
           <!-- Comment -->
           <div class="col-lg-8">
-            <app-comment></app-comment>
+            <div id="comments" class="comments section">
+              <h4 class="comments-count fs-4">
+                {{ feedbacks().length }} Đánh giá
+              </h4>
+              <!-- Textarea comment -->
+              <form [formGroup]="form" class="bg-light-subtle rounded p-4">
+                <div class="d-flex gap-2 mb-2">
+                  <img
+                    [src]="user?.avatarUrl || '/assets/img/avatar_default.jpg'"
+                    width="60"
+                    height="60"
+                  />
+                  <div class="d-flex flex-column">
+                    <h4 class="fs-5">Viết đánh giá</h4>
+                    <ngb-rating
+                      class="fs-3"
+                      formControlName="rating"
+                      [max]="5"
+                      [readonly]="false"
+                    ></ngb-rating>
+                  </div>
+                </div>
+                <textarea
+                  class="form-control mb-3"
+                  formControlName="comment"
+                  placeholder="Đánh giá của bạn..."
+                ></textarea>
+                <button
+                  class="btn btn-dark d-block mx-auto w-100"
+                  (click)="sendFeedback()"
+                  [disabled]="form.invalid || !form.dirty"
+                >
+                  Đánh giá
+                </button>
+              </form>
+              @for (feedback of feedbacks(); track $index) {
+                <app-feedback-item (reply)="onReply($event)" [feedback]="feedback"></app-feedback-item>
+              }
+            </div>
           </div>
         </div>
       </div>
+      }
     </section>
-    <!-- /Real Estate 2 Section -->
   </main>
   <!-- Footer -->
   <app-footer></app-footer>

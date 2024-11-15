@@ -14,13 +14,11 @@ namespace Infrastructure.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "lower(newid())"),
-                    AmenityCode = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Price = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime", nullable: true, defaultValueSql: "(getdate())"),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime", nullable: true)
+                    CreatedAt = table.Column<DateTime>(type: "datetime", nullable: false, defaultValueSql: "(getdate())"),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime", nullable: false, defaultValueSql: "(getdate())")
                 },
                 constraints: table =>
                 {
@@ -32,8 +30,8 @@ namespace Infrastructure.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "lower(newid())"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    NormalizedName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -46,23 +44,21 @@ namespace Infrastructure.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "lower(newid())"),
-                    UserCode = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
                     FullName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     DateOfBirth = table.Column<DateTime>(type: "date", nullable: true),
                     Gender = table.Column<int>(type: "int", nullable: false),
-                    Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     RefreshToken = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     AvatarUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PublicId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    RefreshTokenExpiryTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime", nullable: true, defaultValueSql: "(getdate())"),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime", nullable: true),
-                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    NormalizedUserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    NormalizedEmail = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RefreshTokenExpiryTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime", nullable: false, defaultValueSql: "(getdate())"),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime", nullable: false, defaultValueSql: "(getdate())"),
+                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
                     PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -80,16 +76,50 @@ namespace Infrastructure.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Favorites",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "lower(newid())"),
+                    UserId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Favorites", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Favorites_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Follows",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "lower(newid())"),
+                    FollowerId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime", nullable: false, defaultValueSql: "(getdate())"),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime", nullable: false, defaultValueSql: "(getdate())")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Follows", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Follows_Users_FollowerId",
+                        column: x => x.FollowerId,
+                        principalTable: "Users",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Messages",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "lower(newid())"),
                     SenderId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: true),
                     ReceiverId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: true),
-                    MessageCode = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
                     Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    SentAt = table.Column<DateTime>(type: "datetime", nullable: true, defaultValueSql: "(getdate())")
+                    SentAt = table.Column<DateTime>(type: "datetime", nullable: false, defaultValueSql: "(getdate())")
                 },
                 constraints: table =>
                 {
@@ -112,14 +142,12 @@ namespace Infrastructure.Data.Migrations
                 {
                     Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "lower(newid())"),
                     LandlordId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: true),
-                    RoomCode = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
                     Category = table.Column<int>(type: "int", maxLength: 100, nullable: false),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Ward = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    Province = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    District = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Ward = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Province = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    District = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Bedroom = table.Column<int>(type: "int", nullable: false),
                     Bathroom = table.Column<int>(type: "int", nullable: false),
                     Toilet = table.Column<int>(type: "int", nullable: false),
@@ -127,8 +155,8 @@ namespace Infrastructure.Data.Migrations
                     Area = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
                     Price = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
                     Condition = table.Column<int>(type: "int", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime", nullable: true, defaultValueSql: "(getdate())"),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime", nullable: true)
+                    CreatedAt = table.Column<DateTime>(type: "datetime", nullable: false, defaultValueSql: "(getdate())"),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime", nullable: false, defaultValueSql: "(getdate())")
                 },
                 constraints: table =>
                 {
@@ -171,15 +199,13 @@ namespace Infrastructure.Data.Migrations
                     Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "lower(newid())"),
                     TenantId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: true),
                     RoomId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: true),
-                    LeaseCode = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
                     StartDate = table.Column<DateTime>(type: "date", nullable: false),
                     EndDate = table.Column<DateTime>(type: "date", nullable: true),
                     SignedOnline = table.Column<bool>(type: "bit", nullable: true, defaultValueSql: "((1))"),
-                    SignedDate = table.Column<DateTime>(type: "datetime", nullable: true),
-                    Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime", nullable: true, defaultValueSql: "(getdate())"),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime", nullable: true)
+                    SignedDate = table.Column<DateTime>(type: "datetime", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime", nullable: false, defaultValueSql: "(getdate())"),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime", nullable: false, defaultValueSql: "(getdate())")
                 },
                 constraints: table =>
                 {
@@ -201,7 +227,7 @@ namespace Infrastructure.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "lower(newid())"),
-                    RoomId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: true),
+                    RoomId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false),
                     Url = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PublicId = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
@@ -212,7 +238,8 @@ namespace Infrastructure.Data.Migrations
                         name: "FK_Photos_Rooms_RoomId",
                         column: x => x.RoomId,
                         principalTable: "Rooms",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -221,15 +248,14 @@ namespace Infrastructure.Data.Migrations
                 {
                     Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "lower(newid())"),
                     RoomId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: true),
-                    PostCode = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LandlordId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: true),
+                    Title = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     AvailableFrom = table.Column<DateTime>(type: "date", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false),
                     IsAccept = table.Column<int>(type: "int", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime", nullable: true, defaultValueSql: "(getdate())"),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime", nullable: true)
+                    CreatedAt = table.Column<DateTime>(type: "datetime", nullable: false, defaultValueSql: "(getdate())"),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime", nullable: false, defaultValueSql: "(getdate())")
                 },
                 constraints: table =>
                 {
@@ -238,6 +264,11 @@ namespace Infrastructure.Data.Migrations
                         name: "FK_Posts_Rooms_RoomId",
                         column: x => x.RoomId,
                         principalTable: "Rooms",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Posts_Users_LandlordId",
+                        column: x => x.LandlordId,
+                        principalTable: "Users",
                         principalColumn: "Id");
                 });
 
@@ -248,12 +279,10 @@ namespace Infrastructure.Data.Migrations
                     Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "lower(newid())"),
                     TenantId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: true),
                     RoomId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: true),
-                    ReservationCode = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
                     ReservationDate = table.Column<DateTime>(type: "date", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime", nullable: true, defaultValueSql: "(getdate())"),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime", nullable: true)
+                    CreatedAt = table.Column<DateTime>(type: "datetime", nullable: false, defaultValueSql: "(getdate())"),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime", nullable: false, defaultValueSql: "(getdate())")
                 },
                 constraints: table =>
                 {
@@ -300,12 +329,10 @@ namespace Infrastructure.Data.Migrations
                 {
                     Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "lower(newid())"),
                     LeaseId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: true),
-                    InvoiceCode = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
                     Amount = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
                     DueDate = table.Column<DateTime>(type: "date", nullable: true),
-                    Status = table.Column<int>(type: "int", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime", nullable: true, defaultValueSql: "(getdate())")
+                    Status = table.Column<int>(type: "int", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime", nullable: false, defaultValueSql: "(getdate())")
                 },
                 constraints: table =>
                 {
@@ -324,11 +351,9 @@ namespace Infrastructure.Data.Migrations
                     Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "lower(newid())"),
                     TenantId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: true),
                     PostId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: true),
-                    FeedbackCode = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Rating = table.Column<int>(type: "int", nullable: true),
+                    Rating = table.Column<int>(type: "int", nullable: false),
                     Comment = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime", nullable: true, defaultValueSql: "(getdate())")
+                    CreatedAt = table.Column<DateTime>(type: "datetime", nullable: false, defaultValueSql: "(getdate())")
                 },
                 constraints: table =>
                 {
@@ -346,19 +371,42 @@ namespace Infrastructure.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "SavePosts",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "lower(newid())"),
+                    FavoriteId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: true),
+                    PostId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime", nullable: false, defaultValueSql: "(getdate())"),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime", nullable: false, defaultValueSql: "(getdate())")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SavePosts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_SavePosts_Favorites_FavoriteId",
+                        column: x => x.FavoriteId,
+                        principalTable: "Favorites",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_SavePosts_Posts_PostId",
+                        column: x => x.PostId,
+                        principalTable: "Posts",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "MaintenanceRequests",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "lower(newid())"),
                     LeaseId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: true),
                     InvoiceId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: true),
-                    MaintenanceRequestCode = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    RequestDate = table.Column<DateTime>(type: "datetime", nullable: true, defaultValueSql: "(getdate())"),
+                    RequestDate = table.Column<DateTime>(type: "datetime", nullable: false, defaultValueSql: "(getdate())"),
                     Status = table.Column<int>(type: "int", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime", nullable: true, defaultValueSql: "(getdate())"),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime", nullable: true)
+                    CreatedAt = table.Column<DateTime>(type: "datetime", nullable: false, defaultValueSql: "(getdate())"),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime", nullable: false, defaultValueSql: "(getdate())")
                 },
                 constraints: table =>
                 {
@@ -382,13 +430,11 @@ namespace Infrastructure.Data.Migrations
                     Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "lower(newid())"),
                     LeaseId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: true),
                     InvoiceId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: true),
-                    PaymentCode = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
                     Amount = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
-                    PaymentDate = table.Column<DateTime>(type: "datetime", nullable: true, defaultValueSql: "(getdate())"),
+                    PaymentDate = table.Column<DateTime>(type: "datetime", nullable: false, defaultValueSql: "(getdate())"),
                     Status = table.Column<int>(type: "int", nullable: false),
-                    PaymentMethod = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime", nullable: true, defaultValueSql: "(getdate())")
+                    PaymentMethod = table.Column<int>(type: "int", maxLength: 20, nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime", nullable: false, defaultValueSql: "(getdate())")
                 },
                 constraints: table =>
                 {
@@ -421,10 +467,11 @@ namespace Infrastructure.Data.Migrations
                 values: new object[] { "3c4d5e6f-3456-7891-0112-cdefabcdef01", "86966169-88e8-4a90-b74a-552767a238ea", "tenant", "TENANT" });
 
             migrationBuilder.CreateIndex(
-                name: "UQ__Amenitie__300F6CA3021E4D38",
-                table: "Amenities",
-                column: "AmenityCode",
-                unique: true);
+                name: "IX_Favorites_UserId",
+                table: "Favorites",
+                column: "UserId",
+                unique: true,
+                filter: "[UserId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Feedback_PostId",
@@ -437,21 +484,14 @@ namespace Infrastructure.Data.Migrations
                 column: "TenantId");
 
             migrationBuilder.CreateIndex(
-                name: "UQ__Feedback__BCE37B663CEFBD99",
-                table: "Feedback",
-                column: "FeedbackCode",
-                unique: true);
+                name: "IX_Follows_FollowerId",
+                table: "Follows",
+                column: "FollowerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Invoices_LeaseId",
                 table: "Invoices",
                 column: "LeaseId");
-
-            migrationBuilder.CreateIndex(
-                name: "UQ__Invoices__0D9D7FF34AA36732",
-                table: "Invoices",
-                column: "InvoiceCode",
-                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Leases_RoomId",
@@ -464,12 +504,6 @@ namespace Infrastructure.Data.Migrations
                 column: "TenantId");
 
             migrationBuilder.CreateIndex(
-                name: "UQ__Leases__D568E4B4702D9CD2",
-                table: "Leases",
-                column: "LeaseCode",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "IX_MaintenanceRequests_InvoiceId",
                 table: "MaintenanceRequests",
                 column: "InvoiceId");
@@ -480,12 +514,6 @@ namespace Infrastructure.Data.Migrations
                 column: "LeaseId");
 
             migrationBuilder.CreateIndex(
-                name: "UQ__Maintena__CBAB82F6EC2CDA6A",
-                table: "MaintenanceRequests",
-                column: "MaintenanceRequestCode",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Messages_ReceiverId",
                 table: "Messages",
                 column: "ReceiverId");
@@ -494,12 +522,6 @@ namespace Infrastructure.Data.Migrations
                 name: "IX_Messages_SenderId",
                 table: "Messages",
                 column: "SenderId");
-
-            migrationBuilder.CreateIndex(
-                name: "UQ__Messages__54E8229FE4E7C357",
-                table: "Messages",
-                column: "MessageCode",
-                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Payments_InvoiceId",
@@ -514,26 +536,19 @@ namespace Infrastructure.Data.Migrations
                 column: "LeaseId");
 
             migrationBuilder.CreateIndex(
-                name: "UQ__Payments__106D3BA8FEBBB92E",
-                table: "Payments",
-                column: "PaymentCode",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Photos_RoomId",
                 table: "Photos",
                 column: "RoomId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Posts_LandlordId",
+                table: "Posts",
+                column: "LandlordId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Posts_RoomId",
                 table: "Posts",
                 column: "RoomId");
-
-            migrationBuilder.CreateIndex(
-                name: "UQ__Posts__5K9D52454DASDASE",
-                table: "Posts",
-                column: "PostCode",
-                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Reservations_RoomId",
@@ -546,10 +561,11 @@ namespace Infrastructure.Data.Migrations
                 column: "TenantId");
 
             migrationBuilder.CreateIndex(
-                name: "UQ__Reservat__2081C0BBCBCC7940",
-                table: "Reservations",
-                column: "ReservationCode",
-                unique: true);
+                name: "RoleNameIndex",
+                table: "Roles",
+                column: "NormalizedName",
+                unique: true,
+                filter: "[NormalizedName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_RoomAmenities_AmenityId",
@@ -562,10 +578,14 @@ namespace Infrastructure.Data.Migrations
                 column: "LandlordId");
 
             migrationBuilder.CreateIndex(
-                name: "UQ__Rooms__4F9D52313B1CAD3E",
-                table: "Rooms",
-                column: "RoomCode",
-                unique: true);
+                name: "IX_SavePosts_FavoriteId",
+                table: "SavePosts",
+                column: "FavoriteId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SavePosts_PostId",
+                table: "SavePosts",
+                column: "PostId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserRoles_RoleId",
@@ -573,16 +593,25 @@ namespace Infrastructure.Data.Migrations
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
-                name: "UQ__Users__1DF52D0C64B859D5",
+                name: "EmailIndex",
                 table: "Users",
-                column: "UserCode",
-                unique: true);
+                column: "NormalizedEmail");
+
+            migrationBuilder.CreateIndex(
+                name: "UserNameIndex",
+                table: "Users",
+                column: "NormalizedUserName",
+                unique: true,
+                filter: "[NormalizedUserName] IS NOT NULL");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
                 name: "Feedback");
+
+            migrationBuilder.DropTable(
+                name: "Follows");
 
             migrationBuilder.DropTable(
                 name: "MaintenanceRequests");
@@ -603,16 +632,22 @@ namespace Infrastructure.Data.Migrations
                 name: "RoomAmenities");
 
             migrationBuilder.DropTable(
-                name: "UserRoles");
+                name: "SavePosts");
 
             migrationBuilder.DropTable(
-                name: "Posts");
+                name: "UserRoles");
 
             migrationBuilder.DropTable(
                 name: "Invoices");
 
             migrationBuilder.DropTable(
                 name: "Amenities");
+
+            migrationBuilder.DropTable(
+                name: "Favorites");
+
+            migrationBuilder.DropTable(
+                name: "Posts");
 
             migrationBuilder.DropTable(
                 name: "Roles");

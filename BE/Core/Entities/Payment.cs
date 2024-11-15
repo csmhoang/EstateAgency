@@ -13,10 +13,10 @@ namespace Core.Entities
         [ForeignKey("Invoice")]
         public string? InvoiceId { get; set; }
         public decimal Amount { get; set; }
-        public DateTime? PaymentDate { get; set; }
+        public DateTime PaymentDate { get; set; }
         public StatusPayment Status { get; set; }
-        public string? PaymentMethod { get; set; }
-        public DateTime? CreatedAt { get; set; }
+        public PaymentMethod PaymentMethod { get; set; }
+        public DateTime CreatedAt { get; set; }
 
         public virtual Invoice? Invoice { get; set; }
         public virtual Lease? Lease { get; set; }

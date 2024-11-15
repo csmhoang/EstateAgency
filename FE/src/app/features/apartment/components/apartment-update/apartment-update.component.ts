@@ -88,8 +88,8 @@ export class ApartmentUpdateComponent implements OnInit {
         Validators.required,
       ]),
       province: this.formBuilder.control('', [Validators.required]),
-      district: this.formBuilder.control(''),
-      ward: this.formBuilder.control(''),
+      district: this.formBuilder.control('',  [Validators.required]),
+      ward: this.formBuilder.control('',  [Validators.required]),
       bedroom: this.formBuilder.control(this.data.bedroom, [
         Validators.required,
       ]),
@@ -213,8 +213,22 @@ export class ApartmentUpdateComponent implements OnInit {
   }
 
   errorForProvince(): string {
-    if (this.category?.hasError('required')) {
+    if (this.province?.hasError('required')) {
       return 'Vui lòng chọn Tỉnh/Thành!';
+    }
+    return '';
+  }
+
+  errorForDistrict(): string {
+    if (this.district?.hasError('required')) {
+      return 'Vui lòng chọn Quận/Huyện!';
+    }
+    return '';
+  }
+
+  errorForWard(): string {
+    if (this.ward?.hasError('required')) {
+      return 'Vui lòng chọn Phường/Xã!';
     }
     return '';
   }

@@ -11,7 +11,7 @@ namespace Core.Dtos
     public record PhotoDto
     {
         public Guid? Id { get; set; }
-        public string? RoomId { get; set; }
+        public string RoomId { get; set; } = null!;
         public string Url { get; set; } = null!;
         public string PublicId { get; set; } = null!;
     }

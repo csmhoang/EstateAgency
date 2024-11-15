@@ -11,6 +11,7 @@ using Core.Specifications;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
 using static Core.Enums.PostEnums;
+using static Core.Enums.RoomEnums;
 
 namespace Core.Services.Business
 {
@@ -62,8 +63,19 @@ namespace Core.Services.Business
 
         public async Task<Response> GetDetailAsync(string id)
         {
-            var post = await _repository.Post.GetDetail(id)
-                .FirstOrDefaultAsync();
+            var spec = new BaseSpecification<Post>(p =>
+                p.Id.Equals(id)
+            );
+            spec.AddInclude(x => x
+                .Include(p => p.Room!)
+                .ThenInclude(r => r.Landlord!)
+            );
+            spec.AddInclude(x => x
+                .Include(p => p.Room!)
+                .ThenInclude(r => r.Photos!)
+            );
+
+            var post = await _repository.Post.GetEntityWithSpec(spec);
             return new Response
             {
                 Success = true,
@@ -113,11 +125,16 @@ namespace Core.Services.Business
         public async Task<Response> InsertAsync(PostDto postDto)
         {
             await ValidateObject(postDto);
+            var room = await _repository.Room
+                .FindCondition(r => r.Id.Equals(postDto.RoomId))
+                .FirstOrDefaultAsync();
+            if (room == null) throw new RoomNotFoundException(postDto.RoomId);
+            room.Condition = ConditionRoom.PostingForRent;
 
             var post = _mapper.Map<Post>(postDto);
+            _repository.Room.Update(room);
             _repository.Post.Create(post);
             await _repository.SaveAsync();
-
             return new Response
             {
                 Success = true,
@@ -130,7 +147,7 @@ namespace Core.Services.Business
         {
             await ValidateObject(postUpdateDto);
 
-            var post = await _repository.Post.FindCondition(r => r.Id.Equals(id))
+            var post = await _repository.Post.FindCondition(p => p.Id.Equals(id))
                 .FirstOrDefaultAsync();
             if (post is not null)
             {
@@ -162,7 +179,14 @@ namespace Core.Services.Business
                .FirstOrDefaultAsync();
             if (post is not null)
             {
+                var room = await _repository.Room
+                    .FindCondition(r => r.Id.Equals(post.RoomId))
+                    .FirstOrDefaultAsync();
+                if (room == null) throw new RoomNotFoundException(post.RoomId!);
+                room.Condition = ConditionRoom.Available;
+
                 post.Status = StatusPost.Deleted;
+                _repository.Room.Update(room);
                 _repository.Post.Update(post);
                 await _repository.SaveAsync();
             }
@@ -181,12 +205,16 @@ namespace Core.Services.Business
 
         public async Task<Response> GetSearchOptionsAsync()
         {
-            var options = await _repository.Post.GetAllDetail().Select(p => new
+            var spec = new BaseSpecification<Post>();
+            spec.AddInclude(x => x.Include(p => p.Room!));
+            var post = await _repository.Post.ListAsync(spec);
+
+            var options = post.Select(p => new
             {
                 p.Title,
                 p.Room!.Name,
                 p.Room!.Address
-            }).ToListAsync();
+            });
             return new Response
             {
                 Success = true,

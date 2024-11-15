@@ -11,6 +11,7 @@ namespace Infrastructure.Repositories
         private readonly Lazy<IUserRepository> _userRepository;
         private readonly Lazy<IRoomRepository> _roomRepository;
         private readonly Lazy<IPostRepository> _postRepository;
+        private readonly Lazy<IFeedbackRepository> _feedbackRepository;
         private readonly Lazy<IReservationRepository> _reservationRepository;
         private readonly Lazy<ILeaseRepository> _leaseRepository;
         private readonly Lazy<IInvoiceRepository> _invoiceRepository;
@@ -30,6 +31,7 @@ namespace Infrastructure.Repositories
             _userRepository = new Lazy<IUserRepository>(() => new UserRepository(context));
             _roomRepository = new Lazy<IRoomRepository>(() => new RoomRepository(context));
             _postRepository = new Lazy<IPostRepository>(() => new PostRepository(context));
+            _feedbackRepository = new Lazy<IFeedbackRepository>(() => new FeedbackRepository(context));
             _reservationRepository = new Lazy<IReservationRepository>(() => new ReservationRepository(context));
             _leaseRepository = new Lazy<ILeaseRepository>(() => new LeaseRepository(context));
             _invoiceRepository = new Lazy<IInvoiceRepository>(() => new InvoiceRepository(context));
@@ -60,6 +62,8 @@ namespace Infrastructure.Repositories
         public IPhotoRepository Photo => _photoRepository.Value;
 
         public IPostRepository Post => _postRepository.Value;
+
+        public IFeedbackRepository Feedback => _feedbackRepository.Value;
 
         public async Task SaveAsync() => await _context.SaveChangesAsync();
         #endregion

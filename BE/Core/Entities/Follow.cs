@@ -12,8 +12,8 @@ namespace Core.Entities
         public string Id { get; set; } = null!;
         [ForeignKey("Follower")]
         public string? FollowerId { get; set; }
-        public DateTime? CreatedAt { get; set; }
-        public DateTime? UpdatedAt { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
         public virtual User? Follower { get; set; }
     }
 }

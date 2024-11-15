@@ -18,6 +18,7 @@ namespace Core.Dtos
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
         public ICollection<RoomDto>? Rooms { get; set; }
+        public ICollection<PostDto>? Posts { get; set; }
         public ICollection<UserRoleDto>? UserRoles { get; set; }
     }
 }

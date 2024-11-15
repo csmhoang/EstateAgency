@@ -124,6 +124,15 @@ namespace Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Không thể kết nối với hub..
+        /// </summary>
+        public static string NotConnectHub {
+            get {
+                return ResourceManager.GetString("NotConnectHub", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Đăng ký không thành công..
         /// </summary>
         public static string RegisterFailing {

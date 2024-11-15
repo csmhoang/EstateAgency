@@ -8,9 +8,9 @@ namespace Core.Dtos
     {
         public Guid? Id { get; set; }
         [Required(ErrorMessage = LeaseConst.ErrorEmptyId)]
-        public string? LeaseId { get; set; }
+        public string LeaseId { get; set; } = null!;
         [Required(ErrorMessage = InvoiceConst.ErrorEmptyId)]
-        public string? InvoiceId { get; set; }
+        public string InvoiceId { get; set; } = null!;
         public string Description { get; set; } = null!;
         public DateTime? RequestDate { get; set; }
         public StatusMaintenanceRequest? Status { get; set; }

@@ -10,22 +10,5 @@ namespace Core.Interfaces.Data
 {
     public interface IPostRepository : IRepositoryBase<Post>
     {
-        /// <summary>
-        /// Lấy ra chi tiết bài đăng bằng id
-        /// </summary>
-        /// <param name="id">Id bài đăng</param>
-        /// <returns>
-        /// 1 - Bài đăng
-        /// 2 - Null
-        /// </returns>
-        IQueryable<Post> GetDetail(string id);
-        /// <summary>
-        /// Lấy ra chi tiết tất cả bài đăng
-        /// </summary>
-        /// <returns>
-        /// 1 - Danh sách bài đăng chi tiết
-        /// 2 - Danh sách rỗng
-        /// </returns>
-        IQueryable<Post> GetAllDetail();
     }
 }

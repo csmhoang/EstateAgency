@@ -11,6 +11,7 @@ namespace Core.Interfaces.Data
         IUserRepository User { get; }
         IRoomRepository Room { get; }
         IPostRepository Post { get; }
+        IFeedbackRepository Feedback { get; }
         IReservationRepository Reservation { get; }
         ILeaseRepository Lease { get; }
         IInvoiceRepository Invoice { get; }

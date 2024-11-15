@@ -6,7 +6,7 @@ namespace Core.Entities
     {
         public string Id { get; set; } = null!;
         [ForeignKey("Room")]
-        public string? RoomId { get; set; }
+        public string RoomId { get; set; } = null!;
         public string Url { get; set; } = null!;
         public string PublicId { get; set; } = null!;
         public virtual Room? Room { get; set; }

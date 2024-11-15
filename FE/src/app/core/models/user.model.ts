@@ -1,5 +1,6 @@
 import { Room } from '@features/apartment/models/room.model';
 import { UserRole } from './user-role.model';
+import { Post } from '@features/post/models/post.model';
 
 export type User = {
   id: string;
@@ -16,6 +17,7 @@ export type User = {
   updatedAt?: Date;
   description?: string;
   userRoles?: UserRole[];
+  posts?: Post[];
   rooms?: Room[];
 };
 

@@ -50,6 +50,10 @@ namespace Infrastructure.Mapping
             CreateMap<LeaseDto, Lease>()
                .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
 
+            CreateMap<Feedback, FeedbackDto>();
+            CreateMap<FeedbackDto, Feedback>()
+               .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+
             CreateMap<Invoice, InvoiceDto>();
             CreateMap<InvoiceDto, Invoice>()
                .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));

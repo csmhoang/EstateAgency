@@ -19,9 +19,9 @@ export type Room = {
   price: number;
   condition: string;
   landlord?: User;
-  photos?: Photo[];
   createdAt?: Date;
   updatedAt?: Date;
+  photos?: Photo[];
   posts?: Post[];
 };
 
@@ -41,7 +41,7 @@ export const Interior: { [key: string]: string } = {
   Full: 'Đầy đủ',
 };
 
-export const Price = (value: number) => {
+export const Price = (value: number = 1) => {
   if (value >= 1_000_000) {
     const millions = (value / 1_000_000).toFixed(1);
     return `${millions} triệu/tháng`;

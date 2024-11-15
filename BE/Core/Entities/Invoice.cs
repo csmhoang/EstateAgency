@@ -18,8 +18,8 @@ namespace Core.Entities
         public string? LeaseId { get; set; }
         public decimal Amount { get; set; }
         public DateTime? DueDate { get; set; }
-        public StatusInvoice? Status { get; set; }
-        public DateTime? CreatedAt { get; set; }
+        public StatusInvoice Status { get; set; }
+        public DateTime CreatedAt { get; set; }
 
         public virtual Lease? Lease { get; set; }
         public virtual Payment? Payment { get; set; }
