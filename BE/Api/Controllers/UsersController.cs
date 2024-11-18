@@ -29,6 +29,7 @@ namespace Api.Controllers
         /// Lấy tất cả thông tin người dùng
         /// </summary>
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> GetAll()
         {
             var response = await _service.User.GetAllAsync();
@@ -39,6 +40,7 @@ namespace Api.Controllers
         /// Lấy thông tin người dùng bằng id
         /// </summary>
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<IActionResult> Get(string id)
         {
             var response = await _service.User.GetAsync(id);
@@ -46,7 +48,7 @@ namespace Api.Controllers
         }
 
         /// <summary>
-        /// Lấy thông tin chi tiết bài đăng bằng id
+        /// Lấy thông tin chi tiết người dùng bằng id
         /// </summary>
         [HttpGet("detail/{id}")]
         public async Task<IActionResult> GetDetail(string id)
@@ -66,6 +68,16 @@ namespace Api.Controllers
         }
 
         /// <summary>
+        /// Lấy danh sách thông tin người cho thuê được theo dõi nhiều nhất
+        /// </summary>
+        [HttpGet("famous")]
+        public async Task<IActionResult> GetListCelebrity()
+        {
+            var response = await _service.User.GetListCelebrityAsync();
+            return Ok(response);
+        }
+
+        /// <summary>
         /// Lấy danh sách gợi ý cho bộ tìm kiếm
         /// </summary>
         [HttpGet("search-options")]
@@ -80,6 +92,7 @@ namespace Api.Controllers
         /// <param name="id">Id người dùng</param>
         /// <param name="model">Người dùng</param>
         [HttpPut]
+        [Authorize]
         public async Task<IActionResult> Update(string id, [FromBody] UserUpdateDto model)
         {
             var response = await _service.User.UpdateAsync(id, model, null);
@@ -91,6 +104,7 @@ namespace Api.Controllers
         /// <param name="id"></param>
         /// <param name="file"></param>
         [HttpPut("avatar")]
+        [Authorize]
         public async Task<IActionResult> SetAvatar(string id, IFormFile file)
         {
             var response = await _service.User.UpdateAsync(id, null, file);
@@ -102,6 +116,7 @@ namespace Api.Controllers
         /// </summary>
         /// <param name="id">Id người dùng</param>
         [HttpDelete]
+        [Authorize(Roles = RoleConst.Admin)]
         public async Task<IActionResult> Delete(string id)
         {
             var response = await _service.User.DeleteAsync(id);

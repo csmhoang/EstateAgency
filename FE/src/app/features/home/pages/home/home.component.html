@@ -24,9 +24,11 @@
         <h2>Những bài đăng gần đây</h2>
       </div>
       <!-- Recent Posts -->
+      @if(posts){
       <div class="container">
-        <!-- <app-post-list></app-post-list> -->
+        <app-post-list [posts]="posts"></app-post-list>
       </div>
+      }
     </section>
 
     <!-- Rentaler Section -->
@@ -36,9 +38,11 @@
         <h2>Người cho thuê được yêu thích nhất</h2>
       </div>
       <!-- Rentaler List -->
-      <div class="container">
-        <!-- <app-lessor-list></app-lessor-list> -->
-      </div>
+      @if(lessors){
+        <div class="container">
+          <app-lessor-list [lessors]="lessors"></app-lessor-list>
+        </div>
+      }
     </section>
     <!-- Stats Section -->
     <app-home-stats></app-home-stats>

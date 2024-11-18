@@ -19,6 +19,8 @@ namespace Core.Interfaces.Data
         IMaintenanceRequestRepository MaintenanceRequest { get; }
         IAmenityRepository Amenity { get; }
         IPhotoRepository Photo { get; }
+        IBookingRepository Booking { get; }
+        ISavePostRepository SavePost { get; }
 
         Task SaveAsync();
     }

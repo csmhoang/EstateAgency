@@ -118,7 +118,7 @@ namespace Core.Services.Business
         }
         public async Task ValidateObject(ReservationDto reservationDto)
         {
-            var room = await _repository.Room.FindCondition(r => r.Id.Equals(reservationDto.RoomId)).FirstOrDefaultAsync();
+            var room = await _repository.Room.FindCondition(r => r.Id.Equals(reservationDto.PostId)).FirstOrDefaultAsync();
             if (room is not null)
             {
                 if (reservationDto.TenantId!.Equals(room.LandlordId))
@@ -128,7 +128,7 @@ namespace Core.Services.Business
             }
             else
             {
-                throw new RoomNotFoundException(reservationDto.RoomId);
+                throw new PostNotFoundException(reservationDto.PostId);
             }
         }
         #endregion

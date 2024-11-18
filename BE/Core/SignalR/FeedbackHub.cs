@@ -10,7 +10,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Core.SignalR
 {
-    [Authorize]
     public class FeedbackHub : Hub
     {
         private readonly IMapper _mapper;
@@ -47,6 +46,7 @@ namespace Core.SignalR
             await base.OnDisconnectedAsync(exception);
         }
 
+        [Authorize]
         public async Task SendFeedback(FeedbackDto feedbackDto)
         {
             var feedback = _mapper.Map<Feedback>(feedbackDto);

@@ -9,11 +9,11 @@ namespace Infrastructure.Mapping
     {
         public MappingProfile()
         {
-            CreateMap<UserDto, User>()
-                .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Email));
             CreateMap<User, UserDto>()
                 .ForMember(dest => dest.NumberOfFollowers, opt => opt.MapFrom(src => src.Followers.Count))
                 .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+            CreateMap<UserDto, User>()
+                .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Email));
 
             CreateMap<UserRole, UserRoleDto>()
                 .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
@@ -37,6 +37,10 @@ namespace Infrastructure.Mapping
 
             CreateMap<Post, PostDto>();
             CreateMap<PostDto, Post>()
+                .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+
+            CreateMap<SavePost, SavePostDto>();
+            CreateMap<SavePostDto, SavePost>()
                 .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
 
             CreateMap<PostUpdateDto, Post>()

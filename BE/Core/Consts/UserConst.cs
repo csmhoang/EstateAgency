@@ -10,6 +10,8 @@ namespace Core.Consts
     {
         public const string ErrorEmptyLandlordId = "Id chủ nhà không được phép để trống!";
 
+        public const string ErrorEmptyUserId = "Id người dùng không được phép để trống!";
+
         public const string ErrorEmptyTenantId = "Id người thuê không được phép để trống!";
 
         public const string ErrorEmptyFullName = "Họ tên người dùng không được phép để trống!";

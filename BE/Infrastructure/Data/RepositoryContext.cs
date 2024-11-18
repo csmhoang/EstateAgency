@@ -32,8 +32,8 @@ namespace Infrastructure.Data
         public virtual DbSet<Post> Posts { get; set; } = null!;
         public virtual DbSet<Photo> Photos { get; set; } = null!;
         public virtual DbSet<Follow> Follows { get; set; } = null!;
-        public virtual DbSet<Favorite> Favorites { get; set; } = null!;
         public virtual DbSet<SavePost> SavePosts { get; set; } = null!;
+        public virtual DbSet<Booking> Bookings { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -145,6 +145,8 @@ namespace Infrastructure.Data
                     .HasColumnType("datetime")
                     .HasDefaultValueSql("(getdate())");
 
+                entity.Property(e => e.EstimateCost).HasColumnType("decimal(10, 2)");
+
                 entity.Property(e => e.CreatedAt)
                     .HasColumnType("datetime")
                     .HasDefaultValueSql("(getdate())");
@@ -213,7 +215,7 @@ namespace Infrastructure.Data
 
                 entity.Property(e => e.ReservationDate).HasColumnType("date");
 
-                entity.Property(e => e.RoomId).HasMaxLength(36);
+                entity.Property(e => e.PostId).HasMaxLength(36);
 
                 entity.Property(e => e.TenantId).HasMaxLength(36);
 
@@ -302,22 +304,13 @@ namespace Infrastructure.Data
                         });
             });
 
-            modelBuilder.Entity<Favorite>(entity =>
-            {
-                entity.Property(e => e.Id)
-                    .HasMaxLength(36)
-                    .HasDefaultValueSql("lower(newid())");
-
-                entity.Property(e => e.UserId).HasMaxLength(36);
-            });
-
             modelBuilder.Entity<SavePost>(entity =>
             {
                 entity.Property(e => e.Id)
                     .HasMaxLength(36)
                     .HasDefaultValueSql("lower(newid())");
 
-                entity.Property(e => e.FavoriteId).HasMaxLength(36);
+                entity.Property(e => e.UserId).HasMaxLength(36);
 
                 entity.Property(e => e.PostId).HasMaxLength(36);
 
@@ -337,6 +330,8 @@ namespace Infrastructure.Data
                     .HasDefaultValueSql("lower(newid())");
 
                 entity.Property(e => e.FollowerId).HasMaxLength(36);
+
+                entity.Property(e => e.FollowedUserId).HasMaxLength(36);
 
                 entity.Property(e => e.CreatedAt)
                     .HasColumnType("datetime")

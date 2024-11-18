@@ -3,32 +3,55 @@
     <div class="row align-items-center">
       <div class="col-3">
         <img
-          [src]="landlord.avatarUrl || '/assets/img/avatar_default.jpg'"
+          [src]="landlord?.avatarUrl || '/assets/img/avatar_default.jpg'"
           class="img-fluid rounded-circle"
         />
       </div>
       <div class="d-flex col-8 flex-column justify-content-center">
-        <h5 class="card-title fw-bold fs-5 mb-1">{{ landlord.fullName }}</h5>
+        <h5 class="card-title fw-bold fs-5 mb-1">{{ landlord?.fullName }}</h5>
         <p class="card-text text-muted mb-0">Người theo dõi: 3</p>
         <p class="card-text text-muted mb-0">
-          <span class="status active">
+          @if(isOnline()){
+          <span class="status online">
             <i class="fa-solid fa-circle"></i>
           </span>
-          Hoạt động 4 giờ trước
+          Đang hoạt động } @else{
+          <span class="status offline">
+            <i class="fa-solid fa-circle"></i>
+          </span>
+          Chưa hoạt động }
         </p>
       </div>
     </div>
-    <button class="btn btn-dark w-100 my-3">
-      <i class="fa-solid fa-comment-dots"></i>
-      Chat
-    </button>
+    <div class="d-flex flex-column gap-1 my-3">
+      <button class="btn btn-dark w-100">
+        <i class="fa-solid fa-comment-dots"></i>
+        Chat
+      </button>
+      <div class="w-100">
+        <input
+          #follow
+          type="checkbox"
+          class="btn-check"
+          id="follow-btn"
+          [formControl]="isFollow"
+        />
+        <label class="btn btn-dark w-100" for="follow-btn">
+          @if (follow.value) {
+          <i class="fa-solid fa-user-plus"></i>
+          Theo dõi }@else {
+          <i class="fa-solid fa-user-xmark"></i>
+          Hủy theo dõi }
+        </label>
+      </div>
+    </div>
     <p class="card-text">
       <i class="fa-regular fa-calendar-days"></i>
-      Đã Tham gia: {{ landlord.createdAt | date : "MM/dd/yyyy" }}
+      Đã Tham gia: {{ landlord?.createdAt | date : "MM/dd/yyyy" }}
     </p>
     <p class="card-text">
       <i class="fa-solid fa-phone"></i>
-      Số điện thoại: {{ landlord.phoneNumber }}
+      Số điện thoại: {{ landlord?.phoneNumber }}
     </p>
     <p class="card-text d-flex gap-3 justify-content-center fs-4">
       <a><i class="bi bi-twitter-x"></i></a>

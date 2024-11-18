@@ -19,6 +19,7 @@ import { PostListComponent } from '@features/post/components/post-list/post-list
 export class ProfileActionsComponent {
   user: User = {
     id: '3243124324234',
+    username: '',
     fullName: 'Cao Sỹ Minh Hoàng',
     phoneNumber: '0393212312',
     email: 'mhoang@gmail.com',

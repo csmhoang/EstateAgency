@@ -1,13 +1,9 @@
 <div class="service-item position-relative">
   <div class="icon">
-    <i class="fa-solid fa-broom"></i>
+    <ng-content></ng-content>
   </div>
-  <a href="service-details.html" class="stretched-link">
-    <h3>Dọn phòng</h3>
+  <a>
+    <h3>{{ service?.name }}</h3>
   </a>
-  <p>
-    Dịch vụ dọn phòng chuyên nghiệp, đảm bảo không gian sống của bạn luôn sạch
-    sẽ và thoải mái. Nhân viên được đào tạo kỹ lưỡng sẽ dọn dẹp phòng theo lịch
-    bạn chọn, sử dụng các sản phẩm vệ sinh an toàn và thân thiện với môi trường.
-  </p>
+  <p>{{ service?.detail }}</p>
 </div>

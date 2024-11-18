@@ -1,3 +1,4 @@
+import { User } from '@core/models/user.model';
 import { Room } from '@features/apartment/models/room.model';
 
 export type Post = {
@@ -10,6 +11,7 @@ export type Post = {
   isAccept: string;
   status: string;
   room?: Room;
+  landlord?: User;
   createdAt?: Date;
   updatedAt?: Date;
 };

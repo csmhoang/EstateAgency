@@ -25,11 +25,11 @@
 
     <!-- Apartment Detail Section -->
     <section id="real-estate-2" class="real-estate-2 section">
-      @if(post){
+      @if(post()){
       <div class="container">
         <!-- Apartment Photos -->
         <app-apartment-detail-photos
-          [photos]="post.room?.photos || []"
+          [photos]="post()?.room?.photos || []"
         ></app-apartment-detail-photos>
 
         <div class="row justify-content-between gy-4 mt-4">
@@ -37,7 +37,8 @@
             <!-- Introduction Detail-->
             <div class="portfolio-description">
               <h2>Giới thiệu chi tiết</h2>
-              {{ post.description }}
+              <p>{{post()?.title}}</p>
+              {{ post()?.description }}
             </div>
 
             <!-- Tabs -->
@@ -48,32 +49,28 @@
           <div class="row col-lg-4">
             <!-- Lessor Information -->
             <div class="col-12 mb-4">
-              @if(post.room?.landlord){
+              @if(post()?.landlord){
               <app-lessor-info-card
-                [landlord]="post.room?.landlord!"
+                [landlord]="post()?.landlord"
               ></app-lessor-info-card>
               }
             </div>
 
             <!-- Apartment Information -->
             <div class="col-12">
-              @if(post){
+              @if(post()){
               <app-apartment-primary-info
-                [post]="post"
+                [post]="post() || undefined"
               ></app-apartment-primary-info>
               }
             </div>
           </div>
 
-          <!-- Apartment Relationship -->
-          <div class="col-12">
-            <app-apartment-relationship></app-apartment-relationship>
-          </div>
           <!-- Comment -->
           <div class="col-lg-8">
             <div id="comments" class="comments section">
-              <h4 class="comments-count fs-4">
-                {{ feedbacks().length }} Đánh giá
+              <h4 class="comments-count fs-4 py-3">
+                {{ feedbacks().length }} Đánh giá từ người dùng
               </h4>
               <!-- Textarea comment -->
               <form [formGroup]="form" class="bg-light-subtle rounded p-4">
@@ -107,7 +104,10 @@
                 </button>
               </form>
               @for (feedback of feedbacks(); track $index) {
-                <app-feedback-item (reply)="onReply($event)" [feedback]="feedback"></app-feedback-item>
+              <app-feedback-item
+                (reply)="onReply($event)"
+                [feedback]="feedback"
+              ></app-feedback-item>
               }
             </div>
           </div>

@@ -19,6 +19,7 @@ namespace Core.Entities
         public string? TenantId { get; set; }
         [ForeignKey("Room")]
         public string? RoomId { get; set; }
+        public string RentalTerms { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime? EndDate { get; set; }
         public bool? SignedOnline { get; set; }

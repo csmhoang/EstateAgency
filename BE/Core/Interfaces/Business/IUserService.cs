@@ -48,6 +48,14 @@ namespace Core.Interfaces.Business
         /// </returns>
         Task<Response> GetListAsync(UserSpecParams specParams);
         /// <summary>
+        /// Lấy danh sách người được theo dõi nhiều nhất
+        /// </summary>
+        /// <returns>
+        /// 1 - Danh sách người dùng
+        /// 2 - Danh sách rỗng
+        /// </returns>
+        Task<Response> GetListCelebrityAsync();
+        /// <summary>
         /// Xóa người dùng bằng id
         /// </summary>
         /// <param name="id">Id người dùng</param>

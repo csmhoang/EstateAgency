@@ -1,5 +1,7 @@
-﻿using Core.Dtos;
+﻿using Core.Consts;
+using Core.Dtos;
 using Core.Interfaces.Business;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,6 +28,7 @@ namespace Api.Controllers
         /// Lấy tất cả thông tin đặt lịch
         /// </summary>
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> GetAll()
         {
             var response = await _service.Reservation.GetAllAsync();
@@ -36,6 +39,7 @@ namespace Api.Controllers
         /// Lấy thông tin đặt lịch bằng id
         /// </summary>
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<IActionResult> Get(string id)
         {
             var response = await _service.Reservation.GetAsync(id);
@@ -47,6 +51,7 @@ namespace Api.Controllers
         /// </summary>
         /// <param name="model">Đặt lịch</param>
         [HttpPost]
+        [Authorize(Roles = RoleConst.Tenant)]
         public async Task<IActionResult> Create([FromBody] ReservationDto model)
         {
             var response = await _service.Reservation.InsertAsync(model);
@@ -59,6 +64,7 @@ namespace Api.Controllers
         /// <param name="id">Id đặt lịch</param>
         /// <param name="model">Đặt lịch</param>
         [HttpPut]
+        [Authorize]
         public async Task<IActionResult> Update(string id, [FromBody] ReservationDto model)
         {
             var response = await _service.Reservation.UpdateAsync(id, model);
@@ -70,6 +76,7 @@ namespace Api.Controllers
         /// </summary>
         /// <param name="id">Id đặt lịch</param>
         [HttpDelete]
+        [Authorize]
         public async Task<IActionResult> Delete(string id)
         {
             var response = await _service.Reservation.DeleteAsync(id);

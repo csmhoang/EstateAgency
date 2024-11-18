@@ -9,6 +9,7 @@ namespace Core.Dtos
         public string? AvatarUrl { get; set; }
         public string? PublicId { get; set; }
         public string Email { get; set; } = null!;
+        public string Username { get; set; } = null!;
         public string PhoneNumber { get; set; } = null!;
         public DateTime? DateOfBirth { get; set; }
         public Gender Gender { get; set; }

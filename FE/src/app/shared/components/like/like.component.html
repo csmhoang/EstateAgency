@@ -2,7 +2,7 @@
   <div class="heart-icon">
     <i
       class="fa-heart"
-      [ngClass]="isLiked ? 'liked fa-solid' : 'unliked fa-regular'"
+      [ngClass]="isSaved() ? 'liked fa-solid' : 'unliked fa-regular'"
     ></i>
   </div>
 </div>

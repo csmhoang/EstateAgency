@@ -8,6 +8,7 @@ import { PageData } from '@core/models/page-data.model';
 import { SkipPreloader } from '@core/interceptors/skip.resolver';
 import { RoomService } from '@features/apartment/services/room.service';
 import { TakeMiniLoad } from '@core/interceptors/take.resolver';
+import { SavePost } from '../models/save-post.model';
 
 @Injectable({
   providedIn: 'root',
@@ -40,6 +41,20 @@ export class PostService {
     return this.http
       .get<Result<Post>>(`/posts/detail/${id}`)
       .pipe(map((response) => response.data));
+  }
+
+  getListRecent() {
+    return this.http
+      .get<Result<Post[]>>('/posts/recent', {
+        context: new HttpContext().set(SkipPreloader, true),
+      })
+      .pipe(map((response) => response.data));
+  }
+
+  savePost(savePost: SavePost, isSave: boolean) {
+    return this.http.post<Result>(`/posts/save?isSave=${isSave}`, savePost, {
+      context: new HttpContext().set(SkipPreloader, true),
+    });
   }
 
   getSearchOptions() {

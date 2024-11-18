@@ -1,4 +1,5 @@
 ﻿using Core.Dtos;
+using Core.Entities;
 using Core.Params;
 using Microsoft.AspNetCore.Http;
 using System;
@@ -28,6 +29,14 @@ namespace Core.Interfaces.Business
         /// 2 - Danh sách rỗng
         /// </returns>
         Task<Response> GetListAsync(PostSpecParams specParams);
+        /// <summary>
+        /// Lấy danh sách thông tin bài đăng mới nhất
+        /// </summary>
+        /// <returns>        
+        /// 1 - Danh sách bài đăng
+        /// 2 - Danh sách rỗng
+        /// </returns>
+        Task<Response> GetListRecentAsync();
         /// <summary>
         /// Lấy danh sách gợi ý cho bộ tìm kiếm
         /// </summary>
@@ -90,5 +99,15 @@ namespace Core.Interfaces.Business
         /// 2 - Ngoại lệ
         /// </returns>
         Task<Response> InsertAsync(PostDto postDto);
+        /// <summary>
+        /// Lưu bài viết để xem lại
+        /// </summary>
+        /// <param name="savePostDto">Thông tin lưu</param>
+        /// <param name="isSave">Lưu hoặc gỡ khỏi</param>
+        /// <returns>
+        /// 1 - Thông báo thành công
+        /// 2 - Ngoại lệ
+        /// </returns>
+        Task<Response> SavePostAsync(SavePostDto savePostDto, bool isSave);
     }
 }

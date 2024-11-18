@@ -13,7 +13,6 @@ import { LessorManagementComponent } from '@features/management/lessor/pages/les
 import { ProfileEditComponent } from '@features/profiles/pages/profile-edit/profile-edit.component';
 import { RentedHistoryComponent } from '@features/profiles/pages/rented-history/rented-history.component';
 import { ProfileComponent } from '@features/profiles/pages/profile/profile.component';
-import { ServiceDetailComponent } from '@features/service/pages/service-detail/service-detail.component';
 import { ServiceComponent } from '@features/service/pages/service/service.component';
 import { ProfileActionsComponent } from '@features/profiles/pages/profile-actions/profile-actions.component';
 import { LessorApartmentComponent } from '@features/management/lessor/pages/lessor-apartment/lessor-apartment.component';
@@ -69,10 +68,6 @@ export const routes: Routes = [
         component: ProfileActionsComponent,
       },
     ],
-  },
-  {
-    path: 'service/detail',
-    component: ServiceDetailComponent,
   },
   {
     path: 'service',

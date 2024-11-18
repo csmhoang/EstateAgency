@@ -1,8 +1,17 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
-import { Category, Interior, Price, Room } from '@features/apartment/models/room.model';
+import { Component, DestroyRef, inject, Input } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { UserService } from '@core/services/user.service';
+import {
+  Category,
+  Interior,
+  Price,
+} from '@features/apartment/models/room.model';
 import { Post } from '@features/post/models/post.model';
+import { SavePost } from '@features/post/models/save-post.model';
+import { PostService } from '@features/post/services/post.service';
 import { LikeComponent } from '@shared/components/like/like.component';
+import { catchError, of } from 'rxjs';
 
 @Component({
   selector: 'app-apartment-primary-info',
@@ -12,11 +21,35 @@ import { LikeComponent } from '@shared/components/like/like.component';
   styleUrl: './apartment-primary-info.component.scss',
 })
 export class ApartmentPrimaryInfoComponent {
-  @Input() post!: Post;
+  @Input() post?: Post;
+  destroyRef = inject(DestroyRef);
+  isAuthentication = this.userService.isAuthenticated();
+  user = this.userService.currentUser();
 
   priceFilter = Price;
   categoryFilter = Category;
   interiorFilter = Interior;
+
+  constructor(
+    private userService: UserService,
+    private postService: PostService
+  ) {}
+
+  onSave(isSave: boolean) {
+    if (this.user && this.post) {
+      const savePost: SavePost = {
+        userId: this.user.id,
+        postId: this.post.id,
+      };
+      this.postService
+        .savePost(savePost, isSave)
+        .pipe(
+          takeUntilDestroyed(this.destroyRef),
+          catchError(() => of(null))
+        )
+        .subscribe();
+    }
+  }
 
   timeSinceUpdateFilter(time: Date) {
     const now = new Date();

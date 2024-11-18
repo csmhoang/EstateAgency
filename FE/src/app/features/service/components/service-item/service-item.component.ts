@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { Service } from '@features/service/models/service.model';
 
 @Component({
   selector: 'app-service-item',
@@ -7,4 +8,7 @@ import { Component } from '@angular/core';
   templateUrl: './service-item.component.html',
   styleUrl: './service-item.component.scss',
 })
-export class ServiceItemComponent {}
+export class ServiceItemComponent {
+  @Input()
+  service?: Service;
+}

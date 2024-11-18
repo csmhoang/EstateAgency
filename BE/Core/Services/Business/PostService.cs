@@ -63,12 +63,11 @@ namespace Core.Services.Business
 
         public async Task<Response> GetDetailAsync(string id)
         {
-            var spec = new BaseSpecification<Post>(p =>
-                p.Id.Equals(id)
+            var spec = new BaseSpecification<Post>(p => p
+                .Id.Equals(id)
             );
             spec.AddInclude(x => x
-                .Include(p => p.Room!)
-                .ThenInclude(r => r.Landlord!)
+                .Include(p => p.Landlord!)
             );
             spec.AddInclude(x => x
                 .Include(p => p.Room!)
@@ -99,6 +98,26 @@ namespace Core.Services.Business
                     Data = _mapper.Map<IEnumerable<PostDto>>(page.Data)
                 },
                 StatusCode = !page.Data.Any() ? (int)HttpStatusCode.NoContent : (int)HttpStatusCode.OK
+            };
+        }
+
+        public async Task<Response> GetListRecentAsync()
+        {
+            var spec = new BaseSpecification<Post>();
+            spec.AddInclude(x => x
+                .Include(p => p.Room!)
+                .ThenInclude(r => r.Photos!)
+            );
+            spec.AddOrder(x => x
+                .OrderBy(p => p.CreatedAt));
+            spec.ApplyPaging(0, 6);
+
+            var posts = await _repository.Post.ListAsync(spec);
+            return new Response
+            {
+                Success = true,
+                Data = _mapper.Map<IEnumerable<PostDto>>(posts),
+                StatusCode = !posts.Any() ? (int)HttpStatusCode.NoContent : (int)HttpStatusCode.OK
             };
         }
 
@@ -139,6 +158,51 @@ namespace Core.Services.Business
             {
                 Success = true,
                 Messages = Successfull.InsertSucceed,
+                StatusCode = (int)HttpStatusCode.Created
+            };
+        }
+
+        public async Task<Response> SavePostAsync(SavePostDto savePostDto, bool isSave)
+        {
+            var post = await _repository.Post
+                .FindCondition(r => r.Id.Equals(savePostDto.PostId))
+                .FirstOrDefaultAsync();
+            if (post == null) throw new PostNotFoundException(savePostDto.PostId!);
+
+            var user = await _repository.User
+                .FindCondition(r => r.Id.Equals(savePostDto.UserId))
+                .FirstOrDefaultAsync();
+            if (user == null) throw new UserNotFoundException();
+
+            var savePost = await _repository.SavePost
+                .FindCondition(r =>
+                    r.UserId!.Equals(savePostDto.UserId) &&
+                    r.PostId!.Equals(savePostDto.PostId)
+                )
+                .FirstOrDefaultAsync();
+
+            if (isSave)
+            {
+                if (savePost == null)
+                {
+                    var savePostInsert = _mapper.Map<SavePost>(savePostDto);
+                    _repository.SavePost.Create(savePostInsert);
+                    await _repository.SaveAsync();
+                }
+            }
+            else
+            {
+                if (savePost != null)
+                {
+                    _repository.SavePost.Delete(savePost);
+                    await _repository.SaveAsync();
+                }
+            }
+
+            return new Response
+            {
+                Success = true,
+                Messages = isSave ? Successfull.SavePostSucceed : Successfull.CancelSavePostSucceed,
                 StatusCode = (int)HttpStatusCode.Created
             };
         }

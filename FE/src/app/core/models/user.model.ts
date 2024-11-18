@@ -1,6 +1,7 @@
 import { Room } from '@features/apartment/models/room.model';
 import { UserRole } from './user-role.model';
 import { Post } from '@features/post/models/post.model';
+import { SavePost } from '@features/post/models/save-post.model';
 
 export type User = {
   id: string;
@@ -8,6 +9,7 @@ export type User = {
   avatarUrl?: string;
   publicId?: string;
   phoneNumber: string;
+  username: string;
   email: string;
   numberOfFollowers?: number;
   gender?: string;
@@ -19,6 +21,7 @@ export type User = {
   userRoles?: UserRole[];
   posts?: Post[];
   rooms?: Room[];
+  savePosts?: SavePost[];
 };
 
 export const Gender: { [key: string]: string } = {

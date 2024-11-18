@@ -1,6 +1,8 @@
-﻿using Core.Dtos;
+﻿using Core.Consts;
+using Core.Dtos;
 using Core.Interfaces.Business;
 using Core.Params;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -27,6 +29,7 @@ namespace Api.Controllers
         /// Lấy tất cả thông tin bài đăng
         /// </summary>
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> GetAll()
         {
             var response = await _service.Post.GetAllAsync();
@@ -43,10 +46,18 @@ namespace Api.Controllers
             return Ok(response);
         }
 
+        [HttpGet("recent")]
+        public async Task<IActionResult> GetListRecent()
+        {
+            var response = await _service.Post.GetListRecentAsync();
+            return Ok(response);
+        }
+
         /// <summary>
         /// Lấy thông tin bài đăng bằng id
         /// </summary>
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<IActionResult> Get(string id)
         {
             var response = await _service.Post.GetAsync(id);
@@ -63,8 +74,6 @@ namespace Api.Controllers
             return Ok(response);
         }
 
-
-
         /// <summary>
         /// Lấy danh sách gợi ý cho bộ tìm kiếm
         /// </summary>
@@ -80,9 +89,23 @@ namespace Api.Controllers
         /// </summary>
         /// <param name="model">Bài đăng</param>
         [HttpPost]
+        [Authorize(Roles = RoleConst.Landlord)]
         public async Task<IActionResult> Create([FromBody] PostDto model)
         {
             var response = await _service.Post.InsertAsync(model);
+            return Ok(response);
+        }
+
+        /// <summary>
+        /// Lưu bài đăng
+        /// </summary>
+        /// <param name="model">Thông tin lưu</param>
+        /// <param name="isSave">Lưu hoặc gỡ khỏi</param>
+        [HttpPost("save")]
+        [Authorize]
+        public async Task<IActionResult> SavePost([FromBody] SavePostDto model, bool isSave)
+        {
+            var response = await _service.Post.SavePostAsync(model, isSave);
             return Ok(response);
         }
 
@@ -92,6 +115,7 @@ namespace Api.Controllers
         /// <param name="id">Id bài đăng</param>
         /// <param name="model">Bài đăng</param>
         [HttpPut]
+        [Authorize(Roles = $"{RoleConst.Landlord},{RoleConst.Admin}")]
         public async Task<IActionResult> Update(string id, [FromBody] PostUpdateDto model)
         {
             var response = await _service.Post.UpdateAsync(id, model);
@@ -103,6 +127,7 @@ namespace Api.Controllers
         /// </summary>
         /// <param name="id">Id bài đăng</param>
         [HttpDelete]
+        [Authorize(Roles = $"{RoleConst.Landlord},{RoleConst.Admin}")]
         public async Task<IActionResult> Delete(string id)
         {
             var response = await _service.Post.DeleteAsync(id);
@@ -114,6 +139,7 @@ namespace Api.Controllers
         /// </summary>
         /// <param name="id">Id bài đăng</param>
         [HttpDelete("remove")]
+        [Authorize(Roles = $"{RoleConst.Landlord},{RoleConst.Admin}")]
         public async Task<IActionResult> Remove(string id)
         {
             var response = await _service.Post.RemoveAsync(id);

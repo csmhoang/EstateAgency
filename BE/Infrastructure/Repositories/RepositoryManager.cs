@@ -17,7 +17,9 @@ namespace Infrastructure.Repositories
         private readonly Lazy<IInvoiceRepository> _invoiceRepository;
         private readonly Lazy<IPaymentRepository> _paymentRepository;
         private readonly Lazy<IMaintenanceRequestRepository> _maintenanceRequestRepository;
-        private readonly Lazy<IAmenityRepository> _amenityRequestRepository;
+        private readonly Lazy<IBookingRepository> _bookingRepository;
+        private readonly Lazy<ISavePostRepository> _savePostRepository;
+        private readonly Lazy<IAmenityRepository> _amenityRepository;
         private readonly Lazy<IPhotoRepository> _photoRepository;
         #endregion
 
@@ -37,7 +39,9 @@ namespace Infrastructure.Repositories
             _invoiceRepository = new Lazy<IInvoiceRepository>(() => new InvoiceRepository(context));
             _paymentRepository = new Lazy<IPaymentRepository>(() => new PaymentRepository(context));
             _maintenanceRequestRepository = new Lazy<IMaintenanceRequestRepository>(() => new MaintenanceRequestRepository(context));
-            _amenityRequestRepository = new Lazy<IAmenityRepository>(() => new AmenityRepository(context));
+            _bookingRepository = new Lazy<IBookingRepository>(() => new BookingRepository(context));
+            _savePostRepository = new Lazy<ISavePostRepository>(() => new SavePostRepository(context));
+            _amenityRepository = new Lazy<IAmenityRepository>(() => new AmenityRepository(context));
             _photoRepository = new Lazy<IPhotoRepository>(() => new PhotoRepository(context));
         }
         #endregion
@@ -57,13 +61,17 @@ namespace Infrastructure.Repositories
 
         public IMaintenanceRequestRepository MaintenanceRequest => _maintenanceRequestRepository.Value;
 
-        public IAmenityRepository Amenity => _amenityRequestRepository.Value;
+        public IAmenityRepository Amenity => _amenityRepository.Value;
 
         public IPhotoRepository Photo => _photoRepository.Value;
 
         public IPostRepository Post => _postRepository.Value;
 
         public IFeedbackRepository Feedback => _feedbackRepository.Value;
+
+        public IBookingRepository Booking => _bookingRepository.Value;
+
+        public ISavePostRepository SavePost => _savePostRepository.Value;
 
         public async Task SaveAsync() => await _context.SaveChangesAsync();
         #endregion

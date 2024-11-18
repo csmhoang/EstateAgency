@@ -71,6 +71,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+app.MapHub<PresenceHub>("hubs/presence");
 app.MapHub<FeedbackHub>("hubs/feedback");
 
 app.Run();

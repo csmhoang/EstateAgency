@@ -1,10 +1,11 @@
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { AfterViewInit, Component, inject, PLATFORM_ID } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-home-slide',
   standalone: true,
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './home-slide.component.html',
   styleUrl: './home-slide.component.scss',
 })

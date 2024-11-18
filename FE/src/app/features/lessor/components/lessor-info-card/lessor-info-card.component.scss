@@ -24,7 +24,10 @@
     min-width: 10px;
     transform: translateY(-50%);
   }
-  &.active{
+  &.online{
     color: var(--accent-color);
+  }
+  &.offline{
+    color: var(--default-color);
   }
 }

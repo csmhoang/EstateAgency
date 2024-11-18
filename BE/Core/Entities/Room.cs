@@ -11,7 +11,6 @@ namespace Core.Entities
         public Room()
         {
             Leases = new HashSet<Lease>();
-            Reservations = new HashSet<Reservation>();
             Amenities = new HashSet<Amenity>();
             Photos = new HashSet<Photo>();
             Posts = new HashSet<Post>();
@@ -38,7 +37,6 @@ namespace Core.Entities
 
         public virtual User? Landlord { get; set; }
         public virtual ICollection<Lease> Leases { get; set; }
-        public virtual ICollection<Reservation> Reservations { get; set; }
         public virtual ICollection<Post> Posts { get; set; }
         public virtual ICollection<Photo> Photos { get; set; }
         public virtual ICollection<Amenity> Amenities { get; set; }

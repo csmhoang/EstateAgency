@@ -144,4 +144,10 @@
   <data name="SendEmailSucceed" xml:space="preserve">
     <value>Đã gửi Email xác thực.</value>
   </data>
+  <data name="SavePostSucceed" xml:space="preserve">
+    <value>Lưu bài viết thành công.</value>
+  </data>
+  <data name="CancelSavePostSucceed" xml:space="preserve">
+    <value>Hủy lưu bài viết thành công.</value>
+  </data>
 </root>

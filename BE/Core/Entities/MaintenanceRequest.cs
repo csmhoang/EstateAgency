@@ -13,6 +13,8 @@ namespace Core.Entities
         [ForeignKey("Invoice")]
         public string? InvoiceId { get; set; }
         public string Description { get; set; } = null!;
+        public string? RejectionReason { get; set; }
+        public Decimal EstimateCost { get; set; }
         public DateTime RequestDate { get; set; }
         public StatusMaintenanceRequest Status { get; set; }
         public DateTime CreatedAt { get; set; }

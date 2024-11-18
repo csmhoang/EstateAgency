@@ -56,25 +56,42 @@ namespace Infrastructure.Data.Migrations
                     b.ToTable("Amenities");
                 });
 
-            modelBuilder.Entity("Core.Entities.Favorite", b =>
+            modelBuilder.Entity("Core.Entities.Booking", b =>
                 {
                     b.Property<string>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasMaxLength(36)
-                        .HasColumnType("nvarchar(36)")
-                        .HasDefaultValueSql("lower(newid())");
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("UserId")
-                        .HasMaxLength(36)
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("IntendedIntoDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LandlordId")
                         .HasColumnType("nvarchar(36)");
+
+                    b.Property<string>("Note")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("NumberOfTenant")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PostId")
+                        .HasColumnType("nvarchar(36)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId")
-                        .IsUnique()
-                        .HasFilter("[UserId] IS NOT NULL");
+                    b.HasIndex("LandlordId");
 
-                    b.ToTable("Favorites");
+                    b.HasIndex("PostId");
+
+                    b.ToTable("Bookings");
                 });
 
             modelBuilder.Entity("Core.Entities.Feedback", b =>
@@ -197,6 +214,10 @@ namespace Infrastructure.Data.Migrations
                     b.Property<DateTime?>("EndDate")
                         .HasColumnType("date");
 
+                    b.Property<string>("RentalTerms")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("RoomId")
                         .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
@@ -250,6 +271,9 @@ namespace Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<decimal>("EstimateCost")
+                        .HasColumnType("decimal(10,2)");
+
                     b.Property<string>("InvoiceId")
                         .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
@@ -257,6 +281,9 @@ namespace Infrastructure.Data.Migrations
                     b.Property<string>("LeaseId")
                         .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
+
+                    b.Property<string>("RejectionReason")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("RequestDate")
                         .ValueGeneratedOnAdd()
@@ -454,12 +481,18 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("datetime")
                         .HasDefaultValueSql("(getdate())");
 
-                    b.Property<DateTime>("ReservationDate")
-                        .HasColumnType("date");
+                    b.Property<string>("Note")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("RoomId")
+                    b.Property<string>("PostId")
                         .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
+
+                    b.Property<string>("RejectionReason")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("ReservationDate")
+                        .HasColumnType("date");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
@@ -475,7 +508,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RoomId");
+                    b.HasIndex("PostId");
 
                     b.HasIndex("TenantId");
 
@@ -626,10 +659,6 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("datetime")
                         .HasDefaultValueSql("(getdate())");
 
-                    b.Property<string>("FavoriteId")
-                        .HasMaxLength(36)
-                        .HasColumnType("nvarchar(36)");
-
                     b.Property<string>("PostId")
                         .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
@@ -639,11 +668,15 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("datetime")
                         .HasDefaultValueSql("(getdate())");
 
+                    b.Property<string>("UserId")
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("FavoriteId");
-
                     b.HasIndex("PostId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("SavePosts");
                 });
@@ -789,13 +822,19 @@ namespace Infrastructure.Data.Migrations
                     b.ToTable("RoomAmenities", (string)null);
                 });
 
-            modelBuilder.Entity("Core.Entities.Favorite", b =>
+            modelBuilder.Entity("Core.Entities.Booking", b =>
                 {
-                    b.HasOne("Core.Entities.User", "User")
-                        .WithOne("Favorite")
-                        .HasForeignKey("Core.Entities.Favorite", "UserId");
+                    b.HasOne("Core.Entities.User", "Landlord")
+                        .WithMany("Bookings")
+                        .HasForeignKey("LandlordId");
 
-                    b.Navigation("User");
+                    b.HasOne("Core.Entities.Post", "Post")
+                        .WithMany("Bookings")
+                        .HasForeignKey("PostId");
+
+                    b.Navigation("Landlord");
+
+                    b.Navigation("Post");
                 });
 
             modelBuilder.Entity("Core.Entities.Feedback", b =>
@@ -925,15 +964,15 @@ namespace Infrastructure.Data.Migrations
 
             modelBuilder.Entity("Core.Entities.Reservation", b =>
                 {
-                    b.HasOne("Core.Entities.Room", "Room")
+                    b.HasOne("Core.Entities.Post", "Post")
                         .WithMany("Reservations")
-                        .HasForeignKey("RoomId");
+                        .HasForeignKey("PostId");
 
                     b.HasOne("Core.Entities.User", "Tenant")
                         .WithMany("Reservations")
                         .HasForeignKey("TenantId");
 
-                    b.Navigation("Room");
+                    b.Navigation("Post");
 
                     b.Navigation("Tenant");
                 });
@@ -949,17 +988,17 @@ namespace Infrastructure.Data.Migrations
 
             modelBuilder.Entity("Core.Entities.SavePost", b =>
                 {
-                    b.HasOne("Core.Entities.Favorite", "Favorite")
-                        .WithMany("PostSaves")
-                        .HasForeignKey("FavoriteId");
-
                     b.HasOne("Core.Entities.Post", "Post")
                         .WithMany("SavePosts")
                         .HasForeignKey("PostId");
 
-                    b.Navigation("Favorite");
+                    b.HasOne("Core.Entities.User", "User")
+                        .WithMany("SavePosts")
+                        .HasForeignKey("UserId");
 
                     b.Navigation("Post");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Core.Entities.UserRole", b =>
@@ -998,11 +1037,6 @@ namespace Infrastructure.Data.Migrations
                         .HasConstraintName("FK__RoomAmeni__RoomI__4D94879B");
                 });
 
-            modelBuilder.Entity("Core.Entities.Favorite", b =>
-                {
-                    b.Navigation("PostSaves");
-                });
-
             modelBuilder.Entity("Core.Entities.Feedback", b =>
                 {
                     b.Navigation("Replies");
@@ -1026,7 +1060,11 @@ namespace Infrastructure.Data.Migrations
 
             modelBuilder.Entity("Core.Entities.Post", b =>
                 {
+                    b.Navigation("Bookings");
+
                     b.Navigation("Feedbacks");
+
+                    b.Navigation("Reservations");
 
                     b.Navigation("SavePosts");
                 });
@@ -1043,13 +1081,11 @@ namespace Infrastructure.Data.Migrations
                     b.Navigation("Photos");
 
                     b.Navigation("Posts");
-
-                    b.Navigation("Reservations");
                 });
 
             modelBuilder.Entity("Core.Entities.User", b =>
                 {
-                    b.Navigation("Favorite");
+                    b.Navigation("Bookings");
 
                     b.Navigation("Feedbacks");
 
@@ -1066,6 +1102,8 @@ namespace Infrastructure.Data.Migrations
                     b.Navigation("Reservations");
 
                     b.Navigation("Rooms");
+
+                    b.Navigation("SavePosts");
 
                     b.Navigation("UserRoles");
                 });

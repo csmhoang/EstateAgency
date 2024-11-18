@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, output, signal } from '@angular/core';
 
 @Component({
   selector: 'app-like',
@@ -9,9 +9,11 @@ import { Component } from '@angular/core';
   styleUrl: './like.component.scss',
 })
 export class LikeComponent {
-  isLiked = false;
+  isSaved = signal<boolean>(false);
+  save = output<boolean>();
 
   toggleLike() {
-    this.isLiked = !this.isLiked;
+    this.isSaved.update((v) => !v);
+    this.save.emit(this.isSaved());
   }
 }

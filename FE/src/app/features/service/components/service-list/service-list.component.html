@@ -1,11 +1,41 @@
 <div class="row gy-4">
   <div class="col-lg-4 col-md-6">
-    <app-service-item></app-service-item>
+    <app-service-item [service]="services[0]">
+      <i class="fa-solid fa-broom"></i>
+    </app-service-item>
   </div>
   <div class="col-lg-4 col-md-6">
-    <app-service-item></app-service-item>
+    <app-service-item [service]="services[1]">
+      <i class="fa-solid fa-shield-halved"></i>
+    </app-service-item>
   </div>
   <div class="col-lg-4 col-md-6">
-    <app-service-item></app-service-item>
+    <app-service-item [service]="services[2]">
+      <i class="fa-solid fa-square-parking"></i>
+    </app-service-item>
+  </div>
+  <div class="col-lg-4 col-md-6">
+    <app-service-item [service]="services[3]">
+      <i class="fa-solid fa-screwdriver-wrench"></i>
+    </app-service-item>
+  </div>
+  <div class="col-lg-4 col-md-6">
+    <app-service-item [service]="services[4]">
+      <svg
+        height="512"
+        viewBox="0 0 512 512"
+        width="512"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="m73 41v78h110v-78zm128 0v78h238v-78zm199 23a16 16 0 0 1 16 16 16 16 0 0 1 -16 16 16 16 0 0 1 -16-16 16 16 0 0 1 16-16zm-176 7h48v18h-48zm80 0h48v18h-48zm-231 66v350h366v-350zm183 30c82.7 0 150 67.3 150 150s-67.3 150-150 150-150-67.3-150-150 67.3-150 150-150zm0 18c-73 0-132 59-132 132s59 132 132 132c48.5 0 90.8-26 113.7-64.9l-30.1-24.1a94.02 94.02 0 0 1 -83.6 51 94.02 94.02 0 0 1 -94-94 94.02 94.02 0 0 1 94-94 94.02 94.02 0 0 1 85.7 55.3l30.4-24.3c-22.3-41.1-65.9-69-116.1-69zm-6.9 62c-50.1 1.1-76.9 51-62 93.9-.7-37.8 30.1-78 62-93.9zm130.6 23.9-32 25.6a94.02 94.02 0 0 1 2.3 20.5 94.02 94.02 0 0 1 -3.5 25.5l31.4 25.2c6.5-15.6 10.1-32.7 10.1-50.7 0-16.2-2.9-31.8-8.3-46.1z"
+        ></path>
+      </svg>
+    </app-service-item>
+  </div>
+  <div class="col-lg-4 col-md-6">
+    <app-service-item [service]="services[5]">
+      <i class="fa-solid fa-layer-group"></i>
+    </app-service-item>
   </div>
 </div>

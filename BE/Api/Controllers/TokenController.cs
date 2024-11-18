@@ -1,5 +1,7 @@
-﻿using Core.Dtos;
+﻿using Core.Consts;
+using Core.Dtos;
 using Core.Interfaces.Business;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,6 +28,7 @@ namespace Api.Controllers
         /// Làm mới token
         /// </summary>
         [HttpPost("refresh")]
+        [Authorize]
         public async Task<IActionResult> Refresh([FromBody] TokenDto tokenDto)
         {
             var response = await _service.Authentication.RefreshToken(tokenDto);

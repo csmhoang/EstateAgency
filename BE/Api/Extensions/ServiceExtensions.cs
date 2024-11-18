@@ -4,6 +4,7 @@ using Core.Interfaces.Data;
 using Core.Interfaces.Infrastructure;
 using Core.Services.Business;
 using Core.Services.Infrastructure;
+using Core.SignalR;
 using Infrastructure.Data;
 using Infrastructure.Email;
 using Infrastructure.Logging;
@@ -104,6 +105,7 @@ namespace Api.Extensions
         {
             services.AddScoped<IEmailSender, EmailSender>();
             services.AddScoped<IPhotoService, PhotoService>();
+            services.AddScoped<PresenceTracker>();
             services.AddScoped<IServiceManager, ServiceManager>();
         }
         public static void ConfigureSqlContext(this IServiceCollection services, IConfiguration configuration)

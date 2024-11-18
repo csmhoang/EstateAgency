@@ -1,7 +1,9 @@
-﻿using Core.Dtos;
+﻿using Core.Consts;
+using Core.Dtos;
 using Core.Interfaces.Business;
 using Core.Params;
 using Core.Specifications;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -28,6 +30,7 @@ namespace Api.Controllers
         /// Lấy tất cả thông tin phòng
         /// </summary>
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> GetAll()
         {
             var response = await _service.Room.GetAllAsync();
@@ -38,6 +41,7 @@ namespace Api.Controllers
         /// Lấy danh sách thông tin phòng bằng specification
         /// </summary>
         [HttpGet("list")]
+        [Authorize]
         public async Task<IActionResult> GetList([FromQuery] RoomSpecParams specParams)
         {
             var response = await _service.Room.GetListAsync(specParams);
@@ -48,6 +52,7 @@ namespace Api.Controllers
         /// Lấy thông tin phòng bằng id
         /// </summary>
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<IActionResult> Get(string id)
         {
             var response = await _service.Room.GetAsync(id);
@@ -58,6 +63,7 @@ namespace Api.Controllers
         /// Thêm phòng
         /// </summary>
         [HttpPost]
+        [Authorize(Roles = RoleConst.Landlord)]
         public async Task<IActionResult> Create([FromForm] RoomDto model, IFormFile[]? files)
         {
             var response = await _service.Room.InsertAsync(model, files);
@@ -68,6 +74,7 @@ namespace Api.Controllers
         /// Thêm ảnh cho phòng
         /// </summary>
         [HttpPost("insert-photo/{roomId}")]
+        [Authorize(Roles = RoleConst.Landlord)]
         public async Task<IActionResult> InsertPhoto(string roomId, IFormFile file)
         {
             var response = await _service.Room.InsertPhotoAsync(roomId, file);
@@ -78,6 +85,7 @@ namespace Api.Controllers
         /// Xóa ảnh phòng
         /// </summary>
         [HttpDelete("delete-photo")]
+        [Authorize(Roles = RoleConst.Landlord)]
         public async Task<IActionResult> DeletePhoto(string roomId, string photoId)
         {
             var response = await _service.Room.DeletePhotoAsync(roomId, photoId);
@@ -90,6 +98,7 @@ namespace Api.Controllers
         /// <param name="id">Id phòng</param>
         /// <param name="model">Phòng</param>
         [HttpPut]
+        [Authorize(Roles = RoleConst.Landlord)]
         public async Task<IActionResult> Update(string id, [FromBody] RoomUpdateDto model)
         {
             var response = await _service.Room.UpdateAsync(id, model);
@@ -101,6 +110,7 @@ namespace Api.Controllers
         /// </summary>
         /// <param name="id">Id phòng</param>
         [HttpDelete]
+        [Authorize(Roles = RoleConst.Landlord)]
         public async Task<IActionResult> Delete(string id)
         {
             var response = await _service.Room.DeleteAsync(id);

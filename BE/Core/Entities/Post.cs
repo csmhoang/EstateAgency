@@ -9,6 +9,8 @@ namespace Core.Entities
         {
             Feedbacks = new HashSet<Feedback>();
             SavePosts = new HashSet<SavePost>();
+            Bookings = new HashSet<Booking>();
+            Reservations = new HashSet<Reservation>();
         }
 
         public string Id { get; set; } = null!;
@@ -27,7 +29,9 @@ namespace Core.Entities
 
         public virtual User? Landlord { get; set; }
         public virtual Room? Room { get; set; }
+        public virtual ICollection<Reservation> Reservations { get; set; }
         public virtual ICollection<SavePost> SavePosts { get; set; }
         public virtual ICollection<Feedback> Feedbacks { get; set; }
+        public virtual ICollection<Booking> Bookings { get; set; }
     }
 }

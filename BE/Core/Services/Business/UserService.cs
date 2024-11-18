@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Http;
 using Core.Services.Infrastructure;
 using Core.Params;
 using Core.Specifications;
+using Core.Consts;
 
 namespace Core.Services.Business
 {
@@ -103,6 +104,27 @@ namespace Core.Services.Business
             };
         }
 
+        public async Task<Response> GetListCelebrityAsync()
+        {
+            var spec = new BaseSpecification<User>(u => u
+                .UserRoles.Any(ur => RoleConst.Landlord.Contains(ur.Role!.Name))
+            );
+            spec.AddInclude(x => x
+                .Include(p => p.Followers!)
+            );
+            spec.AddOrder(x => x
+                .OrderByDescending(p => p.Followers.Count));
+            spec.ApplyPaging(0, 6);
+
+            var users = await _repository.User.ListAsync(spec);
+            return new Response
+            {
+                Success = true,
+                Data = _mapper.Map<IEnumerable<UserDto>>(users),
+                StatusCode = !users.Any() ? (int)HttpStatusCode.NoContent : (int)HttpStatusCode.OK
+            };
+        }
+
         public async Task<Response> DeleteAsync(string id)
         {
             var userDelete = await _repository.User.FindCondition(e => e.Id.Equals(id))
@@ -177,15 +199,23 @@ namespace Core.Services.Business
         }
         public async Task<Response> GetSearchOptionsAsync()
         {
-            var options = await _repository.User.FindAll().Select(u => new
-            {
-                u.FullName,
-                u.Address
-            }).ToListAsync();
+            var spec = new BaseSpecification<User>(u => u
+                .UserRoles.Any(ur => RoleConst.Landlord.Contains(ur.Role!.Name))
+            );
+            spec.AddInclude(x => x
+                .Include(p => p.UserRoles!)
+                .ThenInclude(r => r.Role!)
+            );
+
+            var options = await _repository.User.ListAsync(spec);
             return new Response
             {
                 Success = true,
-                Data = options.SelectMany(o => new[] { o.FullName, o.Address }),
+                Data = options.Select(u => new
+                {
+                    u.FullName,
+                    u.Address
+                }).SelectMany(o => new[] { o.FullName, o.Address }),
                 StatusCode = !options.Any() ? (int)HttpStatusCode.NoContent : (int)HttpStatusCode.OK
             };
         }

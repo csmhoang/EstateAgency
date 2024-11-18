@@ -1,6 +1,7 @@
 ﻿using Core.Dtos;
 using Core.Extensions;
 using Core.Interfaces.Business;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
@@ -28,6 +29,7 @@ namespace Api.Controllers
         /// Lấy thông tin người dùng đăng nhập
         /// </summary>
         [HttpGet("current")]
+        [Authorize]
         public async Task<IActionResult> CurrentUser()
         {
             var username = User.GetUsername();
@@ -103,6 +105,7 @@ namespace Api.Controllers
         /// Đổi mật khẩu
         /// </summary>
         [HttpPost("password")]
+        [Authorize]
         public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDto passwordDto)
         {
             var response = await _service.Authentication.ChangePassword(passwordDto);

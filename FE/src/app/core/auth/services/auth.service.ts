@@ -11,6 +11,7 @@ import { Register } from '../models/register.model';
 import { SkipPreloader } from '@core/interceptors/skip.resolver';
 import { ChangePassword } from '../models/changePassword.model';
 import { ResetPassword } from '../models/reset-password.model';
+import { PresenceService } from '@core/services/presence.service';
 
 @Injectable({
   providedIn: 'root',
@@ -22,7 +23,8 @@ export class AuthService {
     private http: HttpClient,
     private router: Router,
     private cookie: CookieService,
-    private userService: UserService
+    private userService: UserService,
+    private presenceService: PresenceService
   ) {}
 
   login(
@@ -41,6 +43,7 @@ export class AuthService {
               ...response.data,
             };
             this.cookie.save(secret, 7);
+            this.presenceService.createHubConnection();
             this.userService.init(isHideLoading).subscribe({
               next: (page) => {
                 const roles = page.data?.userRoles?.map(
@@ -71,7 +74,7 @@ export class AuthService {
 
   logout(): void {
     this.userService.purAuth();
-    void this.router.navigate(['/']);
+    this.presenceService.stopHubConnection();
   }
 
   emailConfirm(email: string, token: string) {
@@ -126,6 +129,7 @@ export class AuthService {
                 ...response.data,
               };
               this.cookie.save(secret, 7);
+              this.presenceService.createHubConnection();
             }
           }),
           tap({

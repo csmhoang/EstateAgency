@@ -1,12 +1,7 @@
 import { HttpClient, HttpContext, HttpParams } from '@angular/common/http';
 import { computed, Injectable, signal } from '@angular/core';
 import { User } from '@core/models/user.model';
-import {
-  map,
-  Observable,
-  shareReplay,
-  tap,
-} from 'rxjs';
+import { map, Observable, shareReplay, tap } from 'rxjs';
 import { CookieService } from './cookie.service';
 import { Result } from '@core/models/result.model';
 import { SkipPreloader } from '@core/interceptors/skip.resolver';
@@ -75,6 +70,14 @@ export class UserService {
         context: new HttpContext()
           .set(SkipPreloader, true)
           .set(TakeMiniLoad, isDisplayMiniLoading),
+      })
+      .pipe(map((response) => response.data));
+  }
+
+  getFamous() {
+    return this.http
+      .get<Result<User[]>>('/users/famous', {
+        context: new HttpContext().set(SkipPreloader, true),
       })
       .pipe(map((response) => response.data));
   }
