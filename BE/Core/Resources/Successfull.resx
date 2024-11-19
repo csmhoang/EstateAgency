@@ -150,4 +150,10 @@
   <data name="CancelSavePostSucceed" xml:space="preserve">
     <value>Hủy lưu bài viết thành công.</value>
   </data>
+  <data name="FollowSucceed" xml:space="preserve">
+    <value>Thêm theo dõi thành công.</value>
+  </data>
+  <data name="UnfollowSucceed" xml:space="preserve">
+    <value>Hủy theo dõi thành công.</value>
+  </data>
 </root>

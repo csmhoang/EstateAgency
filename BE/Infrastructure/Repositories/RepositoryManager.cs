@@ -21,6 +21,7 @@ namespace Infrastructure.Repositories
         private readonly Lazy<ISavePostRepository> _savePostRepository;
         private readonly Lazy<IAmenityRepository> _amenityRepository;
         private readonly Lazy<IPhotoRepository> _photoRepository;
+        private readonly Lazy<IFollowRepository> _followRepository;
         #endregion
 
         #region Property
@@ -43,6 +44,7 @@ namespace Infrastructure.Repositories
             _savePostRepository = new Lazy<ISavePostRepository>(() => new SavePostRepository(context));
             _amenityRepository = new Lazy<IAmenityRepository>(() => new AmenityRepository(context));
             _photoRepository = new Lazy<IPhotoRepository>(() => new PhotoRepository(context));
+            _followRepository = new Lazy<IFollowRepository>(() => new FollowRepository(context));
         }
         #endregion
 
@@ -72,6 +74,8 @@ namespace Infrastructure.Repositories
         public IBookingRepository Booking => _bookingRepository.Value;
 
         public ISavePostRepository SavePost => _savePostRepository.Value;
+
+        public IFollowRepository Follow => _followRepository.Value;
 
         public async Task SaveAsync() => await _context.SaveChangesAsync();
         #endregion

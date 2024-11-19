@@ -88,6 +88,17 @@ export class UserService {
       .pipe(map((response) => response.data));
   }
 
+  follow(followerId: string, followeeId: string, isFollow: boolean) {
+    let params = new HttpParams()
+      .set('followerId', followerId)
+      .set('followeeId', followeeId)
+      .set('isFollow', isFollow.toString());
+    return this.http.post<Result>('/users/follow', null, {
+      params,
+      context: new HttpContext().set(SkipPreloader, true),
+    });
+  }
+
   setAuth(user: User): void {
     this.currentUserSignal.set(user);
   }

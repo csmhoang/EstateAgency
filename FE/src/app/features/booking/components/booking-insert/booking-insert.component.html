@@ -1,0 +1,47 @@
+<div class="modal-header">
+    <h4 class="modal-title">Đặt Lịch xem phòng</h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="decline()"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="form">
+      <div class="row">
+        <!-- ReservationDate select -->
+        <mat-form-field class="col-lg-12" appearance="outline">
+          <mat-label>Ngày đặt lịch</mat-label>
+          <input
+            matInput
+            [min]="minDate"
+            [matDatepicker]="picker"
+            placeholder="MM/DD/YYYY"
+            formControlName="reservationDate"
+          />
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <!-- Note input -->
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Ghi chú</mat-label>
+        <textarea matInput formControlName="note"></textarea>
+      </mat-form-field>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light" (click)="decline()">
+      Hủy bỏ
+    </button>
+    <button
+      type="button"
+      class="btn btn-dark"
+      (click)="accept()"
+      [disabled]="form.invalid || !form.dirty"
+    >
+      Đặt lịch
+    </button>
+  </div>
+  

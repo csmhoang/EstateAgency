@@ -15,6 +15,9 @@ namespace Infrastructure.Mapping
             CreateMap<UserDto, User>()
                 .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Email));
 
+            CreateMap<Follow, UserDto>()
+               .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+
             CreateMap<UserRole, UserRoleDto>()
                 .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
 
@@ -48,6 +51,10 @@ namespace Infrastructure.Mapping
 
             CreateMap<Reservation, ReservationDto>();
             CreateMap<ReservationDto, Reservation>()
+               .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+
+            CreateMap<Booking, BookingDto>();
+            CreateMap<BookingDto, Booking>()
                .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
 
             CreateMap<Lease, LeaseDto>();

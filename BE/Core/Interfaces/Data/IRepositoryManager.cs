@@ -21,6 +21,7 @@ namespace Core.Interfaces.Data
         IPhotoRepository Photo { get; }
         IBookingRepository Booking { get; }
         ISavePostRepository SavePost { get; }
+        IFollowRepository Follow { get; }
 
         Task SaveAsync();
     }

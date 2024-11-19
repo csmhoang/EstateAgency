@@ -17,6 +17,8 @@ namespace Core.Enums
             Accepted = 1,
             [EnumMember(Value = "Rejected")]
             Rejected = 2,
+            [EnumMember(Value = "Canceled")]
+            Canceled = 3
         }
     }
 }

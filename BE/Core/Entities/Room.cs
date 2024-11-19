@@ -31,6 +31,7 @@ namespace Core.Entities
         public Interior Interior { get; set; }
         public decimal Area { get; set; }
         public decimal Price { get; set; }
+        public decimal Deposite { get; set; }
         public ConditionRoom Condition { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }

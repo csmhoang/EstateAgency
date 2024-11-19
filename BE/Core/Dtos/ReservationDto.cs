@@ -17,7 +17,12 @@ namespace Core.Dtos
         public string TenantId { get; set; } = null!;
         [Required(ErrorMessage = PostConst.ErrorEmptyId)]
         public string PostId { get; set; } = null!;
+        public string? Note { get; set; }
+        public string? RejectionReason { get; set; }
         public DateTime ReservationDate { get; set; }
         public StatusReservation? Status { get; set; }
+        public DateTime? CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
+
     }
 }

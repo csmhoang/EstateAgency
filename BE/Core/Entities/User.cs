@@ -9,6 +9,7 @@ namespace Core.Entities
         {
             Feedbacks = new HashSet<Feedback>();
             Followers = new HashSet<Follow>();
+            Followees = new HashSet<Follow>();
             Leases = new HashSet<Lease>();
             MessageReceivers = new HashSet<Message>();
             MessageSenders = new HashSet<Message>();
@@ -35,6 +36,7 @@ namespace Core.Entities
         public virtual ICollection<SavePost> SavePosts { get; set; }
         public virtual ICollection<Feedback> Feedbacks { get; set; }
         public virtual ICollection<Follow> Followers { get; set; }
+        public virtual ICollection<Follow> Followees { get; set; }
         public virtual ICollection<Lease> Leases { get; set; }
         public virtual ICollection<Message> MessageReceivers { get; set; }
         public virtual ICollection<Message> MessageSenders { get; set; }

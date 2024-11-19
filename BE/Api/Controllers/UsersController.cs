@@ -87,6 +87,16 @@ namespace Api.Controllers
             return Ok(response);
         }
         /// <summary>
+        /// Theo dõi người dùng
+        /// </summary>
+        [HttpPost("follow")]
+        [Authorize]
+        public async Task<IActionResult> Follow(string followerId, string followeeId, bool isFollow)
+        {
+            var response = await _service.User.FollowAsync(followerId, followeeId, isFollow);
+            return Ok(response);
+        }
+        /// <summary>
         /// Cập nhật người dùng
         /// </summary>
         /// <param name="id">Id người dùng</param>

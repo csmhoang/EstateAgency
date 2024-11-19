@@ -82,5 +82,16 @@ namespace Core.Interfaces.Business
         /// 2 - Ngoại lệ
         /// </returns>
         Task<Response> UpdateAsync(string id, UserUpdateDto? userUpdateDto, IFormFile? file);
+        /// <summary>
+        /// Theo dõi người dùng
+        /// </summary>
+        /// <param name="followerId">Id người theo dỗi</param>
+        /// <param name="followeeId">Id người được theo dõi</param>
+        /// <param name="isFollow">Theo dõi hoặc hủy theo dõi</param>
+        /// <returns>
+        /// 1 - Thông báo thành công
+        /// 2 - Ngoại lệ
+        /// </returns>
+        Task<Response> FollowAsync(string followerId, string followeeId, bool isFollow);
     }
 }

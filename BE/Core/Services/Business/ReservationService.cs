@@ -118,10 +118,12 @@ namespace Core.Services.Business
         }
         public async Task ValidateObject(ReservationDto reservationDto)
         {
-            var room = await _repository.Room.FindCondition(r => r.Id.Equals(reservationDto.PostId)).FirstOrDefaultAsync();
-            if (room is not null)
+            var post = await _repository.Post.FindCondition(r =>
+                r.Id.Equals(reservationDto.PostId)
+            ).FirstOrDefaultAsync();
+            if (post != null)
             {
-                if (reservationDto.TenantId!.Equals(room.LandlordId))
+                if (reservationDto.TenantId!.Equals(post.LandlordId))
                 {
                     throw new CustomizeException(Invalidate.TenantIdAndLandlordIdDuplication);
                 }

@@ -97,6 +97,15 @@ namespace Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Thêm theo dõi thành công..
+        /// </summary>
+        public static string FollowSucceed {
+            get {
+                return ResourceManager.GetString("FollowSucceed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Thêm thành công..
         /// </summary>
         public static string InsertSucceed {
@@ -147,6 +156,15 @@ namespace Core.Resources {
         public static string SendEmailSucceed {
             get {
                 return ResourceManager.GetString("SendEmailSucceed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hủy theo dõi thành công..
+        /// </summary>
+        public static string UnfollowSucceed {
+            get {
+                return ResourceManager.GetString("UnfollowSucceed", resourceCulture);
             }
         }
         

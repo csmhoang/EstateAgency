@@ -13,6 +13,7 @@ using Core.Services.Infrastructure;
 using Core.Params;
 using Core.Specifications;
 using Core.Consts;
+using Microsoft.Extensions.Hosting;
 
 namespace Core.Services.Business
 {
@@ -122,6 +123,53 @@ namespace Core.Services.Business
                 Success = true,
                 Data = _mapper.Map<IEnumerable<UserDto>>(users),
                 StatusCode = !users.Any() ? (int)HttpStatusCode.NoContent : (int)HttpStatusCode.OK
+            };
+        }
+
+        public async Task<Response> FollowAsync(string followerId, string followeeId, bool isFollow)
+        {
+            if (followerId.Equals(followeeId)) throw new CustomizeException(Invalidate.FollowIdDuplication);
+
+            var follower = await _repository.User.FindCondition(u => u.Id.Equals(followerId))
+                .FirstOrDefaultAsync();
+            if (follower == null) throw new UserNotFoundException();
+
+            var followee = await _repository.User.FindCondition(u => u.Id.Equals(followeeId))
+                .FirstOrDefaultAsync();
+            if (follower == null) throw new UserNotFoundException();
+
+            var follow = await _repository.Follow.FindCondition(f =>
+                f.FollowerId!.Equals(followerId) &&
+                f.FolloweeId!.Equals(followeeId)
+            ).FirstOrDefaultAsync();
+
+            if (isFollow)
+            {
+                if (follow == null)
+                {
+                    var followInsert = new Follow
+                    {
+                        FollowerId = followerId,
+                        FolloweeId = followeeId,
+                    };
+                    _repository.Follow.Create(followInsert);
+                    await _repository.SaveAsync();
+                }
+            }
+            else
+            {
+                if (follow != null)
+                {
+                    _repository.Follow.Delete(follow);
+                    await _repository.SaveAsync();
+                }
+            }
+
+            return new Response
+            {
+                Success = true,
+                Messages = isFollow ? Successfull.FollowSucceed : Successfull.UnfollowSucceed,
+                StatusCode = (int)HttpStatusCode.NoContent
             };
         }
 

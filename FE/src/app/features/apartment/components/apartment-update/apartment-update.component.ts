@@ -69,6 +69,7 @@ export class ApartmentUpdateComponent implements OnInit {
   interior?: AbstractControl | null;
   area?: AbstractControl | null;
   price?: AbstractControl | null;
+  deposite?: AbstractControl | null;
   condition?: AbstractControl | null;
   files: File[] = [];
 
@@ -88,8 +89,8 @@ export class ApartmentUpdateComponent implements OnInit {
         Validators.required,
       ]),
       province: this.formBuilder.control('', [Validators.required]),
-      district: this.formBuilder.control('',  [Validators.required]),
-      ward: this.formBuilder.control('',  [Validators.required]),
+      district: this.formBuilder.control('', [Validators.required]),
+      ward: this.formBuilder.control('', [Validators.required]),
       bedroom: this.formBuilder.control(this.data.bedroom, [
         Validators.required,
       ]),
@@ -99,6 +100,10 @@ export class ApartmentUpdateComponent implements OnInit {
         Validators.required,
       ]),
       price: this.formBuilder.control(this.data.price, [
+        Validators.required,
+        Validators.min(1),
+      ]),
+      deposite: this.formBuilder.control(0, [
         Validators.required,
         Validators.min(1),
       ]),
@@ -116,6 +121,7 @@ export class ApartmentUpdateComponent implements OnInit {
     this.bedroom = this.form.get('bedroom');
     this.bathroom = this.form.get('bathroom');
     this.price = this.form.get('price');
+    this.deposite = this.form.get('deposite');
     this.area = this.form.get('area');
 
     this.province?.valueChanges.subscribe((value) => {
@@ -276,6 +282,15 @@ export class ApartmentUpdateComponent implements OnInit {
     }
     if (this.price?.hasError('min')) {
       return 'Giá phải lớn hơn 0';
+    }
+    return '';
+  }
+  errorForDeposite(): string {
+    if (this.price?.hasError('required')) {
+      return 'Tiền đặt cọc không được để trống!';
+    }
+    if (this.price?.hasError('min')) {
+      return 'Tiền đặt cọc phải lớn hơn 0';
     }
     return '';
   }

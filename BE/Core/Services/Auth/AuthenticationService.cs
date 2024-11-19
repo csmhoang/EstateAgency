@@ -399,6 +399,7 @@ namespace Core.Services.Auth
             var user = string.IsNullOrEmpty(username) ? null : await _userManager.Users
                 .Include(u => u.UserRoles)
                 .ThenInclude(ur => ur.Role)
+                .Include(u => u.Followees)
                 .SingleOrDefaultAsync(x => x.UserName == username.ToLower());
 
             return new Response

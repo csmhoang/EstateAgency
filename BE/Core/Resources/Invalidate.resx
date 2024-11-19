@@ -141,4 +141,7 @@
   <data name="IdRequired" xml:space="preserve">
     <value>Mã không được để trống!</value>
   </data>
+  <data name="FollowIdDuplication" xml:space="preserve">
+    <value>Id người theo theo dõi và người được theo dõi không được trùng nhau!</value>
+  </data>
 </root>

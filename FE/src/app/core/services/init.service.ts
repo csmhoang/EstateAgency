@@ -15,8 +15,7 @@ export class InitService {
   constructor(
     private authService: AuthService,
     private userService: UserService,
-    private cookie: CookieService,
-    private presenceService: PresenceService
+    private cookie: CookieService
   ) {}
 
   init() {
@@ -27,9 +26,6 @@ export class InitService {
     const token = this.cookie.get('token');
     const currentUser = token
       ? this.userService.init(true).pipe(
-          tap(() => {
-            this.presenceService.createHubConnection();
-          }),
           takeUntilDestroyed(this.destroyRef),
           catchError(() => of(null))
         )

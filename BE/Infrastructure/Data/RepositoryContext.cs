@@ -266,6 +266,8 @@ namespace Infrastructure.Data
 
                 entity.Property(e => e.Price).HasColumnType("decimal(10, 2)");
 
+                entity.Property(e => e.Deposite).HasColumnType("decimal(10, 2)");
+
                 entity.Property(e => e.Province).HasMaxLength(100);
 
                 entity.Property(e => e.Name).HasMaxLength(256);
@@ -331,7 +333,7 @@ namespace Infrastructure.Data
 
                 entity.Property(e => e.FollowerId).HasMaxLength(36);
 
-                entity.Property(e => e.FollowedUserId).HasMaxLength(36);
+                entity.Property(e => e.FolloweeId).HasMaxLength(36);
 
                 entity.Property(e => e.CreatedAt)
                     .HasColumnType("datetime")
@@ -379,6 +381,18 @@ namespace Infrastructure.Data
                 entity.HasMany(e => e.UserRoles)
                     .WithOne(e => e.User)
                     .HasForeignKey(ur => ur.UserId)
+                    .IsRequired();
+
+                entity.HasMany(e => e.Followers)
+                    .WithOne(e => e.Followee)
+                    .HasForeignKey(f => f.FolloweeId)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .IsRequired();
+
+                entity.HasMany(e => e.Followees)
+                    .WithOne(e => e.Follower)
+                    .HasForeignKey(f => f.FollowerId)
+                    .OnDelete(DeleteBehavior.Restrict)
                     .IsRequired();
             });
 

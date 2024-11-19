@@ -88,6 +88,15 @@ namespace Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Id người theo theo dõi và người được theo dõi không được trùng nhau!.
+        /// </summary>
+        public static string FollowIdDuplication {
+            get {
+                return ResourceManager.GetString("FollowIdDuplication", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Mã không được để trống!.
         /// </summary>
         public static string IdRequired {

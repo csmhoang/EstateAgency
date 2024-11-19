@@ -17,6 +17,7 @@ export type Room = {
   interior: string;
   area: number;
   price: number;
+  deposite: number;
   condition: string;
   landlord?: User;
   createdAt?: Date;
@@ -28,6 +29,7 @@ export type Room = {
 export const ConditionRoom: { [key: string]: string } = {
   Available: 'Trống',
   Occupied: 'Đã thuê',
+  PostingForRent: 'Đang đăng bài',
 };
 
 export const Category: { [key: string]: string } = {

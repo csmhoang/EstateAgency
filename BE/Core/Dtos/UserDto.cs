@@ -1,4 +1,5 @@
-﻿using static Core.Enums.UserEnums;
+﻿using Core.Entities;
+using static Core.Enums.UserEnums;
 
 namespace Core.Dtos
 {
@@ -21,5 +22,9 @@ namespace Core.Dtos
         public ICollection<RoomDto>? Rooms { get; set; }
         public ICollection<PostDto>? Posts { get; set; }
         public ICollection<UserRoleDto>? UserRoles { get; set; }
+        public ICollection<Follow>? Followers { get; set; }
+        public ICollection<Follow>? Followees { get; set; }
+        public ICollection<Reservation>? Reservations { get; set; }
+
     }
 }

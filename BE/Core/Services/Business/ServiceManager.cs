@@ -21,6 +21,7 @@ namespace Core.Services.Business
         private readonly Lazy<IRoomService> _roomService;
         private readonly Lazy<IPostService> _postService;
         private readonly Lazy<IReservationService> _reservationService;
+        private readonly Lazy<IBookingService> _bookingService;
         private readonly Lazy<ILeaseService> _leaseService;
         private readonly Lazy<IInvoiceService> _invoiceService;
         private readonly Lazy<IPaymentService> _paymentService;
@@ -54,6 +55,8 @@ namespace Core.Services.Business
                 new PostService(repository, logger, mapper));
             _reservationService = new Lazy<IReservationService>(() =>
                 new ReservationService(repository, logger, mapper));
+            _bookingService = new Lazy<IBookingService>(() =>
+                new BookingService(repository, logger, mapper));
             _leaseService = new Lazy<ILeaseService>(() =>
                 new LeaseService(repository, logger, mapper));
             _invoiceService = new Lazy<IInvoiceService>(() =>
@@ -85,13 +88,16 @@ namespace Core.Services.Business
 
         public IPaymentService Payment => _paymentService.Value;
 
-        public IMaintenanceRequestService MaintenanceRequest => _maintenanceRequestService.Value;
+        public IMaintenanceRequestService MaintenanceRequest
+            => _maintenanceRequestService.Value;
 
         public IAmenityService Amenity => _amenityService.Value;
 
         public IPhotoService Photo => _photoService.Value;
 
         public IPostService Post => _postService.Value;
+
+        public IBookingService Booking => _bookingService.Value;
         #endregion
     }
 }

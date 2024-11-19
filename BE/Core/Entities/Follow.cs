@@ -12,11 +12,11 @@ namespace Core.Entities
         public string Id { get; set; } = null!;
         [ForeignKey("Follower")]
         public string? FollowerId { get; set; }
-        [ForeignKey("FollowedUser")]
-        public string? FollowedUserId { get; set; }
+        [ForeignKey("Followee")]
+        public string? FolloweeId { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
         public virtual User? Follower { get; set; }
-        public virtual User? FollowedUser { get; set; }
+        public virtual User? Followee { get; set; }
     }
 }

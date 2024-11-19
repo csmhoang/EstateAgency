@@ -37,7 +37,7 @@
             <!-- Introduction Detail-->
             <div class="portfolio-description">
               <h2>Giới thiệu chi tiết</h2>
-              <p>{{post()?.title}}</p>
+              <h6>Tiêu đề bài viết: {{ post()?.title }}</h6>
               {{ post()?.description }}
             </div>
 
@@ -49,9 +49,9 @@
           <div class="row col-lg-4">
             <!-- Lessor Information -->
             <div class="col-12 mb-4">
-              @if(post()?.landlord){
+              @if(post()){
               <app-lessor-info-card
-                [landlord]="post()?.landlord"
+                [post]="post() || undefined"
               ></app-lessor-info-card>
               }
             </div>

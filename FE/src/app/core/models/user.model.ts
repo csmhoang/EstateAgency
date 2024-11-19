@@ -2,6 +2,7 @@ import { Room } from '@features/apartment/models/room.model';
 import { UserRole } from './user-role.model';
 import { Post } from '@features/post/models/post.model';
 import { SavePost } from '@features/post/models/save-post.model';
+import { Follow } from './follow.model';
 
 export type User = {
   id: string;
@@ -22,6 +23,8 @@ export type User = {
   posts?: Post[];
   rooms?: Room[];
   savePosts?: SavePost[];
+  followers?: Follow[];
+  followees?: Follow[];
 };
 
 export const Gender: { [key: string]: string } = {

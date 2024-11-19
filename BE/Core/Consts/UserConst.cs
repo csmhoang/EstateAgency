@@ -12,6 +12,10 @@ namespace Core.Consts
 
         public const string ErrorEmptyUserId = "Id người dùng không được phép để trống!";
 
+        public const string ErrorEmptyFollowerId = "Id người theo dõi không được phép để trống!";
+
+        public const string ErrorEmptyFolloweeId = "Id người được theo dõi không được phép để trống!";
+
         public const string ErrorEmptyTenantId = "Id người thuê không được phép để trống!";
 
         public const string ErrorEmptyFullName = "Họ tên người dùng không được phép để trống!";

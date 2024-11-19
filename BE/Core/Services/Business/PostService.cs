@@ -68,6 +68,7 @@ namespace Core.Services.Business
             );
             spec.AddInclude(x => x
                 .Include(p => p.Landlord!)
+                .ThenInclude(l => l.Followers!)
             );
             spec.AddInclude(x => x
                 .Include(p => p.Room!)
@@ -203,7 +204,7 @@ namespace Core.Services.Business
             {
                 Success = true,
                 Messages = isSave ? Successfull.SavePostSucceed : Successfull.CancelSavePostSucceed,
-                StatusCode = (int)HttpStatusCode.Created
+                StatusCode = (int)HttpStatusCode.NoContent
             };
         }
 

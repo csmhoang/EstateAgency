@@ -1,5 +1,6 @@
 import { User } from '@core/models/user.model';
 import { Room } from '@features/apartment/models/room.model';
+import { Reservation } from '@features/reservation/models/reservation.model';
 
 export type Post = {
   id: string;
@@ -14,12 +15,14 @@ export type Post = {
   landlord?: User;
   createdAt?: Date;
   updatedAt?: Date;
+  reservations?: Reservation[];
 };
 
 export const IsAccept: { [key: string]: string } = {
   Pending: 'Đang chờ xử lý',
   Accepted: 'Cho phép',
   Rejected: 'Từ chối',
+  Canceled: 'Đã hủy',
 };
 
 export const StatusPost: { [key: string]: string } = {
