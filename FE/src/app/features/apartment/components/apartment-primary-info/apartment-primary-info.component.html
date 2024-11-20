@@ -2,7 +2,7 @@
   <div class="d-flex">
     <h3 class="flex-fill">Thông tin chính</h3>
     @if(isAuthentication){
-      <app-like (save)="onSave($event)"></app-like>
+      <app-like [isSaved]="checkSave(post?.id)" (save)="onSave($event)"></app-like>
       }
   </div>
   <ul class="row">

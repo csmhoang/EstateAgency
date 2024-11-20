@@ -1,38 +1,34 @@
+import { CommonModule } from '@angular/common';
 import {
-  AfterViewInit,
   Component,
+  DestroyRef,
   inject,
-  TemplateRef,
+  OnInit,
+  signal,
   ViewChild,
 } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { MaintenanceFormComponent } from '@features/maintenance/components/maintenance-form/maintenance-form.component';
+import { RouterLink } from '@angular/router';
+import {
+  Category,
+  ConditionRoom,
+  Room,
+} from '@features/apartment/models/room.model';
 import { SearchComponent } from '@shared/components/form/search/search.component';
 import { PaginationComponent } from '@shared/components/pagination/pagination.component';
 import { DialogService } from '@shared/services/dialog/dialog.service';
+import { PaginationParams } from '@shared/models/pagination-params.model';
+import { MiniLoadComponent } from '@shared/components/mini-load/mini-load.component';
+import { ApartmentViewComponent } from '@features/apartment/components/apartment-view/apartment-view.component';
+import { ApartmentUpdateComponent } from '@features/apartment/components/apartment-update/apartment-update.component';
 import { ToastService } from '@shared/services/toast/toast.service';
+import { catchError, firstValueFrom, lastValueFrom, of } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { LessorApartmentService } from '@features/management/lessor/services/lessor-apartment.service';
 
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-}
-const ELEMENT_DATA: PeriodicElement[] = [
-  { position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H' },
-  { position: 2, name: 'Helium', weight: 4.0026, symbol: 'He' },
-  { position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li' },
-  { position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be' },
-  { position: 5, name: 'Boron', weight: 10.811, symbol: 'B' },
-  { position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C' },
-  { position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N' },
-  { position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O' },
-  { position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F' },
-  { position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne' },
-];
 @Component({
   selector: 'app-rented-history',
   standalone: true,
@@ -42,35 +38,115 @@ const ELEMENT_DATA: PeriodicElement[] = [
     MatButtonModule,
     MatMenuModule,
     PaginationComponent,
-    MaintenanceFormComponent,
-    SearchComponent
+    SearchComponent,
+    RouterLink,
+    CommonModule,
+    MiniLoadComponent,
   ],
   templateUrl: './rented-history.component.html',
   styleUrl: './rented-history.component.scss',
 })
-export class RentedHistoryComponent implements AfterViewInit {
-  @ViewChild('maintenance', { read: TemplateRef })
-  maintenance?: TemplateRef<any>;
-
-  dialogService = inject(DialogService);
-  toastService = inject(ToastService);
-
+export class RentedHistoryComponent implements OnInit {
+  destroyRef = inject(DestroyRef);
   displayedColumns: string[] = [
     'name',
-    'lessor',
-    'phoneNumber',
+    'category',
+    'address',
+    'area',
     'price',
-    'duration',
-    'status',
-    'disabled',
+    'createdAt',
+    'condition',
+    'optional',
   ];
-  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
+  dataSource = new MatTableDataSource<Room>();
+  paginationParams = signal<PaginationParams>({
+    pageSize: 0,
+    count: 0,
+    pageIndex: 1,
+  });
+  conditionFilter = ConditionRoom;
+  categoryFilter = Category;
 
   @ViewChild(MatSort) sort?: MatSort;
 
-  ngAfterViewInit() {
-    if (this.sort) {
-      this.dataSource.sort = this.sort;
+  constructor(
+    private dialogService: DialogService,
+    private toastService: ToastService,
+    private lessorApartmentService: LessorApartmentService
+  ) {}
+
+  async ngOnInit() {
+    this.lessorApartmentService.specParams.set({ pageSize: 10, pageIndex: 1 });
+    await this.init();
+  }
+
+  async init() {
+    await lastValueFrom(
+      this.lessorApartmentService.loadData().pipe(
+        takeUntilDestroyed(this.destroyRef),
+        catchError(() => of(null))
+      )
+    );
+
+    const page = this.lessorApartmentService.page();
+    if (page) {
+      this.paginationParams.set(page);
+      this.dataSource.data = page.data;
+      if (this.sort) {
+        this.dataSource.sort = this.sort;
+      }
     }
+  }
+
+  async onPageChange(pageIndex: number) {
+    this.lessorApartmentService.specParams.update((value) => ({
+      ...value,
+      pageIndex: pageIndex,
+    }));
+    await this.init();
+  }
+
+  async onSearch(query: string) {
+    this.lessorApartmentService.specParams.update((value) => ({
+      ...value,
+      search: query,
+      pageIndex: 1,
+    }));
+    await this.init();
+  }
+
+  onView(room: Room) {
+    this.dialogService.view(ApartmentViewComponent, room);
+  }
+
+  onUpdate(room: Room) {
+    this.dialogService.form(ApartmentUpdateComponent, room).then(async () => {
+      this.toastService.success('Cập nhật phòng thành công!');
+      await this.init();
+    });
+  }
+
+  onDelete(idRoom: string) {
+    this.dialogService
+      .confirm({
+        title: 'Xác nhận xóa phòng trọ',
+        content: 'Bạn có chắc muốn xóa phòng trọ này không?',
+        button: {
+          accept: 'Xóa',
+          decline: 'Hủy bỏ',
+        },
+      })
+      .then(async () => {
+        const response = await firstValueFrom(
+          this.lessorApartmentService.delete(idRoom).pipe(
+            takeUntilDestroyed(this.destroyRef),
+            catchError(() => of(null))
+          )
+        );
+        if (response?.success) {
+          this.toastService.success('Xóa bản phòng thành công!');
+          await this.init();
+        }
+      });
   }
 }

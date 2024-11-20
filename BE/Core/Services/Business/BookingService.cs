@@ -52,22 +52,22 @@ namespace Core.Services.Business
 
         public async Task<Response> GetAsync(string id)
         {
-            var lease = await _repository.Booking.FindCondition(r => r.Id.Equals(id))
+            var booking = await _repository.Booking.FindCondition(r => r.Id.Equals(id))
                 .FirstOrDefaultAsync();
             return new Response
             {
                 Success = true,
-                Data = _mapper.Map<BookingDto>(lease),
-                StatusCode = lease is null ? (int)HttpStatusCode.NoContent : (int)HttpStatusCode.OK
+                Data = _mapper.Map<BookingDto>(booking),
+                StatusCode = booking is null ? (int)HttpStatusCode.NoContent : (int)HttpStatusCode.OK
             };
         }
         public async Task<Response> DeleteAsync(string id)
         {
-            var leaseDelete = await _repository.Booking.FindCondition(r => r.Id.Equals(id))
+            var bookingDelete = await _repository.Booking.FindCondition(r => r.Id.Equals(id))
                 .FirstOrDefaultAsync();
-            if (leaseDelete is not null)
+            if (bookingDelete is not null)
             {
-                _repository.Booking.Delete(leaseDelete);
+                _repository.Booking.Delete(bookingDelete);
                 await _repository.SaveAsync();
                 return new Response
                 {
@@ -83,10 +83,20 @@ namespace Core.Services.Business
         }
         public async Task<Response> InsertAsync(BookingDto bookingDto)
         {
-            await ValidateObject(bookingDto);
+            var post = await _repository.Post.FindCondition(p =>
+               p.Id.Equals(bookingDto.PostId)
+           ).FirstOrDefaultAsync();
+            if (post == null)
+            {
+                throw new PostNotFoundException(bookingDto.PostId);
+            }
+            if (bookingDto.TenantId!.Equals(post.LandlordId))
+            {
+                throw new CustomizeException(Invalidate.TenantIdAndLandlordIdDuplication);
+            }
 
-            var lease = _mapper.Map<Booking>(bookingDto);
-            _repository.Booking.Create(lease);
+            var booking = _mapper.Map<Booking>(bookingDto);
+            _repository.Booking.Create(booking);
             await _repository.SaveAsync();
 
             return new Response
@@ -101,12 +111,12 @@ namespace Core.Services.Business
         {
             await ValidateObject(bookingDto);
 
-            var lease = await _repository.Booking.FindCondition(r => r.Id.Equals(id))
+            var booking = await _repository.Booking.FindCondition(r => r.Id.Equals(id))
                 .FirstOrDefaultAsync();
-            if (lease is not null)
+            if (booking is not null)
             {
-                _mapper.Map(bookingDto, lease);
-                _repository.Booking.Update(lease);
+                _mapper.Map(bookingDto, booking);
+                _repository.Booking.Update(booking);
                 await _repository.SaveAsync();
             }
             else

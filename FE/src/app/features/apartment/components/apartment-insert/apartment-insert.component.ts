@@ -234,6 +234,7 @@ export class ApartmentInsertComponent implements OnInit {
     }
     return '';
   }
+  
   errorForToilet(): string {
     if (this.toilet?.hasError('required')) {
       return 'Số nhà vệ sinh không được để trống!';

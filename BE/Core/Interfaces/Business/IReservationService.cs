@@ -1,4 +1,5 @@
 ﻿using Core.Dtos;
+using Core.Params;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,6 +28,15 @@ namespace Core.Interfaces.Business
         /// </returns>
         Task<Response> GetAsync(string id);
         /// <summary>
+        /// Lấy danh sách thông tin đặt lịch bằng specification
+        /// </summary>
+        /// <param name="specParams">Đối tượng tham số</param>
+        /// <returns>
+        /// 1 - Danh sách đặt lịch
+        /// 2 - Danh sách rỗng
+        /// </returns>
+        Task<Response> GetListAsync(ReservationSpecParams specParams);
+        /// <summary>
         /// Xóa đặt lịch bằng id
         /// </summary>
         /// <param name="id">Id đặt lịch</param>
@@ -39,12 +49,12 @@ namespace Core.Interfaces.Business
         /// Cập nhật đặt lịch
         /// </summary>
         /// <param name="id">Id đặt lịch</param>
-        /// <param name="reservationDto">Đặt lịch</param>
+        /// <param name="reservationUpdateDto">Đặt lịch</param>
         /// <returns>
         /// 1 - Thông báo thành công
         /// 2 - Ngoại lệ
         /// </returns>
-        Task<Response> UpdateAsync(string id, ReservationDto reservationDto);
+        Task<Response> UpdateAsync(string id, ReservationUpdateDto reservationUpdateDto);
         /// <summary>
         /// Thêm đặt lịch
         /// </summary>

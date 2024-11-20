@@ -23,6 +23,6 @@ namespace Core.Dtos
         public StatusReservation? Status { get; set; }
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
-
+        public PostDto? Post { get; set; }
     }
 }

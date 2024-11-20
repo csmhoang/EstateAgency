@@ -1,10 +1,10 @@
 export type Booking = {
-  id: string;
+  id?: string;
   postId: string;
-  landlordId: string;
+  tenantId: string;
   intendedIntoDate: Date;
   numberOfTenant: number;
-  note: string;
+  note?: string;
   status: string;
   createdAt?: Date;
   updatedAt?: Date;

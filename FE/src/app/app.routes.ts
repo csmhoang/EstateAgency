@@ -24,6 +24,7 @@ import { VerifyEmailComponent } from '@core/auth/pages/verify-email/verify-email
 import { VerifyResetPasswordComponent } from '@core/auth/pages/verify-reset-password/verify-reset-password.component';
 import { lessorDetailResolver } from '@features/lessor/resolver/lessor-detail.resolver';
 import { isLandlord } from '@core/guards/auth.guard';
+import { ReservationListComponent } from '@features/reservation/components/reservation-list/reservation-list.component';
 
 export const routes: Routes = [
   /*Clients*/
@@ -58,6 +59,10 @@ export const routes: Routes = [
       {
         path: 'history',
         component: RentedHistoryComponent,
+      },
+      {
+        path: 'reservation',
+        component: ReservationListComponent,
       },
       {
         path: 'maintenance',

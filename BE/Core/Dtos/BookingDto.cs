@@ -12,11 +12,11 @@ namespace Core.Dtos
 {
     public record BookingDto
     {
-        public string Id { get; set; } = null!;
+        public Guid? Id { get; set; }
         [Required(ErrorMessage = PostConst.ErrorEmptyId)]
         public string PostId { get; set; } = null!;
-        [Required(ErrorMessage = UserConst.ErrorEmptyLandlordId)]
-        public string LandlordId { get; set; } = null!;
+        [Required(ErrorMessage = UserConst.ErrorEmptyTenantId)]
+        public string TenantId { get; set; } = null!;
         public DateTime IntendedIntoDate { get; set; }
         public int NumberOfTenant { get; set; }
         public string? Note { get; set; }

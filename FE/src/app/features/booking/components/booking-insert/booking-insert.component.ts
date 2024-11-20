@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, DestroyRef, inject, Input, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
+  AbstractControl,
   FormBuilder,
   FormGroup,
   ReactiveFormsModule,
@@ -13,25 +14,26 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { UserService } from '@core/services/user.service';
+import { Booking } from '@features/booking/models/booking.model';
+import { BookingService } from '@features/booking/services/booking.service';
 import { Post } from '@features/post/models/post.model';
-import { Reservation } from '@features/reservation/models/reservation.model';
-import { ReservationService } from '@features/reservation/services/reservation.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { catchError, of } from 'rxjs';
-
 
 @Component({
   selector: 'app-booking-insert',
   standalone: true,
   providers: [provideNativeDateAdapter()],
-  imports: [    MatFormFieldModule,
+  imports: [
+    MatFormFieldModule,
     MatInputModule,
     MatDatepickerModule,
     ReactiveFormsModule,
     MatSelectModule,
-    CommonModule,],
+    CommonModule,
+  ],
   templateUrl: './booking-insert.component.html',
-  styleUrl: './booking-insert.component.scss'
+  styleUrl: './booking-insert.component.scss',
 })
 export class BookingInsertComponent implements OnInit {
   @Input() data!: Post;
@@ -42,29 +44,33 @@ export class BookingInsertComponent implements OnInit {
   activeModal = inject(NgbActiveModal);
 
   form: FormGroup = new FormGroup({});
+  numberOfTenant?: AbstractControl | null;
 
   constructor(
     private formBuilder: FormBuilder,
-    private reservationService: ReservationService,
+    private bookingService: BookingService,
     private userService: UserService
   ) {}
 
   ngOnInit() {
     this.form = this.formBuilder.group({
-      reservationDate: this.formBuilder.control('', [Validators.required]),
+      intendedIntoDate: this.formBuilder.control('', [Validators.required]),
+      numberOfTenant: this.formBuilder.control(0, [Validators.required]),
       note: this.formBuilder.control(''),
     });
+
+    this.numberOfTenant = this.form.get('numberOfTenant');
   }
 
-  onReservation() {
+  onBooking() {
     if (this.form.valid && this.user) {
-      const reservation: Reservation = {
+      const booking: Booking = {
         ...this.form.value,
         postId: this.data.id,
         tenantId: this.user.id,
       };
-      this.reservationService
-        .insert(reservation)
+      this.bookingService
+        .insert(booking)
         .pipe(
           takeUntilDestroyed(this.destroyRef),
           catchError(() => of(null))
@@ -78,11 +84,17 @@ export class BookingInsertComponent implements OnInit {
   }
 
   accept() {
-    this.onReservation();
+    this.onBooking();
   }
 
   decline() {
     this.activeModal.dismiss(false);
   }
-}
 
+  errorForNumberOfTenant(): string {
+    if (this.numberOfTenant?.hasError('required')) {
+      return 'Số người ở không được để trống!';
+    }
+    return '';
+  }
+}

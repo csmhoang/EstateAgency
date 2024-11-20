@@ -11,10 +11,10 @@ export type Post = {
   availableFrom: Date;
   isAccept: string;
   status: string;
-  room?: Room;
-  landlord?: User;
   createdAt?: Date;
   updatedAt?: Date;
+  landlord?: User;
+  room?: Room;
   reservations?: Reservation[];
 };
 

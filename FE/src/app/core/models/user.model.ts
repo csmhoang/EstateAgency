@@ -3,6 +3,8 @@ import { UserRole } from './user-role.model';
 import { Post } from '@features/post/models/post.model';
 import { SavePost } from '@features/post/models/save-post.model';
 import { Follow } from './follow.model';
+import { Reservation } from '@features/reservation/models/reservation.model';
+import { Booking } from '@features/booking/models/booking.model';
 
 export type User = {
   id: string;
@@ -25,6 +27,8 @@ export type User = {
   savePosts?: SavePost[];
   followers?: Follow[];
   followees?: Follow[];
+  reservations?: Reservation[];
+  bookings?: Booking[];
 };
 
 export const Gender: { [key: string]: string } = {

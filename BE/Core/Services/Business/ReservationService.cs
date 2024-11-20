@@ -5,9 +5,12 @@ using Core.Exceptions;
 using Core.Interfaces.Business;
 using Core.Interfaces.Data;
 using Core.Interfaces.Infrastructure;
+using Core.Params;
 using Core.Resources;
+using Core.Specifications;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
+using static Core.Enums.ReservationEnums;
 
 namespace Core.Services.Business
 {
@@ -56,12 +59,36 @@ namespace Core.Services.Business
                 StatusCode = reservation is null ? (int)HttpStatusCode.NoContent : (int)HttpStatusCode.OK
             };
         }
+
+        public async Task<Response> GetListAsync(ReservationSpecParams specParams)
+        {
+            var spec = new ReservationSpecification(specParams);
+            var page = await CreatePagedResult(spec, specParams.PageIndex, specParams.PageSize);
+            return new Response
+            {
+                Success = true,
+                Data = new
+                {
+                    page.PageIndex,
+                    page.PageSize,
+                    page.Count,
+                    Data = _mapper.Map<IEnumerable<ReservationDto>>(page.Data)
+                },
+                StatusCode = !page.Data.Any() ? (int)HttpStatusCode.NoContent : (int)HttpStatusCode.OK
+            };
+        }
+
         public async Task<Response> DeleteAsync(string id)
         {
             var reservationDelete = await _repository.Reservation.FindCondition(r => r.Id.Equals(id))
                 .FirstOrDefaultAsync();
-            if (reservationDelete is not null)
+            if (reservationDelete != null)
             {
+                if (reservationDelete.Status.Equals(StatusReservation.Confirmed))
+                {
+                    throw new CustomizeException(Invalidate.DeleteInvalidate, (int)HttpStatusCode.ResetContent);
+                }
+
                 _repository.Reservation.Delete(reservationDelete);
                 await _repository.SaveAsync();
                 return new Response
@@ -78,10 +105,43 @@ namespace Core.Services.Business
         }
         public async Task<Response> InsertAsync(ReservationDto reservationDto)
         {
-            await ValidateObject(reservationDto);
+            var post = await _repository.Post.FindCondition(p =>
+                p.Id.Equals(reservationDto.PostId)
+            ).FirstOrDefaultAsync();
+            if (post == null)
+            {
+                throw new PostNotFoundException(reservationDto.PostId);
+            }
+            if (reservationDto.TenantId!.Equals(post.LandlordId))
+            {
+                throw new CustomizeException(Invalidate.TenantIdAndLandlordIdDuplication);
+            }
 
-            var reservation = _mapper.Map<Reservation>(reservationDto);
-            _repository.Reservation.Create(reservation);
+            var reservation = await _repository.Reservation.FindCondition(r =>
+                r.PostId!.Equals(reservationDto.PostId)
+            ).FirstOrDefaultAsync();
+
+            if (reservation != null)
+            {
+                var date = reservation.ReservationDate;
+                var isDuplicate =
+                    date.Year == reservationDto.ReservationDate.Year &&
+                    date.Month == reservationDto.ReservationDate.Month &&
+                    date.Day == reservationDto.ReservationDate.Day &&
+                    date.Hour == reservationDto.ReservationDate.Hour;
+                if (isDuplicate)
+                {
+                    return new Response
+                    {
+                        Success = true,
+                        Messages = Invalidate.ReservationDateDuplicate,
+                        StatusCode = (int)HttpStatusCode.ResetContent
+                    };
+                }
+            }
+
+            var reservationInsert = _mapper.Map<Reservation>(reservationDto);
+            _repository.Reservation.Create(reservationInsert);
             await _repository.SaveAsync();
 
             return new Response
@@ -92,15 +152,13 @@ namespace Core.Services.Business
             };
         }
 
-        public async Task<Response> UpdateAsync(string id, ReservationDto reservationDto)
+        public async Task<Response> UpdateAsync(string id, ReservationUpdateDto reservationUpdateDto)
         {
-            await ValidateObject(reservationDto);
-
             var reservation = await _repository.Reservation.FindCondition(r => r.Id.Equals(id))
                 .FirstOrDefaultAsync();
-            if (reservation is not null)
+            if (reservation != null)
             {
-                _mapper.Map(reservationDto, reservation);
+                _mapper.Map(reservationUpdateDto, reservation);
                 _repository.Reservation.Update(reservation);
                 await _repository.SaveAsync();
             }
@@ -116,22 +174,9 @@ namespace Core.Services.Business
                 StatusCode = (int)HttpStatusCode.OK
             };
         }
-        public async Task ValidateObject(ReservationDto reservationDto)
+        public Task ValidateObject(ReservationDto reservationDto)
         {
-            var post = await _repository.Post.FindCondition(r =>
-                r.Id.Equals(reservationDto.PostId)
-            ).FirstOrDefaultAsync();
-            if (post != null)
-            {
-                if (reservationDto.TenantId!.Equals(post.LandlordId))
-                {
-                    throw new CustomizeException(Invalidate.TenantIdAndLandlordIdDuplication);
-                }
-            }
-            else
-            {
-                throw new PostNotFoundException(reservationDto.PostId);
-            }
+            return Task.CompletedTask;
         }
         #endregion
     }

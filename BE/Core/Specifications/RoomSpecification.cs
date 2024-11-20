@@ -15,8 +15,7 @@ namespace Core.Specifications
     {
         #region Constructor
         public RoomSpecification(RoomSpecParams specParams) : base(x =>
-        (string.IsNullOrEmpty(specParams.Search) || x.Name.ToLower().Contains(specParams.Search)) &&
-        (specParams.Province.Count == 0 || specParams.Province.Contains(x.Province!))
+            (string.IsNullOrEmpty(specParams.Search) || x.Name.ToLower().Contains(specParams.Search))
         )
         {
             AddInclude(x => x.Include(r => r.Photos));

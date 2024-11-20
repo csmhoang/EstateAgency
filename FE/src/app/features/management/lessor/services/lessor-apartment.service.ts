@@ -27,7 +27,7 @@ export class LessorApartmentService {
     );
   }
 
-  delete(idRoom: string) {
-    return this.roomService.delete(idRoom);
+  delete(roomId: string) {
+    return this.roomService.delete(roomId);
   }
 }

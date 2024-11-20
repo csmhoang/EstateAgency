@@ -53,22 +53,24 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Amenities", (string)null);
+                    b.ToTable("Amenities");
                 });
 
             modelBuilder.Entity("Core.Entities.Booking", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)")
+                        .HasDefaultValueSql("lower(newid())");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime")
+                        .HasDefaultValueSql("(getdate())");
 
                     b.Property<DateTime>("IntendedIntoDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("LandlordId")
-                        .HasColumnType("nvarchar(36)");
+                        .HasColumnType("date");
 
                     b.Property<string>("Note")
                         .HasColumnType("nvarchar(max)");
@@ -82,16 +84,21 @@ namespace Infrastructure.Data.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
+                    b.Property<string>("TenantId")
+                        .HasColumnType("nvarchar(36)");
+
                     b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime")
+                        .HasDefaultValueSql("(getdate())");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("LandlordId");
-
                     b.HasIndex("PostId");
 
-                    b.ToTable("Bookings", (string)null);
+                    b.HasIndex("TenantId");
+
+                    b.ToTable("Bookings");
                 });
 
             modelBuilder.Entity("Core.Entities.Feedback", b =>
@@ -111,18 +118,15 @@ namespace Infrastructure.Data.Migrations
                         .HasDefaultValueSql("(getdate())");
 
                     b.Property<string>("PostId")
-                        .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
 
                     b.Property<int>("Rating")
                         .HasColumnType("int");
 
                     b.Property<string>("ReplyId")
-                        .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
 
                     b.Property<string>("TenantId")
-                        .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
 
                     b.HasKey("Id");
@@ -151,12 +155,10 @@ namespace Infrastructure.Data.Migrations
 
                     b.Property<string>("FolloweeId")
                         .IsRequired()
-                        .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
 
                     b.Property<string>("FollowerId")
                         .IsRequired()
-                        .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
 
                     b.Property<DateTime>("UpdatedAt")
@@ -170,7 +172,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasIndex("FollowerId");
 
-                    b.ToTable("Follows", (string)null);
+                    b.ToTable("Follows");
                 });
 
             modelBuilder.Entity("Core.Entities.Invoice", b =>
@@ -193,7 +195,6 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("date");
 
                     b.Property<string>("LeaseId")
-                        .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
 
                     b.Property<int>("Status")
@@ -203,7 +204,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasIndex("LeaseId");
 
-                    b.ToTable("Invoices", (string)null);
+                    b.ToTable("Invoices");
                 });
 
             modelBuilder.Entity("Core.Entities.Lease", b =>
@@ -227,7 +228,6 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("RoomId")
-                        .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
 
                     b.Property<DateTime>("SignedDate")
@@ -245,7 +245,6 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("TenantId")
-                        .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
 
                     b.Property<DateTime>("UpdatedAt")
@@ -259,7 +258,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasIndex("TenantId");
 
-                    b.ToTable("Leases", (string)null);
+                    b.ToTable("Leases");
                 });
 
             modelBuilder.Entity("Core.Entities.MaintenanceRequest", b =>
@@ -283,11 +282,9 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("decimal(10,2)");
 
                     b.Property<string>("InvoiceId")
-                        .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
 
                     b.Property<string>("LeaseId")
-                        .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
 
                     b.Property<string>("RejectionReason")
@@ -312,7 +309,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasIndex("LeaseId");
 
-                    b.ToTable("MaintenanceRequests", (string)null);
+                    b.ToTable("MaintenanceRequests");
                 });
 
             modelBuilder.Entity("Core.Entities.Message", b =>
@@ -328,11 +325,9 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ReceiverId")
-                        .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
 
                     b.Property<string>("SenderId")
-                        .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
 
                     b.Property<DateTime>("SentAt")
@@ -346,7 +341,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasIndex("SenderId");
 
-                    b.ToTable("Messages", (string)null);
+                    b.ToTable("Messages");
                 });
 
             modelBuilder.Entity("Core.Entities.Payment", b =>
@@ -366,11 +361,9 @@ namespace Infrastructure.Data.Migrations
                         .HasDefaultValueSql("(getdate())");
 
                     b.Property<string>("InvoiceId")
-                        .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
 
                     b.Property<string>("LeaseId")
-                        .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
 
                     b.Property<DateTime>("PaymentDate")
@@ -393,7 +386,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasIndex("LeaseId");
 
-                    b.ToTable("Payments", (string)null);
+                    b.ToTable("Payments");
                 });
 
             modelBuilder.Entity("Core.Entities.Photo", b =>
@@ -410,7 +403,6 @@ namespace Infrastructure.Data.Migrations
 
                     b.Property<string>("RoomId")
                         .IsRequired()
-                        .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
 
                     b.Property<string>("Url")
@@ -421,7 +413,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasIndex("RoomId");
 
-                    b.ToTable("Photos", (string)null);
+                    b.ToTable("Photos");
                 });
 
             modelBuilder.Entity("Core.Entities.Post", b =>
@@ -447,11 +439,9 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("LandlordId")
-                        .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
 
                     b.Property<string>("RoomId")
-                        .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
 
                     b.Property<int>("Status")
@@ -473,7 +463,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasIndex("RoomId");
 
-                    b.ToTable("Posts", (string)null);
+                    b.ToTable("Posts");
                 });
 
             modelBuilder.Entity("Core.Entities.Reservation", b =>
@@ -493,7 +483,6 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PostId")
-                        .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
 
                     b.Property<string>("RejectionReason")
@@ -506,7 +495,6 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("TenantId")
-                        .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
 
                     b.Property<DateTime>("UpdatedAt")
@@ -520,7 +508,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasIndex("TenantId");
 
-                    b.ToTable("Reservations", (string)null);
+                    b.ToTable("Reservations");
                 });
 
             modelBuilder.Entity("Core.Entities.Role", b =>
@@ -609,6 +597,9 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("datetime")
                         .HasDefaultValueSql("(getdate())");
 
+                    b.Property<decimal>("Deposite")
+                        .HasColumnType("decimal(10,2)");
+
                     b.Property<string>("District")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -618,7 +609,6 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("LandlordId")
-                        .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
 
                     b.Property<string>("Name")
@@ -651,7 +641,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasIndex("LandlordId");
 
-                    b.ToTable("Rooms", (string)null);
+                    b.ToTable("Rooms");
                 });
 
             modelBuilder.Entity("Core.Entities.SavePost", b =>
@@ -668,7 +658,6 @@ namespace Infrastructure.Data.Migrations
                         .HasDefaultValueSql("(getdate())");
 
                     b.Property<string>("PostId")
-                        .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
 
                     b.Property<DateTime>("UpdatedAt")
@@ -677,7 +666,6 @@ namespace Infrastructure.Data.Migrations
                         .HasDefaultValueSql("(getdate())");
 
                     b.Property<string>("UserId")
-                        .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
 
                     b.HasKey("Id");
@@ -686,7 +674,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("SavePosts", (string)null);
+                    b.ToTable("SavePosts");
                 });
 
             modelBuilder.Entity("Core.Entities.User", b =>
@@ -815,11 +803,9 @@ namespace Infrastructure.Data.Migrations
             modelBuilder.Entity("RoomAmenity", b =>
                 {
                     b.Property<string>("RoomId")
-                        .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
 
                     b.Property<string>("AmenityId")
-                        .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
 
                     b.HasKey("RoomId", "AmenityId")
@@ -832,17 +818,17 @@ namespace Infrastructure.Data.Migrations
 
             modelBuilder.Entity("Core.Entities.Booking", b =>
                 {
-                    b.HasOne("Core.Entities.User", "Landlord")
-                        .WithMany("Bookings")
-                        .HasForeignKey("LandlordId");
-
                     b.HasOne("Core.Entities.Post", "Post")
                         .WithMany("Bookings")
                         .HasForeignKey("PostId");
 
-                    b.Navigation("Landlord");
+                    b.HasOne("Core.Entities.User", "Tenant")
+                        .WithMany("Bookings")
+                        .HasForeignKey("TenantId");
 
                     b.Navigation("Post");
+
+                    b.Navigation("Tenant");
                 });
 
             modelBuilder.Entity("Core.Entities.Feedback", b =>
@@ -869,13 +855,13 @@ namespace Infrastructure.Data.Migrations
             modelBuilder.Entity("Core.Entities.Follow", b =>
                 {
                     b.HasOne("Core.Entities.User", "Followee")
-                        .WithMany("Followees")
+                        .WithMany("Followers")
                         .HasForeignKey("FolloweeId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Core.Entities.User", "Follower")
-                        .WithMany("Followers")
+                        .WithMany("Followees")
                         .HasForeignKey("FollowerId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();

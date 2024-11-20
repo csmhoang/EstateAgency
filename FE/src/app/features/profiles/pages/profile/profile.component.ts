@@ -8,7 +8,6 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterModule, RouterOutlet } from '@angular/router';
 import { FooterComponent } from '@core/layout/footer/footer.component';
 import { HeaderComponent } from '@core/layout/header/header.component';
-import { User } from '@core/models/user.model';
 import { UserService } from '@core/services/user.service';
 import { ProfileService } from '@features/profiles/services/profile.service';
 import { ToastService } from '@shared/services/toast/toast.service';

@@ -400,6 +400,9 @@ namespace Core.Services.Auth
                 .Include(u => u.UserRoles)
                 .ThenInclude(ur => ur.Role)
                 .Include(u => u.Followees)
+                .Include(u => u.SavePosts)
+                .Include(u => u.Reservations)
+                .Include(u => u.Bookings)
                 .SingleOrDefaultAsync(x => x.UserName == username.ToLower());
 
             return new Response

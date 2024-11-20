@@ -76,15 +76,9 @@ namespace Infrastructure.Data
                     .HasMaxLength(36)
                     .HasDefaultValueSql("lower(newid())");
 
-                entity.Property(e => e.ReplyId).HasMaxLength(36);
-
                 entity.Property(e => e.CreatedAt)
                     .HasColumnType("datetime")
                     .HasDefaultValueSql("(getdate())");
-
-                entity.Property(e => e.PostId).HasMaxLength(36);
-
-                entity.Property(e => e.TenantId).HasMaxLength(36);
             });
 
             modelBuilder.Entity<Invoice>(entity =>
@@ -100,8 +94,6 @@ namespace Infrastructure.Data
                     .HasDefaultValueSql("(getdate())");
 
                 entity.Property(e => e.DueDate).HasColumnType("date");
-
-                entity.Property(e => e.LeaseId).HasMaxLength(36);
             });
 
             modelBuilder.Entity<Lease>(entity =>
@@ -116,15 +108,11 @@ namespace Infrastructure.Data
 
                 entity.Property(e => e.EndDate).HasColumnType("date");
 
-                entity.Property(e => e.RoomId).HasMaxLength(36);
-
                 entity.Property(e => e.SignedDate).HasColumnType("datetime");
 
                 entity.Property(e => e.SignedOnline).HasDefaultValueSql("((1))");
 
                 entity.Property(e => e.StartDate).HasColumnType("date");
-
-                entity.Property(e => e.TenantId).HasMaxLength(36);
 
                 entity.Property(e => e.UpdatedAt)
                     .HasColumnType("datetime")
@@ -136,10 +124,6 @@ namespace Infrastructure.Data
                 entity.Property(e => e.Id)
                     .HasMaxLength(36)
                     .HasDefaultValueSql("lower(newid())");
-
-                entity.Property(e => e.LeaseId).HasMaxLength(36);
-
-                entity.Property(e => e.InvoiceId).HasMaxLength(36);
 
                 entity.Property(e => e.RequestDate)
                     .HasColumnType("datetime")
@@ -161,10 +145,6 @@ namespace Infrastructure.Data
                 entity.Property(e => e.Id)
                     .HasMaxLength(36)
                     .HasDefaultValueSql("lower(newid())");
-
-                entity.Property(e => e.ReceiverId).HasMaxLength(36);
-
-                entity.Property(e => e.SenderId).HasMaxLength(36);
 
                 entity.Property(e => e.SentAt)
                     .HasColumnType("datetime")
@@ -191,10 +171,6 @@ namespace Infrastructure.Data
                     .HasColumnType("datetime")
                     .HasDefaultValueSql("(getdate())");
 
-                entity.Property(e => e.LeaseId).HasMaxLength(36);
-
-                entity.Property(e => e.InvoiceId).HasMaxLength(36);
-
                 entity.Property(e => e.PaymentDate)
                     .HasColumnType("datetime")
                     .HasDefaultValueSql("(getdate())");
@@ -215,9 +191,22 @@ namespace Infrastructure.Data
 
                 entity.Property(e => e.ReservationDate).HasColumnType("date");
 
-                entity.Property(e => e.PostId).HasMaxLength(36);
+                entity.Property(e => e.UpdatedAt)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
+            });
 
-                entity.Property(e => e.TenantId).HasMaxLength(36);
+            modelBuilder.Entity<Booking>(entity =>
+            {
+                entity.Property(e => e.Id)
+                    .HasMaxLength(36)
+                    .HasDefaultValueSql("lower(newid())");
+
+                entity.Property(e => e.IntendedIntoDate).HasColumnType("date");
+
+                entity.Property(e => e.CreatedAt)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
 
                 entity.Property(e => e.UpdatedAt)
                     .HasColumnType("datetime")
@@ -231,10 +220,6 @@ namespace Infrastructure.Data
                     .HasDefaultValueSql("lower(newid())");
 
                 entity.Property(e => e.Title).HasMaxLength(256);
-
-                entity.Property(e => e.RoomId).HasMaxLength(36);
-
-                entity.Property(e => e.LandlordId).HasMaxLength(36);
 
                 entity.Property(e => e.AvailableFrom).HasColumnType("date");
 
@@ -252,8 +237,6 @@ namespace Infrastructure.Data
                 entity.Property(e => e.Id)
                     .HasMaxLength(36)
                     .HasDefaultValueSql("lower(newid())");
-
-                entity.Property(e => e.RoomId).HasMaxLength(36);
             });
 
             modelBuilder.Entity<Room>(entity =>
@@ -282,7 +265,6 @@ namespace Infrastructure.Data
 
                 entity.Property(e => e.Ward).HasMaxLength(100);
 
-                entity.Property(e => e.LandlordId).HasMaxLength(36);
 
                 entity.Property(e => e.UpdatedAt)
                     .HasColumnType("datetime")
@@ -300,9 +282,7 @@ namespace Infrastructure.Data
 
                             j.ToTable("RoomAmenities");
 
-                            j.IndexerProperty<string>("RoomId").HasMaxLength(36);
 
-                            j.IndexerProperty<string>("AmenityId").HasMaxLength(36);
                         });
             });
 
@@ -312,9 +292,6 @@ namespace Infrastructure.Data
                     .HasMaxLength(36)
                     .HasDefaultValueSql("lower(newid())");
 
-                entity.Property(e => e.UserId).HasMaxLength(36);
-
-                entity.Property(e => e.PostId).HasMaxLength(36);
 
                 entity.Property(e => e.CreatedAt)
                     .HasColumnType("datetime")
@@ -330,10 +307,6 @@ namespace Infrastructure.Data
                 entity.Property(e => e.Id)
                     .HasMaxLength(36)
                     .HasDefaultValueSql("lower(newid())");
-
-                entity.Property(e => e.FollowerId).HasMaxLength(36);
-
-                entity.Property(e => e.FolloweeId).HasMaxLength(36);
 
                 entity.Property(e => e.CreatedAt)
                     .HasColumnType("datetime")

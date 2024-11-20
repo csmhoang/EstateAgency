@@ -1,5 +1,5 @@
 <div class="modal-header">
-  <h4 class="modal-title">Đặt Lịch xem phòng</h4>
+  <h4 class="modal-title">Cập nhật đặt lịch</h4>
   <button
     type="button"
     class="btn-close"
@@ -10,33 +10,47 @@
 <div class="modal-body">
   <form [formGroup]="form">
     <div class="row">
-      <!-- IntendedIntoDate select -->
-      <mat-form-field class="col-lg-6" appearance="outline">
-        <mat-label>Ngày chuyển vào</mat-label>
+      <!-- Date select -->
+      <mat-form-field class="col-lg-4" appearance="outline">
+        <mat-label>Ngày đặt lịch</mat-label>
         <input
           matInput
           [min]="minDate"
           [matDatepicker]="picker"
           placeholder="MM/DD/YYYY"
-          formControlName="intendedIntoDate"
+          formControlName="date"
         />
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
-      <!-- NumberOfTenant input -->
-      <mat-form-field class="col-lg-6" appearance="outline">
-        <mat-label>Số người ở</mat-label>
+      <!-- Hour input -->
+      <mat-form-field class="col-lg-4" appearance="outline">
+        <mat-label>Giờ</mat-label>
+        <input
+          matInput
+          type="number"
+          min="1"
+          max="12"
+          class="hide-spin"
+          formControlName="hour"
+        />
+        @if( hour?.invalid && (hour?.dirty || hour?.touched) ){
+        <mat-error>{{ errorForHour() }}</mat-error>
+        }
+      </mat-form-field>
+      <!-- Minute input -->
+      <mat-form-field class="col-lg-4" appearance="outline">
+        <mat-label>Phút</mat-label>
         <input
           matInput
           type="number"
           min="0"
-          placeholder="0"
+          max="60"
           class="hide-spin"
-          formControlName="numberOfTenant"
+          formControlName="minute"
         />
-        @if( numberOfTenant?.invalid && (numberOfTenant?.dirty ||
-        numberOfTenant?.touched) ){
-        <mat-error>{{ errorForNumberOfTenant() }}</mat-error>
+        @if( minute?.invalid && (minute?.dirty || minute?.touched) ){
+        <mat-error>{{ errorForMinute() }}</mat-error>
         }
       </mat-form-field>
     </div>
@@ -57,6 +71,6 @@
     (click)="accept()"
     [disabled]="form.invalid || !form.dirty"
   >
-    Đặt phòng
+    Cập nhật
   </button>
 </div>

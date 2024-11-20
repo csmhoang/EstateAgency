@@ -133,6 +133,15 @@ namespace Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Đã có người hẹn giờ này!.
+        /// </summary>
+        public static string ReservationDateDuplicate {
+            get {
+                return ResourceManager.GetString("ReservationDateDuplicate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Id người thuê và chủ nhà không được trùng nhau!.
         /// </summary>
         public static string TenantIdAndLandlordIdDuplication {

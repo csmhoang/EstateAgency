@@ -1,6 +1,7 @@
 ﻿using Core.Consts;
 using Core.Dtos;
 using Core.Interfaces.Business;
+using Core.Params;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -46,6 +47,16 @@ namespace Api.Controllers
         }
 
         /// <summary>
+        /// Lấy danh sách thông tin đặt lịch bằng specification
+        /// </summary>
+        [HttpGet("list")]
+        public async Task<IActionResult> GetList([FromQuery] ReservationSpecParams specParams)
+        {
+            var response = await _service.Reservation.GetListAsync(specParams);
+            return Ok(response);
+        }
+
+        /// <summary>
         /// Thêm đặt lịch
         /// </summary>
         /// <param name="model">Đặt lịch</param>
@@ -64,7 +75,7 @@ namespace Api.Controllers
         /// <param name="model">Đặt lịch</param>
         [HttpPut]
         [Authorize]
-        public async Task<IActionResult> Update(string id, [FromBody] ReservationDto model)
+        public async Task<IActionResult> Update(string id, [FromBody] ReservationUpdateDto model)
         {
             var response = await _service.Reservation.UpdateAsync(id, model);
             return Ok(response);

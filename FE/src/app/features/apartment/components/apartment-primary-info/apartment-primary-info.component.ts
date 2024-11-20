@@ -35,6 +35,14 @@ export class ApartmentPrimaryInfoComponent {
     private postService: PostService
   ) {}
 
+  checkSave(postId?: string) {
+    if (this.user && postId) {
+      const savePosts = this.user.savePosts?.map((savePost) => savePost.postId);
+      return savePosts?.includes(postId);
+    }
+    return false;
+  }
+
   onSave(isSave: boolean) {
     if (this.user && this.post) {
       const savePost: SavePost = {

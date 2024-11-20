@@ -53,6 +53,8 @@ namespace Infrastructure.Mapping
             CreateMap<ReservationDto, Reservation>()
                .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
 
+            CreateMap<ReservationUpdateDto, Reservation>();
+
             CreateMap<Booking, BookingDto>();
             CreateMap<BookingDto, Booking>()
                .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));

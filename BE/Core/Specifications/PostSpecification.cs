@@ -67,11 +67,11 @@ namespace Core.Specifications
             switch (specParams.SortExtra)
             {
                 case "New": AddOrder(x => x.OrderBy(p => p.CreatedAt)); break;
-                case "Favorite": AddOrder(x => x.OrderBy(p => p.SavePosts.Count())); break;
+                case "Favorite": AddOrder(x => x.OrderBy(p => p.SavePosts.Count)); break;
                 case "New/Favorite":
                     AddOrder(x => x
                         .OrderBy(p => p.CreatedAt)
-                        .ThenBy(p => p.SavePosts.Count())
+                        .ThenBy(p => p.SavePosts.Count)
                     );
                     break;
                 default: AddOrder(x => x.OrderBy(p => p.Title)); break;

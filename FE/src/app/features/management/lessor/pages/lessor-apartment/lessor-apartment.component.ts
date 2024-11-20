@@ -127,7 +127,7 @@ export class LessorApartmentComponent implements OnInit {
     });
   }
 
-  onDelete(idRoom: string) {
+  onDelete(roomId: string) {
     this.dialogService
       .confirm({
         title: 'Xác nhận xóa phòng trọ',
@@ -139,7 +139,7 @@ export class LessorApartmentComponent implements OnInit {
       })
       .then(async () => {
         const response = await firstValueFrom(
-          this.lessorApartmentService.delete(idRoom).pipe(
+          this.lessorApartmentService.delete(roomId).pipe(
             takeUntilDestroyed(this.destroyRef),
             catchError(() => of(null))
           )

@@ -25,6 +25,8 @@ namespace Core.Dtos
         public ICollection<Follow>? Followers { get; set; }
         public ICollection<Follow>? Followees { get; set; }
         public ICollection<Reservation>? Reservations { get; set; }
+        public ICollection<Booking>? Bookings { get; set; }
+        public ICollection<SavePost>? SavePosts { get; set; }
 
     }
 }

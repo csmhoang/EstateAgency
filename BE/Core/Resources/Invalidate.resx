@@ -144,4 +144,7 @@
   <data name="FollowIdDuplication" xml:space="preserve">
     <value>Id người theo theo dõi và người được theo dõi không được trùng nhau!</value>
   </data>
+  <data name="ReservationDateDuplicate" xml:space="preserve">
+    <value>Đã có người hẹn giờ này!</value>
+  </data>
 </root>

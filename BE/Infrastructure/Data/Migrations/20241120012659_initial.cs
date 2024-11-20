@@ -76,28 +76,12 @@ namespace Infrastructure.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Favorites",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "lower(newid())"),
-                    UserId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Favorites", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Favorites_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Follows",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "lower(newid())"),
-                    FollowerId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: true),
+                    FollowerId = table.Column<string>(type: "nvarchar(36)", nullable: false),
+                    FolloweeId = table.Column<string>(type: "nvarchar(36)", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime", nullable: false, defaultValueSql: "(getdate())"),
                     UpdatedAt = table.Column<DateTime>(type: "datetime", nullable: false, defaultValueSql: "(getdate())")
                 },
@@ -105,10 +89,17 @@ namespace Infrastructure.Data.Migrations
                 {
                     table.PrimaryKey("PK_Follows", x => x.Id);
                     table.ForeignKey(
+                        name: "FK_Follows_Users_FolloweeId",
+                        column: x => x.FolloweeId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
                         name: "FK_Follows_Users_FollowerId",
                         column: x => x.FollowerId,
                         principalTable: "Users",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -116,8 +107,8 @@ namespace Infrastructure.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "lower(newid())"),
-                    SenderId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: true),
-                    ReceiverId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: true),
+                    SenderId = table.Column<string>(type: "nvarchar(36)", nullable: true),
+                    ReceiverId = table.Column<string>(type: "nvarchar(36)", nullable: true),
                     Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     SentAt = table.Column<DateTime>(type: "datetime", nullable: false, defaultValueSql: "(getdate())")
                 },
@@ -141,7 +132,7 @@ namespace Infrastructure.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "lower(newid())"),
-                    LandlordId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: true),
+                    LandlordId = table.Column<string>(type: "nvarchar(36)", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
                     Category = table.Column<int>(type: "int", maxLength: 100, nullable: false),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -154,6 +145,7 @@ namespace Infrastructure.Data.Migrations
                     Interior = table.Column<int>(type: "int", nullable: false),
                     Area = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
                     Price = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
+                    Deposite = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
                     Condition = table.Column<int>(type: "int", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime", nullable: false, defaultValueSql: "(getdate())"),
                     UpdatedAt = table.Column<DateTime>(type: "datetime", nullable: false, defaultValueSql: "(getdate())")
@@ -197,8 +189,9 @@ namespace Infrastructure.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "lower(newid())"),
-                    TenantId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: true),
-                    RoomId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: true),
+                    TenantId = table.Column<string>(type: "nvarchar(36)", nullable: true),
+                    RoomId = table.Column<string>(type: "nvarchar(36)", nullable: true),
+                    RentalTerms = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     StartDate = table.Column<DateTime>(type: "date", nullable: false),
                     EndDate = table.Column<DateTime>(type: "date", nullable: true),
                     SignedOnline = table.Column<bool>(type: "bit", nullable: true, defaultValueSql: "((1))"),
@@ -227,7 +220,7 @@ namespace Infrastructure.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "lower(newid())"),
-                    RoomId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false),
+                    RoomId = table.Column<string>(type: "nvarchar(36)", nullable: false),
                     Url = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PublicId = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
@@ -247,8 +240,8 @@ namespace Infrastructure.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "lower(newid())"),
-                    RoomId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: true),
-                    LandlordId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: true),
+                    RoomId = table.Column<string>(type: "nvarchar(36)", nullable: true),
+                    LandlordId = table.Column<string>(type: "nvarchar(36)", nullable: true),
                     Title = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     AvailableFrom = table.Column<DateTime>(type: "date", nullable: false),
@@ -273,38 +266,11 @@ namespace Infrastructure.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Reservations",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "lower(newid())"),
-                    TenantId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: true),
-                    RoomId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: true),
-                    ReservationDate = table.Column<DateTime>(type: "date", nullable: false),
-                    Status = table.Column<int>(type: "int", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime", nullable: false, defaultValueSql: "(getdate())"),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime", nullable: false, defaultValueSql: "(getdate())")
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Reservations", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Reservations_Rooms_RoomId",
-                        column: x => x.RoomId,
-                        principalTable: "Rooms",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Reservations_Users_TenantId",
-                        column: x => x.TenantId,
-                        principalTable: "Users",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "RoomAmenities",
                 columns: table => new
                 {
-                    RoomId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false),
-                    AmenityId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false)
+                    RoomId = table.Column<string>(type: "nvarchar(36)", nullable: false),
+                    AmenityId = table.Column<string>(type: "nvarchar(36)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -328,7 +294,7 @@ namespace Infrastructure.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "lower(newid())"),
-                    LeaseId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: true),
+                    LeaseId = table.Column<string>(type: "nvarchar(36)", nullable: true),
                     Amount = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
                     DueDate = table.Column<DateTime>(type: "date", nullable: true),
                     Status = table.Column<int>(type: "int", nullable: false),
@@ -345,12 +311,42 @@ namespace Infrastructure.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Bookings",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "lower(newid())"),
+                    PostId = table.Column<string>(type: "nvarchar(36)", nullable: true),
+                    TenantId = table.Column<string>(type: "nvarchar(36)", nullable: true),
+                    IntendedIntoDate = table.Column<DateTime>(type: "date", nullable: false),
+                    NumberOfTenant = table.Column<int>(type: "int", nullable: false),
+                    Note = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Status = table.Column<int>(type: "int", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime", nullable: false, defaultValueSql: "(getdate())"),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime", nullable: false, defaultValueSql: "(getdate())")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Bookings", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Bookings_Posts_PostId",
+                        column: x => x.PostId,
+                        principalTable: "Posts",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Bookings_Users_TenantId",
+                        column: x => x.TenantId,
+                        principalTable: "Users",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Feedback",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "lower(newid())"),
-                    TenantId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: true),
-                    PostId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: true),
+                    TenantId = table.Column<string>(type: "nvarchar(36)", nullable: true),
+                    PostId = table.Column<string>(type: "nvarchar(36)", nullable: true),
+                    ReplyId = table.Column<string>(type: "nvarchar(36)", nullable: true),
                     Rating = table.Column<int>(type: "int", nullable: false),
                     Comment = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime", nullable: false, defaultValueSql: "(getdate())")
@@ -358,6 +354,11 @@ namespace Infrastructure.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Feedback", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Feedback_Feedback_ReplyId",
+                        column: x => x.ReplyId,
+                        principalTable: "Feedback",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Feedback_Posts_PostId",
                         column: x => x.PostId,
@@ -371,12 +372,41 @@ namespace Infrastructure.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Reservations",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "lower(newid())"),
+                    TenantId = table.Column<string>(type: "nvarchar(36)", nullable: true),
+                    PostId = table.Column<string>(type: "nvarchar(36)", nullable: true),
+                    Note = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RejectionReason = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ReservationDate = table.Column<DateTime>(type: "date", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime", nullable: false, defaultValueSql: "(getdate())"),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime", nullable: false, defaultValueSql: "(getdate())")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Reservations", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Reservations_Posts_PostId",
+                        column: x => x.PostId,
+                        principalTable: "Posts",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Reservations_Users_TenantId",
+                        column: x => x.TenantId,
+                        principalTable: "Users",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "SavePosts",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "lower(newid())"),
-                    FavoriteId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: true),
-                    PostId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: true),
+                    UserId = table.Column<string>(type: "nvarchar(36)", nullable: true),
+                    PostId = table.Column<string>(type: "nvarchar(36)", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime", nullable: false, defaultValueSql: "(getdate())"),
                     UpdatedAt = table.Column<DateTime>(type: "datetime", nullable: false, defaultValueSql: "(getdate())")
                 },
@@ -384,14 +414,14 @@ namespace Infrastructure.Data.Migrations
                 {
                     table.PrimaryKey("PK_SavePosts", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_SavePosts_Favorites_FavoriteId",
-                        column: x => x.FavoriteId,
-                        principalTable: "Favorites",
-                        principalColumn: "Id");
-                    table.ForeignKey(
                         name: "FK_SavePosts_Posts_PostId",
                         column: x => x.PostId,
                         principalTable: "Posts",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_SavePosts_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
                         principalColumn: "Id");
                 });
 
@@ -400,9 +430,11 @@ namespace Infrastructure.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "lower(newid())"),
-                    LeaseId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: true),
-                    InvoiceId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: true),
+                    LeaseId = table.Column<string>(type: "nvarchar(36)", nullable: true),
+                    InvoiceId = table.Column<string>(type: "nvarchar(36)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    RejectionReason = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    EstimateCost = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
                     RequestDate = table.Column<DateTime>(type: "datetime", nullable: false, defaultValueSql: "(getdate())"),
                     Status = table.Column<int>(type: "int", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime", nullable: false, defaultValueSql: "(getdate())"),
@@ -428,8 +460,8 @@ namespace Infrastructure.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "lower(newid())"),
-                    LeaseId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: true),
-                    InvoiceId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: true),
+                    LeaseId = table.Column<string>(type: "nvarchar(36)", nullable: true),
+                    InvoiceId = table.Column<string>(type: "nvarchar(36)", nullable: true),
                     Amount = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
                     PaymentDate = table.Column<DateTime>(type: "datetime", nullable: false, defaultValueSql: "(getdate())"),
                     Status = table.Column<int>(type: "int", nullable: false),
@@ -467,11 +499,14 @@ namespace Infrastructure.Data.Migrations
                 values: new object[] { "3c4d5e6f-3456-7891-0112-cdefabcdef01", "86966169-88e8-4a90-b74a-552767a238ea", "tenant", "TENANT" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Favorites_UserId",
-                table: "Favorites",
-                column: "UserId",
-                unique: true,
-                filter: "[UserId] IS NOT NULL");
+                name: "IX_Bookings_PostId",
+                table: "Bookings",
+                column: "PostId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Bookings_TenantId",
+                table: "Bookings",
+                column: "TenantId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Feedback_PostId",
@@ -479,9 +514,19 @@ namespace Infrastructure.Data.Migrations
                 column: "PostId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Feedback_ReplyId",
+                table: "Feedback",
+                column: "ReplyId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Feedback_TenantId",
                 table: "Feedback",
                 column: "TenantId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Follows_FolloweeId",
+                table: "Follows",
+                column: "FolloweeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Follows_FollowerId",
@@ -551,9 +596,9 @@ namespace Infrastructure.Data.Migrations
                 column: "RoomId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Reservations_RoomId",
+                name: "IX_Reservations_PostId",
                 table: "Reservations",
-                column: "RoomId");
+                column: "PostId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Reservations_TenantId",
@@ -578,14 +623,14 @@ namespace Infrastructure.Data.Migrations
                 column: "LandlordId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SavePosts_FavoriteId",
-                table: "SavePosts",
-                column: "FavoriteId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_SavePosts_PostId",
                 table: "SavePosts",
                 column: "PostId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SavePosts_UserId",
+                table: "SavePosts",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserRoles_RoleId",
@@ -607,6 +652,9 @@ namespace Infrastructure.Data.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Bookings");
+
             migrationBuilder.DropTable(
                 name: "Feedback");
 
@@ -642,9 +690,6 @@ namespace Infrastructure.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Amenities");
-
-            migrationBuilder.DropTable(
-                name: "Favorites");
 
             migrationBuilder.DropTable(
                 name: "Posts");

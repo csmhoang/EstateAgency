@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { Component, DestroyRef, inject, Input, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   AbstractControl,
   FormBuilder,
@@ -8,22 +7,21 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { provideNativeDateAdapter } from '@angular/material/core';
-import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { UserService } from '@core/services/user.service';
-import { Post } from '@features/post/models/post.model';
-import { Reservation } from '@features/reservation/models/reservation.model';
-import { ReservationService } from '@features/reservation/services/reservation.service';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { ToastService } from '@shared/services/toast/toast.service';
 import { catchError, of } from 'rxjs';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ReservationService } from '@features/reservation/services/reservation.service';
+import { Reservation } from '@features/reservation/models/reservation.model';
+import { provideNativeDateAdapter } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 @Component({
-  selector: 'app-reservation-insert',
+  selector: 'app-reservation-update',
   standalone: true,
   providers: [provideNativeDateAdapter()],
+
   imports: [
     MatFormFieldModule,
     MatInputModule,
@@ -31,19 +29,17 @@ import { catchError, of } from 'rxjs';
     ReactiveFormsModule,
     CommonModule,
   ],
-  templateUrl: './reservation-insert.component.html',
-  styleUrl: './reservation-insert.component.scss',
+  templateUrl: './reservation-update.component.html',
+  styleUrl: './reservation-update.component.scss',
 })
-export class ReservationInsertComponent implements OnInit {
-  @Input() data!: Post;
-  user = this.userService.currentUser();
-  minDate = new Date();
+export class ReservationUpdateComponent implements OnInit {
+  @Input() data!: Reservation;
 
+  minDate = new Date();
   destroyRef = inject(DestroyRef);
   activeModal = inject(NgbActiveModal);
 
   form: FormGroup = new FormGroup({});
-
   note?: AbstractControl | null;
   date?: AbstractControl | null;
   hour?: AbstractControl | null;
@@ -51,17 +47,21 @@ export class ReservationInsertComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private reservationService: ReservationService,
-    private toastService: ToastService,
-    private userService: UserService
+    private reservationService: ReservationService
   ) {}
 
   ngOnInit() {
     this.form = this.formBuilder.group({
-      date: this.formBuilder.control('', [Validators.required]),
-      hour: this.formBuilder.control('', [Validators.required]),
-      minute: this.formBuilder.control('', [Validators.required]),
-      note: this.formBuilder.control(''),
+      date: this.formBuilder.control(this.data.reservationDate.getDate(), [
+        Validators.required,
+      ]),
+      hour: this.formBuilder.control(this.data.reservationDate.getHours(), [
+        Validators.required,
+      ]),
+      minute: this.formBuilder.control(this.data.reservationDate.getMinutes(), [
+        Validators.required,
+      ]),
+      note: this.formBuilder.control(this.data?.note),
     });
 
     this.note = this.form.get('note');
@@ -70,30 +70,22 @@ export class ReservationInsertComponent implements OnInit {
     this.minute = this.form.get('minute');
   }
 
-  onReservation() {
-    if (this.form.valid && this.user) {
+  onUpdate() {
+    if (this.form.valid) {
       const reservationDate = new Date(this.date?.value);
       reservationDate.setHours(this.hour?.value, this.minute?.value);
       const reservation: Reservation = {
         ...this.form.value,
         reservationDate: reservationDate,
-        postId: this.data.id,
-        tenantId: this.user.id,
       };
       this.reservationService
-        .insert(reservation)
+        .update(this.data.id, reservation)
         .pipe(
           takeUntilDestroyed(this.destroyRef),
           catchError(() => of(null))
         )
         .subscribe((response) => {
           if (response?.success) {
-            if (response?.statusCode === 205) {
-              this.toastService.warn(
-                'Đã có người đặt lịch vào thời gian này, vui lòng chọn lại!'
-              );
-              return;
-            }
             this.activeModal.close(true);
           }
         });
@@ -101,7 +93,7 @@ export class ReservationInsertComponent implements OnInit {
   }
 
   accept() {
-    this.onReservation();
+    this.onUpdate();
   }
 
   decline() {
