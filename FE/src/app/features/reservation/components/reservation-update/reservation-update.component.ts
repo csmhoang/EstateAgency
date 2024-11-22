@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, DestroyRef, inject, Input, OnInit } from '@angular/core';
 import {
   AbstractControl,
@@ -21,13 +20,11 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
   selector: 'app-reservation-update',
   standalone: true,
   providers: [provideNativeDateAdapter()],
-
   imports: [
     MatFormFieldModule,
     MatInputModule,
     MatDatepickerModule,
     ReactiveFormsModule,
-    CommonModule,
   ],
   templateUrl: './reservation-update.component.html',
   styleUrl: './reservation-update.component.scss',
@@ -40,10 +37,8 @@ export class ReservationUpdateComponent implements OnInit {
   activeModal = inject(NgbActiveModal);
 
   form: FormGroup = new FormGroup({});
-  note?: AbstractControl | null;
-  date?: AbstractControl | null;
-  hour?: AbstractControl | null;
-  minute?: AbstractControl | null;
+  reservationHour?: AbstractControl | null;
+  reservationMinute?: AbstractControl | null;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -52,31 +47,26 @@ export class ReservationUpdateComponent implements OnInit {
 
   ngOnInit() {
     this.form = this.formBuilder.group({
-      date: this.formBuilder.control(this.data.reservationDate.getDate(), [
+      reservationDate: this.formBuilder.control(this.data.reservationDate, [
         Validators.required,
       ]),
-      hour: this.formBuilder.control(this.data.reservationDate.getHours(), [
+      reservationHour: this.formBuilder.control(this.data.reservationHour, [
         Validators.required,
       ]),
-      minute: this.formBuilder.control(this.data.reservationDate.getMinutes(), [
+      reservationMinute: this.formBuilder.control(this.data.reservationMinute, [
         Validators.required,
       ]),
       note: this.formBuilder.control(this.data?.note),
     });
 
-    this.note = this.form.get('note');
-    this.date = this.form.get('date');
-    this.hour = this.form.get('hour');
-    this.minute = this.form.get('minute');
+    this.reservationHour = this.form.get('reservationHour');
+    this.reservationMinute = this.form.get('reservationMinute');
   }
 
   onUpdate() {
     if (this.form.valid) {
-      const reservationDate = new Date(this.date?.value);
-      reservationDate.setHours(this.hour?.value, this.minute?.value);
       const reservation: Reservation = {
         ...this.form.value,
-        reservationDate: reservationDate,
       };
       this.reservationService
         .update(this.data.id, reservation)
@@ -101,14 +91,14 @@ export class ReservationUpdateComponent implements OnInit {
   }
 
   errorForHour(): string {
-    if (this.hour?.hasError('required')) {
+    if (this.reservationHour?.hasError('required')) {
       return 'Giờ không được để trống!';
     }
     return '';
   }
 
   errorForMinute(): string {
-    if (this.minute?.hasError('required')) {
+    if (this.reservationMinute?.hasError('required')) {
       return 'Phút không được để trống!';
     }
     return '';

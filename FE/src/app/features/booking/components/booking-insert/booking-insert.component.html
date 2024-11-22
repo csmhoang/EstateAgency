@@ -11,20 +11,33 @@
   <form [formGroup]="form">
     <div class="row">
       <!-- IntendedIntoDate select -->
-      <mat-form-field class="col-lg-6" appearance="outline">
+      <mat-form-field class="col-lg-4" appearance="outline">
         <mat-label>Ngày chuyển vào</mat-label>
         <input
           matInput
-          [min]="minDate"
-          [matDatepicker]="picker"
+          [min]="minIntendedIntoDate"
+          [matDatepicker]="pickerIntendedIntoDate"
           placeholder="MM/DD/YYYY"
           formControlName="intendedIntoDate"
         />
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
+        <mat-datepicker-toggle matSuffix [for]="pickerIntendedIntoDate"></mat-datepicker-toggle>
+        <mat-datepicker #pickerIntendedIntoDate></mat-datepicker>
+      </mat-form-field>
+      <!-- EndDate select -->
+      <mat-form-field class="col-lg-4" appearance="outline">
+        <mat-label>Ngày trả phòng</mat-label>
+        <input
+          matInput
+          [min]="minEndDate"
+          [matDatepicker]="pickerEndDate"
+          placeholder="MM/DD/YYYY"
+          formControlName="endDate"
+        />
+        <mat-datepicker-toggle matSuffix [for]="pickerEndDate"></mat-datepicker-toggle>
+        <mat-datepicker #pickerEndDate></mat-datepicker>
       </mat-form-field>
       <!-- NumberOfTenant input -->
-      <mat-form-field class="col-lg-6" appearance="outline">
+      <mat-form-field class="col-lg-4" appearance="outline">
         <mat-label>Số người ở</mat-label>
         <input
           matInput

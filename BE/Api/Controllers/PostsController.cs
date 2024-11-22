@@ -45,11 +45,23 @@ namespace Api.Controllers
             var response = await _service.Post.GetListAsync(specParams);
             return Ok(response);
         }
-
+        /// <summary>
+        /// Lấy danh sách bài đăng mới
+        /// </summary>
         [HttpGet("recent")]
         public async Task<IActionResult> GetListRecent()
         {
             var response = await _service.Post.GetListRecentAsync();
+            return Ok(response);
+        }
+
+        /// <summary>
+        /// Lấy danh sách bài đăng đã lưu
+        /// </summary>
+        [HttpGet("save")]
+        public async Task<IActionResult> GetListSaved(string userId)
+        {
+            var response = await _service.Post.GetListSavedAsync(userId);
             return Ok(response);
         }
 

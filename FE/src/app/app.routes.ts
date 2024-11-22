@@ -11,7 +11,6 @@ import { MaintenanceHistoryComponent } from '@features/maintenance/components/ma
 import { LessorDashboardComponent } from '@features/management/lessor/pages/lessor-dashboard/lessor-dashboard.component';
 import { LessorManagementComponent } from '@features/management/lessor/pages/lessor-management/lessor-management.component';
 import { ProfileEditComponent } from '@features/profiles/pages/profile-edit/profile-edit.component';
-import { RentedHistoryComponent } from '@features/profiles/pages/rented-history/rented-history.component';
 import { ProfileComponent } from '@features/profiles/pages/profile/profile.component';
 import { ServiceComponent } from '@features/service/pages/service/service.component';
 import { ProfileActionsComponent } from '@features/profiles/pages/profile-actions/profile-actions.component';
@@ -25,6 +24,7 @@ import { VerifyResetPasswordComponent } from '@core/auth/pages/verify-reset-pass
 import { lessorDetailResolver } from '@features/lessor/resolver/lessor-detail.resolver';
 import { isLandlord } from '@core/guards/auth.guard';
 import { ReservationListComponent } from '@features/reservation/components/reservation-list/reservation-list.component';
+import { BookingListComponent } from '@features/booking/components/booking-list/booking-list.component';
 
 export const routes: Routes = [
   /*Clients*/
@@ -58,7 +58,7 @@ export const routes: Routes = [
       },
       {
         path: 'history',
-        component: RentedHistoryComponent,
+        component: BookingListComponent,
       },
       {
         path: 'reservation',

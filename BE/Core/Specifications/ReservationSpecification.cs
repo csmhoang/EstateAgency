@@ -15,8 +15,8 @@ namespace Core.Specifications
         public ReservationSpecification(ReservationSpecParams specParams) : base(x =>
             (
                 string.IsNullOrEmpty(specParams.Search) ||
-                x.Post!.Title.ToLower().Contains(specParams.Search)
-            ) 
+                x.Post!.Room!.Name.ToLower().Contains(specParams.Search)
+            )
         &&
             (
                 specParams.TenantId.Count == 0 ||

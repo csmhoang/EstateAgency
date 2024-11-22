@@ -11,14 +11,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { Room } from '@features/apartment/models/room.model';
 import { SearchComponent } from '@shared/components/form/search/search.component';
 import { PaginationComponent } from '@shared/components/pagination/pagination.component';
 import { DialogService } from '@shared/services/dialog/dialog.service';
 import { PaginationParams } from '@shared/models/pagination-params.model';
 import { MiniLoadComponent } from '@shared/components/mini-load/mini-load.component';
-import { ApartmentViewComponent } from '@features/apartment/components/apartment-view/apartment-view.component';
-import { ApartmentUpdateComponent } from '@features/apartment/components/apartment-update/apartment-update.component';
 import { ToastService } from '@shared/services/toast/toast.service';
 import { catchError, firstValueFrom, lastValueFrom, of } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -29,6 +26,7 @@ import {
 import { ReservationService } from '@features/reservation/services/reservation.service';
 import { UserService } from '@core/services/user.service';
 import { ReservationUpdateComponent } from '../reservation-update/reservation-update.component';
+import { ReservationViewComponent } from '../reservation-view/reservation-view.component';
 
 @Component({
   selector: 'app-reservation-list',
@@ -51,7 +49,7 @@ export class ReservationListComponent implements OnInit {
   user = this.userService.currentUser();
   displayedColumns: string[] = [
     'name',
-    'createAt',
+    'createdAt',
     'reservationDate',
     'status',
     'optional',
@@ -117,8 +115,8 @@ export class ReservationListComponent implements OnInit {
     await this.init();
   }
 
-  onView(room: Room) {
-    this.dialogService.view(ApartmentViewComponent, room);
+  onView(reservation: Reservation) {
+    this.dialogService.view(ReservationViewComponent, reservation);
   }
 
   onUpdate(reservation: Reservation) {
@@ -127,9 +125,9 @@ export class ReservationListComponent implements OnInit {
       reservation.status !== 'Rejected'
     ) {
       this.dialogService
-        .form(ReservationUpdateComponent, reservation)
+        .form(ReservationUpdateComponent, reservation, 'lg')
         .then(async () => {
-          this.toastService.success('Cập nhật đặt lịch thành công thành công!');
+          this.toastService.success('Cập nhật đặt lịch thành công!');
           await this.init();
         });
     } else {
@@ -156,7 +154,7 @@ export class ReservationListComponent implements OnInit {
             )
           );
           if (response?.success) {
-            this.toastService.success('Xóa bản đặt lịch thành công');
+            this.toastService.success('Xóa đặt lịch thành công');
             await this.init();
           }
         });

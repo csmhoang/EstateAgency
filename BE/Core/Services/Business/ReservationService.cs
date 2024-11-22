@@ -9,6 +9,7 @@ using Core.Params;
 using Core.Resources;
 using Core.Specifications;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 using System.Net;
 using static Core.Enums.ReservationEnums;
 
@@ -159,6 +160,7 @@ namespace Core.Services.Business
             if (reservation != null)
             {
                 _mapper.Map(reservationUpdateDto, reservation);
+                reservation.UpdatedAt = DateTime.Now;
                 _repository.Reservation.Update(reservation);
                 await _repository.SaveAsync();
             }

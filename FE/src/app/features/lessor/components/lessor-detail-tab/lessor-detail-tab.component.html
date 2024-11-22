@@ -15,11 +15,15 @@
   <!-- List Post -->
   <div class="tab-pane fade show active" id="poster">
     <div class="real-estate">
+      @if(lessor?.posts){
       <app-post-list [posts]="lessor?.posts || []"></app-post-list>
+      }@else {
+      <ng-container>
+        <p class="fs-4 py-5 text-center">Chưa có bài đăng nào!</p>
+      </ng-container>
+      }
     </div>
   </div>
   <!-- Rating -->
-  <div class="tab-pane fade" id="evaluate">
-
-  </div>
+  <div class="tab-pane fade" id="evaluate"></div>
 </div>

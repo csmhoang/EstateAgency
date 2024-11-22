@@ -1,5 +1,6 @@
 ﻿using Core.Dtos;
 using Core.Interfaces.Business;
+using Core.Params;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -43,6 +44,16 @@ namespace Api.Controllers
         }
 
         /// <summary>
+        /// Lấy danh sách thông tin đặt phòng bằng specification
+        /// </summary>
+        [HttpGet("list")]
+        public async Task<IActionResult> GetList([FromQuery] BookingSpecParams specParams)
+        {
+            var response = await _service.Booking.GetListAsync(specParams);
+            return Ok(response);
+        }
+
+        /// <summary>
         /// Thêm đặt phòng
         /// </summary>
         /// <param name="model">Đặt phòng</param>
@@ -59,7 +70,7 @@ namespace Api.Controllers
         /// <param name="id">Id đặt phòng</param>
         /// <param name="model">Đặt phòng</param>
         [HttpPut]
-        public async Task<IActionResult> Update(string id, [FromBody] BookingDto model)
+        public async Task<IActionResult> Update(string id, [FromBody] BookingUpdateDto model)
         {
             var response = await _service.Booking.UpdateAsync(id, model);
             return Ok(response);

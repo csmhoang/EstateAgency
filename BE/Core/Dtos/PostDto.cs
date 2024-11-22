@@ -21,7 +21,7 @@ namespace Core.Dtos
         public DateTime? UpdatedAt { get; set; }
         public RoomDto? Room { get; set; }
         public UserDto? Landlord { get; set; }
-        public ICollection<Reservation>? Reservations { get; set; }
+        public ICollection<ReservationDto>? Reservations { get; set; }
 
     }
 }

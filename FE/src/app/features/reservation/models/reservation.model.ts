@@ -7,6 +7,8 @@ export type Reservation = {
   note?: string;
   rejectionReason?: string;
   reservationDate: Date;
+  reservationHour: number;
+  reservationMinute:number; 
   status: string;
   createdAt?: Date;
   updatedAt?: Date;

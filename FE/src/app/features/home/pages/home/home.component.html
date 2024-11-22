@@ -17,6 +17,7 @@
       </div>
     </section>
 
+    @if(posts){
     <!-- Post Recent Section -->
     <section class="real-estate section">
       <!-- Section Title -->
@@ -24,13 +25,11 @@
         <h2>Những bài đăng gần đây</h2>
       </div>
       <!-- Recent Posts -->
-      @if(posts){
       <div class="container">
         <app-post-list [posts]="posts"></app-post-list>
       </div>
-      }
     </section>
-
+    } @if(lessors){
     <!-- Rentaler Section -->
     <section class="agents section">
       <!-- Section Title -->
@@ -38,12 +37,11 @@
         <h2>Người cho thuê được yêu thích nhất</h2>
       </div>
       <!-- Rentaler List -->
-      @if(lessors){
-        <div class="container">
-          <app-lessor-list [lessors]="lessors"></app-lessor-list>
-        </div>
-      }
+      <div class="container">
+        <app-lessor-list [lessors]="lessors"></app-lessor-list>
+      </div>
     </section>
+    }
     <!-- Stats Section -->
     <app-home-stats></app-home-stats>
     <!-- Feedbacks Section -->

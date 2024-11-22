@@ -20,6 +20,8 @@ namespace Core.Dtos
         public string? Note { get; set; }
         public string? RejectionReason { get; set; }
         public DateTime ReservationDate { get; set; }
+        public int ReservationHour { get; set; }
+        public int ReservationMinute { get; set; }
         public StatusReservation? Status { get; set; }
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }

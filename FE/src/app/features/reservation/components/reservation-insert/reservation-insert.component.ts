@@ -44,10 +44,8 @@ export class ReservationInsertComponent implements OnInit {
 
   form: FormGroup = new FormGroup({});
 
-  note?: AbstractControl | null;
-  date?: AbstractControl | null;
-  hour?: AbstractControl | null;
-  minute?: AbstractControl | null;
+  reservationHour?: AbstractControl | null;
+  reservationMinute?: AbstractControl | null;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -58,25 +56,20 @@ export class ReservationInsertComponent implements OnInit {
 
   ngOnInit() {
     this.form = this.formBuilder.group({
-      date: this.formBuilder.control('', [Validators.required]),
-      hour: this.formBuilder.control('', [Validators.required]),
-      minute: this.formBuilder.control('', [Validators.required]),
+      reservationDate: this.formBuilder.control('', [Validators.required]),
+      reservationHour: this.formBuilder.control('', [Validators.required]),
+      reservationMinute: this.formBuilder.control('', [Validators.required]),
       note: this.formBuilder.control(''),
     });
 
-    this.note = this.form.get('note');
-    this.date = this.form.get('date');
-    this.hour = this.form.get('hour');
-    this.minute = this.form.get('minute');
+    this.reservationHour = this.form.get('reservationHour');
+    this.reservationMinute = this.form.get('reservationMinute');
   }
 
   onReservation() {
     if (this.form.valid && this.user) {
-      const reservationDate = new Date(this.date?.value);
-      reservationDate.setHours(this.hour?.value, this.minute?.value);
       const reservation: Reservation = {
         ...this.form.value,
-        reservationDate: reservationDate,
         postId: this.data.id,
         tenantId: this.user.id,
       };
@@ -109,14 +102,14 @@ export class ReservationInsertComponent implements OnInit {
   }
 
   errorForHour(): string {
-    if (this.hour?.hasError('required')) {
+    if (this.reservationHour?.hasError('required')) {
       return 'Giờ không được để trống!';
     }
     return '';
   }
 
   errorForMinute(): string {
-    if (this.minute?.hasError('required')) {
+    if (this.reservationMinute?.hasError('required')) {
       return 'Phút không được để trống!';
     }
     return '';

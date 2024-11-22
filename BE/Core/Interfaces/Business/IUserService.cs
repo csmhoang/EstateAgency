@@ -93,5 +93,14 @@ namespace Core.Interfaces.Business
         /// 2 - Ngoại lệ
         /// </returns>
         Task<Response> FollowAsync(string followerId, string followeeId, bool isFollow);
+        /// <summary>
+        /// Danh sách người đang theo dõi
+        /// </summary>
+        /// <param name="id">Id người dùng</param>
+        /// <returns>
+        /// 1 - Người dùng
+        /// 2 - Null
+        /// </returns>
+        Task<Response> GetListFolloweeAsync(string id);
     }
 }

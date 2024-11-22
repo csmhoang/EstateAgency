@@ -1,1 +1,61 @@
-<p>reservation-view works!</p>
+<div class="modal-header">
+  <h4 class="modal-title">Xem thông tin phòng</h4>
+  <button
+    type="button"
+    class="btn-close"
+    aria-label="Close"
+    (click)="decline()"
+  ></button>
+</div>
+<div class="modal-body">
+  <div class="container">
+    <h5 class="fs-5 fw-bold mb-4">Chi tiết</h5>
+    <table class="table table-striped">
+      <tbody>
+        <tr>
+          <th scope="row">Tên phòng</th>
+          <td>
+            {{ data.post?.room?.name }}
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">Ngày yêu cầu</th>
+          <td>
+            {{ data.createdAt | date : "dd/MM/yyyy" }}
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">Ngày mong muốn</th>
+          <td>
+            {{ data.reservationDate | date : "dd/MM/yyyy hh:mm a" }}
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">Ghi chú</th>
+          <td>
+            {{ data.note }}
+          </td>
+        </tr>
+        @if(data.rejectionReason){
+        <tr>
+          <th scope="row">Lý do từ chối</th>
+          <td>
+            {{ data.rejectionReason }}
+          </td>
+        </tr>
+        }
+        <tr>
+          <th scope="row">Trạng thái</th>
+          <td>
+            {{ statusReservationFilter[data.status] }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="mt-3">
+      <a class="link-opacity-75-hover" (click)="onMove(data.post?.id)">
+        Nhấn để xem chi tiết phòng</a
+      >
+    </div>
+  </div>
+</div>

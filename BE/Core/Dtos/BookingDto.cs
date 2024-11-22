@@ -18,10 +18,13 @@ namespace Core.Dtos
         [Required(ErrorMessage = UserConst.ErrorEmptyTenantId)]
         public string TenantId { get; set; } = null!;
         public DateTime IntendedIntoDate { get; set; }
+        public DateTime EndDate { get; set; }
         public int NumberOfTenant { get; set; }
+        public string? RejectionReason { get; set; }
         public string? Note { get; set; }
         public StatusBooking Status { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
+        public PostDto? Post { get; set; }
     }
 }

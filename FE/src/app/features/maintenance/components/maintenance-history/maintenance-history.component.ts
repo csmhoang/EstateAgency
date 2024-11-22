@@ -41,7 +41,6 @@ const ELEMENT_DATA: PeriodicElement[] = [
     MatSortModule,
     MatButtonModule,
     MatMenuModule,
-    PaginationComponent,
     MaintenanceFormComponent,
     SearchComponent,
   ],

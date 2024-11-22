@@ -35,7 +35,7 @@
         <ng-container matColumnDef="availableFrom">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Ngày có sẵn</th>
           <td mat-cell *matCellDef="let element">
-            {{ element.availableFrom | date : "MM/dd/yyyy" }}
+            {{ element.availableFrom | date : "dd/MM/yyyy" }}
           </td>
         </ng-container>
 
@@ -50,7 +50,7 @@
         <!-- CreatedAt Column-->
         <ng-container matColumnDef="createdAt">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Ngày tạo</th>
-          <td mat-cell *matCellDef="let element">{{ element.createdAt  | date : "MM/dd/yyyy"}}</td>
+          <td mat-cell *matCellDef="let element">{{ element.createdAt  | date : "dd/MM/yyyy"}}</td>
         </ng-container>
 
         <!-- Is Accept Column -->

@@ -4,7 +4,7 @@
   <div class="col-xl-4 col-md-6">
     <app-post-item [post]="post"></app-post-item>
   </div>
-  } @if(data().length > 3){
+  } @if(posts && posts.length > 3 && this.size() < posts.length){
   <button class="btn btn-dark d-block mt-5 mx-auto" (click)="viewMore()">
     Xem thêm
   </button>

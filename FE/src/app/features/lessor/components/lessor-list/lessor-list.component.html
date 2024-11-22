@@ -1,10 +1,12 @@
-<div class="container">
-  <div class="row gy-5">
-    @for (lessor of lessors; track $index) {
-    <!-- Lessor -->
-    <div class="col-lg-4 col-md-6">
-      <app-lessor-item [lessor]="lessor"></app-lessor-item>
-    </div>
-    }
+<div class="row gy-4">
+  @for (lessor of data(); track $index) {
+  <!-- Lessor -->
+  <div class="col-lg-4 col-md-6">
+    <app-lessor-item [lessor]="lessor"></app-lessor-item>
   </div>
+  } @if(lessors && lessors.length > 3 && this.size() < lessors.length){
+  <button class="btn btn-dark d-block mt-5 mx-auto" (click)="viewMore()">
+    Xem thêm
+  </button>
+  }
 </div>

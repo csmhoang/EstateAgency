@@ -18,5 +18,7 @@ namespace Core.Dtos
         public string FolloweeId { get; set; } = null!;
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
+        public UserDto? Follower { get; set; }
+        public UserDto? Followee { get; set; }
     }
 }

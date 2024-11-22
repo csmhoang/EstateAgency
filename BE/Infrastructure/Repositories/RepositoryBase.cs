@@ -23,20 +23,20 @@ namespace Infrastructure.Repositories
         #endregion
 
         #region Method
-        public IQueryable<T> FindAll() => _context.Set<T>();
+        public IQueryable<T> FindAll() => _context.Set<T>().AsNoTracking();
         public IQueryable<T> FindCondition(Expression<Func<T, bool>> expression) =>
-            _context.Set<T>().Where(expression);
+            _context.Set<T>().AsNoTracking().Where(expression);
         public void Delete(T entity) => _context.Set<T>().Remove(entity);
         public void Create(T entity) => _context.Set<T>().Add(entity);
         public void Update(T entity) => _context.Set<T>().Update(entity);
 
         public async Task<T?> GetEntityWithSpec(ISpecification<T> spec)
         {
-            return await ApplySpecification(spec).FirstOrDefaultAsync();
+            return await ApplySpecification(spec).AsNoTracking().FirstOrDefaultAsync();
         }
         public async Task<IReadOnlyList<T>> ListAsync(ISpecification<T> spec)
         {
-            return await ApplySpecification(spec).ToListAsync();
+            return await ApplySpecification(spec).AsNoTracking().ToListAsync();
         }
         private IQueryable<T> ApplySpecification(ISpecification<T> spec)
         {

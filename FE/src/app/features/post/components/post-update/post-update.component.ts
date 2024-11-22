@@ -16,7 +16,6 @@ import { MatSelectModule } from '@angular/material/select';
 import { Post } from '@features/post/models/post.model';
 import { PostService } from '@features/post/services/post.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { ToastService } from '@shared/services/toast/toast.service';
 import { catchError, of } from 'rxjs';
 
 @Component({
@@ -29,7 +28,6 @@ import { catchError, of } from 'rxjs';
     MatDatepickerModule,
     ReactiveFormsModule,
     MatSelectModule,
-    CommonModule,
   ],
   templateUrl: './post-update.component.html',
   styleUrl: './post-update.component.scss',
@@ -48,7 +46,6 @@ export class PostUpdateComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private toastService: ToastService,
     private postService: PostService
   ) {}
 

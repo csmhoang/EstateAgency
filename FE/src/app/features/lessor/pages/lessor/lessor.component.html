@@ -56,7 +56,9 @@
       <div [hidden]="lessors().length == 0">
         <!-- List Lessor -->
         <ng-container *ngIf="lessors().length != 0">
-          <app-lessor-list [lessors]="lessors()"></app-lessor-list>
+          <div class="container">
+            <app-lessor-list [lessors]="lessors()"></app-lessor-list>
+          </div>
         </ng-container>
         <!-- Pagination -->
         <div class="pt-4">

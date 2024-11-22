@@ -38,7 +38,8 @@ import { catchError, of } from 'rxjs';
 export class BookingInsertComponent implements OnInit {
   @Input() data!: Post;
   user = this.userService.currentUser();
-  minDate = new Date();
+  minIntendedIntoDate = new Date();
+  minEndDate = new Date(new Date().setMonth(new Date().getMonth() + 1));
 
   destroyRef = inject(DestroyRef);
   activeModal = inject(NgbActiveModal);
@@ -55,6 +56,7 @@ export class BookingInsertComponent implements OnInit {
   ngOnInit() {
     this.form = this.formBuilder.group({
       intendedIntoDate: this.formBuilder.control('', [Validators.required]),
+      endDate: this.formBuilder.control('', [Validators.required]),
       numberOfTenant: this.formBuilder.control(0, [Validators.required]),
       note: this.formBuilder.control(''),
     });

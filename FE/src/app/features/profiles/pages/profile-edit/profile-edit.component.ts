@@ -1,10 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { User } from '@core/models/user.model';
+import { Component, computed } from '@angular/core';
+import { UserService } from '@core/services/user.service';
 import { ProfileEditAccountComponent } from '@features/profiles/components/profile-edit-account/profile-edit-account.component';
 import { ProfileEditOverviewComponent } from '@features/profiles/components/profile-edit-overview/profile-edit-overview.component';
 import { ProfileEditProfileComponent } from '@features/profiles/components/profile-edit-profile/profile-edit-profile.component';
-import { ProfileService } from '@features/profiles/services/profile.service';
 
 @Component({
   selector: 'app-profile-edit',
@@ -19,7 +18,7 @@ import { ProfileService } from '@features/profiles/services/profile.service';
   styleUrl: './profile-edit.component.scss',
 })
 export class ProfileEditComponent {
-  user = this.profileService.user;
+  user = computed(() => this.userService.currentUser());
 
-  constructor(private profileService: ProfileService) {}
+  constructor(private userService: UserService) {}
 }

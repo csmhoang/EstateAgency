@@ -1,8 +1,8 @@
 ﻿using Api.Extensions;
 using Core.Helpers;
 using Core.Interfaces.Infrastructure;
+using Core.Mapping;
 using Core.SignalR;
-using Infrastructure.Mapping;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.OpenApi.Models;
 using NLog;

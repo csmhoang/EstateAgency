@@ -22,11 +22,11 @@ namespace Core.Dtos
         public ICollection<RoomDto>? Rooms { get; set; }
         public ICollection<PostDto>? Posts { get; set; }
         public ICollection<UserRoleDto>? UserRoles { get; set; }
-        public ICollection<Follow>? Followers { get; set; }
-        public ICollection<Follow>? Followees { get; set; }
-        public ICollection<Reservation>? Reservations { get; set; }
-        public ICollection<Booking>? Bookings { get; set; }
-        public ICollection<SavePost>? SavePosts { get; set; }
+        public ICollection<FollowDto>? Followers { get; set; }
+        public ICollection<FollowDto>? Followees { get; set; }
+        public ICollection<ReservationDto>? Reservations { get; set; }
+        public ICollection<BookingDto>? Bookings { get; set; }
+        public ICollection<SavePostDto>? SavePosts { get; set; }
 
     }
 }

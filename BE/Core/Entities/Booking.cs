@@ -11,7 +11,9 @@ namespace Core.Entities
         [ForeignKey("Tenant")]
         public string? TenantId { get; set; }
         public DateTime IntendedIntoDate { get; set; }
+        public DateTime EndDate { get; set; }
         public int NumberOfTenant { get; set; }
+        public string? RejectionReason { get; set; }
         public string? Note { get; set; }
         public StatusBooking Status { get; set; }
         public DateTime CreatedAt { get; set; }

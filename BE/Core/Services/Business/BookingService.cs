@@ -5,7 +5,9 @@ using Core.Exceptions;
 using Core.Interfaces.Business;
 using Core.Interfaces.Data;
 using Core.Interfaces.Infrastructure;
+using Core.Params;
 using Core.Resources;
+using Core.Specifications;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -61,6 +63,23 @@ namespace Core.Services.Business
                 StatusCode = booking is null ? (int)HttpStatusCode.NoContent : (int)HttpStatusCode.OK
             };
         }
+        public async Task<Response> GetListAsync(BookingSpecParams specParams)
+        {
+            var spec = new BookingSpecification(specParams);
+            var page = await CreatePagedResult(spec, specParams.PageIndex, specParams.PageSize);
+            return new Response
+            {
+                Success = true,
+                Data = new
+                {
+                    page.PageIndex,
+                    page.PageSize,
+                    page.Count,
+                    Data = _mapper.Map<IEnumerable<BookingDto>>(page.Data)
+                },
+                StatusCode = !page.Data.Any() ? (int)HttpStatusCode.NoContent : (int)HttpStatusCode.OK
+            };
+        }
         public async Task<Response> DeleteAsync(string id)
         {
             var bookingDelete = await _repository.Booking.FindCondition(r => r.Id.Equals(id))
@@ -107,15 +126,13 @@ namespace Core.Services.Business
             };
         }
 
-        public async Task<Response> UpdateAsync(string id, BookingDto bookingDto)
+        public async Task<Response> UpdateAsync(string id, BookingUpdateDto bookingUpdateDto)
         {
-            await ValidateObject(bookingDto);
-
             var booking = await _repository.Booking.FindCondition(r => r.Id.Equals(id))
                 .FirstOrDefaultAsync();
             if (booking is not null)
             {
-                _mapper.Map(bookingDto, booking);
+                _mapper.Map(bookingUpdateDto, booking);
                 _repository.Booking.Update(booking);
                 await _repository.SaveAsync();
             }

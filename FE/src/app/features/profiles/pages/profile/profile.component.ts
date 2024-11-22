@@ -29,7 +29,7 @@ import { Observable, catchError, map, of, shareReplay } from 'rxjs';
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss',
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent {
   destroyRef = inject(DestroyRef);
   user = this.userService.currentUser();
   isHandset$: Observable<boolean> = this.breakpointObserver
@@ -45,10 +45,6 @@ export class ProfileComponent implements OnInit {
     private toastService: ToastService,
     private profileService: ProfileService
   ) {}
-
-  ngOnInit(): void {
-    this.profileService.user.set(this.user);
-  }
 
   setAvatar(event: Event) {
     const input = event.target as HTMLInputElement;

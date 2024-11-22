@@ -109,5 +109,14 @@ namespace Core.Interfaces.Business
         /// 2 - Ngoại lệ
         /// </returns>
         Task<Response> SavePostAsync(SavePostDto savePostDto, bool isSave);
+        /// <summary>
+        /// Danh sách bài đăng đã lưu
+        /// </summary>
+        /// <param name="userId">Id người dùng</param>
+        /// <returns>
+        /// 1 - Danh sách bài đăng
+        /// 2 - Danh sách rỗng
+        /// </returns>
+        Task<Response> GetListSavedAsync(string userId);
     }
 }

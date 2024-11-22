@@ -5,7 +5,6 @@ import { HeaderComponent } from '@core/layout/header/header.component';
 import { User } from '@core/models/user.model';
 import { LessorDetailProfileComponent } from '@features/lessor/components/lessor-detail-profile/lessor-detail-profile.component';
 import { LessorDetailTabComponent } from '@features/lessor/components/lessor-detail-tab/lessor-detail-tab.component';
-import { CommentComponent } from '@shared/components/comment/comment.component';
 
 @Component({
   selector: 'app-lessor-detail',

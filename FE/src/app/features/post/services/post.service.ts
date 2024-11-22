@@ -43,6 +43,16 @@ export class PostService {
       .pipe(map((response) => response.data));
   }
 
+  getListSaved(userId: string, isDisplayMiniLoading: boolean = false) {
+    return this.http
+      .get<Result<Post[]>>(`/posts/save?userId=${userId}`, {
+        context: new HttpContext()
+          .set(SkipPreloader, true)
+          .set(TakeMiniLoad, isDisplayMiniLoading),
+      })
+      .pipe(map((response) => response.data));
+  }
+
   getListRecent() {
     return this.http
       .get<Result<Post[]>>('/posts/recent', {

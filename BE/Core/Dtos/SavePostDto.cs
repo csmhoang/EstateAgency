@@ -20,7 +20,7 @@ namespace Core.Dtos
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
 
-        public virtual User? User { get; set; }
-        public virtual Post? Post { get; set; }
+        public virtual UserDto? User { get; set; }
+        public virtual PostDto? Post { get; set; }
     }
 }

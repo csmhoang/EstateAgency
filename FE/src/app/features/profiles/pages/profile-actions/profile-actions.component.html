@@ -15,15 +15,22 @@
   <!-- Content one -->
   <div class="tab-pane fade show active" id="post-saved">
     <div class="real-estate real-estate-sm">
-      <app-post-list></app-post-list>
-      <button class="btn btn-dark d-block mt-5 mx-auto">Xem thêm</button>
+      @if(savedPosts){
+      <app-post-list [posts]="savedPosts"></app-post-list>
+      }@else {
+      <p class="fs-4 py-5 text-center">Bạn chưa có phòng trọ nào!</p>
+      }
     </div>
   </div>
 
   <!-- Content two -->
   <div class="tab-pane fade" id="follwer">
     <div class="agents">
-      <app-lessor-list></app-lessor-list>
+      @if(followees){
+      <app-lessor-list [lessors]="followees"></app-lessor-list>
+      }@else {
+      <p class="fs-4 py-5 text-center">Bạn chưa theo dõi ai!</p>
+      }
     </div>
   </div>
 </div>

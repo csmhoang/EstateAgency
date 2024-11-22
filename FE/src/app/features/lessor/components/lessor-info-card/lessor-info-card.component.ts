@@ -125,21 +125,25 @@ export class LessorInfoCardComponent implements OnInit {
           (booking.status === 'Pending' || booking.status === 'Accepted')
       );
       if (!isCheckExist && !this.isBooking) {
-        this.dialogService
-          .form(BookingInsertComponent, this.post, 'lg')
-          .then(() => {
-            this.toastService.success(
-              'Yêu cầu đặt phòng đã gửi, xin hãy chờ chủ nhà xác nhận.'
-            );
-            this.isBooking = true;
-            this.userService
-              .init(true)
-              .pipe(
-                takeUntilDestroyed(this.destroyRef),
-                catchError(() => of(null))
-              )
-              .subscribe();
-          });
+        if (this.post?.room?.condition !== 'Occupied') {
+          this.dialogService
+            .form(BookingInsertComponent, this.post, 'lg')
+            .then(() => {
+              this.toastService.success(
+                'Yêu cầu đặt phòng đã gửi, xin hãy chờ chủ nhà xác nhận.'
+              );
+              this.isBooking = true;
+              this.userService
+                .init(true)
+                .pipe(
+                  takeUntilDestroyed(this.destroyRef),
+                  catchError(() => of(null))
+                )
+                .subscribe();
+            });
+        } else {
+          this.toastService.warn('Phòng đã có người ở.');
+        }
       } else {
         this.toastService.warn('Yêu cầu đặt phòng của bạn đang được xử lý.');
       }

@@ -3,7 +3,9 @@ using Core.Consts;
 using Core.Dtos;
 using Core.Entities;
 using Core.Exceptions;
+using Core.Extensions;
 using Core.Interfaces.Infrastructure;
+using Core.Mapping;
 using Core.Resources;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -397,13 +399,19 @@ namespace Core.Services.Auth
         public async Task<Response> UserCurrent(string username)
         {
             var user = string.IsNullOrEmpty(username) ? null : await _userManager.Users
-                .Include(u => u.UserRoles)
-                .ThenInclude(ur => ur.Role)
-                .Include(u => u.Followees)
-                .Include(u => u.SavePosts)
-                .Include(u => u.Reservations)
-                .Include(u => u.Bookings)
-                .SingleOrDefaultAsync(x => x.UserName == username.ToLower());
+                .AsNoTracking()
+                .Include(u => u.UserRoles!)
+                .ThenInclude(ur => ur.Role!)
+                .Include(u => u.Followees!)
+                .ThenInclude(f => f.Followee!)
+                .Include(u => u.Followers!)
+                .Include(u => u.SavePosts!)
+                .ThenInclude(s => s.Post!)
+                .ThenInclude(p => p.Room!)
+                .ThenInclude(r => r.Photos!)
+                .Include(u => u.Reservations!)
+                .Include(u => u.Bookings!)
+                .FirstOrDefaultAsync(x => x.UserName == username.ToLower());
 
             return new Response
             {

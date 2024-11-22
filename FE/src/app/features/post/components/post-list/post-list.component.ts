@@ -11,11 +11,11 @@ import { Post } from '@features/post/models/post.model';
 })
 export class PostListComponent {
   @Input()
-  posts!: Post[];
+  posts?: Post[];
   size = signal<number>(3);
-  data = computed(() => this.posts.slice(0, this.size()));
+  data = computed(() => this.posts?.slice(0, this.size()));
 
   viewMore() {
-    this.size.update((v) => v * 2);
+    this.size.update((v) => v + 3);
   }
 }

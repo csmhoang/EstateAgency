@@ -2,7 +2,7 @@
   <div
     class="container-fluid container-xl position-relative d-flex align-items-center justify-content-between"
   >
-    <a href="index.html" class="logo d-flex align-items-center">
+    <a [routerLink]="['/']" class="logo d-flex align-items-center">
       <img src="/assets/icons/logo.svg" />
     </a>
 
@@ -27,31 +27,37 @@
       </ul>
       <div class="btn-navmenu d-flex gap-2">
         <div *appIfAuthenticated="true" class="d-flex gap-2">
-          <button
-            class="btn btn-dark fs-4 border-0 rounded-pill"
-          >
+          <button class="btn btn-dark fs-4 border-0 rounded-pill">
             <i class="bi bi-bell-fill"></i>
           </button>
           <div
             class="d-flex align-items-center gap-2"
             [matMenuTriggerFor]="menu"
           >
-            <button
-              class="btn btn-dark fs-4 border-0 rounded-pill"
-            >
+            <button class="btn btn-dark fs-4 border-0 rounded-pill">
               <i class="bi bi-person-fill"></i>
             </button>
-            <a
-              class="fw-bold link-opacity-75-hover"
-              *ngIf="user"
-            >
+            <a class="fw-bold link-opacity-75-hover" *ngIf="user">
               {{ user.fullName }}
               <i class="fa-solid fa-square-caret-down"></i>
             </a>
             <mat-menu #menu="matMenu" class="profile-dropdown">
               <div class="px-2">
-                <button mat-menu-item routerLink="/profile">Hồ sơ cá nhân</button>
-                <button mat-menu-item routerLink="/profile/history">Lịch sử thuê trọ</button>
+                <button mat-menu-item routerLink="/profile">
+                  Hồ sơ cá nhân
+                </button>
+                <button mat-menu-item routerLink="/profile/reservation">
+                  Danh sách đặt lịch
+                </button>
+                <button mat-menu-item routerLink="/profile/history">
+                  Lịch sử đặt phòng
+                </button>
+                <button mat-menu-item routerLink="/profile/maintenance">
+                  Trạng thái yêu cầu
+                </button>
+                <button mat-menu-item routerLink="/profile/actions">
+                  Hoạt động
+                </button>
               </div>
               <hr />
               <div class="px-2">

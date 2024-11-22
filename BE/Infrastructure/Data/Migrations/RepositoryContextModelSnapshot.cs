@@ -69,6 +69,9 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("datetime")
                         .HasDefaultValueSql("(getdate())");
 
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("date");
+
                     b.Property<DateTime>("IntendedIntoDate")
                         .HasColumnType("date");
 
@@ -80,6 +83,9 @@ namespace Infrastructure.Data.Migrations
 
                     b.Property<string>("PostId")
                         .HasColumnType("nvarchar(36)");
+
+                    b.Property<string>("RejectionReason")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
@@ -489,7 +495,7 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("ReservationDate")
-                        .HasColumnType("date");
+                        .HasColumnType("datetime");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");

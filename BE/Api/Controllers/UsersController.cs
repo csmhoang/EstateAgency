@@ -86,6 +86,18 @@ namespace Api.Controllers
             var response = await _service.User.GetSearchOptionsAsync();
             return Ok(response);
         }
+
+        /// <summary>
+        /// Lấy thông tin người đang theo dõi
+        /// </summary>
+        [HttpGet("followee")]
+        [Authorize]
+        public async Task<IActionResult> GetListFollowee(string id)
+        {
+            var response = await _service.User.GetListFolloweeAsync(id);
+            return Ok(response);
+        }
+
         /// <summary>
         /// Theo dõi người dùng
         /// </summary>

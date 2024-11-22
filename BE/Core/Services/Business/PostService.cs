@@ -122,6 +122,24 @@ namespace Core.Services.Business
             };
         }
 
+        public async Task<Response> GetListSavedAsync(string userId)
+        {
+            var spec = new BaseSpecification<SavePost>(x => x.UserId!.Equals(userId));
+            spec.AddInclude(x => x
+                .Include(s => s.Post!)
+                .ThenInclude(p => p.Room!)
+                .ThenInclude(r => r.Photos!)
+            );
+
+            var savePosts = await _repository.SavePost.ListAsync(spec);
+            return new Response
+            {
+                Success = true,
+                Data = _mapper.Map<IEnumerable<PostDto>>(savePosts.Select(s => s.Post)),
+                StatusCode = !savePosts.Any() ? (int)HttpStatusCode.NoContent : (int)HttpStatusCode.OK
+            };
+        }
+
         public async Task<Response> DeleteAsync(string id)
         {
             var postDelete = await _repository.Post.FindCondition(r => r.Id.Equals(id))

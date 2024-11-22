@@ -189,7 +189,7 @@ namespace Infrastructure.Data
                     .HasColumnType("datetime")
                     .HasDefaultValueSql("(getdate())");
 
-                entity.Property(e => e.ReservationDate).HasColumnType("date");
+                entity.Property(e => e.ReservationDate).HasColumnType("datetime");
 
                 entity.Property(e => e.UpdatedAt)
                     .HasColumnType("datetime")
@@ -203,6 +203,8 @@ namespace Infrastructure.Data
                     .HasDefaultValueSql("lower(newid())");
 
                 entity.Property(e => e.IntendedIntoDate).HasColumnType("date");
+
+                entity.Property(e => e.EndDate).HasColumnType("date");
 
                 entity.Property(e => e.CreatedAt)
                     .HasColumnType("datetime")
