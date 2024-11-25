@@ -1,10 +1,9 @@
 import { DestroyRef, inject, Injectable } from '@angular/core';
 import { AuthService } from '@core/auth/services/auth.service';
 import { UserService } from './user.service';
-import { catchError, forkJoin, of, tap } from 'rxjs';
+import { catchError, forkJoin, of } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CookieService } from './cookie.service';
-import { PresenceService } from './presence.service';
 
 @Injectable({
   providedIn: 'root',

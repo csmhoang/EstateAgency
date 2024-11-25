@@ -7,7 +7,7 @@ namespace Core.Dtos
 {
     public record PostDto
     {
-        public Guid? Id { get; set; }
+        public string? Id { get; set; }
         [Required(ErrorMessage = RoomConst.ErrorEmptyId)]
         public string RoomId { get; set; } = null!;
         [Required(ErrorMessage = UserConst.ErrorEmptyLandlordId)]
@@ -21,7 +21,5 @@ namespace Core.Dtos
         public DateTime? UpdatedAt { get; set; }
         public RoomDto? Room { get; set; }
         public UserDto? Landlord { get; set; }
-        public ICollection<ReservationDto>? Reservations { get; set; }
-
     }
 }

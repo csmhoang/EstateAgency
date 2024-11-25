@@ -48,7 +48,7 @@ export class ReservationListComponent implements OnInit {
   destroyRef = inject(DestroyRef);
   user = this.userService.currentUser();
   displayedColumns: string[] = [
-    'name',
+    'roomName',
     'createdAt',
     'reservationDate',
     'status',
@@ -139,7 +139,7 @@ export class ReservationListComponent implements OnInit {
     if (status !== 'Confirmed') {
       this.dialogService
         .confirm({
-          title: 'Xác nhận xóa đặt lịch này không',
+          title: 'Xác nhận xóa đặt lịch',
           content: 'Bạn có chắc muốn xóa đặt lịch này không?',
           button: {
             accept: 'Xóa',

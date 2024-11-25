@@ -62,4 +62,15 @@ export class ReservationService {
   update(id: string, reservation: Reservation) {
     return this.http.put<Result>(`/reservations?id=${id}`, reservation);
   }
+
+  refuse(id: string, rejectionReason: string) {
+    return this.http.put<Result>(
+      `/reservations/refuse?id=${id}&rejectionReason=${rejectionReason}`,
+      null
+    );
+  }
+
+  accept(id: string) {
+    return this.http.put<Result>(`/reservations/accept?id=${id}`, null);
+  }
 }

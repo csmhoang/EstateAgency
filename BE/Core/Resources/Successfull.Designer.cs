@@ -61,6 +61,15 @@ namespace Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Chấp thuận thành công..
+        /// </summary>
+        public static string AcceptSucceed {
+            get {
+                return ResourceManager.GetString("AcceptSucceed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Hủy lưu bài viết thành công..
         /// </summary>
         public static string CancelSavePostSucceed {
@@ -129,6 +138,15 @@ namespace Core.Resources {
         public static string RegisterSucceed {
             get {
                 return ResourceManager.GetString("RegisterSucceed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Từ chối thành công..
+        /// </summary>
+        public static string RejectSucceed {
+            get {
+                return ResourceManager.GetString("RejectSucceed", resourceCulture);
             }
         }
         

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Core.Entities
 {
@@ -9,13 +11,16 @@ namespace Core.Entities
         {
             Rooms = new HashSet<Room>();
         }
-
-        public string Id { get; set; } = null!;
+        [Key]
+        [MaxLength(36)]
+        public string Id { get; set; } = Guid.NewGuid().ToString();
+        [MaxLength(100)]
         public string Name { get; set; } = null!;
         public string? Description { get; set; }
+        [Column(TypeName = "decimal(10, 2)")]
         public decimal Price { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public DateTime UpdatedAt { get; set; }
+        public DateTime? CreatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime? UpdatedAt { get; set; } = DateTime.UtcNow;
 
         public virtual ICollection<Room> Rooms { get; set; }
     }

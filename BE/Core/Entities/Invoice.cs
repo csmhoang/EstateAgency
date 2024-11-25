@@ -11,19 +11,22 @@ namespace Core.Entities
     {
         public Invoice()
         {
-            MaintenanceRequests = new HashSet<MaintenanceRequest>();
+            InvoiceDetails = new HashSet<InvoiceDetail>();
         }
-        public string Id { get; set; } = null!;
-        [ForeignKey("Lease")]
-        public string? LeaseId { get; set; }
+
+        [Key]
+        [MaxLength(36)]
+        public string Id { get; set; } = Guid.NewGuid().ToString();
+        [Column(TypeName = "decimal(10, 2)")]
         public decimal Amount { get; set; }
+        [Column(TypeName = "date")]
         public DateTime? DueDate { get; set; }
         public StatusInvoice Status { get; set; }
-        public DateTime CreatedAt { get; set; }
-
-        public virtual Lease? Lease { get; set; }
+        public DateTime? CreatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime? UpdatedAt { get; set; } = DateTime.UtcNow;
+        public virtual Booking? Booking { get; set; }
+        public virtual MaintenanceRequest? MaintenanceRequest { get; set; }
         public virtual Payment? Payment { get; set; }
-
-        public virtual ICollection<MaintenanceRequest> MaintenanceRequests { get; set; }
+        public virtual ICollection<InvoiceDetail> InvoiceDetails { get; set; }
     }
 }

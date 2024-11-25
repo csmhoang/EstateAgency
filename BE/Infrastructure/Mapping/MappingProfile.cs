@@ -3,7 +3,7 @@ using Core.Dtos;
 using Core.Entities;
 using System.ComponentModel;
 
-namespace Core.Mapping
+namespace Infrastructure.Mapping
 {
     public class MappingProfile : Profile
     { 
@@ -35,6 +35,8 @@ namespace Core.Mapping
             CreateMap<Lease, LeaseDto>();
 
             CreateMap<Invoice, InvoiceDto>();
+
+            CreateMap<InvoiceDetail, InvoiceDetailDto>();
 
             CreateMap<Feedback, FeedbackDto>();
 
@@ -94,6 +96,8 @@ namespace Core.Mapping
             CreateMap<InvoiceDto, Invoice>()
                .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
 
+            CreateMap<InvoiceDetailDto, InvoiceDetail>()
+               .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
         }
     }
 }

@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using static Core.Enums.UserEnums;
 
 namespace Core.Entities
@@ -20,17 +22,22 @@ namespace Core.Entities
             UserRoles = new HashSet<UserRole>();
             SavePosts = new HashSet<SavePost>();
         }
+        [MaxLength(100)]
         public string FullName { get; set; } = null!;
+        [Column(TypeName = "date")]
         public DateTime? DateOfBirth { get; set; }
         public Gender Gender { get; set; }
+        [MaxLength(256)]
         public string Address { get; set; } = null!;
         public string? RefreshToken { get; set; }
+        [MaxLength(256)]
         public string? AvatarUrl { get; set; }
+        [MaxLength(256)]
         public string? PublicId { get; set; }
         public string? Description { get; set; }
         public DateTime? RefreshTokenExpiryTime { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public DateTime UpdatedAt { get; set; }
+        public DateTime? CreatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime? UpdatedAt { get; set; } = DateTime.UtcNow;
 
         public virtual ICollection<Post> Posts { get; set; }
         public virtual ICollection<SavePost> SavePosts { get; set; }

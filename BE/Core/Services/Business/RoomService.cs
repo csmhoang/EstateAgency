@@ -89,7 +89,7 @@ namespace Core.Services.Business
                 .FirstOrDefaultAsync();
             if (roomDelete is not null)
             {
-                //await DeletePhotosAsync(id);
+                await DeletePhotosAsync(id);
                 _repository.Room.Delete(roomDelete);
                 await _repository.SaveAsync();
                 return new Response
@@ -105,23 +105,19 @@ namespace Core.Services.Business
             }
         }
 
-        //public async Task DeletePhotosAsync(string roomId)
-        //{
-        //    var photos = await _repository.Photo.FindCondition(r => r.RoomId!.Equals(roomId))
-        //        .ToListAsync();
-        //    var count = 0;
-        //    foreach (var photo in photos)
-        //    {
-        //        var deleteResult = await _photoService.DeletePhotoAsync(photo.PublicId);
-        //        if (deleteResult.Error != null || deleteResult.Result == "not found")
-        //        {
-        //            throw new CustomizeException(Failure.DeletePhotoFailing);
-        //        }
-        //        _repository.Photo.Delete(photo);
-        //        count++;
-        //    }
-        //    if (count != 0) await _repository.SaveAsync();
-        //}
+        public async Task DeletePhotosAsync(string roomId)
+        {
+            var photos = await _repository.Photo.FindCondition(r => r.RoomId!.Equals(roomId))
+                .ToListAsync();
+            foreach (var photo in photos)
+            {
+                var deleteResult = await _photoService.DeletePhotoAsync(photo.PublicId);
+                if (deleteResult.Error != null && deleteResult.Result != "not found")
+                {
+                    throw new CustomizeException(Failure.DeletePhotoFailing);
+                }
+            }
+        }
 
         public async Task<Response> InsertAsync(RoomDto roomDto, IFormFile[]? files)
         {

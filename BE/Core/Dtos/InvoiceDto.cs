@@ -1,4 +1,5 @@
 ﻿using Core.Consts;
+using Core.Entities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -11,11 +12,13 @@ namespace Core.Dtos
 {
     public record InvoiceDto
     {
-        public Guid? Id { get; set; }
-        [Required(ErrorMessage = LeaseConst.ErrorEmptyId)]
-        public string LeaseId { get; set; } = null!;
+        public string? Id { get; set; }
         public decimal Amount { get; set; }
         public DateTime? DueDate { get; set; }
         public StatusInvoice? Status { get; set; }
+        public DateTime? CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
+        public ICollection<InvoiceDetailDto>? InvoiceDetails { get; set; }
+
     }
 }

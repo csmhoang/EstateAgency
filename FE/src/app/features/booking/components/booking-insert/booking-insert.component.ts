@@ -68,7 +68,7 @@ export class BookingInsertComponent implements OnInit {
     if (this.form.valid && this.user) {
       const booking: Booking = {
         ...this.form.value,
-        postId: this.data.id,
+        roomId: this.data.room?.id,
         tenantId: this.user.id,
       };
       this.bookingService

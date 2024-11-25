@@ -1,4 +1,5 @@
 ﻿using Core.Consts;
+using Core.Entities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -11,15 +12,12 @@ namespace Core.Dtos
 {
     public record PaymentDto
     {
-        public Guid? Id { get; set; }
-        [Required(ErrorMessage = LeaseConst.ErrorEmptyId)]
-        public string LeaseId { get; set; } = null!;
-        [Required(ErrorMessage = InvoiceConst.ErrorEmptyId)]
+        public string? Id { get; set; }
+        [Required(ErrorMessage = PaymentConst.ErrorEmptyId)]
         public string InvoiceId { get; set; } = null!;
         public decimal Amount { get; set; }
         public DateTime PaymentDate { get; set; }
         public PaymentMethod? PaymentMethod { get; set; }
         public StatusPayment? Status { get; set; }
-        public DateTime? CreatedAt { get; set; }
     }
 }

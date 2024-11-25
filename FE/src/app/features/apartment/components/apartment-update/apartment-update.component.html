@@ -185,22 +185,22 @@
         <mat-error>{{ errorForPrice() }}</mat-error>
         }
       </mat-form-field>
-          <!-- Deposite input -->
-    <mat-form-field class="col-lg-4" appearance="outline">
-      <mat-label>Tiền đặt cọc</mat-label>
-      <input
-        matInput
-        type="number"
-        class="text-end hide-spin"
-        min="0"
-        placeholder="0"
-        formControlName="deposite"
-      />
-      <span matTextSuffix>&nbsp;đồng</span>
-      @if( deposite?.invalid && (deposite?.dirty || deposite?.touched) ){
-      <mat-error>{{ errorForDeposite() }}</mat-error>
-      }
-    </mat-form-field>
+      <!-- Deposite input -->
+      <mat-form-field class="col-lg-4" appearance="outline">
+        <mat-label>Tiền đặt cọc</mat-label>
+        <input
+          matInput
+          type="number"
+          class="text-end hide-spin"
+          min="0"
+          placeholder="0"
+          formControlName="deposite"
+        />
+        <span matTextSuffix>&nbsp;đồng</span>
+        @if( deposite?.invalid && (deposite?.dirty || deposite?.touched) ){
+        <mat-error>{{ errorForDeposite() }}</mat-error>
+        }
+      </mat-form-field>
     </div>
 
     <!-- Photos view -->

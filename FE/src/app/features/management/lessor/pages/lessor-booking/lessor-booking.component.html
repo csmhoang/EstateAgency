@@ -1,0 +1,160 @@
+<div class="checked-out-room">
+  <h5 class="fs-5 fw-bold mt-3 mb-4">Quản lý đặt phòng</h5>
+  <div class="row align-items-center justify-content-between g-2 mt-3 mb-5">
+    <div class="col-lg-12">
+      <app-search
+        [placeholder]="'Tìm kiếm...'"
+        (search)="onSearch($event)"
+      ></app-search>
+    </div>
+  </div>
+
+  <div class="position-relative">
+    <div [hidden]="dataSource.data.length == 0">
+      <table mat-table [dataSource]="dataSource" matSort>
+        <!-- Room name Column -->
+        <ng-container matColumnDef="roomName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Tên phòng</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.room?.name }}
+          </td>
+        </ng-container>
+
+        <!-- Tenant name Column -->
+        <ng-container matColumnDef="tenantName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            Tên người thuê
+          </th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.tenant?.fullName }}
+          </td>
+        </ng-container>
+
+        <!-- Tenant number phone Column -->
+        <ng-container matColumnDef="tenantNumberPhone">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            Số điện thoại
+          </th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.tenant?.phoneNumber }}
+          </td>
+        </ng-container>
+
+        <!-- NumberOfTenant Column -->
+        <ng-container matColumnDef="numberOfTenant">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Số người</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.numberOfTenant }}
+          </td>
+        </ng-container>
+
+        <!-- IntendedIntoDate Column -->
+        <ng-container matColumnDef="intendedIntoDate">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            Ngày bắt đầu
+          </th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.intendedIntoDate | date : "dd/MM/yyyy" }}
+          </td>
+        </ng-container>
+
+        <!-- EndDate Column-->
+        <ng-container matColumnDef="endDate">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            Ngày kết thúc
+          </th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.endDate | date : "dd/MM/yyyy" }}
+          </td>
+        </ng-container>
+
+        <!-- Room status Column-->
+        <ng-container matColumnDef="roomStatus">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            Trạng thái phòng
+          </th>
+          <td mat-cell *matCellDef="let element">
+            {{ conditionFilter[element.room?.condition] }}
+          </td>
+        </ng-container>
+
+        <!-- Satus payment Column-->
+        <ng-container matColumnDef="paymentStatus">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            Trạng thái thanh toán
+          </th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.paymentstatus }}
+          </td>
+        </ng-container>
+
+        <!-- Satus Lease Column-->
+        <ng-container matColumnDef="leaseStatus">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            Trạng thái hợp đồng
+          </th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.leaseStatus }}
+          </td>
+        </ng-container>
+
+        <!-- Status Column-->
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Trạng thái</th>
+          <td mat-cell *matCellDef="let element">
+            {{ StatusBookingFilter[element.status] }}
+          </td>
+        </ng-container>
+
+        <!-- Optional Column-->
+        <ng-container matColumnDef="optional">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let element">
+            <button
+              mat-icon-button
+              [matMenuTriggerFor]="menu"
+              class="d-flex justify-content-center align-items-center"
+            >
+              <i class="fa-solid fa-ellipsis-vertical"></i>
+            </button>
+            <mat-menu #menu class="px-1">
+              <button
+                (click)="onAccept(element.id, element.status)"
+                mat-menu-item
+              >
+                <i class="fa-solid fa-wrench"></i>
+                <span>Chấp nhận</span>
+              </button>
+              <button
+                (click)="onRefuse(element.id, element.status)"
+                mat-menu-item
+              >
+                <i class="fa-solid fa-trash"></i>
+                <span>Từ chối</span>
+              </button>
+            </mat-menu>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+
+      <!-- Pagination -->
+      <div class="pt-4">
+        <app-pagination
+          [paginationParams]="paginationParams()"
+          (pageChange)="onPageChange($event)"
+        ></app-pagination>
+      </div>
+    </div>
+
+    <!-- Empty table -->
+    <ng-container *ngIf="dataSource.data.length == 0">
+      <p class="fs-4 py-5 text-center">Bạn chưa có đặt lịch nào!</p>
+    </ng-container>
+
+    <!-- Mini Loading -->
+    <app-mini-load></app-mini-load>
+  </div>
+</div>

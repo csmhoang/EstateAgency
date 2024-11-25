@@ -1,18 +1,20 @@
-import { Post } from "@features/post/models/post.model";
+import { User } from "@core/models/user.model";
+import { Room } from "@features/apartment/models/room.model";
 
 export type Reservation = {
   id: string;
   tenantId: string;
-  postId: string;
+  roomId: string;
   note?: string;
   rejectionReason?: string;
   reservationDate: Date;
   reservationHour: number;
   reservationMinute:number; 
-  status: string;
+  status?: string;
   createdAt?: Date;
   updatedAt?: Date;
-  post?: Post;
+  room?: Room;
+  tenant?: User;
 };
 
 export const StatusReservation: { [key: string]: string } = {

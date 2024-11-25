@@ -1,17 +1,79 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  computed,
+  DestroyRef,
+  inject,
+  Input,
+  OnInit,
+} from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ReactiveFormsModule, FormControl } from '@angular/forms';
 import { User } from '@core/models/user.model';
+import { PresenceService } from '@core/services/presence.service';
+import { UserService } from '@core/services/user.service';
+import { ToastService } from '@shared/services/toast/toast.service';
+import { catchError, of } from 'rxjs';
 
 @Component({
   selector: 'app-lessor-detail-profile',
   standalone: true,
-  imports: [],
+  imports: [ReactiveFormsModule],
   templateUrl: './lessor-detail-profile.component.html',
   styleUrl: './lessor-detail-profile.component.scss',
 })
 export class LessorDetailProfileComponent implements OnInit {
   @Input()
   lessor?: User;
-  numberOfPost?: number;
+  destroyRef = inject(DestroyRef);
+  user = this.userService.currentUser();
+  isFollow = new FormControl(false);
+  isAuthentication = this.userService.isAuthenticated();
+  isOnline = computed(() =>
+    this.presenceService.onlineUsers().includes(this.lessor?.username!)
+  );
+  constructor(
+    private presenceService: PresenceService,
+    private userService: UserService,
+    private toastService: ToastService
+  ) {}
+
+  ngOnInit() {
+    if (this.user && this.lessor) {
+      const followeeIds = this.user.followees?.map(
+        (followee) => followee.followeeId
+      );
+      if (followeeIds) {
+        const isFollow = followeeIds.includes(this.lessor.id);
+        this.isFollow.setValue(!!isFollow, { emitEvent: false });
+      }
+      this.isFollow.valueChanges.subscribe((isFollow) => {
+        if (isFollow !== undefined && isFollow !== null) {
+          this.userService
+            .follow(this.user?.id!, this.lessor?.id!, isFollow)
+            .pipe(
+              takeUntilDestroyed(this.destroyRef),
+              catchError(() => of(null))
+            )
+            .subscribe((response) => {
+              if (response?.success) {
+                this.userService
+                  .init(true)
+                  .pipe(
+                    takeUntilDestroyed(this.destroyRef),
+                    catchError(() => of(null))
+                  )
+                  .subscribe();
+                if (isFollow) {
+                  this.toastService.success('Đã theo dõi');
+                } else {
+                  this.toastService.success('Đã hủy theo dõi');
+                }
+              }
+            });
+        }
+      });
+    }
+  }
 
   timeSinceParticipateFilter(time: Date) {
     const now = new Date();
@@ -37,14 +99,5 @@ export class LessorDetailProfileComponent implements OnInit {
     }
 
     return 'Vừa xong';
-  }
-
-  ngOnInit() {
-    this.numberOfPost = this.lessor?.rooms?.reduce((sum, room) => {
-      if (room.posts) {
-        return sum + room.posts.length;
-      }
-      return sum;
-    }, 0);
   }
 }

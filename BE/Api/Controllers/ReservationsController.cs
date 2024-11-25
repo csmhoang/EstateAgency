@@ -92,6 +92,31 @@ namespace Api.Controllers
             var response = await _service.Reservation.DeleteAsync(id);
             return Ok(response);
         }
+
+        /// <summary>
+        /// Từ chối đặt lịch
+        /// </summary>
+        /// <param name="id">Id đặt lịch</param>
+        /// <param name="rejectionReason">Lý do từ chối</param>
+        [HttpPut("refuse")]
+        [Authorize(Roles = RoleConst.Landlord)]
+        public async Task<IActionResult> Refuse(string id, string rejectionReason)
+        {
+            var response = await _service.Reservation.RefuseAsync(id, rejectionReason);
+            return Ok(response);
+        }
+
+        /// <summary>
+        /// Chấp nhận đặt lịch
+        /// </summary>
+        /// <param name="id">Id đặt lịch</param>
+        [HttpPut("accept")]
+        [Authorize(Roles = RoleConst.Landlord)]
+        public async Task<IActionResult> Accept(string id)
+        {
+            var response = await _service.Reservation.AcceptAsync(id);
+            return Ok(response);
+        }
         #endregion
     }
 }

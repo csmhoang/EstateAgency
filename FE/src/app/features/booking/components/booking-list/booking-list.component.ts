@@ -45,13 +45,14 @@ export class BookingListComponent implements OnInit {
   destroyRef = inject(DestroyRef);
   user = this.userService.currentUser();
   displayedColumns: string[] = [
-    'name',
+    'roomName',
     'numberOfTenant',
     'intendedIntoDate',
     'endDate',
     'price',
     'deposite',
-    'statusLease',
+    'paymentStatus',
+    'leaseStatus',
     'status',
     'optional',
   ];

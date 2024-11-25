@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using static Core.Enums.MaintenanceRequestEnums;
 
@@ -7,19 +8,29 @@ namespace Core.Entities
 {
     public partial class MaintenanceRequest
     {
-        public string Id { get; set; } = null!;
-        [ForeignKey("Lease")]
-        public string? LeaseId { get; set; }
+        public MaintenanceRequest()
+        {
+            MaintenanceImages = new HashSet<MaintenanceImage>();
+        }
+        [Key]
+        [MaxLength(36)]
+        public string Id { get; set; } = Guid.NewGuid().ToString();
+        [ForeignKey("Tenant")]
+        [MaxLength(36)]
+        public string? TenantId { get; set; }
         [ForeignKey("Invoice")]
+        [MaxLength(36)]
         public string? InvoiceId { get; set; }
-        public string Description { get; set; } = null!;
+        public string? Description { get; set; }
         public string? RejectionReason { get; set; }
-        public Decimal EstimateCost { get; set; }
-        public DateTime RequestDate { get; set; }
+        [Column(TypeName = "decimal(10, 2)")]
+        public decimal? EstimateCost { get; set; }
+        [Column(TypeName = "date")]
+        public DateTime RequestDate { get; set; } = DateTime.UtcNow;
         public StatusMaintenanceRequest Status { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public DateTime UpdatedAt { get; set; }
-        public virtual Lease? Lease { get; set; }
+        public DateTime? UpdatedAt { get; set; } = DateTime.UtcNow;
         public virtual Invoice? Invoice { get; set; }
+        public virtual User? Tenant { get; set; }
+        public virtual ICollection<MaintenanceImage> MaintenanceImages { get; set; }
     }
 }

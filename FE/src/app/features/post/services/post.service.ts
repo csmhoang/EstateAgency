@@ -43,16 +43,6 @@ export class PostService {
       .pipe(map((response) => response.data));
   }
 
-  getListSaved(userId: string, isDisplayMiniLoading: boolean = false) {
-    return this.http
-      .get<Result<Post[]>>(`/posts/save?userId=${userId}`, {
-        context: new HttpContext()
-          .set(SkipPreloader, true)
-          .set(TakeMiniLoad, isDisplayMiniLoading),
-      })
-      .pipe(map((response) => response.data));
-  }
-
   getListRecent() {
     return this.http
       .get<Result<Post[]>>('/posts/recent', {
@@ -88,6 +78,6 @@ export class PostService {
   }
 
   remove(postId: string) {
-    return this.http.delete<Result>(`/posts/remove?id=${postId}`);
+    return this.http.put<Result>(`/posts/remove?id=${postId}`, null);
   }
 }

@@ -11,7 +11,7 @@ namespace Core.Dtos
 {
     public record FollowDto
     {
-        public Guid? Id { get; set; }
+        public string? Id { get; set; }
         [Required(ErrorMessage = UserConst.ErrorEmptyFollowerId)]
         public string FollowerId { get; set; } = null!;
         [Required(ErrorMessage = UserConst.ErrorEmptyFolloweeId)]

@@ -70,7 +70,7 @@
           </tr>
           <tr>
             <th scope="row">Tiền đặt cọc</th>
-            <td>{{ data.price }} đồng</td>
+            <td>{{ data.deposite }} đồng</td>
           </tr>
           <tr>
             <th scope="row">Nội thất</th>
@@ -99,7 +99,7 @@
           <tr>
             <th scope="row">Tình trạng</th>
             <td>
-              {{ conditionFilter[data.condition] }}
+              {{ conditionFilter[data.condition!] }}
             </td>
           </tr>
         </tbody>

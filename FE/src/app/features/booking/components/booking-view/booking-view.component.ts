@@ -20,8 +20,4 @@ export class BookingViewComponent {
   decline() {
     this.activeModal.dismiss(false);
   }
-
-  onMove(postId?: string) {
-    this.router.navigate(['/apartment/detail', postId]);
-  }
 }

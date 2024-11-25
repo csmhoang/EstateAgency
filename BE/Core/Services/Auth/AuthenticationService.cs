@@ -3,9 +3,7 @@ using Core.Consts;
 using Core.Dtos;
 using Core.Entities;
 using Core.Exceptions;
-using Core.Extensions;
 using Core.Interfaces.Infrastructure;
-using Core.Mapping;
 using Core.Resources;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -411,6 +409,7 @@ namespace Core.Services.Auth
                 .ThenInclude(r => r.Photos!)
                 .Include(u => u.Reservations!)
                 .Include(u => u.Bookings!)
+                .Include(u => u.Rooms)
                 .FirstOrDefaultAsync(x => x.UserName == username.ToLower());
 
             return new Response

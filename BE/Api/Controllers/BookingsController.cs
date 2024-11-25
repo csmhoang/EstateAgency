@@ -1,6 +1,8 @@
-﻿using Core.Dtos;
+﻿using Core.Consts;
+using Core.Dtos;
 using Core.Interfaces.Business;
 using Core.Params;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -84,6 +86,31 @@ namespace Api.Controllers
         public async Task<IActionResult> Delete(string id)
         {
             var response = await _service.Booking.DeleteAsync(id);
+            return Ok(response);
+        }
+
+        /// <summary>
+        /// Từ chối đặt phòng
+        /// </summary>
+        /// <param name="id">Id đặt phòng</param>
+        /// <param name="rejectionReason">Lý do từ chối</param>
+        [HttpPut("refuse")]
+        [Authorize(Roles = RoleConst.Landlord)]
+        public async Task<IActionResult> Refuse(string id, string rejectionReason)
+        {
+            var response = await _service.Booking.RefuseAsync(id, rejectionReason);
+            return Ok(response);
+        }
+
+        /// <summary>
+        /// Chấp nhận đặt phòng
+        /// </summary>
+        /// <param name="id">Id đặt phòng</param>
+        [HttpPut("accept")]
+        [Authorize(Roles = RoleConst.Landlord)]
+        public async Task<IActionResult> Accept(string id)
+        {
+            var response = await _service.Booking.AcceptAsync(id);
             return Ok(response);
         }
         #endregion

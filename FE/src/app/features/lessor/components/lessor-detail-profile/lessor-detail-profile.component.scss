@@ -18,3 +18,16 @@
     min-width: 28px;
   }
 }
+.status{
+  i{
+    font-size: 5px;
+    min-width: 10px;
+    transform: translateY(-50%);
+  }
+  &.online{
+    color: var(--accent-color);
+  }
+  &.offline{
+    color: var(--default-color);
+  }
+}

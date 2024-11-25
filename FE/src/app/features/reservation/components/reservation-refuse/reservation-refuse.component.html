@@ -1,0 +1,30 @@
+<div class="modal-header">
+  <h4 class="modal-title">Từ chối đặt lịch</h4>
+  <button
+    type="button"
+    class="btn-close"
+    aria-label="Close"
+    (click)="decline()"
+  ></button>
+</div>
+<div class="modal-body">
+  <!-- RejectionReason input -->
+  <mat-form-field class="w-100" appearance="outline">
+    <mat-label>Lý do</mat-label>
+    <textarea matInput [formControl]="rejectionReason"></textarea>
+  </mat-form-field>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light" (click)="decline()">
+      Hủy bỏ
+    </button>
+    <button
+      type="button"
+      class="btn btn-dark"
+      (click)="accept()"
+      [disabled]="rejectionReason.invalid || !rejectionReason.dirty"
+    >
+      Từ chối
+    </button>
+  </div>
+</div>

@@ -61,4 +61,15 @@ export class BookingService {
   update(id: string, booking: Booking) {
     return this.http.put<Result>(`/bookings?id=${id}`, booking);
   }
+  
+  refuse(id: string, rejectionReason: string) {
+    return this.http.put<Result>(
+      `/bookings/refuse?id=${id}&rejectionReason=${rejectionReason}`,
+      null
+    );
+  }
+
+  accept(id: string) {
+    return this.http.put<Result>(`/bookings/accept?id=${id}`, null);
+  }
 }

@@ -15,7 +15,7 @@
   <!-- Content one -->
   <div class="tab-pane fade show active" id="post-saved">
     <div class="real-estate real-estate-sm">
-      @if(savedPosts){
+      @if(savedPosts?.length != 0){
       <app-post-list [posts]="savedPosts"></app-post-list>
       }@else {
       <p class="fs-4 py-5 text-center">Bạn chưa có phòng trọ nào!</p>
@@ -26,7 +26,7 @@
   <!-- Content two -->
   <div class="tab-pane fade" id="follwer">
     <div class="agents">
-      @if(followees){
+      @if(followees?.length != 0){
       <app-lessor-list [lessors]="followees"></app-lessor-list>
       }@else {
       <p class="fs-4 py-5 text-center">Bạn chưa theo dõi ai!</p>

@@ -7,7 +7,7 @@ namespace Core.Dtos
 {
     public record RoomDto
     {
-        public Guid? Id { get; set; }
+        public string? Id { get; set; }
         [Required(ErrorMessage = UserConst.ErrorEmptyLandlordId)]
         public string LandlordId { get; set; } = null!;
         public string Name { get; set; } = null!;

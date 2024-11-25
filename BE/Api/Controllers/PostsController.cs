@@ -56,16 +56,6 @@ namespace Api.Controllers
         }
 
         /// <summary>
-        /// Lấy danh sách bài đăng đã lưu
-        /// </summary>
-        [HttpGet("save")]
-        public async Task<IActionResult> GetListSaved(string userId)
-        {
-            var response = await _service.Post.GetListSavedAsync(userId);
-            return Ok(response);
-        }
-
-        /// <summary>
         /// Lấy thông tin bài đăng bằng id
         /// </summary>
         [HttpGet("{id}")]
@@ -150,7 +140,7 @@ namespace Api.Controllers
         /// Gỡ bài đăng
         /// </summary>
         /// <param name="id">Id bài đăng</param>
-        [HttpDelete("remove")]
+        [HttpPut("remove")]
         [Authorize(Roles = $"{RoleConst.Landlord},{RoleConst.Admin}")]
         public async Task<IActionResult> Remove(string id)
         {

@@ -12,7 +12,7 @@ namespace Core.Dtos
 {
     public partial class SavePostDto
     {
-        public Guid? Id { get; set; }
+        public string? Id { get; set; }
         [Required(ErrorMessage = UserConst.ErrorEmptyUserId)]
         public string UserId { get; set; } = null!;
         [Required(ErrorMessage = PostConst.ErrorEmptyId)]

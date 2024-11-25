@@ -156,4 +156,10 @@
   <data name="UnfollowSucceed" xml:space="preserve">
     <value>Hủy theo dõi thành công.</value>
   </data>
+  <data name="RejectSucceed" xml:space="preserve">
+    <value>Từ chối thành công.</value>
+  </data>
+  <data name="AcceptSucceed" xml:space="preserve">
+    <value>Chấp thuận thành công.</value>
+  </data>
 </root>

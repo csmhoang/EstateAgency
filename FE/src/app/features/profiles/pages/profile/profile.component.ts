@@ -1,6 +1,6 @@
 import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
 import { CommonModule } from '@angular/common';
-import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatRippleModule } from '@angular/material/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -9,7 +9,6 @@ import { RouterModule, RouterOutlet } from '@angular/router';
 import { FooterComponent } from '@core/layout/footer/footer.component';
 import { HeaderComponent } from '@core/layout/header/header.component';
 import { UserService } from '@core/services/user.service';
-import { ProfileService } from '@features/profiles/services/profile.service';
 import { ToastService } from '@shared/services/toast/toast.service';
 import { Observable, catchError, map, of, shareReplay } from 'rxjs';
 
@@ -42,8 +41,7 @@ export class ProfileComponent {
   constructor(
     private breakpointObserver: BreakpointObserver,
     private userService: UserService,
-    private toastService: ToastService,
-    private profileService: ProfileService
+    private toastService: ToastService
   ) {}
 
   setAvatar(event: Event) {

@@ -105,23 +105,6 @@ namespace Core.Services.Business
             };
         }
 
-        public async Task<Response> GetListFolloweeAsync(string id)
-        {
-            var spec = new BaseSpecification<User>(u => u.Id.Equals(id));
-            spec.AddInclude(x => x
-                .Include(u => u.Followees!)
-                .ThenInclude(f => f.Followee!)
-            );
-
-            var user = await _repository.User.GetEntityWithSpec(spec);
-            return new Response
-            {
-                Success = true,
-                Data = _mapper.Map<IEnumerable<UserDto>>(user?.Followees.Select(f => f.Followee)),
-                StatusCode = user != null ? (int)HttpStatusCode.NoContent : (int)HttpStatusCode.OK
-            };
-        }
-
         public async Task<Response> GetListCelebrityAsync()
         {
             var spec = new BaseSpecification<User>(u => u

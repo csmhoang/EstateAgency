@@ -1,13 +1,4 @@
-﻿using Core.Consts;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static Core.Enums.BookingEnums;
-
-namespace Core.Dtos
+﻿namespace Core.Dtos
 {
     public record BookingUpdateDto
     {

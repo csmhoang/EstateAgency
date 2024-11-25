@@ -23,6 +23,5 @@ namespace Core.Dtos
         public Interior Interior { get; set; }
         public decimal Area { get; set; }
         public decimal Price { get; set; }
-        public ConditionRoom? Condition { get; set; }
     }
 }

@@ -1,6 +1,5 @@
 import { User } from '@core/models/user.model';
 import { Room } from '@features/apartment/models/room.model';
-import { Reservation } from '@features/reservation/models/reservation.model';
 
 export type Post = {
   id: string;
@@ -9,13 +8,12 @@ export type Post = {
   title: string;
   description: string;
   availableFrom: Date;
-  isAccept: string;
-  status: string;
+  isAccept?: string;
+  status?: string;
   createdAt?: Date;
   updatedAt?: Date;
   landlord?: User;
   room?: Room;
-  reservations?: Reservation[];
 };
 
 export const IsAccept: { [key: string]: string } = {

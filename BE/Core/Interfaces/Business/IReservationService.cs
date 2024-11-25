@@ -46,6 +46,25 @@ namespace Core.Interfaces.Business
         /// </returns>
         Task<Response> DeleteAsync(string id);
         /// <summary>
+        /// Từ chối đặt lịch
+        /// </summary>
+        /// <param name="id">Id đặt lịch</param>
+        /// <param name="rejectionReason">Lý do từ chối</param>
+        /// <returns>
+        /// 1 - Thông báo thành công
+        /// 2 - Ngoại lệ
+        /// </returns>
+        Task<Response> RefuseAsync(string id, string rejectionReason);
+        /// <summary>
+        /// Chấp nhận đặt lịch
+        /// </summary>
+        /// <param name="id">Id đặt lịch</param>
+        /// <returns>
+        /// 1 - Thông báo thành công
+        /// 2 - Ngoại lệ
+        /// </returns>
+        Task<Response> AcceptAsync(string id);
+        /// <summary>
         /// Cập nhật đặt lịch
         /// </summary>
         /// <param name="id">Id đặt lịch</param>

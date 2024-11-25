@@ -23,8 +23,10 @@ namespace Infrastructure.Data
         public virtual DbSet<Amenity> Amenities { get; set; } = null!;
         public virtual DbSet<Feedback> Feedbacks { get; set; } = null!;
         public virtual DbSet<Invoice> Invoices { get; set; } = null!;
+        public virtual DbSet<InvoiceDetail> InvoiceDetails { get; set; } = null!;
         public virtual DbSet<Lease> Leases { get; set; } = null!;
         public virtual DbSet<MaintenanceRequest> MaintenanceRequests { get; set; } = null!;
+        public virtual DbSet<MaintenanceImage> MaintenanceImages { get; set; } = null!;
         public virtual DbSet<Message> Messages { get; set; } = null!;
         public virtual DbSet<Payment> Payments { get; set; } = null!;
         public virtual DbSet<Reservation> Reservations { get; set; } = null!;
@@ -49,107 +51,22 @@ namespace Infrastructure.Data
 
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Amenity>(entity =>
-            {
-                entity.Property(e => e.Id)
-                    .HasMaxLength(36)
-                    .HasDefaultValueSql("lower(newid())");
+            modelBuilder.Entity<Amenity>(entity => { });
 
-                entity.Property(e => e.CreatedAt)
-                    .HasColumnType("datetime")
-                    .HasDefaultValueSql("(getdate())");
+            modelBuilder.Entity<Feedback>(entity => { });
 
-                entity.Property(e => e.Name).HasMaxLength(100);
+            modelBuilder.Entity<Invoice>(entity => { });
 
-                entity.Property(e => e.Price).HasColumnType("decimal(10, 2)");
+            modelBuilder.Entity<InvoiceDetail>(entity => { });
 
-                entity.Property(e => e.UpdatedAt)
-                    .HasColumnType("datetime")
-                    .HasDefaultValueSql("(getdate())");
-            });
+            modelBuilder.Entity<Lease>(entity => { });
 
-            modelBuilder.Entity<Feedback>(entity =>
-            {
-                entity.ToTable("Feedback");
+            modelBuilder.Entity<MaintenanceRequest>(entity => { });
 
-                entity.Property(e => e.Id)
-                    .HasMaxLength(36)
-                    .HasDefaultValueSql("lower(newid())");
-
-                entity.Property(e => e.CreatedAt)
-                    .HasColumnType("datetime")
-                    .HasDefaultValueSql("(getdate())");
-            });
-
-            modelBuilder.Entity<Invoice>(entity =>
-            {
-                entity.Property(e => e.Id)
-                    .HasMaxLength(36)
-                    .HasDefaultValueSql("lower(newid())");
-
-                entity.Property(e => e.Amount).HasColumnType("decimal(10, 2)");
-
-                entity.Property(e => e.CreatedAt)
-                    .HasColumnType("datetime")
-                    .HasDefaultValueSql("(getdate())");
-
-                entity.Property(e => e.DueDate).HasColumnType("date");
-            });
-
-            modelBuilder.Entity<Lease>(entity =>
-            {
-                entity.Property(e => e.Id)
-                    .HasMaxLength(36)
-                    .HasDefaultValueSql("lower(newid())");
-
-                entity.Property(e => e.CreatedAt)
-                    .HasColumnType("datetime")
-                    .HasDefaultValueSql("(getdate())");
-
-                entity.Property(e => e.EndDate).HasColumnType("date");
-
-                entity.Property(e => e.SignedDate).HasColumnType("datetime");
-
-                entity.Property(e => e.SignedOnline).HasDefaultValueSql("((1))");
-
-                entity.Property(e => e.StartDate).HasColumnType("date");
-
-                entity.Property(e => e.UpdatedAt)
-                    .HasColumnType("datetime")
-                    .HasDefaultValueSql("(getdate())");
-            });
-
-            modelBuilder.Entity<MaintenanceRequest>(entity =>
-            {
-                entity.Property(e => e.Id)
-                    .HasMaxLength(36)
-                    .HasDefaultValueSql("lower(newid())");
-
-                entity.Property(e => e.RequestDate)
-                    .HasColumnType("datetime")
-                    .HasDefaultValueSql("(getdate())");
-
-                entity.Property(e => e.EstimateCost).HasColumnType("decimal(10, 2)");
-
-                entity.Property(e => e.CreatedAt)
-                    .HasColumnType("datetime")
-                    .HasDefaultValueSql("(getdate())");
-
-                entity.Property(e => e.UpdatedAt)
-                    .HasColumnType("datetime")
-                    .HasDefaultValueSql("(getdate())");
-            });
+            modelBuilder.Entity<MaintenanceImage>(entity => { });
 
             modelBuilder.Entity<Message>(entity =>
             {
-                entity.Property(e => e.Id)
-                    .HasMaxLength(36)
-                    .HasDefaultValueSql("lower(newid())");
-
-                entity.Property(e => e.SentAt)
-                    .HasColumnType("datetime")
-                    .HasDefaultValueSql("(getdate())");
-
                 entity.HasOne(d => d.Receiver)
                     .WithMany(p => p.MessageReceivers)
                     .HasForeignKey(d => d.ReceiverId);
@@ -159,173 +76,28 @@ namespace Infrastructure.Data
                     .HasForeignKey(d => d.SenderId);
             });
 
-            modelBuilder.Entity<Payment>(entity =>
-            {
-                entity.Property(e => e.Id)
-                    .HasMaxLength(36)
-                    .HasDefaultValueSql("lower(newid())");
+            modelBuilder.Entity<Payment>(entity => { });
 
-                entity.Property(e => e.Amount).HasColumnType("decimal(10, 2)");
+            modelBuilder.Entity<Reservation>(entity => { });
 
-                entity.Property(e => e.CreatedAt)
-                    .HasColumnType("datetime")
-                    .HasDefaultValueSql("(getdate())");
+            modelBuilder.Entity<Booking>(entity => { });
 
-                entity.Property(e => e.PaymentDate)
-                    .HasColumnType("datetime")
-                    .HasDefaultValueSql("(getdate())");
+            modelBuilder.Entity<Post>(entity => { });
 
-                entity.Property(e => e.PaymentMethod).HasMaxLength(20);
-            });
+            modelBuilder.Entity<Photo>(entity => { });
 
-            modelBuilder.Entity<Reservation>(entity =>
-            {
-                entity.Property(e => e.Id)
-                    .HasMaxLength(36)
-                    .HasDefaultValueSql("lower(newid())");
+            modelBuilder.Entity<Room>(entity => { });
 
+            modelBuilder.Entity<SavePost>(entity => { });
 
-                entity.Property(e => e.CreatedAt)
-                    .HasColumnType("datetime")
-                    .HasDefaultValueSql("(getdate())");
-
-                entity.Property(e => e.ReservationDate).HasColumnType("datetime");
-
-                entity.Property(e => e.UpdatedAt)
-                    .HasColumnType("datetime")
-                    .HasDefaultValueSql("(getdate())");
-            });
-
-            modelBuilder.Entity<Booking>(entity =>
-            {
-                entity.Property(e => e.Id)
-                    .HasMaxLength(36)
-                    .HasDefaultValueSql("lower(newid())");
-
-                entity.Property(e => e.IntendedIntoDate).HasColumnType("date");
-
-                entity.Property(e => e.EndDate).HasColumnType("date");
-
-                entity.Property(e => e.CreatedAt)
-                    .HasColumnType("datetime")
-                    .HasDefaultValueSql("(getdate())");
-
-                entity.Property(e => e.UpdatedAt)
-                    .HasColumnType("datetime")
-                    .HasDefaultValueSql("(getdate())");
-            });
-
-            modelBuilder.Entity<Post>(entity =>
-            {
-                entity.Property(e => e.Id)
-                    .HasMaxLength(36)
-                    .HasDefaultValueSql("lower(newid())");
-
-                entity.Property(e => e.Title).HasMaxLength(256);
-
-                entity.Property(e => e.AvailableFrom).HasColumnType("date");
-
-                entity.Property(e => e.CreatedAt)
-                    .HasColumnType("datetime")
-                    .HasDefaultValueSql("(getdate())");
-
-                entity.Property(e => e.UpdatedAt)
-                    .HasColumnType("datetime")
-                    .HasDefaultValueSql("(getdate())");
-            });
-
-            modelBuilder.Entity<Photo>(entity =>
-            {
-                entity.Property(e => e.Id)
-                    .HasMaxLength(36)
-                    .HasDefaultValueSql("lower(newid())");
-            });
-
-            modelBuilder.Entity<Room>(entity =>
-            {
-                entity.Property(e => e.Id)
-                    .HasMaxLength(36)
-                    .HasDefaultValueSql("lower(newid())");
-
-                entity.Property(e => e.Area).HasColumnType("decimal(10, 2)");
-
-                entity.Property(e => e.Price).HasColumnType("decimal(10, 2)");
-
-                entity.Property(e => e.Deposite).HasColumnType("decimal(10, 2)");
-
-                entity.Property(e => e.Province).HasMaxLength(100);
-
-                entity.Property(e => e.Name).HasMaxLength(256);
-
-                entity.Property(e => e.CreatedAt)
-                    .HasColumnType("datetime")
-                    .HasDefaultValueSql("(getdate())");
-
-                entity.Property(e => e.District).HasMaxLength(100);
-
-                entity.Property(e => e.Category).HasMaxLength(100);
-
-                entity.Property(e => e.Ward).HasMaxLength(100);
-
-
-                entity.Property(e => e.UpdatedAt)
-                    .HasColumnType("datetime")
-                    .HasDefaultValueSql("(getdate())");
-
-                entity.HasMany(d => d.Amenities)
-                    .WithMany(p => p.Rooms)
-                    .UsingEntity<Dictionary<string, object>>(
-                        "RoomAmenity",
-                        l => l.HasOne<Amenity>().WithMany().HasForeignKey("AmenityId").HasConstraintName("FK__RoomAmeni__Ameni__4E88ABD4"),
-                        r => r.HasOne<Room>().WithMany().HasForeignKey("RoomId").HasConstraintName("FK__RoomAmeni__RoomI__4D94879B"),
-                        j =>
-                        {
-                            j.HasKey("RoomId", "AmenityId").HasName("PK__RoomAmen__9AC496696494BAEA");
-
-                            j.ToTable("RoomAmenities");
-
-
-                        });
-            });
-
-            modelBuilder.Entity<SavePost>(entity =>
-            {
-                entity.Property(e => e.Id)
-                    .HasMaxLength(36)
-                    .HasDefaultValueSql("lower(newid())");
-
-
-                entity.Property(e => e.CreatedAt)
-                    .HasColumnType("datetime")
-                    .HasDefaultValueSql("(getdate())");
-
-                entity.Property(e => e.UpdatedAt)
-                    .HasColumnType("datetime")
-                    .HasDefaultValueSql("(getdate())");
-            });
-
-            modelBuilder.Entity<Follow>(entity =>
-            {
-                entity.Property(e => e.Id)
-                    .HasMaxLength(36)
-                    .HasDefaultValueSql("lower(newid())");
-
-                entity.Property(e => e.CreatedAt)
-                    .HasColumnType("datetime")
-                    .HasDefaultValueSql("(getdate())");
-
-                entity.Property(e => e.UpdatedAt)
-                    .HasColumnType("datetime")
-                    .HasDefaultValueSql("(getdate())");
-            });
+            modelBuilder.Entity<Follow>(entity => { });
 
             modelBuilder.Entity<Role>(entity =>
             {
                 entity.ToTable("Roles");
 
                 entity.Property(e => e.Id)
-                    .HasMaxLength(36)
-                    .HasDefaultValueSql("lower(newid())");
+                    .HasMaxLength(36);
 
                 entity.HasMany(e => e.UserRoles)
                     .WithOne(e => e.Role)
@@ -338,20 +110,7 @@ namespace Infrastructure.Data
                 entity.ToTable("Users");
 
                 entity.Property(e => e.Id)
-                    .HasMaxLength(36)
-                    .HasDefaultValueSql("lower(newid())");
-
-                entity.Property(e => e.CreatedAt)
-                    .HasColumnType("datetime")
-                    .HasDefaultValueSql("(getdate())");
-
-                entity.Property(e => e.DateOfBirth).HasColumnType("date");
-
-                entity.Property(e => e.FullName).HasMaxLength(100);
-
-                entity.Property(e => e.UpdatedAt)
-                    .HasColumnType("datetime")
-                    .HasDefaultValueSql("(getdate())");
+                    .HasMaxLength(36);
 
                 entity.HasMany(e => e.UserRoles)
                     .WithOne(e => e.User)
@@ -373,7 +132,7 @@ namespace Infrastructure.Data
 
             modelBuilder.Entity<UserRole>(entity =>
             {
-                entity.ToTable("UserRoles");
+                entity.ToTable("UserRole");
             });
 
             modelBuilder.Ignore<IdentityUserClaim<string>>();

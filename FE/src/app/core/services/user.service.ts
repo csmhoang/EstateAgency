@@ -74,16 +74,6 @@ export class UserService {
       .pipe(map((response) => response.data));
   }
 
-  getListFollowee(id: string, isDisplayMiniLoading: boolean = false) {
-    return this.http
-      .get<Result<User[]>>(`/users/followee?id=${id}`, {
-        context: new HttpContext()
-          .set(SkipPreloader, true)
-          .set(TakeMiniLoad, isDisplayMiniLoading),
-      })
-      .pipe(map((response) => response.data));
-  }
-
   getFamous() {
     return this.http
       .get<Result<User[]>>('/users/famous', {

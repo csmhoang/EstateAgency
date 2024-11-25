@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Data.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20241121090708_UpdateBooking")]
-    partial class UpdateBooking
+    [Migration("20241125093522_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -24,18 +24,29 @@ namespace Infrastructure.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("AmenityRoom", b =>
+                {
+                    b.Property<string>("AmenitiesId")
+                        .HasColumnType("nvarchar(36)");
+
+                    b.Property<string>("RoomsId")
+                        .HasColumnType("nvarchar(36)");
+
+                    b.HasKey("AmenitiesId", "RoomsId");
+
+                    b.HasIndex("RoomsId");
+
+                    b.ToTable("AmenityRoom");
+                });
+
             modelBuilder.Entity("Core.Entities.Amenity", b =>
                 {
                     b.Property<string>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasMaxLength(36)
-                        .HasColumnType("nvarchar(36)")
-                        .HasDefaultValueSql("lower(newid())");
+                        .HasColumnType("nvarchar(36)");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime")
-                        .HasDefaultValueSql("(getdate())");
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -48,10 +59,8 @@ namespace Infrastructure.Data.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(10,2)");
 
-                    b.Property<DateTime>("UpdatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime")
-                        .HasDefaultValueSql("(getdate())");
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -61,15 +70,11 @@ namespace Infrastructure.Data.Migrations
             modelBuilder.Entity("Core.Entities.Booking", b =>
                 {
                     b.Property<string>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasMaxLength(36)
-                        .HasColumnType("nvarchar(36)")
-                        .HasDefaultValueSql("lower(newid())");
+                        .HasColumnType("nvarchar(36)");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime")
-                        .HasDefaultValueSql("(getdate())");
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("date");
@@ -77,32 +82,40 @@ namespace Infrastructure.Data.Migrations
                     b.Property<DateTime>("IntendedIntoDate")
                         .HasColumnType("date");
 
+                    b.Property<string>("InvoiceId")
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
+
                     b.Property<string>("Note")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("NumberOfTenant")
                         .HasColumnType("int");
 
-                    b.Property<string>("PostId")
-                        .HasColumnType("nvarchar(36)");
-
                     b.Property<string>("RejectionReason")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RoomId")
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
                     b.Property<string>("TenantId")
+                        .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
 
-                    b.Property<DateTime>("UpdatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime")
-                        .HasDefaultValueSql("(getdate())");
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PostId");
+                    b.HasIndex("InvoiceId")
+                        .IsUnique()
+                        .HasFilter("[InvoiceId] IS NOT NULL");
+
+                    b.HasIndex("RoomId");
 
                     b.HasIndex("TenantId");
 
@@ -112,29 +125,28 @@ namespace Infrastructure.Data.Migrations
             modelBuilder.Entity("Core.Entities.Feedback", b =>
                 {
                     b.Property<string>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasMaxLength(36)
-                        .HasColumnType("nvarchar(36)")
-                        .HasDefaultValueSql("lower(newid())");
+                        .HasColumnType("nvarchar(36)");
 
                     b.Property<string>("Comment")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime")
-                        .HasDefaultValueSql("(getdate())");
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("PostId")
+                        .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
 
                     b.Property<int>("Rating")
                         .HasColumnType("int");
 
                     b.Property<string>("ReplyId")
+                        .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
 
                     b.Property<string>("TenantId")
+                        .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
 
                     b.HasKey("Id");
@@ -145,34 +157,30 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasIndex("TenantId");
 
-                    b.ToTable("Feedback", (string)null);
+                    b.ToTable("Feedbacks");
                 });
 
             modelBuilder.Entity("Core.Entities.Follow", b =>
                 {
                     b.Property<string>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasMaxLength(36)
-                        .HasColumnType("nvarchar(36)")
-                        .HasDefaultValueSql("lower(newid())");
+                        .HasColumnType("nvarchar(36)");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime")
-                        .HasDefaultValueSql("(getdate())");
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("FolloweeId")
                         .IsRequired()
+                        .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
 
                     b.Property<string>("FollowerId")
                         .IsRequired()
+                        .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
 
-                    b.Property<DateTime>("UpdatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime")
-                        .HasDefaultValueSql("(getdate())");
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -186,65 +194,83 @@ namespace Infrastructure.Data.Migrations
             modelBuilder.Entity("Core.Entities.Invoice", b =>
                 {
                     b.Property<string>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasMaxLength(36)
-                        .HasColumnType("nvarchar(36)")
-                        .HasDefaultValueSql("lower(newid())");
+                        .HasColumnType("nvarchar(36)");
 
                     b.Property<decimal>("Amount")
                         .HasColumnType("decimal(10,2)");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime")
-                        .HasDefaultValueSql("(getdate())");
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("DueDate")
                         .HasColumnType("date");
 
-                    b.Property<string>("LeaseId")
-                        .HasColumnType("nvarchar(36)");
-
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("LeaseId");
-
                     b.ToTable("Invoices");
+                });
+
+            modelBuilder.Entity("Core.Entities.InvoiceDetail", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Detail")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("InvoiceId")
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(10,2)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InvoiceId");
+
+                    b.ToTable("InvoiceDetails");
                 });
 
             modelBuilder.Entity("Core.Entities.Lease", b =>
                 {
                     b.Property<string>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasMaxLength(36)
-                        .HasColumnType("nvarchar(36)")
-                        .HasDefaultValueSql("lower(newid())");
+                        .HasColumnType("nvarchar(36)");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime")
-                        .HasDefaultValueSql("(getdate())");
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("EndDate")
+                    b.Property<DateTime>("EndDate")
                         .HasColumnType("date");
 
-                    b.Property<string>("RentalTerms")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<bool>("IsConfirm")
+                        .HasColumnType("bit");
 
                     b.Property<string>("RoomId")
+                        .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
 
                     b.Property<DateTime>("SignedDate")
-                        .HasColumnType("datetime");
-
-                    b.Property<bool?>("SignedOnline")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValueSql("((1))");
+                        .HasColumnType("date");
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("date");
@@ -253,12 +279,14 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("TenantId")
+                        .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
 
-                    b.Property<DateTime>("UpdatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime")
-                        .HasDefaultValueSql("(getdate())");
+                    b.Property<string>("Terms")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -269,53 +297,73 @@ namespace Infrastructure.Data.Migrations
                     b.ToTable("Leases");
                 });
 
+            modelBuilder.Entity("Core.Entities.MaintenanceImage", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
+
+                    b.Property<string>("MaintenanceRequestId")
+                        .IsRequired()
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
+
+                    b.Property<string>("PublicId")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MaintenanceRequestId");
+
+                    b.ToTable("MaintenanceImages");
+                });
+
             modelBuilder.Entity("Core.Entities.MaintenanceRequest", b =>
                 {
                     b.Property<string>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasMaxLength(36)
-                        .HasColumnType("nvarchar(36)")
-                        .HasDefaultValueSql("lower(newid())");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime")
-                        .HasDefaultValueSql("(getdate())");
+                        .HasColumnType("nvarchar(36)");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("EstimateCost")
+                    b.Property<decimal?>("EstimateCost")
                         .HasColumnType("decimal(10,2)");
 
                     b.Property<string>("InvoiceId")
-                        .HasColumnType("nvarchar(36)");
-
-                    b.Property<string>("LeaseId")
+                        .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
 
                     b.Property<string>("RejectionReason")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("RequestDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime")
-                        .HasDefaultValueSql("(getdate())");
+                        .HasColumnType("date");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("UpdatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime")
-                        .HasDefaultValueSql("(getdate())");
+                    b.Property<string>("TenantId")
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("InvoiceId");
+                    b.HasIndex("InvoiceId")
+                        .IsUnique()
+                        .HasFilter("[InvoiceId] IS NOT NULL");
 
-                    b.HasIndex("LeaseId");
+                    b.HasIndex("TenantId");
 
                     b.ToTable("MaintenanceRequests");
                 });
@@ -323,25 +371,23 @@ namespace Infrastructure.Data.Migrations
             modelBuilder.Entity("Core.Entities.Message", b =>
                 {
                     b.Property<string>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasMaxLength(36)
-                        .HasColumnType("nvarchar(36)")
-                        .HasDefaultValueSql("lower(newid())");
+                        .HasColumnType("nvarchar(36)");
 
                     b.Property<string>("Content")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ReceiverId")
+                        .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
 
                     b.Property<string>("SenderId")
+                        .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
 
                     b.Property<DateTime>("SentAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime")
-                        .HasDefaultValueSql("(getdate())");
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -355,32 +401,20 @@ namespace Infrastructure.Data.Migrations
             modelBuilder.Entity("Core.Entities.Payment", b =>
                 {
                     b.Property<string>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasMaxLength(36)
-                        .HasColumnType("nvarchar(36)")
-                        .HasDefaultValueSql("lower(newid())");
+                        .HasColumnType("nvarchar(36)");
 
                     b.Property<decimal>("Amount")
                         .HasColumnType("decimal(10,2)");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime")
-                        .HasDefaultValueSql("(getdate())");
-
                     b.Property<string>("InvoiceId")
-                        .HasColumnType("nvarchar(36)");
-
-                    b.Property<string>("LeaseId")
+                        .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
 
                     b.Property<DateTime>("PaymentDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime")
-                        .HasDefaultValueSql("(getdate())");
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("PaymentMethod")
-                        .HasMaxLength(20)
                         .HasColumnType("int");
 
                     b.Property<int>("Status")
@@ -392,30 +426,29 @@ namespace Infrastructure.Data.Migrations
                         .IsUnique()
                         .HasFilter("[InvoiceId] IS NOT NULL");
 
-                    b.HasIndex("LeaseId");
-
                     b.ToTable("Payments");
                 });
 
             modelBuilder.Entity("Core.Entities.Photo", b =>
                 {
                     b.Property<string>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasMaxLength(36)
-                        .HasColumnType("nvarchar(36)")
-                        .HasDefaultValueSql("lower(newid())");
+                        .HasColumnType("nvarchar(36)");
 
                     b.Property<string>("PublicId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("RoomId")
                         .IsRequired()
+                        .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
 
                     b.Property<string>("Url")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
 
@@ -427,18 +460,14 @@ namespace Infrastructure.Data.Migrations
             modelBuilder.Entity("Core.Entities.Post", b =>
                 {
                     b.Property<string>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasMaxLength(36)
-                        .HasColumnType("nvarchar(36)")
-                        .HasDefaultValueSql("lower(newid())");
+                        .HasColumnType("nvarchar(36)");
 
                     b.Property<DateTime>("AvailableFrom")
                         .HasColumnType("date");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime")
-                        .HasDefaultValueSql("(getdate())");
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -447,9 +476,11 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("LandlordId")
+                        .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
 
                     b.Property<string>("RoomId")
+                        .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
 
                     b.Property<int>("Status")
@@ -457,13 +488,11 @@ namespace Infrastructure.Data.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
-                    b.Property<DateTime>("UpdatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime")
-                        .HasDefaultValueSql("(getdate())");
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -477,42 +506,38 @@ namespace Infrastructure.Data.Migrations
             modelBuilder.Entity("Core.Entities.Reservation", b =>
                 {
                     b.Property<string>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasMaxLength(36)
-                        .HasColumnType("nvarchar(36)")
-                        .HasDefaultValueSql("lower(newid())");
+                        .HasColumnType("nvarchar(36)");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime")
-                        .HasDefaultValueSql("(getdate())");
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Note")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PostId")
-                        .HasColumnType("nvarchar(36)");
 
                     b.Property<string>("RejectionReason")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("ReservationDate")
-                        .HasColumnType("datetime");
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("RoomId")
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
                     b.Property<string>("TenantId")
+                        .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
 
-                    b.Property<DateTime>("UpdatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime")
-                        .HasDefaultValueSql("(getdate())");
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PostId");
+                    b.HasIndex("RoomId");
 
                     b.HasIndex("TenantId");
 
@@ -522,10 +547,8 @@ namespace Infrastructure.Data.Migrations
             modelBuilder.Entity("Core.Entities.Role", b =>
                 {
                     b.Property<string>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasMaxLength(36)
-                        .HasColumnType("nvarchar(36)")
-                        .HasDefaultValueSql("lower(newid())");
+                        .HasColumnType("nvarchar(36)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -575,14 +598,13 @@ namespace Infrastructure.Data.Migrations
             modelBuilder.Entity("Core.Entities.Room", b =>
                 {
                     b.Property<string>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasMaxLength(36)
-                        .HasColumnType("nvarchar(36)")
-                        .HasDefaultValueSql("lower(newid())");
+                        .HasColumnType("nvarchar(36)");
 
                     b.Property<string>("Address")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<decimal>("Area")
                         .HasColumnType("decimal(10,2)");
@@ -594,16 +616,13 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("Category")
-                        .HasMaxLength(100)
                         .HasColumnType("int");
 
                     b.Property<int>("Condition")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime")
-                        .HasDefaultValueSql("(getdate())");
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<decimal>("Deposite")
                         .HasColumnType("decimal(10,2)");
@@ -617,12 +636,13 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("LandlordId")
+                        .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(10,2)");
@@ -635,10 +655,8 @@ namespace Infrastructure.Data.Migrations
                     b.Property<int>("Toilet")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("UpdatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime")
-                        .HasDefaultValueSql("(getdate())");
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Ward")
                         .IsRequired()
@@ -655,25 +673,21 @@ namespace Infrastructure.Data.Migrations
             modelBuilder.Entity("Core.Entities.SavePost", b =>
                 {
                     b.Property<string>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasMaxLength(36)
-                        .HasColumnType("nvarchar(36)")
-                        .HasDefaultValueSql("lower(newid())");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime")
-                        .HasDefaultValueSql("(getdate())");
-
-                    b.Property<string>("PostId")
                         .HasColumnType("nvarchar(36)");
 
-                    b.Property<DateTime>("UpdatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime")
-                        .HasDefaultValueSql("(getdate())");
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("PostId")
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("UserId")
+                        .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
 
                     b.HasKey("Id");
@@ -688,29 +702,27 @@ namespace Infrastructure.Data.Migrations
             modelBuilder.Entity("Core.Entities.User", b =>
                 {
                     b.Property<string>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasMaxLength(36)
-                        .HasColumnType("nvarchar(36)")
-                        .HasDefaultValueSql("lower(newid())");
+                        .HasColumnType("nvarchar(36)");
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
                     b.Property<string>("Address")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("AvatarUrl")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime")
-                        .HasDefaultValueSql("(getdate())");
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("DateOfBirth")
                         .HasColumnType("date");
@@ -757,7 +769,8 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("PublicId")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("RefreshToken")
                         .HasColumnType("nvarchar(max)");
@@ -771,10 +784,8 @@ namespace Infrastructure.Data.Migrations
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime>("UpdatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime")
-                        .HasDefaultValueSql("(getdate())");
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
@@ -805,36 +816,41 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("UserRoles", (string)null);
+                    b.ToTable("UserRole", (string)null);
                 });
 
-            modelBuilder.Entity("RoomAmenity", b =>
+            modelBuilder.Entity("AmenityRoom", b =>
                 {
-                    b.Property<string>("RoomId")
-                        .HasColumnType("nvarchar(36)");
+                    b.HasOne("Core.Entities.Amenity", null)
+                        .WithMany()
+                        .HasForeignKey("AmenitiesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Property<string>("AmenityId")
-                        .HasColumnType("nvarchar(36)");
-
-                    b.HasKey("RoomId", "AmenityId")
-                        .HasName("PK__RoomAmen__9AC496696494BAEA");
-
-                    b.HasIndex("AmenityId");
-
-                    b.ToTable("RoomAmenities", (string)null);
+                    b.HasOne("Core.Entities.Room", null)
+                        .WithMany()
+                        .HasForeignKey("RoomsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Core.Entities.Booking", b =>
                 {
-                    b.HasOne("Core.Entities.Post", "Post")
+                    b.HasOne("Core.Entities.Invoice", "Invoice")
+                        .WithOne("Booking")
+                        .HasForeignKey("Core.Entities.Booking", "InvoiceId");
+
+                    b.HasOne("Core.Entities.Room", "Room")
                         .WithMany("Bookings")
-                        .HasForeignKey("PostId");
+                        .HasForeignKey("RoomId");
 
                     b.HasOne("Core.Entities.User", "Tenant")
                         .WithMany("Bookings")
                         .HasForeignKey("TenantId");
 
-                    b.Navigation("Post");
+                    b.Navigation("Invoice");
+
+                    b.Navigation("Room");
 
                     b.Navigation("Tenant");
                 });
@@ -879,13 +895,13 @@ namespace Infrastructure.Data.Migrations
                     b.Navigation("Follower");
                 });
 
-            modelBuilder.Entity("Core.Entities.Invoice", b =>
+            modelBuilder.Entity("Core.Entities.InvoiceDetail", b =>
                 {
-                    b.HasOne("Core.Entities.Lease", "Lease")
-                        .WithMany("Invoices")
-                        .HasForeignKey("LeaseId");
+                    b.HasOne("Core.Entities.Invoice", "Invoice")
+                        .WithMany("InvoiceDetails")
+                        .HasForeignKey("InvoiceId");
 
-                    b.Navigation("Lease");
+                    b.Navigation("Invoice");
                 });
 
             modelBuilder.Entity("Core.Entities.Lease", b =>
@@ -903,19 +919,30 @@ namespace Infrastructure.Data.Migrations
                     b.Navigation("Tenant");
                 });
 
+            modelBuilder.Entity("Core.Entities.MaintenanceImage", b =>
+                {
+                    b.HasOne("Core.Entities.MaintenanceRequest", "MaintenanceRequest")
+                        .WithMany("MaintenanceImages")
+                        .HasForeignKey("MaintenanceRequestId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("MaintenanceRequest");
+                });
+
             modelBuilder.Entity("Core.Entities.MaintenanceRequest", b =>
                 {
                     b.HasOne("Core.Entities.Invoice", "Invoice")
-                        .WithMany("MaintenanceRequests")
-                        .HasForeignKey("InvoiceId");
+                        .WithOne("MaintenanceRequest")
+                        .HasForeignKey("Core.Entities.MaintenanceRequest", "InvoiceId");
 
-                    b.HasOne("Core.Entities.Lease", "Lease")
-                        .WithMany("MaintenanceRequests")
-                        .HasForeignKey("LeaseId");
+                    b.HasOne("Core.Entities.User", "Tenant")
+                        .WithMany()
+                        .HasForeignKey("TenantId");
 
                     b.Navigation("Invoice");
 
-                    b.Navigation("Lease");
+                    b.Navigation("Tenant");
                 });
 
             modelBuilder.Entity("Core.Entities.Message", b =>
@@ -939,13 +966,7 @@ namespace Infrastructure.Data.Migrations
                         .WithOne("Payment")
                         .HasForeignKey("Core.Entities.Payment", "InvoiceId");
 
-                    b.HasOne("Core.Entities.Lease", "Lease")
-                        .WithMany("Payments")
-                        .HasForeignKey("LeaseId");
-
                     b.Navigation("Invoice");
-
-                    b.Navigation("Lease");
                 });
 
             modelBuilder.Entity("Core.Entities.Photo", b =>
@@ -976,15 +997,15 @@ namespace Infrastructure.Data.Migrations
 
             modelBuilder.Entity("Core.Entities.Reservation", b =>
                 {
-                    b.HasOne("Core.Entities.Post", "Post")
+                    b.HasOne("Core.Entities.Room", "Room")
                         .WithMany("Reservations")
-                        .HasForeignKey("PostId");
+                        .HasForeignKey("RoomId");
 
                     b.HasOne("Core.Entities.User", "Tenant")
                         .WithMany("Reservations")
                         .HasForeignKey("TenantId");
 
-                    b.Navigation("Post");
+                    b.Navigation("Room");
 
                     b.Navigation("Tenant");
                 });
@@ -1032,23 +1053,6 @@ namespace Infrastructure.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("RoomAmenity", b =>
-                {
-                    b.HasOne("Core.Entities.Amenity", null)
-                        .WithMany()
-                        .HasForeignKey("AmenityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("FK__RoomAmeni__Ameni__4E88ABD4");
-
-                    b.HasOne("Core.Entities.Room", null)
-                        .WithMany()
-                        .HasForeignKey("RoomId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("FK__RoomAmeni__RoomI__4D94879B");
-                });
-
             modelBuilder.Entity("Core.Entities.Feedback", b =>
                 {
                     b.Navigation("Replies");
@@ -1056,27 +1060,23 @@ namespace Infrastructure.Data.Migrations
 
             modelBuilder.Entity("Core.Entities.Invoice", b =>
                 {
-                    b.Navigation("MaintenanceRequests");
+                    b.Navigation("Booking");
+
+                    b.Navigation("InvoiceDetails");
+
+                    b.Navigation("MaintenanceRequest");
 
                     b.Navigation("Payment");
                 });
 
-            modelBuilder.Entity("Core.Entities.Lease", b =>
+            modelBuilder.Entity("Core.Entities.MaintenanceRequest", b =>
                 {
-                    b.Navigation("Invoices");
-
-                    b.Navigation("MaintenanceRequests");
-
-                    b.Navigation("Payments");
+                    b.Navigation("MaintenanceImages");
                 });
 
             modelBuilder.Entity("Core.Entities.Post", b =>
                 {
-                    b.Navigation("Bookings");
-
                     b.Navigation("Feedbacks");
-
-                    b.Navigation("Reservations");
 
                     b.Navigation("SavePosts");
                 });
@@ -1088,11 +1088,15 @@ namespace Infrastructure.Data.Migrations
 
             modelBuilder.Entity("Core.Entities.Room", b =>
                 {
+                    b.Navigation("Bookings");
+
                     b.Navigation("Leases");
 
                     b.Navigation("Photos");
 
                     b.Navigation("Posts");
+
+                    b.Navigation("Reservations");
                 });
 
             modelBuilder.Entity("Core.Entities.User", b =>

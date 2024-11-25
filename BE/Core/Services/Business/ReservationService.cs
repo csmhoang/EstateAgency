@@ -11,7 +11,9 @@ using Core.Specifications;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using System.Net;
+using static Core.Enums.PostEnums;
 using static Core.Enums.ReservationEnums;
+using static Core.Enums.RoomEnums;
 
 namespace Core.Services.Business
 {
@@ -106,30 +108,31 @@ namespace Core.Services.Business
         }
         public async Task<Response> InsertAsync(ReservationDto reservationDto)
         {
-            var post = await _repository.Post.FindCondition(p =>
-                p.Id.Equals(reservationDto.PostId)
+            var room = await _repository.Room.FindCondition(r =>
+                r.Id.Equals(reservationDto.RoomId)
             ).FirstOrDefaultAsync();
-            if (post == null)
+            if (room == null)
             {
-                throw new PostNotFoundException(reservationDto.PostId);
+                throw new RoomNotFoundException(reservationDto.RoomId);
             }
-            if (reservationDto.TenantId!.Equals(post.LandlordId))
+            if (reservationDto.TenantId!.Equals(room.LandlordId))
             {
                 throw new CustomizeException(Invalidate.TenantIdAndLandlordIdDuplication);
             }
 
-            var reservation = await _repository.Reservation.FindCondition(r =>
-                r.PostId!.Equals(reservationDto.PostId)
-            ).FirstOrDefaultAsync();
+            var reservations = await _repository.Reservation.FindCondition(r =>
+                r.RoomId!.Equals(reservationDto.RoomId)
+            ).ToListAsync();
 
-            if (reservation != null)
+            foreach (var reservation in reservations)
             {
                 var date = reservation.ReservationDate;
                 var isDuplicate =
                     date.Year == reservationDto.ReservationDate.Year &&
                     date.Month == reservationDto.ReservationDate.Month &&
                     date.Day == reservationDto.ReservationDate.Day &&
-                    date.Hour == reservationDto.ReservationDate.Hour;
+                    date.Hour == reservationDto.ReservationDate.Hour &&
+                    date.Minute == reservationDto.ReservationDate.Minute;
                 if (isDuplicate)
                 {
                     return new Response
@@ -139,6 +142,7 @@ namespace Core.Services.Business
                         StatusCode = (int)HttpStatusCode.ResetContent
                     };
                 }
+
             }
 
             var reservationInsert = _mapper.Map<Reservation>(reservationDto);
@@ -179,6 +183,53 @@ namespace Core.Services.Business
         public Task ValidateObject(ReservationDto reservationDto)
         {
             return Task.CompletedTask;
+        }
+
+        public async Task<Response> RefuseAsync(string id, string rejectionReason)
+        {
+            var reservation = await _repository.Reservation.FindCondition(r => r.Id.Equals(id))
+              .FirstOrDefaultAsync();
+            if (reservation != null)
+            {
+                reservation.Status = StatusReservation.Rejected;
+                reservation.RejectionReason = rejectionReason;
+                _repository.Reservation.Update(reservation);
+                await _repository.SaveAsync();
+            }
+            else
+            {
+                throw new ReservationNotFoundException(id);
+            }
+
+            return new Response
+            {
+                Success = true,
+                Messages = Successfull.RegisterSucceed,
+                StatusCode = (int)HttpStatusCode.OK
+            };
+        }
+
+        public async Task<Response> AcceptAsync(string id)
+        {
+            var reservation = await _repository.Reservation.FindCondition(r => r.Id.Equals(id))
+              .FirstOrDefaultAsync();
+            if (reservation != null)
+            {
+                reservation.Status = StatusReservation.Confirmed;
+                _repository.Reservation.Update(reservation);
+                await _repository.SaveAsync();
+            }
+            else
+            {
+                throw new ReservationNotFoundException(id);
+            }
+
+            return new Response
+            {
+                Success = true,
+                Messages = Successfull.AcceptSucceed,
+                StatusCode = (int)HttpStatusCode.OK
+            };
         }
         #endregion
     }

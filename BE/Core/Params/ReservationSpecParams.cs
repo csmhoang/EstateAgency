@@ -29,6 +29,17 @@ namespace Core.Params
             }
         }
 
+        private List<string> _roomIds = new();
+        public List<string> RoomId
+        {
+            get => _roomIds;
+            set
+            {
+                _roomIds = value.SelectMany(x => x.Split(",",
+                    StringSplitOptions.RemoveEmptyEntries)).ToList();
+            }
+        }
+
         public string? Sort { get; set; }
 
         private string? _search;

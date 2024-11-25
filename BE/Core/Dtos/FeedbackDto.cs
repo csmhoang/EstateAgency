@@ -5,7 +5,7 @@ namespace Core.Dtos
 {
     public record FeedbackDto
     {
-        public Guid? Id { get; set; }
+        public string? Id { get; set; }
         [Required(ErrorMessage = UserConst.ErrorEmptyTenantId)]
         public string? TenantId { get; set; }
         [Required(ErrorMessage = PostConst.ErrorEmptyId)]

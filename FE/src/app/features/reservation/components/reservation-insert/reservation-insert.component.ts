@@ -57,8 +57,8 @@ export class ReservationInsertComponent implements OnInit {
   ngOnInit() {
     this.form = this.formBuilder.group({
       reservationDate: this.formBuilder.control('', [Validators.required]),
-      reservationHour: this.formBuilder.control('', [Validators.required]),
-      reservationMinute: this.formBuilder.control('', [Validators.required]),
+      reservationHour: this.formBuilder.control(0, [Validators.required]),
+      reservationMinute: this.formBuilder.control(0, [Validators.required]),
       note: this.formBuilder.control(''),
     });
 
@@ -70,7 +70,7 @@ export class ReservationInsertComponent implements OnInit {
     if (this.form.valid && this.user) {
       const reservation: Reservation = {
         ...this.form.value,
-        postId: this.data.id,
+        RoomId: this.data.room?.id,
         tenantId: this.user.id,
       };
       this.reservationService

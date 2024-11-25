@@ -3,4 +3,5 @@ export type SpecBookingParams = {
     pageSize?: number;
     search?: string;
     tenantId?: string;
+    roomId?: string;
 }

@@ -25,6 +25,8 @@ import { lessorDetailResolver } from '@features/lessor/resolver/lessor-detail.re
 import { isLandlord } from '@core/guards/auth.guard';
 import { ReservationListComponent } from '@features/reservation/components/reservation-list/reservation-list.component';
 import { BookingListComponent } from '@features/booking/components/booking-list/booking-list.component';
+import { LessorReservationComponent } from '@features/management/lessor/pages/lessor-reservation/lessor-reservation.component';
+import { LessorBookingComponent } from '@features/management/lessor/pages/lessor-booking/lessor-booking.component';
 
 export const routes: Routes = [
   /*Clients*/
@@ -129,6 +131,14 @@ export const routes: Routes = [
       {
         path: 'post',
         component: LessorPostComponent,
+      },
+      {
+        path: 'reservation',
+        component: LessorReservationComponent,
+      },
+      {
+        path: 'booking',
+        component: LessorBookingComponent,
       },
     ],
   },

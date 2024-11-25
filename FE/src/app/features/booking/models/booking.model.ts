@@ -1,23 +1,24 @@
-import { Post } from "@features/post/models/post.model";
+import { Room } from "@features/apartment/models/room.model";
 
 export type Booking = {
   id?: string;
-  postId: string;
+  roomId: string;
   tenantId: string;
+  invoiceId: string;
   intendedIntoDate: Date;
   endDate: Date;
   numberOfTenant: number;
   note?: string;
   rejectionReason?: string;
-  status: string;
+  status?: string;
   createdAt?: Date;
   updatedAt?: Date;
-  post?: Post;
+  room?: Room;
 };
 
 export const StatusBooking: { [key: string]: string } = {
   Pending: 'Đang chờ xử lý',
-  Confirmed: 'Xác nhận',
+  Accepted: 'Chấp nhận',
   Rejected: 'Từ chối',
   Canceled: 'Đã hủy',
 };

@@ -18,10 +18,10 @@ export type Room = {
   area: number;
   price: number;
   deposite: number;
-  condition: string;
-  landlord?: User;
+  condition?: string;
   createdAt?: Date;
   updatedAt?: Date;
+  landlord?: User;
   photos?: Photo[];
   posts?: Post[];
 };

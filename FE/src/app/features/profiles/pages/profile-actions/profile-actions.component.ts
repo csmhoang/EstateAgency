@@ -1,14 +1,10 @@
-import { CommonModule } from '@angular/common';
-import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { User } from '@core/models/user.model';
 import { UserService } from '@core/services/user.service';
 
 import { LessorListComponent } from '@features/lessor/components/lessor-list/lessor-list.component';
 import { PostListComponent } from '@features/post/components/post-list/post-list.component';
 import { Post } from '@features/post/models/post.model';
-import { PostService } from '@features/post/services/post.service';
-import { MiniLoadComponent } from '@shared/components/mini-load/mini-load.component';
-import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-profile-actions',
@@ -23,7 +19,7 @@ export class ProfileActionsComponent implements OnInit {
   savedPosts?: Post[];
   constructor(private userService: UserService) {}
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.followees = this.user?.followees?.map(
       (followee) => followee.followee!
     );
