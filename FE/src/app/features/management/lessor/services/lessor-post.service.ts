@@ -1,7 +1,7 @@
 import { Injectable, signal } from '@angular/core';
 import { PageData } from '@core/models/page-data.model';
-import { SpecParams } from '@core/models/spec-params.model';
 import { Post } from '@features/post/models/post.model';
+import { SpecPostParams } from '@features/post/models/spec-post-params.model';
 import { PostService } from '@features/post/services/post.service';
 import { tap } from 'rxjs';
 
@@ -11,7 +11,7 @@ import { tap } from 'rxjs';
 export class LessorPostService {
   pageSignal = signal<PageData<Post[]> | null>(null);
   public page = this.pageSignal.asReadonly();
-  public specParams = signal<SpecParams>({});
+  public specParams = signal<SpecPostParams>({});
 
   constructor(private postService: PostService) {}
 

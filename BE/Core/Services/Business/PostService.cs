@@ -63,19 +63,13 @@ namespace Core.Services.Business
 
         public async Task<Response> GetDetailAsync(string id)
         {
-            var spec = new BaseSpecification<Post>(p => p
-                .Id.Equals(id)
-            );
-            spec.AddInclude(x => x
+            var post = await _repository.Post.FindCondition(p => p.Id.Equals(id))
                 .Include(p => p.Landlord!)
                 .ThenInclude(l => l.Followers!)
-            );
-            spec.AddInclude(x => x
                 .Include(p => p.Room!)
                 .ThenInclude(r => r.Photos!)
-            );
+                .FirstOrDefaultAsync();
 
-            var post = await _repository.Post.GetEntityWithSpec(spec);
             return new Response
             {
                 Success = true,
@@ -152,8 +146,8 @@ namespace Core.Services.Business
             room.Condition = ConditionRoom.PostingForRent;
 
             var post = _mapper.Map<Post>(postDto);
-            _repository.Room.Update(room);
             _repository.Post.Create(post);
+            _repository.Room.Update(room);
             await _repository.SaveAsync();
             return new Response
             {
@@ -203,7 +197,7 @@ namespace Core.Services.Business
             return new Response
             {
                 Success = true,
-                Messages = isSave ? Successfull.SavePostSucceed : Successfull.CancelSavePostSucceed,
+                Messages = isSave ? Successfull.SaveSucceed : Successfull.CancelSucceed,
                 StatusCode = (int)HttpStatusCode.NoContent
             };
         }
@@ -270,9 +264,9 @@ namespace Core.Services.Business
 
         public async Task<Response> GetSearchOptionsAsync()
         {
-            var spec = new BaseSpecification<Post>();
-            spec.AddInclude(x => x.Include(p => p.Room!));
-            var post = await _repository.Post.ListAsync(spec);
+            var post = await _repository.Post.FindAll()
+                .Include(p => p.Room!)
+                .ToListAsync();
 
             var options = post.Select(p => new
             {
@@ -280,6 +274,7 @@ namespace Core.Services.Business
                 p.Room!.Name,
                 p.Room!.Address
             });
+
             return new Response
             {
                 Success = true,

@@ -43,17 +43,6 @@ namespace Api.Controllers
         }
 
         /// <summary>
-        /// Thêm hóa đơn
-        /// </summary>
-        /// <param name="model">Hóa đơn</param>
-        [HttpPost]
-        public async Task<IActionResult> Create([FromBody] InvoiceDto model)
-        {
-            var response = await _service.Invoice.InsertAsync(model);
-            return Ok(response);
-        }
-
-        /// <summary>
         /// Cập nhật hóa đơn
         /// </summary>
         /// <param name="id">Id hóa đơn</param>

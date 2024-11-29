@@ -22,7 +22,7 @@ namespace Core.Dtos
         public Interior Interior { get; set; }
         public decimal Area { get; set; }
         public decimal Price { get; set; }
-        public decimal Deposite { get; set; }
+        public bool IsHide { get; set; }
         public ConditionRoom? Condition { get; set; }
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
@@ -30,5 +30,7 @@ namespace Core.Dtos
         public UserDto? Landlord { get; set; }
         public ICollection<PhotoDto>? Photos { get; set; }
         public ICollection<PostDto>? Posts { get; set; }
+        public ICollection<BookingDetailDto>? BookingDetails { get; set; }
+        public ICollection<LeaseDetailDto>? LeaseRooms { get; set; }
     }
 }

@@ -15,17 +15,20 @@
   <div class="divider d-flex align-items-center my-4">
     <p class="text-center fw-bold mx-3 mb-0">Hoặc</p>
   </div>
-
-  <!-- Email input -->
-  <mat-form-field class="w-100" appearance="outline">
-    <mat-label>Email</mat-label>
-    <input matInput type="email" placeholder="Email" formControlName="email" />
-    @if( email?.invalid && (email?.dirty || email?.touched) ){
-    <mat-error>{{ errorForEmail() }}</mat-error>
-    }
-  </mat-form-field>
-
   <div class="row align-items-center">
+    <!-- Email input -->
+    <mat-form-field class="col-lg-6" appearance="outline">
+      <mat-label>Email</mat-label>
+      <input
+        matInput
+        type="email"
+        placeholder="Email"
+        formControlName="email"
+      />
+      @if( email?.invalid && (email?.dirty || email?.touched) ){
+      <mat-error>{{ errorForEmail() }}</mat-error>
+      }
+    </mat-form-field>
     <!-- Fullname input -->
     <mat-form-field class="col-lg-6" appearance="outline">
       <mat-label>Họ và tên</mat-label>
@@ -39,6 +42,17 @@
       <mat-error>{{ errorForFullName() }}</mat-error>
       }
     </mat-form-field>
+  </div>
+
+  <div class="row align-items-center">
+    <!-- Role radio -->
+    <mat-radio-group
+      class="col d-flex align-items-center pb-3"
+      formControlName="role"
+    >
+      <mat-radio-button value="tenant">Người thuê</mat-radio-button>
+      <mat-radio-button value="landlord">Người cho thuê</mat-radio-button>
+    </mat-radio-group>
     <!-- Phone Number input -->
     <mat-form-field class="col-lg-6" appearance="outline">
       <mat-label>Số điện thoại</mat-label>

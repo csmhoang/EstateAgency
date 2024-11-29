@@ -9,14 +9,9 @@ using Core.Params;
 using Core.Resources;
 using Core.Specifications;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using static Core.Enums.BookingEnums;
-using static Core.Enums.ReservationEnums;
+using static Core.Enums.InvoiceEnums;
 
 namespace Core.Services.Business
 {
@@ -69,6 +64,25 @@ namespace Core.Services.Business
         {
             var spec = new BookingSpecification(specParams);
             var page = await CreatePagedResult(spec, specParams.PageIndex, specParams.PageSize);
+            if (page.Data.Count != 0)
+            {
+                foreach (var booking in page.Data)
+                {
+                    if (booking.Status == StatusBooking.Confirmed)
+                    {
+                        var invoice = booking.Invoice!;
+                        if (
+                            invoice.DueDate <= DateTime.Now &&
+                            invoice.Status == StatusInvoice.Pending
+                        )
+                        {
+                            invoice.Status = StatusInvoice.Overdue;
+                            _repository.Invoice.Update(invoice);
+                        }
+                    }
+                }
+            }
+            await _repository.SaveAsync();
             return new Response
             {
                 Success = true,
@@ -82,42 +96,55 @@ namespace Core.Services.Business
                 StatusCode = !page.Data.Any() ? (int)HttpStatusCode.NoContent : (int)HttpStatusCode.OK
             };
         }
-        public async Task<Response> DeleteAsync(string id)
+        public async Task<Response> CancelAsync(string id)
         {
-            var bookingDelete = await _repository.Booking.FindCondition(r => r.Id.Equals(id))
+            var booking = await _repository.Booking.FindCondition(r => r.Id.Equals(id))
                 .FirstOrDefaultAsync();
-            if (bookingDelete is not null)
+            if (booking == null) throw new BookingNotFoundException(id);
+            booking.Status = StatusBooking.Canceled;
+            _repository.Booking.Update(booking);
+            await _repository.SaveAsync();
+            return new Response
             {
-                _repository.Booking.Delete(bookingDelete);
-                await _repository.SaveAsync();
-                return new Response
-                {
-                    Success = true,
-                    Messages = Successfull.DeleteSucceed,
-                    StatusCode = (int)HttpStatusCode.NoContent
-                };
-            }
-            else
-            {
-                throw new BookingNotFoundException(id);
-            }
+                Success = true,
+                Messages = Successfull.CancelSucceed,
+                StatusCode = (int)HttpStatusCode.NoContent
+            };
         }
-        public async Task<Response> InsertAsync(BookingDto bookingDto)
+        public async Task<Response> InsertAsync(CartDto cartDto)
         {
-            var room = await _repository.Room.FindCondition(p =>
-               p.Id.Equals(bookingDto.RoomId)
-           ).FirstOrDefaultAsync();
-            if (room == null)
+            if (cartDto.CartDetails == null || cartDto.CartDetails.Count == 0)
+                throw new CustomizeException(Invalidate.CartEmptyInvalidate);
+
+            var CartDetailGroups = cartDto.CartDetails.GroupBy(cd => cd.Cart!.TenantId);
+            var bookings = new List<Booking>();
+            foreach (var group in CartDetailGroups)
             {
-                throw new RoomNotFoundException(bookingDto.RoomId);
-            }
-            if (bookingDto.TenantId!.Equals(room.LandlordId))
-            {
-                throw new CustomizeException(Invalidate.TenantIdAndLandlordIdDuplication);
+
+                var booking = new Booking
+                {
+                    TenantId = cartDto.TenantId,
+                };
+                foreach (var cartDetail in group)
+                {
+                    var room = await _repository.Room.FindCondition(p => p.Id.Equals(cartDetail.RoomId))
+                        .FirstOrDefaultAsync();
+                    if (room == null) throw new RoomNotFoundException(cartDetail.RoomId);
+                    if (booking.TenantId!.Equals(room.LandlordId))
+                        throw new CustomizeException(Invalidate.TenantIdAndLandlordIdDuplication);
+
+                    booking.BookingDetails.Add(new BookingDetail
+                    {
+                        RoomId = cartDetail.RoomId,
+                        NumberOfMonth = cartDetail.NumberOfMonth,
+                        NumberOfTenant = cartDetail.NumberOfTenant,
+                        Price = cartDetail.Price
+                    });
+                }
+                bookings.Add(booking);
             }
 
-            var booking = _mapper.Map<Booking>(bookingDto);
-            _repository.Booking.Create(booking);
+            foreach (var booking in bookings) _repository.Booking.Create(booking);
             await _repository.SaveAsync();
 
             return new Response
@@ -128,79 +155,28 @@ namespace Core.Services.Business
             };
         }
 
-        public async Task<Response> UpdateAsync(string id, BookingUpdateDto bookingUpdateDto)
+        public async Task<Response> ResponseAsync(string bookingDetailId, StatusBookingDetail status, string? rejectionReason)
         {
-            var booking = await _repository.Booking.FindCondition(r => r.Id.Equals(id))
+            var bookingDetail = await _repository.BookingDetail.FindCondition(r => r.Id.Equals(bookingDetailId))
                 .FirstOrDefaultAsync();
-            if (booking is not null)
+
+            if (bookingDetail == null) throw new BookingNotFoundException(bookingDetailId);
+
+            bookingDetail.Status = status;
+            if (rejectionReason != null)
             {
-                _mapper.Map(bookingUpdateDto, booking);
-                _repository.Booking.Update(booking);
-                await _repository.SaveAsync();
+                bookingDetail.RejectionReason = rejectionReason;
             }
-            else
-            {
-                throw new BookingNotFoundException(id);
-            }
+
+            _repository.BookingDetail.Update(bookingDetail);
+            await _repository.SaveAsync();
 
             return new Response
             {
                 Success = true,
-                Messages = Successfull.UpdateSucceed,
+                Messages = Successfull.ResponseSucceed,
                 StatusCode = (int)HttpStatusCode.OK
             };
-        }
-
-        public async Task<Response> RefuseAsync(string id, string rejectionReason)
-        {
-            var booking = await _repository.Booking.FindCondition(r => r.Id.Equals(id))
-              .FirstOrDefaultAsync();
-            if (booking != null)
-            {
-                booking.Status = StatusBooking.Rejected;
-                booking.RejectionReason = rejectionReason;
-                _repository.Booking.Update(booking);
-                await _repository.SaveAsync();
-            }
-            else
-            {
-                throw new BookingNotFoundException(id);
-            }
-
-            return new Response
-            {
-                Success = true,
-                Messages = Successfull.RejectSucceed,
-                StatusCode = (int)HttpStatusCode.OK
-            };
-        }
-
-        public async Task<Response> AcceptAsync(string id)
-        {
-            var booking = await _repository.Booking.FindCondition(r => r.Id.Equals(id))
-              .FirstOrDefaultAsync();
-            if (booking != null)
-            {
-                booking.Status = StatusBooking.Accepted;
-                _repository.Booking.Update(booking);
-                await _repository.SaveAsync();
-            }
-            else
-            {
-                throw new BookingNotFoundException(id);
-            }
-
-            return new Response
-            {
-                Success = true,
-                Messages = Successfull.AcceptSucceed,
-                StatusCode = (int)HttpStatusCode.OK
-            };
-        }
-
-        public Task ValidateObject(BookingDto bookingDto)
-        {
-            return Task.CompletedTask;
         }
         #endregion
     }

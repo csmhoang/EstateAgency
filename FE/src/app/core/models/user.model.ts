@@ -5,6 +5,7 @@ import { SavePost } from '@features/post/models/save-post.model';
 import { Follow } from './follow.model';
 import { Reservation } from '@features/reservation/models/reservation.model';
 import { Booking } from '@features/booking/models/booking.model';
+import { Cart } from '@features/Cart/models/cart.model';
 
 export type User = {
   id: string;
@@ -29,6 +30,7 @@ export type User = {
   followees?: Follow[];
   reservations?: Reservation[];
   bookings?: Booking[];
+  cart?: Cart;
 };
 
 export const Gender: { [key: string]: string } = {

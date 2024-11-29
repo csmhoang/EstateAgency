@@ -9,15 +9,6 @@ namespace Core.Enums
 {
     public record PaymentEnums
     {
-        public enum StatusPayment
-        {
-            [EnumMember(Value = "Pending")]
-            Pending = 0,
-            [EnumMember(Value = "Completed")]
-            Completed = 1,
-            [EnumMember(Value = "Failed")]
-            Failed = 2
-        }
 
         public enum PaymentMethod
         {

@@ -17,7 +17,7 @@ export type Room = {
   interior: string;
   area: number;
   price: number;
-  deposite: number;
+  isHide: boolean;
   condition?: string;
   createdAt?: Date;
   updatedAt?: Date;

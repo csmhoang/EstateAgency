@@ -1,0 +1,17 @@
+<p>
+  <span class="h2">Giỏ phòng</span
+  ><span class="h4">({{ cartDetails?.length }} phòng trong giỏ)</span>
+</p>
+@for (cartDetail of cartDetails; track $index) {
+<app-cart-item [cartDetail]="cartDetail"></app-cart-item>
+}
+<div class="card mb-5">
+  <div class="card-body p-4">
+    <div class="float-end">
+      <p class="mb-0 me-5 d-flex align-items-center">
+        <span class="small text-muted me-2">Tổng đơn:</span>
+        <span class="lead fw-normal">{{ sumPrice }}</span>
+      </p>
+    </div>
+  </div>
+</div>

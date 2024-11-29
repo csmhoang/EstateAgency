@@ -3,8 +3,8 @@ using Core.Dtos;
 using Core.Interfaces.Business;
 using Core.Params;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using static Core.Enums.BookingEnums;
 
 namespace Api.Controllers
 {
@@ -60,57 +60,34 @@ namespace Api.Controllers
         /// </summary>
         /// <param name="model">Đặt phòng</param>
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] BookingDto model)
+        public async Task<IActionResult> Create([FromBody] CartDto model)
         {
             var response = await _service.Booking.InsertAsync(model);
             return Ok(response);
         }
 
         /// <summary>
-        /// Cập nhật đặt phòng
+        /// Hủy đặt phòng
         /// </summary>
         /// <param name="id">Id đặt phòng</param>
-        /// <param name="model">Đặt phòng</param>
-        [HttpPut]
-        public async Task<IActionResult> Update(string id, [FromBody] BookingUpdateDto model)
+        [HttpDelete("cancel")]
+        public async Task<IActionResult> Cancel(string id)
         {
-            var response = await _service.Booking.UpdateAsync(id, model);
+            var response = await _service.Booking.CancelAsync(id);
             return Ok(response);
         }
 
         /// <summary>
-        /// Xóa đặt phòng
+        /// Phản hồi đặt phòng
         /// </summary>
         /// <param name="id">Id đặt phòng</param>
-        [HttpDelete]
-        public async Task<IActionResult> Delete(string id)
-        {
-            var response = await _service.Booking.DeleteAsync(id);
-            return Ok(response);
-        }
-
-        /// <summary>
-        /// Từ chối đặt phòng
-        /// </summary>
-        /// <param name="id">Id đặt phòng</param>
+        /// <param name="status">Trạng thái</param>
         /// <param name="rejectionReason">Lý do từ chối</param>
-        [HttpPut("refuse")]
+        [HttpPut("response")]
         [Authorize(Roles = RoleConst.Landlord)]
-        public async Task<IActionResult> Refuse(string id, string rejectionReason)
+        public async Task<IActionResult> ResponseRequest(string id, StatusBookingDetail status, string? rejectionReason)
         {
-            var response = await _service.Booking.RefuseAsync(id, rejectionReason);
-            return Ok(response);
-        }
-
-        /// <summary>
-        /// Chấp nhận đặt phòng
-        /// </summary>
-        /// <param name="id">Id đặt phòng</param>
-        [HttpPut("accept")]
-        [Authorize(Roles = RoleConst.Landlord)]
-        public async Task<IActionResult> Accept(string id)
-        {
-            var response = await _service.Booking.AcceptAsync(id);
+            var response = await _service.Booking.ResponseAsync(id, status, rejectionReason);
             return Ok(response);
         }
         #endregion

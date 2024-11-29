@@ -15,9 +15,11 @@ namespace Core.Entities
             Amenities = new HashSet<Amenity>();
             Photos = new HashSet<Photo>();
             Posts = new HashSet<Post>();
-            Bookings = new HashSet<Booking>();
             Reservations = new HashSet<Reservation>();
+            BookingDetails = new HashSet<BookingDetail>();
+            LeaseDetails = new HashSet<LeaseDetail>();
         }
+
         [Key]
         [MaxLength(36)]
         public string Id { get; set; } = Guid.NewGuid().ToString();
@@ -43,8 +45,6 @@ namespace Core.Entities
         public decimal Area { get; set; }
         [Column(TypeName = "decimal(10, 2)")]
         public decimal Price { get; set; }
-        [Column(TypeName = "decimal(10, 2)")]
-        public decimal Deposite { get; set; }
         public ConditionRoom Condition { get; set; }
         public DateTime? CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime? UpdatedAt { get; set; } = DateTime.UtcNow;
@@ -55,6 +55,7 @@ namespace Core.Entities
         public virtual ICollection<Photo> Photos { get; set; }
         public virtual ICollection<Amenity> Amenities { get; set; }
         public virtual ICollection<Reservation> Reservations { get; set; }
-        public virtual ICollection<Booking> Bookings { get; set; }
+        public virtual ICollection<BookingDetail> BookingDetails { get; set; }
+        public virtual ICollection<LeaseDetail> LeaseDetails { get; set; }
     }
 }

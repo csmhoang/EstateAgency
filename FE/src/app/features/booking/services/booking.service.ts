@@ -7,6 +7,7 @@ import { TakeMiniLoad } from '@core/interceptors/take.resolver';
 import { PageData } from '@core/models/page-data.model';
 import { tap, Observable, map } from 'rxjs';
 import { SpecBookingParams } from '../models/spec-booking-params.model';
+import { Invoice } from '../models/invoice.model';
 
 @Injectable({
   providedIn: 'root',
@@ -54,14 +55,11 @@ export class BookingService {
   insert(booking: Booking) {
     return this.http.post<Result>('/bookings', booking);
   }
-  delete(id: string) {
-    return this.http.delete<Result>(`/bookings?id=${id}`);
+  
+  cancel(id: string) {
+    return this.http.delete<Result>(`/bookings/cancel?id=${id}`);
   }
 
-  update(id: string, booking: Booking) {
-    return this.http.put<Result>(`/bookings?id=${id}`, booking);
-  }
-  
   refuse(id: string, rejectionReason: string) {
     return this.http.put<Result>(
       `/bookings/refuse?id=${id}&rejectionReason=${rejectionReason}`,
@@ -71,5 +69,11 @@ export class BookingService {
 
   accept(id: string) {
     return this.http.put<Result>(`/bookings/accept?id=${id}`, null);
+  }
+
+  getInvoice(bookingId: string) {
+    return this.http
+      .get<Result<Invoice>>(`/invoices/byBooking/${bookingId}`)
+      .pipe(map((response) => response.data));
   }
 }

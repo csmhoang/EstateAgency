@@ -7,11 +7,12 @@ import {
   Room,
 } from '@features/apartment/models/room.model';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-apartment-view',
   standalone: true,
-  imports: [ApartmentDetailPhotosComponent],
+  imports: [ApartmentDetailPhotosComponent, CommonModule],
   templateUrl: './apartment-view.component.html',
   styleUrl: './apartment-view.component.scss',
 })

@@ -3,6 +3,7 @@ using Core.Consts;
 using Core.Dtos;
 using Core.Entities;
 using Core.Exceptions;
+using Core.Interfaces.Data;
 using Core.Interfaces.Infrastructure;
 using Core.Resources;
 using Microsoft.AspNetCore.Identity;
@@ -23,6 +24,7 @@ namespace Core.Services.Auth
 
     {
         #region Declaration
+        private readonly IRepositoryManager _repository;
         private readonly ILoggerManager _logger;
         private readonly IMapper _mapper;
         private readonly UserManager<User> _userManager;
@@ -36,13 +38,14 @@ namespace Core.Services.Auth
         #endregion
 
         #region Constructor
-        public AuthenticationService(ILoggerManager logger,
+        public AuthenticationService(IRepositoryManager repository, ILoggerManager logger,
             IMapper mapper,
             IEmailSender emailSender,
             UserManager<User> userManager,
             RoleManager<Role> roleManager,
             IConfiguration configuration)
         {
+            _repository = repository;
             _logger = logger;
             _mapper = mapper;
             _userManager = userManager;
@@ -106,6 +109,9 @@ namespace Core.Services.Auth
                     await _userManager.DeleteAsync(user);
                     throw new CustomizeException(Failure.AddRoleFailing);
                 }
+
+                _repository.Cart.Create(new Cart { TenantId = user.Id });
+                await _repository.SaveAsync();
 
                 res.Success = true;
                 res.Messages = Successfull.RegisterSucceed;
@@ -236,6 +242,7 @@ namespace Core.Services.Auth
             {
                 _logger.LogWarn($"{nameof(Login)}: {Failure.LoginFailing}");
             }
+
             return new Response
             {
                 Success = result,
@@ -409,7 +416,11 @@ namespace Core.Services.Auth
                 .ThenInclude(r => r.Photos!)
                 .Include(u => u.Reservations!)
                 .Include(u => u.Bookings!)
-                .Include(u => u.Rooms)
+                .Include(u => u.Rooms!)
+                .Include(u => u.Cart!)
+                .ThenInclude(c => c.CartDetails!)
+                .ThenInclude(cd => cd.Room!)
+                .ThenInclude(r => r.Photos!)
                 .FirstOrDefaultAsync(x => x.UserName == username.ToLower());
 
             return new Response

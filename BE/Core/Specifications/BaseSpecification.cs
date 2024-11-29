@@ -13,9 +13,8 @@ namespace Core.Specifications
 
         #region Property
         public List<Func<IQueryable<T>, IOrderedQueryable<T>>> Orders { get; }
-            = new List<Func<IQueryable<T>, IOrderedQueryable<T>>>();        
-        public List<Func<IQueryable<T>, IIncludableQueryable<T, object>>> Includes { get; }
-            = new List<Func<IQueryable<T>, IIncludableQueryable<T, object>>>();
+            = new List<Func<IQueryable<T>, IOrderedQueryable<T>>>();
+        public Func<IQueryable<T>, IIncludableQueryable<T, object>>? Include { get; private set;}
         public bool IsDistinct { get; private set; }
         public int Take { get; private set; }
         public int Skip { get; private set; }
@@ -47,7 +46,7 @@ namespace Core.Specifications
 
         public void AddInclude(Func<IQueryable<T>, IIncludableQueryable<T, object>> includeExpression)
         {
-            Includes.Add(includeExpression);
+            Include = includeExpression;
         }
 
         public void ApplyDistinct()

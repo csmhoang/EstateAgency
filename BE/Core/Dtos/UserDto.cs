@@ -27,6 +27,6 @@ namespace Core.Dtos
         public ICollection<ReservationDto>? Reservations { get; set; }
         public ICollection<BookingDto>? Bookings { get; set; }
         public ICollection<SavePostDto>? SavePosts { get; set; }
-
+        public CartDto? Cart { get; set; }
     }
 }

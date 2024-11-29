@@ -149,7 +149,7 @@
   </div>
   <div class="row">
     <!-- Area input -->
-    <mat-form-field class="col-lg-4" appearance="outline">
+    <mat-form-field class="col-lg-6" appearance="outline">
       <mat-label>Diện tích</mat-label>
       <input
         matInput
@@ -165,7 +165,7 @@
       }
     </mat-form-field>
     <!-- Price input -->
-    <mat-form-field class="col-lg-4" appearance="outline">
+    <mat-form-field class="col-lg-6" appearance="outline">
       <mat-label>Giá phòng</mat-label>
       <input
         matInput
@@ -178,22 +178,6 @@
       <span matTextSuffix>&nbsp;đồng</span>
       @if( price?.invalid && (price?.dirty || price?.touched) ){
       <mat-error>{{ errorForPrice() }}</mat-error>
-      }
-    </mat-form-field>
-    <!-- Deposite input -->
-    <mat-form-field class="col-lg-4" appearance="outline">
-      <mat-label>Tiền đặt cọc</mat-label>
-      <input
-        matInput
-        type="number"
-        class="text-end hide-spin"
-        min="0"
-        placeholder="0"
-        formControlName="deposite"
-      />
-      <span matTextSuffix>&nbsp;đồng</span>
-      @if( deposite?.invalid && (deposite?.dirty || deposite?.touched) ){
-      <mat-error>{{ errorForDeposite() }}</mat-error>
       }
     </mat-form-field>
   </div>

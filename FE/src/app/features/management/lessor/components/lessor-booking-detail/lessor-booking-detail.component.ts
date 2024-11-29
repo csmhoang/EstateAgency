@@ -1,21 +1,19 @@
-import { Component, inject, Input } from '@angular/core';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Component, inject, Input } from '@angular/core';
 import { Booking, StatusBooking } from '@features/booking/models/booking.model';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: 'app-booking-view',
+  selector: 'app-lessor-booking-detail',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './booking-view.component.html',
-  styleUrl: './booking-view.component.scss'
+  templateUrl: './lessor-booking-detail.component.html',
+  styleUrl: './lessor-booking-detail.component.scss',
 })
-export class BookingViewComponent {
+export class LessorBookingDetailComponent {
   @Input() data!: Booking;
   activeModal = inject(NgbActiveModal);
   StatusBookingFilter = StatusBooking;
-  router = inject(Router);
 
   decline() {
     this.activeModal.dismiss(false);

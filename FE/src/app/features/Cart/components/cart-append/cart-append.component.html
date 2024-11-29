@@ -1,5 +1,5 @@
 <div class="modal-header">
-  <h4 class="modal-title">Cập nhật đặt lịch</h4>
+  <h4 class="modal-title">Đặt Lịch xem phòng</h4>
   <button
     type="button"
     class="btn-close"
@@ -10,40 +10,30 @@
 <div class="modal-body">
   <form [formGroup]="form">
     <div class="row">
-      <!-- IntendedIntoDate select -->
-      <mat-form-field class="col-lg-4" appearance="outline">
-        <mat-label>Ngày chuyển vào</mat-label>
+      <!-- Number of month input -->
+      <mat-form-field class="col-lg-6" appearance="outline">
+        <mat-label>Số tháng thuê</mat-label>
         <input
           matInput
-          [min]="minIntendedIntoDate"
-          [matDatepicker]="picker"
-          placeholder="MM/DD/YYYY"
-          formControlName="intendedIntoDate"
+          type="number"
+          min="1"
+          placeholder="1"
+          class="hide-spin"
+          formControlName="numberOfMonth"
         />
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
+        @if( numberOfMonth?.invalid && (numberOfMonth?.dirty ||
+        numberOfMonth?.touched) ){
+        <mat-error>{{ errorFornumberOfMonth() }}</mat-error>
+        }
       </mat-form-field>
-      <!-- EndDate select -->
-      <mat-form-field class="col-lg-4" appearance="outline">
-        <mat-label>Ngày trả phòng</mat-label>
-        <input
-          matInput
-          [min]="minEndDate"
-          [matDatepicker]="picker"
-          placeholder="MM/DD/YYYY"
-          formControlName="endDate"
-        />
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
-      </mat-form-field>
-      <!-- NumberOfTenant input -->
-      <mat-form-field class="col-lg-4" appearance="outline">
+      <!-- Number of tenant input -->
+      <mat-form-field class="col-lg-6" appearance="outline">
         <mat-label>Số người ở</mat-label>
         <input
           matInput
           type="number"
-          min="0"
-          placeholder="0"
+          min="1"
+          placeholder="1"
           class="hide-spin"
           formControlName="numberOfTenant"
         />
@@ -70,6 +60,6 @@
     (click)="accept()"
     [disabled]="form.invalid || !form.dirty"
   >
-    Cập nhật
+    Đặt phòng
   </button>
 </div>

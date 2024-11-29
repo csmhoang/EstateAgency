@@ -11,7 +11,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { SearchComponent } from '@shared/components/form/search/search.component';
 import { PaginationComponent } from '@shared/components/pagination/pagination.component';
 import { DialogService } from '@shared/services/dialog/dialog.service';
 import { PaginationParams } from '@shared/models/pagination-params.model';
@@ -22,8 +21,9 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { UserService } from '@core/services/user.service';
 import { Booking, StatusBooking } from '@features/booking/models/booking.model';
 import { BookingService } from '@features/booking/services/booking.service';
-import { BookingViewComponent } from '../booking-view/booking-view.component';
-import { BookingUpdateComponent } from '../booking-update/booking-update.component';
+import { InvoiceComponent } from '../invoice/invoice.component';
+import { BookingDetailComponent } from '../booking-detail/booking-detail.component';
+import { StatusInvoice } from '@features/booking/models/invoice.model';
 
 @Component({
   selector: 'app-booking-list',
@@ -34,7 +34,6 @@ import { BookingUpdateComponent } from '../booking-update/booking-update.compone
     MatButtonModule,
     MatMenuModule,
     PaginationComponent,
-    SearchComponent,
     CommonModule,
     MiniLoadComponent,
   ],
@@ -45,15 +44,11 @@ export class BookingListComponent implements OnInit {
   destroyRef = inject(DestroyRef);
   user = this.userService.currentUser();
   displayedColumns: string[] = [
-    'roomName',
-    'numberOfTenant',
-    'intendedIntoDate',
-    'endDate',
-    'price',
-    'deposite',
+    'landlord',
     'paymentStatus',
     'leaseStatus',
     'status',
+    'detail',
     'optional',
   ];
   dataSource = new MatTableDataSource<Booking>();
@@ -62,7 +57,8 @@ export class BookingListComponent implements OnInit {
     count: 0,
     pageIndex: 1,
   });
-  StatusBookingFilter = StatusBooking;
+  statusBookingFilter = StatusBooking;
+  statusInvoiceFilter = StatusInvoice;
 
   @ViewChild(MatSort) sort?: MatSort;
 
@@ -108,57 +104,39 @@ export class BookingListComponent implements OnInit {
     await this.init();
   }
 
-  async onSearch(query: string) {
-    this.bookingService.specParams.update((value) => ({
-      ...value,
-      search: query,
-      pageIndex: 1,
-    }));
-    await this.init();
+  onDetail(booking: Booking) {
+    this.dialogService.view(BookingDetailComponent, booking);
   }
 
-  onView(booking: Booking) {
-    this.dialogService.view(BookingViewComponent, booking);
-  }
-
-  onUpdate(booking: Booking) {
-    if (booking.status !== 'Confirmed' && booking.status !== 'Rejected') {
-      this.dialogService
-        .form(BookingUpdateComponent, booking, 'lg')
-        .then(async () => {
-          this.toastService.success('Cập nhật đặt phòng thành công!');
-          await this.init();
-        });
-    } else {
-      this.toastService.warn('Bạn không thể sửa đặt phòng lúc này!');
-    }
-  }
-
-  onDelete(id: string, status: string) {
+  onCancel(id: string, status: string) {
     if (status !== 'Confirmed') {
       this.dialogService
         .confirm({
-          title: 'Xác nhận xóa đặt phòng này không',
-          content: 'Bạn có chắc muốn xóa đặt phòng này không?',
+          title: 'Xác nhận hủy đặt phòng này không',
+          content: 'Bạn có chắc muốn hủy đặt phòng này không?',
           button: {
-            accept: 'Xóa',
+            accept: 'Hủy đặt',
             decline: 'Hủy bỏ',
           },
         })
         .then(async () => {
           const response = await firstValueFrom(
-            this.bookingService.delete(id).pipe(
+            this.bookingService.cancel(id).pipe(
               takeUntilDestroyed(this.destroyRef),
               catchError(() => of(null))
             )
           );
           if (response?.success) {
-            this.toastService.success('Xóa đặt phòng thành công');
+            this.toastService.success('Hủy đặt phòng thành công');
             await this.init();
           }
         });
     } else {
       this.toastService.warn('Bạn không thể hủy đặt phòng lúc này!');
     }
+  }
+
+  async onPayment(booking: Booking) {
+    this.dialogService.view(InvoiceComponent, booking);
   }
 }

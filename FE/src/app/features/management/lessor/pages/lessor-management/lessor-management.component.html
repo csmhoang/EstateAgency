@@ -98,20 +98,31 @@
             >
               <div class="d-flex align-items-center">
                 <span class="fw-light text-secondary">Hi, </span>
-                <span class="fw-bold">{{ "Hoàng" }}</span>
+                <span *ngIf="user" class="fw-bold text-capitalize">{{ user.fullName }}</span>
                 <i class="fa-solid fa-square-caret-down ms-1"></i>
               </div>
             </button>
             <mat-menu #menu="matMenu" class="profile-dropdown">
               <div class="px-2">
-                <button mat-menu-item>Edit Profile</button>
-                <button mat-menu-item>Account</button>
-                <button mat-menu-item>Change Password</button>
-                <button mat-menu-item>My Settings</button>
+                <button mat-menu-item routerLink="/lessor/profile">
+                  Hồ sơ cá nhân
+                </button>
+                <button mat-menu-item routerLink="/lessor/profile/actions">
+                  Hoạt động
+                </button>
+                <button mat-menu-item routerLink="/lessor">
+                  Quản lý
+                </button>
               </div>
               <hr />
               <div class="px-2">
-                <button mat-flat-button color="warn" class="w-100 text-white">
+                <button
+                  mat-flat-button
+                  (click)="onLogout()"
+                  routerLink="/"
+                  color="warn"
+                  class="w-100 text-white"
+                >
                   Đăng xuất
                 </button>
               </div>

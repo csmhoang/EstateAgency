@@ -19,6 +19,7 @@ namespace Core.Dtos
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
         public ICollection<InvoiceDetailDto>? InvoiceDetails { get; set; }
-
+        public BookingDto? Booking { get; set; }
+        public PaymentDto? Payment { get; set; }
     }
 }

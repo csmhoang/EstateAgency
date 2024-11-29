@@ -78,8 +78,6 @@ namespace Core.Services.Business
         }
         public async Task<Response> InsertAsync(LeaseDto leaseDto)
         {
-            await ValidateObject(leaseDto);
-
             var lease = _mapper.Map<Lease>(leaseDto);
             _repository.Lease.Create(lease);
             await _repository.SaveAsync();
@@ -94,8 +92,6 @@ namespace Core.Services.Business
 
         public async Task<Response> UpdateAsync(string id, LeaseDto leaseDto)
         {
-            await ValidateObject(leaseDto);
-
             var lease = await _repository.Lease.FindCondition(r => r.Id.Equals(id))
                 .FirstOrDefaultAsync();
             if (lease is not null)
@@ -115,21 +111,6 @@ namespace Core.Services.Business
                 Messages = Successfull.UpdateSucceed,
                 StatusCode = (int)HttpStatusCode.OK
             };
-        }
-        public async Task ValidateObject(LeaseDto leaseDto)
-        {
-            var room = await _repository.Room.FindCondition(r => r.Id.Equals(leaseDto.RoomId)).FirstOrDefaultAsync();
-            if (room is not null)
-            {
-                if (leaseDto.TenantId!.Equals(room.LandlordId))
-                {
-                    throw new CustomizeException(Invalidate.TenantIdAndLandlordIdDuplication);
-                }
-            }
-            else
-            {
-                throw new RoomNotFoundException(leaseDto.RoomId);
-            }
         }
         #endregion
     }

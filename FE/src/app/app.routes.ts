@@ -27,6 +27,8 @@ import { ReservationListComponent } from '@features/reservation/components/reser
 import { BookingListComponent } from '@features/booking/components/booking-list/booking-list.component';
 import { LessorReservationComponent } from '@features/management/lessor/pages/lessor-reservation/lessor-reservation.component';
 import { LessorBookingComponent } from '@features/management/lessor/pages/lessor-booking/lessor-booking.component';
+import { LessorProfileComponent } from '@features/management/lessor/pages/lessor-profile/lessor-profile.component';
+import { CartComponent } from '@features/Cart/pages/cart/cart.component';
 
 export const routes: Routes = [
   /*Clients*/
@@ -77,6 +79,10 @@ export const routes: Routes = [
     ],
   },
   {
+    path: 'cart',
+    component: CartComponent,
+  },
+  {
     path: 'service',
     component: ServiceComponent,
   },
@@ -112,7 +118,7 @@ export const routes: Routes = [
     component: LessorManagementComponent,
     canActivate: [isLandlord],
     children: [
-      {
+    {
         path: '',
         component: LessorDashboardComponent,
       },
@@ -139,6 +145,21 @@ export const routes: Routes = [
       {
         path: 'booking',
         component: LessorBookingComponent,
+      },
+    ],
+  },
+  {
+    path: 'lessor/profile',
+    canActivate: [isLandlord],
+    component: LessorProfileComponent,
+    children: [
+      {
+        path: '',
+        component: ProfileEditComponent,
+      },
+      {
+        path: 'actions',
+        component: ProfileActionsComponent,
       },
     ],
   },

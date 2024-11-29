@@ -74,28 +74,12 @@ namespace Infrastructure.Data.Migrations
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("EndDate")
-                        .HasColumnType("date");
-
-                    b.Property<DateTime>("IntendedIntoDate")
-                        .HasColumnType("date");
-
                     b.Property<string>("InvoiceId")
                         .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
 
                     b.Property<string>("Note")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("NumberOfTenant")
-                        .HasColumnType("int");
-
-                    b.Property<string>("RejectionReason")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("RoomId")
-                        .HasMaxLength(36)
-                        .HasColumnType("nvarchar(36)");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
@@ -113,11 +97,113 @@ namespace Infrastructure.Data.Migrations
                         .IsUnique()
                         .HasFilter("[InvoiceId] IS NOT NULL");
 
-                    b.HasIndex("RoomId");
-
                     b.HasIndex("TenantId");
 
                     b.ToTable("Bookings");
+                });
+
+            modelBuilder.Entity("Core.Entities.BookingDetail", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
+
+                    b.Property<string>("BookingId")
+                        .IsRequired()
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("NumberOfMonth")
+                        .HasColumnType("int");
+
+                    b.Property<int>("NumberOfTenant")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(10,2)");
+
+                    b.Property<string>("RejectionReason")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RoomId")
+                        .IsRequired()
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BookingId");
+
+                    b.HasIndex("RoomId");
+
+                    b.ToTable("BookingDetails");
+                });
+
+            modelBuilder.Entity("Core.Entities.Cart", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
+
+                    b.Property<string>("TenantId")
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TenantId")
+                        .IsUnique()
+                        .HasFilter("[TenantId] IS NOT NULL");
+
+                    b.ToTable("Carts");
+                });
+
+            modelBuilder.Entity("Core.Entities.CartDetail", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
+
+                    b.Property<string>("CartId")
+                        .IsRequired()
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("NumberOfMonth")
+                        .HasColumnType("int");
+
+                    b.Property<int>("NumberOfTenant")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(10,2)");
+
+                    b.Property<string>("RoomId")
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CartId");
+
+                    b.HasIndex("RoomId");
+
+                    b.ToTable("CartDetails");
                 });
 
             modelBuilder.Entity("Core.Entities.Feedback", b =>
@@ -225,15 +311,13 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Detail")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("InvoiceId")
                         .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(10,2)");
@@ -257,14 +341,10 @@ namespace Infrastructure.Data.Migrations
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("EndDate")
-                        .HasColumnType("date");
-
                     b.Property<bool>("IsConfirm")
                         .HasColumnType("bit");
 
                     b.Property<string>("RoomId")
-                        .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
 
                     b.Property<DateTime>("SignedDate")
@@ -293,6 +373,49 @@ namespace Infrastructure.Data.Migrations
                     b.HasIndex("TenantId");
 
                     b.ToTable("Leases");
+                });
+
+            modelBuilder.Entity("Core.Entities.LeaseDetail", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(10,2)");
+
+                    b.Property<string>("BookingId")
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("date");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("date");
+
+                    b.Property<string>("LeaseId")
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
+
+                    b.Property<string>("RoomId")
+                        .HasColumnType("nvarchar(36)");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("date");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BookingId");
+
+                    b.HasIndex("LeaseId");
+
+                    b.HasIndex("RoomId");
+
+                    b.ToTable("LeaseDetails");
                 });
 
             modelBuilder.Entity("Core.Entities.MaintenanceImage", b =>
@@ -415,9 +538,6 @@ namespace Infrastructure.Data.Migrations
                     b.Property<int>("PaymentMethod")
                         .HasColumnType("int");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("InvoiceId")
@@ -472,6 +592,9 @@ namespace Infrastructure.Data.Migrations
 
                     b.Property<int>("IsAccept")
                         .HasColumnType("int");
+
+                    b.Property<bool>("IsHide")
+                        .HasColumnType("bit");
 
                     b.Property<string>("LandlordId")
                         .HasMaxLength(36)
@@ -621,9 +744,6 @@ namespace Infrastructure.Data.Migrations
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
-
-                    b.Property<decimal>("Deposite")
-                        .HasColumnType("decimal(10,2)");
 
                     b.Property<string>("District")
                         .IsRequired()
@@ -838,19 +958,58 @@ namespace Infrastructure.Data.Migrations
                         .WithOne("Booking")
                         .HasForeignKey("Core.Entities.Booking", "InvoiceId");
 
-                    b.HasOne("Core.Entities.Room", "Room")
-                        .WithMany("Bookings")
-                        .HasForeignKey("RoomId");
-
                     b.HasOne("Core.Entities.User", "Tenant")
                         .WithMany("Bookings")
                         .HasForeignKey("TenantId");
 
                     b.Navigation("Invoice");
 
+                    b.Navigation("Tenant");
+                });
+
+            modelBuilder.Entity("Core.Entities.BookingDetail", b =>
+                {
+                    b.HasOne("Core.Entities.Booking", "Booking")
+                        .WithMany("BookingDetails")
+                        .HasForeignKey("BookingId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Core.Entities.Room", "Room")
+                        .WithMany("BookingDetails")
+                        .HasForeignKey("RoomId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Booking");
+
                     b.Navigation("Room");
+                });
+
+            modelBuilder.Entity("Core.Entities.Cart", b =>
+                {
+                    b.HasOne("Core.Entities.User", "Tenant")
+                        .WithOne("Cart")
+                        .HasForeignKey("Core.Entities.Cart", "TenantId");
 
                     b.Navigation("Tenant");
+                });
+
+            modelBuilder.Entity("Core.Entities.CartDetail", b =>
+                {
+                    b.HasOne("Core.Entities.Cart", "Cart")
+                        .WithMany("CartDetails")
+                        .HasForeignKey("CartId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Core.Entities.Room", "Room")
+                        .WithMany()
+                        .HasForeignKey("RoomId");
+
+                    b.Navigation("Cart");
+
+                    b.Navigation("Room");
                 });
 
             modelBuilder.Entity("Core.Entities.Feedback", b =>
@@ -904,7 +1063,7 @@ namespace Infrastructure.Data.Migrations
 
             modelBuilder.Entity("Core.Entities.Lease", b =>
                 {
-                    b.HasOne("Core.Entities.Room", "Room")
+                    b.HasOne("Core.Entities.Room", null)
                         .WithMany("Leases")
                         .HasForeignKey("RoomId");
 
@@ -912,9 +1071,26 @@ namespace Infrastructure.Data.Migrations
                         .WithMany("Leases")
                         .HasForeignKey("TenantId");
 
-                    b.Navigation("Room");
-
                     b.Navigation("Tenant");
+                });
+
+            modelBuilder.Entity("Core.Entities.LeaseDetail", b =>
+                {
+                    b.HasOne("Core.Entities.Booking", "Booking")
+                        .WithMany()
+                        .HasForeignKey("BookingId");
+
+                    b.HasOne("Core.Entities.Lease", "Lease")
+                        .WithMany("LeaseDetails")
+                        .HasForeignKey("LeaseId");
+
+                    b.HasOne("Core.Entities.Room", null)
+                        .WithMany("LeaseDetails")
+                        .HasForeignKey("RoomId");
+
+                    b.Navigation("Booking");
+
+                    b.Navigation("Lease");
                 });
 
             modelBuilder.Entity("Core.Entities.MaintenanceImage", b =>
@@ -1051,6 +1227,16 @@ namespace Infrastructure.Data.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Core.Entities.Booking", b =>
+                {
+                    b.Navigation("BookingDetails");
+                });
+
+            modelBuilder.Entity("Core.Entities.Cart", b =>
+                {
+                    b.Navigation("CartDetails");
+                });
+
             modelBuilder.Entity("Core.Entities.Feedback", b =>
                 {
                     b.Navigation("Replies");
@@ -1065,6 +1251,11 @@ namespace Infrastructure.Data.Migrations
                     b.Navigation("MaintenanceRequest");
 
                     b.Navigation("Payment");
+                });
+
+            modelBuilder.Entity("Core.Entities.Lease", b =>
+                {
+                    b.Navigation("LeaseDetails");
                 });
 
             modelBuilder.Entity("Core.Entities.MaintenanceRequest", b =>
@@ -1086,7 +1277,9 @@ namespace Infrastructure.Data.Migrations
 
             modelBuilder.Entity("Core.Entities.Room", b =>
                 {
-                    b.Navigation("Bookings");
+                    b.Navigation("BookingDetails");
+
+                    b.Navigation("LeaseDetails");
 
                     b.Navigation("Leases");
 
@@ -1100,6 +1293,8 @@ namespace Infrastructure.Data.Migrations
             modelBuilder.Entity("Core.Entities.User", b =>
                 {
                     b.Navigation("Bookings");
+
+                    b.Navigation("Cart");
 
                     b.Navigation("Feedbacks");
 

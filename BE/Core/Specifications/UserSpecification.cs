@@ -26,9 +26,10 @@ namespace Core.Specifications
             )
         )
         {
-            AddInclude(x => x.Include(u => u.UserRoles).ThenInclude(ur => ur.Role!));
-
-            AddInclude(x => x.Include(u => u.Followers));
+            AddInclude(x => x
+                .Include(u => u.UserRoles)
+                .ThenInclude(ur => ur.Role!)
+                .Include(u => u.Followers));
 
             ApplyPaging(specParams.PageSize * (specParams.PageIndex - 1), specParams.PageSize);
         }

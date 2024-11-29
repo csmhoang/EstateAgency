@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, CurrencyPipe } from '@angular/common';
 import {
   Component,
   DestroyRef,
@@ -28,6 +28,7 @@ import { ApartmentUpdateComponent } from '@features/apartment/components/apartme
 import { ToastService } from '@shared/services/toast/toast.service';
 import { catchError, firstValueFrom, lastValueFrom, of } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { UserService } from '@core/services/user.service';
 
 @Component({
   selector: 'app-lessor-apartment',
@@ -48,7 +49,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 })
 export class LessorApartmentComponent implements OnInit {
   destroyRef = inject(DestroyRef);
-
+  user = this.userService.currentUser();
   displayedColumns: string[] = [
     'name',
     'category',
@@ -73,11 +74,16 @@ export class LessorApartmentComponent implements OnInit {
   constructor(
     private dialogService: DialogService,
     private toastService: ToastService,
-    private lessorApartmentService: LessorApartmentService
+    private lessorApartmentService: LessorApartmentService,
+    private userService: UserService
   ) {}
 
   async ngOnInit() {
-    this.lessorApartmentService.specParams.set({ pageSize: 10, pageIndex: 1 });
+    this.lessorApartmentService.specParams.set({
+      pageSize: 10,
+      pageIndex: 1,
+      landlordId: this.user?.id,
+    });
     await this.init();
   }
 

@@ -1,4 +1,5 @@
 ﻿using Core.Dtos;
+using Core.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,14 +46,5 @@ namespace Core.Interfaces.Business
         /// 2 - Ngoại lệ
         /// </returns>
         Task<Response> UpdateAsync(string id, InvoiceDto invoiceDto);
-        /// <summary>
-        /// Thêm hóa đơn
-        /// </summary>
-        /// <param name="invoiceDto">Hóa đơn</param>
-        /// <returns>
-        /// 1 - Thông báo thành công
-        /// 2 - Ngoại lệ
-        /// </returns>
-        Task<Response> InsertAsync(InvoiceDto invoiceDto);
     }
 }

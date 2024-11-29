@@ -38,8 +38,10 @@ import { catchError, of } from 'rxjs';
 export class BookingInsertComponent implements OnInit {
   @Input() data!: Post;
   user = this.userService.currentUser();
-  minIntendedIntoDate = new Date();
-  minEndDate = new Date(new Date().setMonth(new Date().getMonth() + 1));
+  minIntendedIntoDate = this.data.availableFrom;
+  minEndDate = new Date(
+    new Date(this.data.availableFrom).setMonth(new Date().getMonth() + 1)
+  );
 
   destroyRef = inject(DestroyRef);
   activeModal = inject(NgbActiveModal);

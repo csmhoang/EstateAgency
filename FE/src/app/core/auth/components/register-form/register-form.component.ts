@@ -53,7 +53,7 @@ export class RegisterFormComponent implements OnInit {
   address?: AbstractControl | null;
   password?: AbstractControl | null;
   repassword?: AbstractControl | null;
-  roles?: string[];
+  role?: AbstractControl | null;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -77,6 +77,7 @@ export class RegisterFormComponent implements OnInit {
       ]),
       dateOfBirth: this.formBuilder.control(''),
       gender: this.formBuilder.control('Male'),
+      role: this.formBuilder.control('tenant'),
       address: this.formBuilder.control('', [Validators.required]),
       password: this.formBuilder.control('', [
         Validators.required,
@@ -101,7 +102,7 @@ export class RegisterFormComponent implements OnInit {
     if (this.form.valid) {
       const credentials: Register = {
         ...this.form.value,
-        roles: this.roles,
+        roles: [this.role],
       };
       this.authService
         .register(credentials)

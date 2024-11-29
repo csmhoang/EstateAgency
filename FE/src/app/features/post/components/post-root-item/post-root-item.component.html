@@ -2,7 +2,7 @@
   <div class="row g-0">
     <div class="col-md-4">
       <ngb-carousel>
-        @for (photo of post.room?.photos || []; track $index;) {
+        @for (photo of post.room?.photos; track $index;) {
         <ng-template ngbSlide>
           <img [src]="photo.url" class="img-fluid rounded-start" />
           <div class="carousel-caption d-none d-md-block">

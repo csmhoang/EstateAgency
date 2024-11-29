@@ -1,10 +1,4 @@
 ﻿using Core.Interfaces.Infrastructure;
-using Microsoft.AspNetCore.Authentication;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Core.Interfaces.Business
 {
@@ -22,5 +16,6 @@ namespace Core.Interfaces.Business
         IMaintenanceRequestService MaintenanceRequest { get; }
         IAmenityService Amenity { get; }
         IPhotoService Photo { get; }
+        ICartService Cart { get; }
     }
 }

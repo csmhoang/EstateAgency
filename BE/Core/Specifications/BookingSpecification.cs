@@ -14,27 +14,31 @@ namespace Core.Specifications
         #region Constructor
         public BookingSpecification(BookingSpecParams specParams) : base(x =>
             (
-                string.IsNullOrEmpty(specParams.Search) ||
-                x.Room!.Name.ToLower().Contains(specParams.Search)
-            )
-        &&
-            (
                 specParams.TenantId.Count == 0 ||
                 specParams.TenantId.Contains(x.TenantId!)
             )
         &&
             (
                 specParams.RoomId.Count == 0 ||
-                specParams.RoomId.Contains(x.RoomId!)
+                x.BookingDetails.Any(bd => specParams.RoomId.Contains(bd.RoomId!))
+            )
+        &&
+            (
+                string.IsNullOrEmpty(specParams.Search) ||
+                x.Tenant!.FullName.ToLower().Contains(specParams.Search) ||
+                x.BookingDetails.Any(bd => bd.Room!.Landlord!.FullName.Contains(specParams.Search))
             )
         )
         {
             AddInclude(x => x
-                .Include(r => r.Room!)
-            );
-
-            AddInclude(x => x
-                .Include(r => r.Tenant!)
+                .Include(b => b.BookingDetails!)
+                .ThenInclude(bd => bd.Room!)
+                .ThenInclude(r => r.Landlord!)
+                .Include(b => b.Tenant!)
+                .Include(b => b.Invoice!)
+                .ThenInclude(i => i.InvoiceDetails)
+                .Include(b => b.Invoice!)
+                .ThenInclude(i => i.Payment!)
             );
 
             AddOrder(x => x.OrderBy(b => b.CreatedAt));

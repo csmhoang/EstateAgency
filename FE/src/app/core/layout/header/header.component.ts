@@ -14,6 +14,7 @@ import { RouterModule } from '@angular/router';
 import { IfAuthenticatedDirective } from '@core/auth/directives/if-authenticated.directive';
 import { AuthService } from '@core/auth/services/auth.service';
 import { UserService } from '@core/services/user.service';
+import {MatBadgeModule} from '@angular/material/badge';
 
 @Component({
   selector: 'app-header',
@@ -24,6 +25,7 @@ import { UserService } from '@core/services/user.service';
     CommonModule,
     MatButtonModule,
     MatMenuModule,
+    MatBadgeModule
   ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
@@ -42,7 +44,7 @@ export class HeaderComponent {
   document = inject(DOCUMENT);
   nav: ElementRef | undefined;
   
-  user = this.userService.currentUser()
+  user = this.userService.currentUser
 
   constructor(private authService: AuthService, private userService: UserService) {}
 

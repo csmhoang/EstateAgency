@@ -144,11 +144,11 @@
   <data name="SendEmailSucceed" xml:space="preserve">
     <value>Đã gửi Email xác thực.</value>
   </data>
-  <data name="SavePostSucceed" xml:space="preserve">
-    <value>Lưu bài viết thành công.</value>
+  <data name="SaveSucceed" xml:space="preserve">
+    <value>Lưu thành công.</value>
   </data>
-  <data name="CancelSavePostSucceed" xml:space="preserve">
-    <value>Hủy lưu bài viết thành công.</value>
+  <data name="CancelSucceed" xml:space="preserve">
+    <value>Hủy thành công.</value>
   </data>
   <data name="FollowSucceed" xml:space="preserve">
     <value>Thêm theo dõi thành công.</value>
@@ -156,10 +156,10 @@
   <data name="UnfollowSucceed" xml:space="preserve">
     <value>Hủy theo dõi thành công.</value>
   </data>
-  <data name="RejectSucceed" xml:space="preserve">
-    <value>Từ chối thành công.</value>
+  <data name="ResponseSucceed" xml:space="preserve">
+    <value> Phản hồi thành công.</value>
   </data>
-  <data name="AcceptSucceed" xml:space="preserve">
-    <value>Chấp thuận thành công.</value>
+  <data name="RemoveSucceed" xml:space="preserve">
+    <value>Gỡ thành công.</value>
   </data>
 </root>

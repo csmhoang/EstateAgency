@@ -25,18 +25,19 @@ namespace Infrastructure.Data
         #region Method
         public static IQueryable<T> GetQuery(IQueryable<T> query, ISpecification<T> spec)
         {
-
-            if (spec.Includes.Any())
+            if (spec.Include != null)
             {
-                foreach (var include in spec.Includes)
-                {
-                    query = include(query);
-                }
+                query = spec.Include(query);
             }
 
             if (spec.Criteria != null)
             {
                 query = query.Where(spec.Criteria);
+            }
+
+            if (spec.IsDistinct)
+            {
+                query = query.Distinct();
             }
 
             if (spec.Orders.Any())
@@ -45,11 +46,6 @@ namespace Infrastructure.Data
                 {
                     query = order(query);
                 }
-            }
-
-            if (spec.IsDistinct)
-            {
-                query = query.Distinct();
             }
 
             if (spec.IsPagingEnabled)
@@ -63,12 +59,9 @@ namespace Infrastructure.Data
         public static IQueryable<TResult> GetQuery<TSpec, TResult>(IQueryable<T> query,
             ISpecification<T, TResult> spec)
         {
-            if (spec.Includes.Any())
+            if (spec.Include != null)
             {
-                foreach (var include in spec.Includes)
-                {
-                    query = include(query);
-                }
+                query = spec.Include(query);
             }
 
             if (spec.Criteria != null)

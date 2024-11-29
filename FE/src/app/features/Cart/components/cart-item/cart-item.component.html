@@ -1,0 +1,45 @@
+<div class="card mb-4">
+  <div class="card-body p-4">
+    <div class="row align-items-center">
+      <div class="col-md-2">
+        <ngb-carousel>
+          @for (photo of cartDetail?.room?.photos; track $index;) {
+          <ng-template ngbSlide>
+            <img [src]="photo.url" class="img-fluid rounded-start" />
+          </ng-template>
+          }
+        </ngb-carousel>
+      </div>
+      <div class="col-md-2 d-flex justify-content-center">
+        <div>
+          <p class="small text-muted mb-4 pb-2">Tên phòng</p>
+          <p class="lead fw-normal mb-0">{{ cartDetail?.room?.name }}</p>
+        </div>
+      </div>
+      <div class="col-md-2 d-flex justify-content-center">
+        <div>
+          <p class="small text-muted mb-4 pb-2">Số tháng thuê</p>
+          <p class="lead fw-normal mb-0">{{ cartDetail?.numberOfMonth }}</p>
+        </div>
+      </div>
+      <div class="col-md-2 d-flex justify-content-center">
+        <div>
+          <p class="small text-muted mb-4 pb-2">Số người ở</p>
+          <p class="lead fw-normal mb-0">{{ cartDetail?.numberOfTenant }}</p>
+        </div>
+      </div>
+      <div class="col-md-2 d-flex justify-content-center">
+        <div>
+          <p class="small text-muted mb-4 pb-2">Diện tích</p>
+          <p class="lead fw-normal mb-0">{{ cartDetail?.room?.area }}</p>
+        </div>
+      </div>
+      <div class="col-md-2 d-flex justify-content-center">
+        <div>
+          <p class="small text-muted mb-4 pb-2">Giá</p>
+          <p class="lead fw-normal mb-0">{{ cartDetail?.price }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

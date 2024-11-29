@@ -15,6 +15,7 @@ namespace Core.Interfaces.Data
         IReservationRepository Reservation { get; }
         ILeaseRepository Lease { get; }
         IInvoiceRepository Invoice { get; }
+        IInvoiceDetailRepository InvoiceDetail { get; }
         IPaymentRepository Payment { get; }
         IMaintenanceRequestRepository MaintenanceRequest { get; }
         IAmenityRepository Amenity { get; }
@@ -22,6 +23,10 @@ namespace Core.Interfaces.Data
         IBookingRepository Booking { get; }
         ISavePostRepository SavePost { get; }
         IFollowRepository Follow { get; }
+        IBookingDetailRepository BookingDetail { get; }
+        ILeaseDetailRepository LeaseDetail { get; }
+        ICartDetailRepository CartDetail { get; }
+        ICartRepository Cart { get; }
 
         Task SaveAsync();
     }

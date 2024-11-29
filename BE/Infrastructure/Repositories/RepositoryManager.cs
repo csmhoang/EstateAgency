@@ -15,6 +15,7 @@ namespace Infrastructure.Repositories
         private readonly Lazy<IReservationRepository> _reservationRepository;
         private readonly Lazy<ILeaseRepository> _leaseRepository;
         private readonly Lazy<IInvoiceRepository> _invoiceRepository;
+        private readonly Lazy<IInvoiceDetailRepository> _invoiceDetailRepository;
         private readonly Lazy<IPaymentRepository> _paymentRepository;
         private readonly Lazy<IMaintenanceRequestRepository> _maintenanceRequestRepository;
         private readonly Lazy<IBookingRepository> _bookingRepository;
@@ -22,6 +23,10 @@ namespace Infrastructure.Repositories
         private readonly Lazy<IAmenityRepository> _amenityRepository;
         private readonly Lazy<IPhotoRepository> _photoRepository;
         private readonly Lazy<IFollowRepository> _followRepository;
+        private readonly Lazy<ILeaseDetailRepository> _leaseDetailRepository;
+        private readonly Lazy<IBookingDetailRepository> _bookingDetailRepository;
+        private readonly Lazy<ICartDetailRepository> _cartDetailRepository;
+        private readonly Lazy<ICartRepository> _cartRepository;
         #endregion
 
         #region Property
@@ -38,6 +43,7 @@ namespace Infrastructure.Repositories
             _reservationRepository = new Lazy<IReservationRepository>(() => new ReservationRepository(context));
             _leaseRepository = new Lazy<ILeaseRepository>(() => new LeaseRepository(context));
             _invoiceRepository = new Lazy<IInvoiceRepository>(() => new InvoiceRepository(context));
+            _invoiceDetailRepository = new Lazy<IInvoiceDetailRepository>(() => new InvoiceDetailRepository(context));
             _paymentRepository = new Lazy<IPaymentRepository>(() => new PaymentRepository(context));
             _maintenanceRequestRepository = new Lazy<IMaintenanceRequestRepository>(() => new MaintenanceRequestRepository(context));
             _bookingRepository = new Lazy<IBookingRepository>(() => new BookingRepository(context));
@@ -45,6 +51,10 @@ namespace Infrastructure.Repositories
             _amenityRepository = new Lazy<IAmenityRepository>(() => new AmenityRepository(context));
             _photoRepository = new Lazy<IPhotoRepository>(() => new PhotoRepository(context));
             _followRepository = new Lazy<IFollowRepository>(() => new FollowRepository(context));
+            _leaseDetailRepository = new Lazy<ILeaseDetailRepository>(() => new LeaseDetailRepository(context));
+            _bookingDetailRepository = new Lazy<IBookingDetailRepository>(() => new BookingDetailRepository(context));
+            _cartDetailRepository = new Lazy<ICartDetailRepository>(() => new CartDetailRepository(context));
+            _cartRepository = new Lazy<ICartRepository>(() => new CartRepository(context));
         }
         #endregion
 
@@ -76,6 +86,16 @@ namespace Infrastructure.Repositories
         public ISavePostRepository SavePost => _savePostRepository.Value;
 
         public IFollowRepository Follow => _followRepository.Value;
+
+        public IInvoiceDetailRepository InvoiceDetail => _invoiceDetailRepository.Value;
+
+        public IBookingDetailRepository BookingDetail => _bookingDetailRepository.Value;
+
+        public ILeaseDetailRepository LeaseDetail => _leaseDetailRepository.Value;
+
+        public ICartDetailRepository CartDetail => _cartDetailRepository.Value;
+
+        public ICartRepository Cart => _cartRepository.Value;
 
         public async Task SaveAsync() => await _context.SaveChangesAsync();
         #endregion

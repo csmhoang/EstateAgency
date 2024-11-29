@@ -18,6 +18,13 @@ export class UserService {
 
   public isAuthenticated = computed(() => !!this.currentUser());
 
+  public isTenant = computed(
+    () =>
+      !!this.currentUser()
+        ?.userRoles?.map((userRole) => userRole.role?.name)
+        .includes('tenant')
+  );
+
   public isLandlord = computed(
     () =>
       !!this.currentUser()

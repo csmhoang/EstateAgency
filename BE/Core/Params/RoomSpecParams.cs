@@ -17,7 +17,16 @@ namespace Core.Params
             get => _pageSize;
             set => _pageSize = (value > MaxPageSize) ? MaxPageSize : value;
         }
-
+        private List<string> _landlordIds = new();
+        public List<string> LandlordId
+        {
+            get => _landlordIds;
+            set
+            {
+                _landlordIds = value.SelectMany(x => x.Split(",",
+                    StringSplitOptions.RemoveEmptyEntries)).ToList();
+            }
+        }
         public string? Sort { get; set; }
 
         private string? _search;

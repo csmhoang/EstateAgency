@@ -27,6 +27,13 @@
       </ul>
       <div class="btn-navmenu d-flex gap-2">
         <div *appIfAuthenticated="true" class="d-flex gap-2">
+          <button
+            class="btn btn-dark fs-4 border-0 rounded-pill"
+            [matBadge]="user()?.cart?.cartDetails?.length"
+            routerLink="/cart"
+          >
+            <i class="fa-solid fa-cart-arrow-down"></i>
+          </button>
           <button class="btn btn-dark fs-4 border-0 rounded-pill">
             <i class="bi bi-bell-fill"></i>
           </button>
@@ -37,8 +44,11 @@
             <button class="btn btn-dark fs-4 border-0 rounded-pill">
               <i class="bi bi-person-fill"></i>
             </button>
-            <a class="fw-bold link-opacity-75-hover" *ngIf="user">
-              {{ user.fullName }}
+            <a
+              class="fw-bold link-opacity-75-hover text-capitalize"
+              *ngIf="user"
+            >
+              {{ user()?.fullName }}
               <i class="fa-solid fa-square-caret-down"></i>
             </a>
             <mat-menu #menu="matMenu" class="profile-dropdown">

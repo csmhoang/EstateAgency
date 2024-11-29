@@ -4,6 +4,8 @@ using Core.Interfaces.Business;
 using Core.Params;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using static Core.Enums.BookingEnums;
+using static Core.Enums.ReservationEnums;
 
 namespace Api.Controllers
 {
@@ -94,27 +96,16 @@ namespace Api.Controllers
         }
 
         /// <summary>
-        /// Từ chối đặt lịch
+        /// Phản hồi đặt lịch
         /// </summary>
         /// <param name="id">Id đặt lịch</param>
+        /// <param name="status">Trạng thái</param>
         /// <param name="rejectionReason">Lý do từ chối</param>
-        [HttpPut("refuse")]
+        [HttpPut("response")]
         [Authorize(Roles = RoleConst.Landlord)]
-        public async Task<IActionResult> Refuse(string id, string rejectionReason)
+        public async Task<IActionResult> ResponseRequest(string id, StatusReservation status, string? rejectionReason)
         {
-            var response = await _service.Reservation.RefuseAsync(id, rejectionReason);
-            return Ok(response);
-        }
-
-        /// <summary>
-        /// Chấp nhận đặt lịch
-        /// </summary>
-        /// <param name="id">Id đặt lịch</param>
-        [HttpPut("accept")]
-        [Authorize(Roles = RoleConst.Landlord)]
-        public async Task<IActionResult> Accept(string id)
-        {
-            var response = await _service.Reservation.AcceptAsync(id);
+            var response = await _service.Reservation.ResponseAsync(id, status, rejectionReason);
             return Ok(response);
         }
         #endregion

@@ -61,20 +61,11 @@ namespace Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Chấp thuận thành công..
+        ///   Looks up a localized string similar to Hủy thành công..
         /// </summary>
-        public static string AcceptSucceed {
+        public static string CancelSucceed {
             get {
-                return ResourceManager.GetString("AcceptSucceed", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Hủy lưu bài viết thành công..
-        /// </summary>
-        public static string CancelSavePostSucceed {
-            get {
-                return ResourceManager.GetString("CancelSavePostSucceed", resourceCulture);
+                return ResourceManager.GetString("CancelSucceed", resourceCulture);
             }
         }
         
@@ -142,15 +133,6 @@ namespace Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Từ chối thành công..
-        /// </summary>
-        public static string RejectSucceed {
-            get {
-                return ResourceManager.GetString("RejectSucceed", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Gỡ bài đăng thành công..
         /// </summary>
         public static string RemovePost {
@@ -160,11 +142,29 @@ namespace Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Lưu bài viết thành công..
+        ///   Looks up a localized string similar to Gỡ thành công..
         /// </summary>
-        public static string SavePostSucceed {
+        public static string RemoveSucceed {
             get {
-                return ResourceManager.GetString("SavePostSucceed", resourceCulture);
+                return ResourceManager.GetString("RemoveSucceed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to  Phản hồi thành công..
+        /// </summary>
+        public static string ResponseSucceed {
+            get {
+                return ResourceManager.GetString("ResponseSucceed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lưu thành công..
+        /// </summary>
+        public static string SaveSucceed {
+            get {
+                return ResourceManager.GetString("SaveSucceed", resourceCulture);
             }
         }
         

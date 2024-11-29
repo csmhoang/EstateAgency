@@ -15,6 +15,11 @@ namespace Core.Specifications
         #region Constructor
         public PostSpecification(PostSpecParams specParams) : base(x =>
             (
+                specParams.LandlordId.Count == 0 ||
+                specParams.LandlordId.Contains(x.LandlordId!)
+            )
+        &&
+            (
                 string.IsNullOrEmpty(specParams.Search) ||
                 x.Title.ToLower().Contains(specParams.Search) ||
                 x.Room!.Name.ToLower().Contains(specParams.Search) ||

@@ -16,6 +16,7 @@ namespace Core.Dtos
         public string? Description { get; set; }
         public DateTime AvailableFrom { get; set; }
         public IsAcceptPost? IsAccept { get; set; }
+        public bool IsHide { get; set; }
         public StatusPost? Status { get; set; }
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }

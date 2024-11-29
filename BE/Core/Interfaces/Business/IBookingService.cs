@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Core.Enums.BookingEnums;
 
 namespace Core.Interfaces.Business
 {
@@ -37,51 +38,33 @@ namespace Core.Interfaces.Business
         /// </returns>
         Task<Response> GetListAsync(BookingSpecParams specParams);
         /// <summary>
-        /// Xóa đặt phòng bằng id
+        /// Hủy đặt phòng bằng id
         /// </summary>
         /// <param name="id">Id đặt phòng</param>
         /// <returns>
         /// 1 - Thông báo thành công
         /// 2 - Ngoại lệ
         /// </returns>
-        Task<Response> DeleteAsync(string id);
+        Task<Response> CancelAsync(string id);
         /// <summary>
-        /// Từ chối đặt phòng
+        /// Phản hồi chi tiết đặt phòng 
         /// </summary>
-        /// <param name="id">Id đặt phòng</param>
-        /// <param name="rejectionReason">Lý do từ chối</param>
+        /// <param name="bookingDetailId">Id chi tiết đặt phòng</param>
+        /// <param name="status">Trạng thái</param>
+        /// <param name="RejectionReason">Lý do</param>
         /// <returns>
         /// 1 - Thông báo thành công
         /// 2 - Ngoại lệ
         /// </returns>
-        Task<Response> RefuseAsync(string id, string rejectionReason);
-        /// <summary>
-        /// Chấp nhận đặt phòng
-        /// </summary>
-        /// <param name="id">Id đặt phòng</param>
-        /// <returns>
-        /// 1 - Thông báo thành công
-        /// 2 - Ngoại lệ
-        /// </returns>
-        Task<Response> AcceptAsync(string id);
-        /// <summary>
-        /// Cập nhật đặt phòng
-        /// </summary>
-        /// <param name="id">Id đặt phòng</param>
-        /// <param name="bookingUpdateDto">Đặt phòng</param>
-        /// <returns>
-        /// 1 - Thông báo thành công
-        /// 2 - Ngoại lệ
-        /// </returns>
-        Task<Response> UpdateAsync(string id, BookingUpdateDto bookingUpdateDto);
+        Task<Response> ResponseAsync(string bookingDetailId, StatusBookingDetail status, string? RejectionReason);
         /// <summary>
         /// Thêm đặt phòng
         /// </summary>
-        /// <param name="bookingDto">Đặt phòng</param>
+        /// <param name="cartDto">Giỏ hàng</param>
         /// <returns>
         /// 1 - Thông báo thành công
         /// 2 - Ngoại lệ
         /// </returns>
-        Task<Response> InsertAsync(BookingDto bookingDto);
+        Task<Response> InsertAsync(CartDto cartDto);
     }
 }

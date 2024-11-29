@@ -69,16 +69,11 @@ namespace Core.Services.Business
 
         public async Task<Response> GetDetailAsync(string id)
         {
-            var spec = new BaseSpecification<User>(p =>
-                p.Id.Equals(id)
-            );
-            spec.AddInclude(x => x
+            var user = await _repository.User.FindCondition(p => p.Id.Equals(id))
                 .Include(u => u.Posts!)
                 .ThenInclude(p => p.Room!)
                 .ThenInclude(r => r.Photos)
-            );
-
-            var user = await _repository.User.GetEntityWithSpec(spec);
+                .FirstOrDefaultAsync();
             return new Response
             {
                 Success = true,
@@ -247,15 +242,9 @@ namespace Core.Services.Business
         }
         public async Task<Response> GetSearchOptionsAsync()
         {
-            var spec = new BaseSpecification<User>(u => u
-                .UserRoles.Any(ur => RoleConst.Landlord.Contains(ur.Role!.Name))
-            );
-            spec.AddInclude(x => x
-                .Include(p => p.UserRoles!)
-                .ThenInclude(r => r.Role!)
-            );
-
-            var options = await _repository.User.ListAsync(spec);
+            var options = await _repository.User.FindCondition(u => u
+                .UserRoles.Any(ur => RoleConst.Landlord.Contains(ur.Role!.Name)))
+                .ToListAsync();
             return new Response
             {
                 Success = true,

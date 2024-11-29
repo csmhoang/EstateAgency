@@ -26,7 +26,7 @@ export class ReservationRefuseComponent {
   onRefuse() {
     if (this.rejectionReason.valid) {
       this.reservationService
-        .refuse(this.data, this.rejectionReason.value!)
+        .response(this.data, 'Rejected', this.rejectionReason.value!)
         .pipe(
           takeUntilDestroyed(this.destroyRef),
           catchError(() => of(null))

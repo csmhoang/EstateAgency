@@ -1,10 +1,6 @@
 ﻿using Core.Dtos;
 using Core.Params;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using static Core.Enums.ReservationEnums;
 
 namespace Core.Interfaces.Business
 {
@@ -46,24 +42,16 @@ namespace Core.Interfaces.Business
         /// </returns>
         Task<Response> DeleteAsync(string id);
         /// <summary>
-        /// Từ chối đặt lịch
+        /// Phản hồi đặt lịch 
         /// </summary>
-        /// <param name="id">Id đặt lịch</param>
-        /// <param name="rejectionReason">Lý do từ chối</param>
+        /// <param name="bookingDetailId">Id đặt phòng</param>
+        /// <param name="status">Trạng thái</param>
+        /// <param name="RejectionReason">Lý do</param>
         /// <returns>
         /// 1 - Thông báo thành công
         /// 2 - Ngoại lệ
         /// </returns>
-        Task<Response> RefuseAsync(string id, string rejectionReason);
-        /// <summary>
-        /// Chấp nhận đặt lịch
-        /// </summary>
-        /// <param name="id">Id đặt lịch</param>
-        /// <returns>
-        /// 1 - Thông báo thành công
-        /// 2 - Ngoại lệ
-        /// </returns>
-        Task<Response> AcceptAsync(string id);
+        Task<Response> ResponseAsync(string id, StatusReservation status, string? RejectionReason);
         /// <summary>
         /// Cập nhật đặt lịch
         /// </summary>

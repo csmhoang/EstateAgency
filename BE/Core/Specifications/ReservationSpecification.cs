@@ -14,11 +14,6 @@ namespace Core.Specifications
         #region Constructor
         public ReservationSpecification(ReservationSpecParams specParams) : base(x =>
             (
-                string.IsNullOrEmpty(specParams.Search) ||
-                x.Room!.Name.ToLower().Contains(specParams.Search)
-            )
-        &&
-            (
                 specParams.TenantId.Count == 0 ||
                 specParams.TenantId.Contains(x.TenantId!)
             )
@@ -27,13 +22,15 @@ namespace Core.Specifications
                 specParams.RoomId.Count == 0 ||
                 specParams.RoomId.Contains(x.RoomId!)
             )
+        &&
+            (
+                string.IsNullOrEmpty(specParams.Search) ||
+                x.Room!.Name.ToLower().Contains(specParams.Search)
+            )
         )
         {
             AddInclude(x => x
                 .Include(r => r.Room!)
-            );
-
-            AddInclude(x => x
                 .Include(r => r.Tenant!)
             );
 

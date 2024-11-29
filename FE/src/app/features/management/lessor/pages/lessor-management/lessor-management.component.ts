@@ -9,6 +9,8 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable, map, shareReplay } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { RouterModule, RouterOutlet } from '@angular/router';
+import { AuthService } from '@core/auth/services/auth.service';
+import { UserService } from '@core/services/user.service';
 @Component({
   selector: 'app-lessor-management',
   standalone: true,
@@ -32,24 +34,15 @@ export class LessorManagementComponent {
       map((result) => result.matches),
       shareReplay()
     );
+  user = this.userService.currentUser();
 
-  constructor(private breakpointObserver: BreakpointObserver) {}
+  constructor(
+    private breakpointObserver: BreakpointObserver,
+    private authService: AuthService,
+    private userService: UserService
+  ) {}
 
-  sidebarMenu: {
-    link: string;
-    menu: string;
-  }[] = [
-    {
-      link: '/lessor/dashboard',
-      menu: 'Dashboard',
-    },
-    {
-      link: '/button',
-      menu: 'Buttons',
-    },
-    {
-      link: '/forms',
-      menu: 'Forms',
-    },
-  ];
+  onLogout() {
+    this.authService.logout();
+  }
 }

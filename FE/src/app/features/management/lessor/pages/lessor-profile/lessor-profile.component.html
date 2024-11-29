@@ -1,0 +1,136 @@
+<div class="profile-page">
+  <main class="main">
+    <section class="section py-0">
+      <mat-sidenav-container autosize="false" class="sidenav-container">
+        <!-- Sidebar -->
+        <mat-sidenav
+          #drawer
+          class="sidenav"
+          fixedInViewport="false"
+          [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+          [mode]="(isHandset$ | async) ? 'over' : 'side'"
+          [opened]="(isHandset$ | async) === false"
+        >
+          <div class="p-2">
+            <div class="d-flex align-items-center p-2 gap-4">
+              <div class="d-flex flex-column gap-2">
+                <img
+                  class="rounded-circle"
+                  [src]="user?.avatarUrl || '/assets/img/avatar_default.jpg'"
+                  width="80"
+                />
+                <button class="btn btn-dark" (click)="fileInput.click()">
+                  Sửa
+                  <input #fileInput type="file" (change)="setAvatar($event)" />
+                </button>
+              </div>
+              <div class="d-flex flex-column">
+                <div class="fw-bold text-capitalize">{{ user?.fullName }}</div>
+                <div class="text-secondary">
+                  Người theo dõi {{ user?.numberOfFollowers }}
+                </div>
+              </div>
+            </div>
+            <hr />
+            <div class="mt-2">
+              <ul class="list-group">
+                <li class="mb-2">
+                  <a
+                    matRipple
+                    routerLink="/lessor/profile"
+                    [routerLinkActiveOptions]="{ exact: true }"
+                    class="sidebar-menu w-100 text-dark d-flex align-items-center py-2 px-4"
+                    routerLinkActive="active"
+                  >
+                    <i class="fa-regular fa-address-card"></i>
+                    <span>Hồ sơ cá nhân</span>
+                  </a>
+                </li>
+                <li class="mb-2">
+                  <a
+                    matRipple
+                    routerLink="/lessor/profile/actions"
+                    class="sidebar-menu w-100 text-dark d-flex align-items-center py-2 px-4"
+                    routerLinkActive="active"
+                  >
+                    <i class="fa-solid fa-users-gear"></i>
+                    <span>Hoạt động</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </mat-sidenav>
+        <mat-sidenav-content>
+          <!-- Header -->
+          <mat-toolbar class="header">
+            <!-- Toolbar -->
+            <button
+              type="button"
+              aria-label="Toggle sidenav"
+              mat-icon-button
+              class="d-flex justify-content-center align-items-center"
+              (click)="drawer.toggle()"
+              *ngIf="isHandset$ | async"
+            >
+              <i class="fa-solid fa-bars"></i>
+            </button>
+
+            <div class="ms-auto">
+              <button
+                mat-button
+                class="fs-5 py-4 text-light-muted d-flex align-items-center"
+                [matMenuTriggerFor]="menu"
+                *appIfAuthenticated="true"
+              >
+                <div class="d-flex align-items-center">
+                  <span class="fw-light text-secondary">Hi, </span>
+                  <span *ngIf="user" class="fw-bold">{{ user.fullName }}</span>
+                  <i class="fa-solid fa-square-caret-down ms-1"></i>
+                </div>
+              </button>
+              <mat-menu #menu="matMenu" class="profile-dropdown">
+                <div class="px-2">
+                  <button mat-menu-item routerLink="/lessor/profile">
+                    Hồ sơ cá nhân
+                  </button>
+                  <button mat-menu-item routerLink="/lessor/profile/actions">
+                    Hoạt động
+                  </button>
+                  <button mat-menu-item routerLink="/lessor">Quản lý</button>
+                </div>
+                <hr />
+                <div class="px-2">
+                  <button
+                    mat-flat-button
+                    (click)="onLogout()"
+                    routerLink="/"
+                    color="warn"
+                    class="w-100 text-white"
+                  >
+                    Đăng xuất
+                  </button>
+                </div>
+              </mat-menu>
+              <div *appIfAuthenticated="false" class="d-flex gap-2">
+                <button routerLink="/register" class="btn btn-dark">
+                  Đăng ký
+                </button>
+                <button routerLink="/login" class="btn btn-dark">
+                  Đăng nhập
+                </button>
+              </div>
+            </div>
+          </mat-toolbar>
+
+          <!-- Content -->
+          <div class="px-lg-4 py-lg-5 p-3 flex-fill">
+            <div class="bg-white shadow pt-2 pb-4 px-4 rounded overflow-x-auto">
+              <router-outlet></router-outlet>
+            </div>
+          </div>
+        </mat-sidenav-content>
+      </mat-sidenav-container>
+    </section>
+  </main>
+</div>

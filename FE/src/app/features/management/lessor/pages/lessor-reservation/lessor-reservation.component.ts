@@ -11,9 +11,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import {
-  ConditionRoom,
-} from '@features/apartment/models/room.model';
+import { ConditionRoom } from '@features/apartment/models/room.model';
 import { SearchComponent } from '@shared/components/form/search/search.component';
 import { PaginationComponent } from '@shared/components/pagination/pagination.component';
 import { DialogService } from '@shared/services/dialog/dialog.service';
@@ -148,7 +146,7 @@ export class LessorReservationComponent implements OnInit {
         })
         .then(async () => {
           const response = await firstValueFrom(
-            this.reservationService.accept(id).pipe(
+            this.reservationService.response(id, 'Confirmed').pipe(
               takeUntilDestroyed(this.destroyRef),
               catchError(() => of(null))
             )

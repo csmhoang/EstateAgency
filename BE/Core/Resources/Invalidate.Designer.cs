@@ -61,6 +61,15 @@ namespace Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Giỏ hàng không được trống!.
+        /// </summary>
+        public static string CartEmptyInvalidate {
+            get {
+                return ResourceManager.GetString("CartEmptyInvalidate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Xóa không hợp lệ!.
         /// </summary>
         public static string DeleteInvalidate {

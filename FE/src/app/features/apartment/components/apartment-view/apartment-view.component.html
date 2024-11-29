@@ -60,17 +60,11 @@
           </tr>
           <tr>
             <th scope="row">Diện tích</th>
-            <td>
-              {{ data.area }}m&#178;
-            </td>
+            <td>{{ data.area }}m&#178;</td>
           </tr>
           <tr>
             <th scope="row">Giá</th>
-            <td>{{ data.price }} đồng</td>
-          </tr>
-          <tr>
-            <th scope="row">Tiền đặt cọc</th>
-            <td>{{ data.deposite }} đồng</td>
+            <td>{{ data.price | currency : "VND" : "symbol" : "1.0-0" }}</td>
           </tr>
           <tr>
             <th scope="row">Nội thất</th>

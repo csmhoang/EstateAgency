@@ -11,4 +11,5 @@ export type SpecPostParams = {
   sortPrice?: string;
   sortArea?: string;
   sortExtra?: string;
+  landlordId?: string;
 };

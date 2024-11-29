@@ -147,4 +147,7 @@
   <data name="ReservationDateDuplicate" xml:space="preserve">
     <value>Đã có người hẹn giờ này!</value>
   </data>
+  <data name="CartEmptyInvalidate" xml:space="preserve">
+    <value>Giỏ hàng không được trống!</value>
+  </data>
 </root>

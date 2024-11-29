@@ -25,6 +25,7 @@ namespace Core.Entities
         public string? Description { get; set; }
         [Column(TypeName = "date")]
         public DateTime AvailableFrom { get; set; }
+        public bool IsHide { get; set; }
         public IsAcceptPost IsAccept { get; set; }
         public StatusPost Status { get; set; }
         public DateTime? CreatedAt { get; set; } = DateTime.UtcNow;

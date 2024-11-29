@@ -18,6 +18,5 @@ namespace Core.Dtos
         public decimal Amount { get; set; }
         public DateTime PaymentDate { get; set; }
         public PaymentMethod? PaymentMethod { get; set; }
-        public StatusPayment? Status { get; set; }
     }
 }

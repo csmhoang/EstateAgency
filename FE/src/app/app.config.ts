@@ -1,6 +1,7 @@
 import {
   APP_INITIALIZER,
   ApplicationConfig,
+  LOCALE_ID,
   provideZoneChangeDetection,
 } from '@angular/core';
 import { provideRouter } from '@angular/router';
@@ -19,6 +20,9 @@ import { errorInterceptor } from '@core/interceptors/error.interceptor';
 import { InitService } from '@core/services/init.service';
 import { lastValueFrom } from 'rxjs';
 import { miniLoadInterceptor } from '@core/interceptors/mini-load.interceptor';
+import { registerLocaleData } from '@angular/common';
+import localeVi from '@angular/common/locales/vi';
+registerLocaleData(localeVi);
 
 function initializeApp(initService: InitService) {
   return () => lastValueFrom(initService.init());
@@ -27,6 +31,7 @@ function initializeApp(initService: InitService) {
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
+    { provide: LOCALE_ID, useValue: 'vi-VN' },
     provideRouter(routes),
     provideClientHydration(),
     provideAnimationsAsync(),

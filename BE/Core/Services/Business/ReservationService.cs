@@ -11,6 +11,7 @@ using Core.Specifications;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using System.Net;
+using static Core.Enums.BookingEnums;
 using static Core.Enums.PostEnums;
 using static Core.Enums.ReservationEnums;
 using static Core.Enums.RoomEnums;
@@ -180,54 +181,27 @@ namespace Core.Services.Business
                 StatusCode = (int)HttpStatusCode.OK
             };
         }
-        public Task ValidateObject(ReservationDto reservationDto)
-        {
-            return Task.CompletedTask;
-        }
 
-        public async Task<Response> RefuseAsync(string id, string rejectionReason)
+        public async Task<Response> ResponseAsync(string id, StatusReservation status, string? rejectionReason)
         {
             var reservation = await _repository.Reservation.FindCondition(r => r.Id.Equals(id))
               .FirstOrDefaultAsync();
-            if (reservation != null)
+
+            if (reservation == null) throw new ReservationNotFoundException(id);
+
+            reservation.Status = status;
+            if (rejectionReason != null)
             {
-                reservation.Status = StatusReservation.Rejected;
                 reservation.RejectionReason = rejectionReason;
-                _repository.Reservation.Update(reservation);
-                await _repository.SaveAsync();
             }
-            else
-            {
-                throw new ReservationNotFoundException(id);
-            }
+
+            _repository.Reservation.Update(reservation);
+            await _repository.SaveAsync();
 
             return new Response
             {
                 Success = true,
-                Messages = Successfull.RegisterSucceed,
-                StatusCode = (int)HttpStatusCode.OK
-            };
-        }
-
-        public async Task<Response> AcceptAsync(string id)
-        {
-            var reservation = await _repository.Reservation.FindCondition(r => r.Id.Equals(id))
-              .FirstOrDefaultAsync();
-            if (reservation != null)
-            {
-                reservation.Status = StatusReservation.Confirmed;
-                _repository.Reservation.Update(reservation);
-                await _repository.SaveAsync();
-            }
-            else
-            {
-                throw new ReservationNotFoundException(id);
-            }
-
-            return new Response
-            {
-                Success = true,
-                Messages = Successfull.AcceptSucceed,
+                Messages = Successfull.ResponseSucceed,
                 StatusCode = (int)HttpStatusCode.OK
             };
         }

@@ -36,6 +36,10 @@ namespace Infrastructure.Data
         public virtual DbSet<Follow> Follows { get; set; } = null!;
         public virtual DbSet<SavePost> SavePosts { get; set; } = null!;
         public virtual DbSet<Booking> Bookings { get; set; } = null!;
+        public virtual DbSet<BookingDetail> BookingDetails { get; set; } = null!;
+        public virtual DbSet<LeaseDetail> LeaseDetails { get; set; } = null!;
+        public virtual DbSet<Cart> Carts { get; set; } = null!;
+        public virtual DbSet<CartDetail> CartDetails { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -59,7 +63,17 @@ namespace Infrastructure.Data
 
             modelBuilder.Entity<InvoiceDetail>(entity => { });
 
+            modelBuilder.Entity<Cart>(entity => { });
+
+            modelBuilder.Entity<CartDetail>(entity => { });
+
             modelBuilder.Entity<Lease>(entity => { });
+
+            modelBuilder.Entity<LeaseDetail>(entity => { });
+
+            modelBuilder.Entity<Booking>(entity => { });
+
+            modelBuilder.Entity<BookingDetail>(entity => { });
 
             modelBuilder.Entity<MaintenanceRequest>(entity => { });
 
@@ -79,8 +93,6 @@ namespace Infrastructure.Data
             modelBuilder.Entity<Payment>(entity => { });
 
             modelBuilder.Entity<Reservation>(entity => { });
-
-            modelBuilder.Entity<Booking>(entity => { });
 
             modelBuilder.Entity<Post>(entity => { });
 

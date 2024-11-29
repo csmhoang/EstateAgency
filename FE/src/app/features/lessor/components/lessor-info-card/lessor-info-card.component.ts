@@ -12,7 +12,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { User } from '@core/models/user.model';
 import { PresenceService } from '@core/services/presence.service';
 import { UserService } from '@core/services/user.service';
-import { BookingInsertComponent } from '@features/booking/components/booking-insert/booking-insert.component';
+import { CartAppendComponent } from '@features/Cart/components/cart-append/cart-append.component';
 import { Post } from '@features/post/models/post.model';
 import { ReservationInsertComponent } from '@features/reservation/components/reservation-insert/reservation-insert.component';
 import { DialogService } from '@shared/services/dialog/dialog.service';
@@ -30,11 +30,9 @@ export class LessorInfoCardComponent implements OnInit {
   @Input() post?: Post;
   landlord?: User;
   destroyRef = inject(DestroyRef);
-  user = this.userService.currentUser();
+  user = this.userService.currentUser;
   isFollow = new FormControl(false);
   isAuthentication = this.userService.isAuthenticated();
-  isReservation = false;
-  isBooking = false;
 
   isOnline = computed(() =>
     this.presenceService.onlineUsers().includes(this.landlord?.username!)
@@ -49,8 +47,8 @@ export class LessorInfoCardComponent implements OnInit {
 
   ngOnInit() {
     this.landlord = this.post?.landlord;
-    if (this.user && this.landlord) {
-      const followeeIds = this.user.followees?.map(
+    if (this.user() && this.landlord) {
+      const followeeIds = this.user()?.followees?.map(
         (followee) => followee.followeeId
       );
       if (followeeIds) {
@@ -60,7 +58,7 @@ export class LessorInfoCardComponent implements OnInit {
       this.isFollow.valueChanges.subscribe((isFollow) => {
         if (isFollow !== undefined && isFollow !== null) {
           this.userService
-            .follow(this.user?.id!, this.landlord?.id!, isFollow)
+            .follow(this.user()?.id!, this.landlord?.id!, isFollow)
             .pipe(
               takeUntilDestroyed(this.destroyRef),
               catchError(() => of(null))
@@ -87,14 +85,14 @@ export class LessorInfoCardComponent implements OnInit {
   }
 
   onReservation() {
-    if (this.post && this.user) {
-      const isCheckExist = this.user.reservations?.some(
+    if (this.post && this.user()) {
+      const isCheckExist = this.user()?.reservations?.some(
         (reservation) =>
           reservation.roomId === this.post?.room?.id &&
           (reservation.status === 'Pending' ||
             reservation.status === 'Confirmed')
       );
-      if (!isCheckExist && !this.isReservation) {
+      if (!isCheckExist) {
         if (this.post?.room?.condition !== 'Occupied') {
           this.dialogService
             .form(ReservationInsertComponent, this.post, 'lg')
@@ -102,7 +100,6 @@ export class LessorInfoCardComponent implements OnInit {
               this.toastService.success(
                 'Yêu cầu đặt lịch đã gửi, xin hãy chờ chủ nhà xác nhận.'
               );
-              this.isReservation = true;
               this.userService
                 .init(true)
                 .pipe(
@@ -119,22 +116,18 @@ export class LessorInfoCardComponent implements OnInit {
       }
     }
   }
-  onBooking() {
-    if (this.post && this.user) {
-      const isCheckExist = this.user.bookings?.some(
-        (booking) =>
-          booking.roomId === this.post?.room?.id &&
-          (booking.status === 'Pending' || booking.status === 'Accepted')
+
+  onAppendCart() {
+    if (this.post && this.user()) {
+      const isCheckExist = this.user()?.cart?.cartDetails?.some(
+        (cartDetail) => cartDetail.room?.id === this.post?.roomId
       );
-      if (!isCheckExist && !this.isBooking) {
+      if (!isCheckExist) {
         if (this.post?.room?.condition !== 'Occupied') {
           this.dialogService
-            .form(BookingInsertComponent, this.post, 'lg')
+            .form(CartAppendComponent, this.post, 'lg')
             .then(() => {
-              this.toastService.success(
-                'Yêu cầu đặt phòng đã gửi, xin hãy chờ chủ nhà xác nhận.'
-              );
-              this.isBooking = true;
+              this.toastService.success('Đã thêm phòng vào giỏ.');
               this.userService
                 .init(true)
                 .pipe(
@@ -147,8 +140,41 @@ export class LessorInfoCardComponent implements OnInit {
           this.toastService.warn('Phòng đã có người ở.');
         }
       } else {
-        this.toastService.warn('Yêu cầu đặt phòng của bạn đang được xử lý.');
+        this.toastService.warn('Phòng đã có trong giỏ');
       }
     }
   }
+
+  // onBooking() {
+  //   if (this.post && this.user) {
+  //     const isCheckExist = this.user.bookings?.some(
+  //       (booking) =>
+  //         booking.roomId === this.post?.room?.id &&
+  //         (booking.status === 'Pending' || booking.status === 'Accepted')
+  //     );
+  //     if (!isCheckExist && !this.isBooking) {
+  //       if (this.post?.room?.condition !== 'Occupied') {
+  //         this.dialogService
+  //           .form(BookingInsertComponent, this.post, 'lg')
+  //           .then(() => {
+  //             this.toastService.success(
+  //               'Yêu cầu đặt phòng đã gửi, xin hãy chờ chủ nhà xác nhận.'
+  //             );
+  //             this.isBooking = true;
+  //             this.userService
+  //               .init(true)
+  //               .pipe(
+  //                 takeUntilDestroyed(this.destroyRef),
+  //                 catchError(() => of(null))
+  //               )
+  //               .subscribe();
+  //           });
+  //       } else {
+  //         this.toastService.warn('Phòng đã có người ở.');
+  //       }
+  //     } else {
+  //       this.toastService.warn('Yêu cầu đặt phòng của bạn đang được xử lý.');
+  //     }
+  //   }
+  // }
 }

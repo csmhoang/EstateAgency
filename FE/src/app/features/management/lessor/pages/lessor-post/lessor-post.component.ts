@@ -22,6 +22,7 @@ import { MiniLoadComponent } from '@shared/components/mini-load/mini-load.compon
 import { catchError, firstValueFrom, lastValueFrom, of } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { PostUpdateComponent } from '@features/post/components/post-update/post-update.component';
+import { UserService } from '@core/services/user.service';
 
 @Component({
   selector: 'app-lessor-post',
@@ -42,6 +43,7 @@ import { PostUpdateComponent } from '@features/post/components/post-update/post-
 })
 export class LessorPostComponent {
   destroyRef = inject(DestroyRef);
+  user = this.userService.currentUser();
 
   displayedColumns: string[] = [
     'title',
@@ -67,10 +69,15 @@ export class LessorPostComponent {
   constructor(
     private dialogService: DialogService,
     private toastService: ToastService,
-    private lessorPostService: LessorPostService
+    private lessorPostService: LessorPostService,
+    private userService: UserService
   ) {}
   async ngOnInit() {
-    this.lessorPostService.specParams.set({ pageSize: 10, pageIndex: 1 });
+    this.lessorPostService.specParams.set({
+      pageSize: 10,
+      pageIndex: 1,
+      landlordId: this.user?.id,
+    });
     await this.init();
   }
 

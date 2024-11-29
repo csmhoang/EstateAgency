@@ -1,0 +1,31 @@
+<!-- Contact Section -->
+<section id="contact" class="contact section">
+  <div class="container">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col">
+        <app-cart-list
+          [cartDetails]="user()?.cart?.cartDetails"
+        ></app-cart-list>
+        <div class="d-flex justify-content-end">
+          <button
+            type="button"
+            data-mdb-button-init
+            data-mdb-ripple-init
+            class="btn btn-light btn-lg me-2"
+            routerLink="/apartment"
+          >
+            Tiếp tục chọn phòng
+          </button>
+          <button
+            type="button"
+            data-mdb-button-init
+            data-mdb-ripple-init
+            class="btn btn-primary btn-lg"
+          >
+            Đặt phòng
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

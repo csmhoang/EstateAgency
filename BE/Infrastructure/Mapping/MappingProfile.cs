@@ -1,12 +1,11 @@
 ﻿using AutoMapper;
 using Core.Dtos;
 using Core.Entities;
-using System.ComponentModel;
 
 namespace Infrastructure.Mapping
 {
     public class MappingProfile : Profile
-    { 
+    {
         public MappingProfile()
         {
             CreateMap<User, UserDto>()
@@ -32,9 +31,19 @@ namespace Infrastructure.Mapping
 
             CreateMap<Booking, BookingDto>();
 
+            CreateMap<BookingDetail, BookingDetailDto>();
+
             CreateMap<Lease, LeaseDto>();
 
+            CreateMap<LeaseDetail, LeaseDetailDto>();
+
+            CreateMap<Cart, CartDto>();
+
+            CreateMap<CartDetail, CartDetailDto>();
+
             CreateMap<Invoice, InvoiceDto>();
+
+            CreateMap<Payment, PaymentDto>();
 
             CreateMap<InvoiceDetail, InvoiceDetailDto>();
 
@@ -85,8 +94,6 @@ namespace Infrastructure.Mapping
             CreateMap<BookingDto, Booking>()
                .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
 
-            CreateMap<BookingUpdateDto, Booking>();
-
             CreateMap<LeaseDto, Lease>()
                .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
 
@@ -96,8 +103,14 @@ namespace Infrastructure.Mapping
             CreateMap<InvoiceDto, Invoice>()
                .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
 
+            CreateMap<PaymentDto, Payment>()
+               .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+
             CreateMap<InvoiceDetailDto, InvoiceDetail>()
                .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+
+            CreateMap<CartDetailDto, CartDetail>()
+                .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
         }
     }
 }

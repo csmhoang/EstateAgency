@@ -11,7 +11,6 @@ import {
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { User } from '@core/models/user.model';
 import { UserService } from '@core/services/user.service';
 import { Place } from '@features/post/models/place.model';
 import { Room } from '@features/apartment/models/room.model';
@@ -65,7 +64,6 @@ export class ApartmentInsertComponent implements OnInit {
   interior?: AbstractControl | null;
   area?: AbstractControl | null;
   price?: AbstractControl | null;
-  deposite?: AbstractControl | null;
   files: File[] = [];
 
   constructor(
@@ -93,10 +91,6 @@ export class ApartmentInsertComponent implements OnInit {
         Validators.required,
         Validators.min(1),
       ]),
-      deposite: this.formBuilder.control(0, [
-        Validators.required,
-        Validators.min(1),
-      ]),
       area: this.formBuilder.control(0, [
         Validators.required,
         Validators.min(1),
@@ -112,7 +106,6 @@ export class ApartmentInsertComponent implements OnInit {
     this.bedroom = this.form.get('bedroom');
     this.bathroom = this.form.get('bathroom');
     this.price = this.form.get('price');
-    this.deposite = this.form.get('deposite');
     this.area = this.form.get('area');
 
     this.province?.valueChanges.subscribe((value) => {
@@ -272,16 +265,6 @@ export class ApartmentInsertComponent implements OnInit {
     }
     if (this.price?.hasError('min')) {
       return 'Giá phải lớn hơn 0';
-    }
-    return '';
-  }
-  
-  errorForDeposite(): string {
-    if (this.price?.hasError('required')) {
-      return 'Tiền đặt cọc không được để trống!';
-    }
-    if (this.price?.hasError('min')) {
-      return 'Tiền đặt cọc phải lớn hơn 0';
     }
     return '';
   }

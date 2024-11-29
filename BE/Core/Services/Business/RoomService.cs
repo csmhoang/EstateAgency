@@ -124,10 +124,10 @@ namespace Core.Services.Business
             await ValidateObject(roomDto);
 
             var room = _mapper.Map<Room>(roomDto);
+            room.Photos = await InsertPhotosAsync(files);
+
             _repository.Room.Create(room);
             await _repository.SaveAsync();
-
-            await InsertPhotosAsync(room.Id, files);
 
             return new Response
             {
@@ -135,6 +135,30 @@ namespace Core.Services.Business
                 Messages = Successfull.InsertSucceed,
                 StatusCode = (int)HttpStatusCode.Created
             };
+        }
+
+        public async Task<ICollection<Photo>> InsertPhotosAsync(IFormFile[]? files)
+        {
+            var photos = new List<Photo>();
+
+            if (files == null) return photos;
+
+            foreach (var file in files)
+            {
+                var uploadPhotoResult = await _photoService.UploadPhotoAsync(file);
+                if (uploadPhotoResult.Error != null)
+                {
+                    throw new CustomizeException(Failure.UploadPhotoFailing);
+                }
+                var photo = new Photo
+                {
+                    Url = uploadPhotoResult.SecureUrl.AbsoluteUri,
+                    PublicId = uploadPhotoResult.PublicId,
+                };
+                photos.Add(photo);
+            }
+
+            return photos;
         }
 
         public async Task<Response> InsertPhotoAsync(string roomId, IFormFile file)
@@ -193,31 +217,6 @@ namespace Core.Services.Business
             else
             {
                 throw new PhotoNotFoundException(roomId);
-            }
-        }
-
-        public async Task InsertPhotosAsync(string roomId, IFormFile[]? files)
-        {
-            if (files != null)
-            {
-                var count = 0;
-                foreach (var file in files)
-                {
-                    var uploadPhotoResult = await _photoService.UploadPhotoAsync(file);
-                    if (uploadPhotoResult.Error != null)
-                    {
-                        throw new CustomizeException(Failure.UploadPhotoFailing);
-                    }
-                    var photo = new Photo
-                    {
-                        RoomId = roomId,
-                        Url = uploadPhotoResult.SecureUrl.AbsoluteUri,
-                        PublicId = uploadPhotoResult.PublicId,
-                    };
-                    _repository.Photo.Create(photo);
-                    count++;
-                }
-                if (count != 0) await _repository.SaveAsync();
             }
         }
 

@@ -9,6 +9,7 @@ export type Post = {
   description: string;
   availableFrom: Date;
   isAccept?: string;
+  isHide: boolean;
   status?: string;
   createdAt?: Date;
   updatedAt?: Date;

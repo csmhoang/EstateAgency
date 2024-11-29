@@ -28,6 +28,7 @@ namespace Core.Services.Business
         private readonly Lazy<IMaintenanceRequestService> _maintenanceRequestService;
         private readonly Lazy<IAmenityService> _amenityService;
         private readonly Lazy<IPhotoService> _photoService;
+        private readonly Lazy<ICartService> _cartService;
         #endregion
 
         #region Property
@@ -48,7 +49,7 @@ namespace Core.Services.Business
             _userService = new Lazy<IUserService>(() =>
                 new UserService(repository, photoService, logger, mapper));
             _authenticationService = new Lazy<Interfaces.Auth.IAuthenticationService>(() =>
-                new AuthenticationService(logger, mapper, emailSender, userManager, roleManager, configuration));
+                new AuthenticationService(repository, logger, mapper, emailSender, userManager, roleManager, configuration));
             _roomService = new Lazy<IRoomService>(() =>
                 new RoomService(repository, photoService, logger, mapper));
             _postService = new Lazy<IPostService>(() =>
@@ -69,6 +70,8 @@ namespace Core.Services.Business
                 new AmenityService(repository, logger, mapper));
             _photoService = new Lazy<IPhotoService>(() =>
                 new PhotoService(cloudinaryConfig));
+            _cartService = new Lazy<ICartService>(() =>
+                new CartService(repository, logger, mapper));
         }
         #endregion
 
@@ -98,6 +101,7 @@ namespace Core.Services.Business
         public IPostService Post => _postService.Value;
 
         public IBookingService Booking => _bookingService.Value;
+        public ICartService Cart => _cartService.Value;
         #endregion
     }
 }

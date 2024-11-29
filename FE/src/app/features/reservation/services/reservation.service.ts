@@ -63,14 +63,14 @@ export class ReservationService {
     return this.http.put<Result>(`/reservations?id=${id}`, reservation);
   }
 
-  refuse(id: string, rejectionReason: string) {
-    return this.http.put<Result>(
-      `/reservations/refuse?id=${id}&rejectionReason=${rejectionReason}`,
-      null
-    );
-  }
+  response(id: string, status: string, rejectionReason?: string) {
+    let params = new HttpParams().set('id', id).set('status', status);
+    if (rejectionReason) {
+      params = params.set('rejectionReason', rejectionReason);
+    }
 
-  accept(id: string) {
-    return this.http.put<Result>(`/reservations/accept?id=${id}`, null);
+    return this.http.put<Result>('/reservations/response', {
+      params,
+    });
   }
 }

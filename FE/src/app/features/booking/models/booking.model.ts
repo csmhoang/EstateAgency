@@ -1,24 +1,22 @@
-import { Room } from "@features/apartment/models/room.model";
+import { Invoice } from './invoice.model';
+import { User } from '@core/models/user.model';
+import { BookingDetail } from './booking-detail.model';
 
 export type Booking = {
   id?: string;
-  roomId: string;
   tenantId: string;
   invoiceId: string;
-  intendedIntoDate: Date;
-  endDate: Date;
-  numberOfTenant: number;
   note?: string;
-  rejectionReason?: string;
   status?: string;
   createdAt?: Date;
   updatedAt?: Date;
-  room?: Room;
+  invoice?: Invoice;
+  tenant?: User;
+  bookingDetails?: BookingDetail[];
 };
 
 export const StatusBooking: { [key: string]: string } = {
   Pending: 'Đang chờ xử lý',
-  Accepted: 'Chấp nhận',
-  Rejected: 'Từ chối',
+  Confirmed: 'Đã xác nhận',
   Canceled: 'Đã hủy',
 };
