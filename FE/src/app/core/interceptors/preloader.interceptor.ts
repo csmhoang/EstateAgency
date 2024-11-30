@@ -1,12 +1,10 @@
 import {
-  HttpHandlerFn,
   HttpInterceptorFn,
-  HttpRequest,
 } from '@angular/common/http';
 
 import { inject } from '@angular/core';
 import { PreloaderService } from '@shared/services/preloader/preloader.service';
-import { delay, finalize, of } from 'rxjs';
+import { delay, finalize } from 'rxjs';
 import { SkipPreloader } from './skip.resolver';
 
 export const preloaderInterceptor: HttpInterceptorFn = (req, next) => {

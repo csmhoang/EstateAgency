@@ -20,7 +20,7 @@ namespace Core.Entities
         [ForeignKey("Lease")]
         [MaxLength(36)]
         public string? LeaseId { get; set; }
-        [Column(TypeName = "decimal(10, 2)")]
+        [Column(TypeName = "decimal(18, 2)")]
         public decimal Amount { get; set; }
         [Column(TypeName = "date")]
         public DateTime StartDate { get; set; }

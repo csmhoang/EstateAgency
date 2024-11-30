@@ -1,5 +1,7 @@
 ﻿using Core.Dtos;
+using Core.Extensions;
 using Core.Interfaces.Business;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
@@ -22,6 +24,17 @@ namespace Api.Controllers
 
         #region Method
         /// <summary>
+        /// Lấy thông tin giỏ hàng
+        /// </summary>
+        [HttpGet("current")]
+        [Authorize]
+        public async Task<IActionResult> CurrentCart()
+        {
+            var userId = User.GetUserId();
+            var response = await _service.Cart.CartCurrent(userId);
+            return Ok(response);
+        }
+        /// <summary>
         /// Lấy tất cả thông tin chi tiết giỏ phòng
         /// </summary>
         [HttpGet("detail")]
@@ -35,9 +48,9 @@ namespace Api.Controllers
         /// Lấy thông tin chi tiết giỏ phòng bằng id
         /// </summary>
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get(string id)
+        public async Task<IActionResult> Get(string cartId)
         {
-            var response = await _service.Cart.GetAsync(id);
+            var response = await _service.Cart.GetAsync(cartId);
             return Ok(response);
         }
 
@@ -58,6 +71,16 @@ namespace Api.Controllers
         public async Task<IActionResult> Remove(string cartDetailId)
         {
             var response = await _service.Cart.RemoveAsync(cartDetailId);
+            return Ok(response);
+        }
+
+        /// <summary>
+        /// Cập nhật giỏ phòng
+        /// </summary>
+        [HttpPut]
+        public async Task<IActionResult> Update(string cartId, [FromBody] CartDto model)
+        {
+            var response = await _service.Cart.UpdateAsync(cartId, model);
             return Ok(response);
         }
         #endregion

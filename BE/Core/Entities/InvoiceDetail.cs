@@ -14,7 +14,7 @@ namespace Core.Entities
         public string? InvoiceId { get; set; }
         [MaxLength(256)]
         public string Detail { get; set; } = null!;
-        [Column(TypeName = "decimal(10, 2)")]
+        [Column(TypeName = "decimal(18, 2)")]
         public decimal Price { get; set; }
         public DateTime? CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime? UpdatedAt { get; set; } = DateTime.UtcNow;

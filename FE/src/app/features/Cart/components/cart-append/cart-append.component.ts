@@ -13,7 +13,6 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { UserService } from '@core/services/user.service';
 import { CartDetail } from '@features/Cart/models/cart-detail.model';
 import { CartService } from '@features/Cart/services/cart.service';
 import { Post } from '@features/post/models/post.model';
@@ -38,7 +37,7 @@ import { catchError, of } from 'rxjs';
 })
 export class CartAppendComponent implements OnInit {
   @Input() data!: Post;
-  user = this.userService.currentUser();
+  cart = this.cartService.currentCart();
 
   destroyRef = inject(DestroyRef);
   activeModal = inject(NgbActiveModal);
@@ -49,8 +48,7 @@ export class CartAppendComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private cartService: CartService,
-    private userService: UserService
+    private cartService: CartService
   ) {}
 
   ngOnInit() {
@@ -65,11 +63,11 @@ export class CartAppendComponent implements OnInit {
   }
 
   onAppend() {
-    if (this.form.valid && this.user) {
+    if (this.form.valid && this.cart) {
       const price = this.data.room!.price;
       const cartDetail: CartDetail = {
         ...this.form.value,
-        cartId: this.user.cart?.id,
+        cartId: this.cart?.id,
         roomId: this.data.roomId,
         price: price * this.numberOfMonth?.value,
       };

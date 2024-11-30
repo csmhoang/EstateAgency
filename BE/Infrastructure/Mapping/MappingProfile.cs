@@ -109,6 +109,9 @@ namespace Infrastructure.Mapping
             CreateMap<InvoiceDetailDto, InvoiceDetail>()
                .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
 
+            CreateMap<CartDto, Cart>()
+                .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+
             CreateMap<CartDetailDto, CartDetail>()
                 .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
         }

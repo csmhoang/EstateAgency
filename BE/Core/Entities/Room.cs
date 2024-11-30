@@ -41,9 +41,9 @@ namespace Core.Entities
         public int Bathroom { get; set; }
         public int Toilet { get; set; }
         public Interior Interior { get; set; }
-        [Column(TypeName = "decimal(10, 2)")]
+        [Column(TypeName = "decimal(18, 2)")]
         public decimal Area { get; set; }
-        [Column(TypeName = "decimal(10, 2)")]
+        [Column(TypeName = "decimal(18, 2)")]
         public decimal Price { get; set; }
         public ConditionRoom Condition { get; set; }
         public DateTime? CreatedAt { get; set; } = DateTime.UtcNow;

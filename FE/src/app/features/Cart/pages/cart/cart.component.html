@@ -1,31 +1,38 @@
-<!-- Contact Section -->
-<section id="contact" class="contact section">
-  <div class="container">
-    <div class="row d-flex justify-content-center align-items-center h-100">
-      <div class="col">
-        <app-cart-list
-          [cartDetails]="user()?.cart?.cartDetails"
-        ></app-cart-list>
-        <div class="d-flex justify-content-end">
-          <button
-            type="button"
-            data-mdb-button-init
-            data-mdb-ripple-init
-            class="btn btn-light btn-lg me-2"
-            routerLink="/apartment"
-          >
-            Tiếp tục chọn phòng
-          </button>
-          <button
-            type="button"
-            data-mdb-button-init
-            data-mdb-ripple-init
-            class="btn btn-primary btn-lg"
-          >
-            Đặt phòng
-          </button>
+<div class="cart-page">
+  <!-- Header -->
+  <app-header></app-header>
+  <main class="main">
+    <!-- Cart Section -->
+    <section class="section">
+      <div class="container">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+          <div class="col">
+            <app-cart-list [cartDetails]="cart()?.cartDetails"></app-cart-list>
+            <div class="d-flex justify-content-end">
+              <button
+                type="button"
+                data-mdb-button-init
+                data-mdb-ripple-init
+                class="btn btn-light btn-lg"
+                routerLink="/apartment"
+              >
+                Tiếp tục chọn phòng
+              </button>
+              <button
+                *ngIf="cart()?.cartDetails?.length != 0"
+                type="button"
+                data-mdb-button-init
+                data-mdb-ripple-init
+                class="btn btn-dark btn-lg ms-2"
+              >
+                Đặt phòng
+              </button>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
-</section>
+    </section>
+  </main>
+  <!-- Footer -->
+  <app-footer></app-footer>
+</div>

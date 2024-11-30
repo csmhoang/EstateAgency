@@ -21,7 +21,7 @@ namespace Core.Entities
         public string? RoomId { get; set; } = null!;
         public int NumberOfMonth { get; set; }
         public int NumberOfTenant { get; set; }
-        [Column(TypeName = "decimal(10, 2)")]
+        [Column(TypeName = "decimal(18, 2)")]
         public decimal Price { get; set; }
         public DateTime? CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime? UpdatedAt { get; set; } = DateTime.UtcNow;

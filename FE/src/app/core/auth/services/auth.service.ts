@@ -12,6 +12,7 @@ import { SkipPreloader } from '@core/interceptors/skip.resolver';
 import { ChangePassword } from '../models/changePassword.model';
 import { ResetPassword } from '../models/reset-password.model';
 import { PresenceService } from '@core/services/presence.service';
+import { CartService } from '@features/Cart/services/cart.service';
 
 @Injectable({
   providedIn: 'root',
@@ -24,7 +25,8 @@ export class AuthService {
     private router: Router,
     private cookie: CookieService,
     private userService: UserService,
-    private presenceService: PresenceService
+    private presenceService: PresenceService,
+    private cartService: CartService
   ) {}
 
   login(
@@ -58,6 +60,7 @@ export class AuthService {
                 }
               },
             });
+            this.cartService.init(isHideLoading).subscribe();
           }
         })
       );
@@ -74,6 +77,7 @@ export class AuthService {
 
   logout(): void {
     this.userService.purAuth();
+    this.cartService.purCart();
     this.presenceService.stopHubConnection();
   }
 

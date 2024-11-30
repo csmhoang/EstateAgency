@@ -1,6 +1,11 @@
-<div class="card mb-4">
-  <div class="card-body p-4">
-    <div class="row align-items-center">
+<div class="card mb-4 bg-light position-relative">
+  <a
+    class="position-absolute fs-3 top-0 end-0 text-secondary z-3"
+    (click)="onRemove()"
+    ><i class="fas fa-times p-3"></i
+  ></a>
+  <div class="card-body p-md-4 p-5">
+    <div class="row align-items-start g-2" [formGroup]="form">
       <div class="col-md-2">
         <ngb-carousel>
           @for (photo of cartDetail?.room?.photos; track $index;) {
@@ -18,26 +23,49 @@
       </div>
       <div class="col-md-2 d-flex justify-content-center">
         <div>
-          <p class="small text-muted mb-4 pb-2">Số tháng thuê</p>
-          <p class="lead fw-normal mb-0">{{ cartDetail?.numberOfMonth }}</p>
+          <p class="small text-muted mb-4 pb-2">Thời gian thuê</p>
+          <p
+            class="d-flex align-items-center gap-2 lead fw-normal mb-0 flex-wrap"
+          >
+            <input
+              #numberOfMonth
+              type="number"
+              class="hide-spin form-control w-50"
+              min="1"
+              formControlName="numberOfMonth"
+            />
+            <span>Tháng</span>
+          </p>
         </div>
       </div>
       <div class="col-md-2 d-flex justify-content-center">
         <div>
           <p class="small text-muted mb-4 pb-2">Số người ở</p>
-          <p class="lead fw-normal mb-0">{{ cartDetail?.numberOfTenant }}</p>
+          <p
+            class="d-flex align-items-center gap-2 lead fw-normal mb-0 flex-wrap"
+          >
+            <input
+              type="number"
+              min="1"
+              class="hide-spin form-control w-50"
+              formControlName="numberOfTenant"
+            />
+            <span>Người</span>
+          </p>
         </div>
       </div>
       <div class="col-md-2 d-flex justify-content-center">
         <div>
           <p class="small text-muted mb-4 pb-2">Diện tích</p>
-          <p class="lead fw-normal mb-0">{{ cartDetail?.room?.area }}</p>
+          <p class="lead fw-normal mb-0">{{ cartDetail?.room?.area }}m&#178;</p>
         </div>
       </div>
       <div class="col-md-2 d-flex justify-content-center">
         <div>
           <p class="small text-muted mb-4 pb-2">Giá</p>
-          <p class="lead fw-normal mb-0">{{ cartDetail?.price }}</p>
+          <p class="lead fw-normal mb-0">
+            {{ price() | currency : "VND" : "symbol" : "1.0-0" }}
+          </p>
         </div>
       </div>
     </div>

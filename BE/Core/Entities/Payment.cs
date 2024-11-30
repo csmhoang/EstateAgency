@@ -14,7 +14,7 @@ namespace Core.Entities
         [ForeignKey("Invoice")]
         [MaxLength(36)]
         public string? InvoiceId { get; set; }
-        [Column(TypeName = "decimal(10, 2)")]
+        [Column(TypeName = "decimal(18, 2)")]
         public decimal Amount { get; set; }
         public PaymentMethod PaymentMethod { get; set; }
         public DateTime PaymentDate { get; set; } = DateTime.UtcNow;

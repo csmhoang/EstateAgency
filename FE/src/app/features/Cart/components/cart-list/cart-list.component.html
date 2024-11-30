@@ -1,17 +1,21 @@
-<p>
-  <span class="h2">Giỏ phòng</span
-  ><span class="h4">({{ cartDetails?.length }} phòng trong giỏ)</span>
+<p class="py-3">
+  <span class="h2">Giỏ phòng</span>
 </p>
-@for (cartDetail of cartDetails; track $index) {
+@if(cartDetails?.length != 0){ @for (cartDetail of cartDetails; track $index) {
 <app-cart-item [cartDetail]="cartDetail"></app-cart-item>
 }
-<div class="card mb-5">
+<div class="card mb-5 bg-light-subtle text-muted">
   <div class="card-body p-4">
     <div class="float-end">
       <p class="mb-0 me-5 d-flex align-items-center">
         <span class="small text-muted me-2">Tổng đơn:</span>
-        <span class="lead fw-normal">{{ sumPrice }}</span>
+        <span class="lead fw-normal">{{
+          sumPrice | currency : "VND" : "symbol" : "1.0-0"
+        }}</span>
       </p>
     </div>
   </div>
 </div>
+}@else {
+<p class="fs-4 py-5 text-center">Bạn chưa có phòng nào trong giỏ!</p>
+}

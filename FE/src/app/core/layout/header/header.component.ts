@@ -14,7 +14,8 @@ import { RouterModule } from '@angular/router';
 import { IfAuthenticatedDirective } from '@core/auth/directives/if-authenticated.directive';
 import { AuthService } from '@core/auth/services/auth.service';
 import { UserService } from '@core/services/user.service';
-import {MatBadgeModule} from '@angular/material/badge';
+import { MatBadgeModule } from '@angular/material/badge';
+import { CartService } from '@features/Cart/services/cart.service';
 
 @Component({
   selector: 'app-header',
@@ -25,7 +26,7 @@ import {MatBadgeModule} from '@angular/material/badge';
     CommonModule,
     MatButtonModule,
     MatMenuModule,
-    MatBadgeModule
+    MatBadgeModule,
   ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
@@ -43,10 +44,15 @@ export class HeaderComponent {
   platformId = inject(PLATFORM_ID);
   document = inject(DOCUMENT);
   nav: ElementRef | undefined;
-  
-  user = this.userService.currentUser
 
-  constructor(private authService: AuthService, private userService: UserService) {}
+  user = this.userService.currentUser;
+  cart = this.cartService.currentCart;
+
+  constructor(
+    private authService: AuthService,
+    private userService: UserService,
+    private cartService: CartService
+  ) {}
 
   onLogout() {
     this.authService.logout();

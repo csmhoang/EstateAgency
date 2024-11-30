@@ -17,7 +17,7 @@ namespace Core.Entities
         [Key]
         [MaxLength(36)]
         public string Id { get; set; } = Guid.NewGuid().ToString();
-        [Column(TypeName = "decimal(10, 2)")]
+        [Column(TypeName = "decimal(18, 2)")]
         public decimal Amount { get; set; }
         [Column(TypeName = "date")]
         public DateTime? DueDate { get; set; }

@@ -417,10 +417,6 @@ namespace Core.Services.Auth
                 .Include(u => u.Reservations!)
                 .Include(u => u.Bookings!)
                 .Include(u => u.Rooms!)
-                .Include(u => u.Cart!)
-                .ThenInclude(c => c.CartDetails!)
-                .ThenInclude(cd => cd.Room!)
-                .ThenInclude(r => r.Photos!)
                 .FirstOrDefaultAsync(x => x.UserName == username.ToLower());
 
             return new Response

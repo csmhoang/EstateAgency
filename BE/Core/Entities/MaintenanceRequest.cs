@@ -23,7 +23,7 @@ namespace Core.Entities
         public string? InvoiceId { get; set; }
         public string? Description { get; set; }
         public string? RejectionReason { get; set; }
-        [Column(TypeName = "decimal(10, 2)")]
+        [Column(TypeName = "decimal(18, 2)")]
         public decimal? EstimateCost { get; set; }
         [Column(TypeName = "date")]
         public DateTime RequestDate { get; set; } = DateTime.UtcNow;

@@ -1,5 +1,6 @@
 ﻿using Core.Consts;
 using Core.Dtos;
+using Core.Extensions;
 using Core.Interfaces.Business;
 using Core.Params;
 using Microsoft.AspNetCore.Authorization;
@@ -29,6 +30,7 @@ namespace Api.Controllers
         /// Lấy tất cả thông tin đặt phòng
         /// </summary>
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> GetAll()
         {
             var response = await _service.Booking.GetAllAsync();
@@ -39,6 +41,7 @@ namespace Api.Controllers
         /// Lấy thông tin đặt phòng bằng id
         /// </summary>
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<IActionResult> Get(string id)
         {
             var response = await _service.Booking.GetAsync(id);
@@ -49,6 +52,7 @@ namespace Api.Controllers
         /// Lấy danh sách thông tin đặt phòng bằng specification
         /// </summary>
         [HttpGet("list")]
+        [Authorize]
         public async Task<IActionResult> GetList([FromQuery] BookingSpecParams specParams)
         {
             var response = await _service.Booking.GetListAsync(specParams);
@@ -56,13 +60,14 @@ namespace Api.Controllers
         }
 
         /// <summary>
-        /// Thêm đặt phòng
+        /// Thêm đặt phòng từ giỏ phòng
         /// </summary>
-        /// <param name="model">Đặt phòng</param>
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CartDto model)
+        [Authorize(Roles = RoleConst.Tenant)]
+        public async Task<IActionResult> Create()
         {
-            var response = await _service.Booking.InsertAsync(model);
+            var userId = User.GetUserId();
+            var response = await _service.Booking.InsertAsync(userId);
             return Ok(response);
         }
 
@@ -71,6 +76,7 @@ namespace Api.Controllers
         /// </summary>
         /// <param name="id">Id đặt phòng</param>
         [HttpDelete("cancel")]
+        [Authorize(Roles = RoleConst.Tenant)]
         public async Task<IActionResult> Cancel(string id)
         {
             var response = await _service.Booking.CancelAsync(id);

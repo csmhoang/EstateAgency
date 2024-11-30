@@ -58,13 +58,13 @@ namespace Core.Interfaces.Business
         /// </returns>
         Task<Response> ResponseAsync(string bookingDetailId, StatusBookingDetail status, string? RejectionReason);
         /// <summary>
-        /// Thêm đặt phòng
+        /// Thêm đặt phòng từ giỏ phòng
         /// </summary>
-        /// <param name="cartDto">Giỏ hàng</param>
+        /// <param name="userId">Id người dùng</param>
         /// <returns>
         /// 1 - Thông báo thành công
         /// 2 - Ngoại lệ
         /// </returns>
-        Task<Response> InsertAsync(CartDto cartDto);
+        Task<Response> InsertAsync(string userId);
     }
 }

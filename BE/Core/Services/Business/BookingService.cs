@@ -111,35 +111,40 @@ namespace Core.Services.Business
                 StatusCode = (int)HttpStatusCode.NoContent
             };
         }
-        public async Task<Response> InsertAsync(CartDto cartDto)
+        public async Task<Response> InsertAsync(string userId)
         {
-            if (cartDto.CartDetails == null || cartDto.CartDetails.Count == 0)
+            var cart = await _repository.Cart.FindCondition(c => c.TenantId!.Equals(userId))
+                .Include(c => c.CartDetails!)
+                .FirstOrDefaultAsync();
+
+            if (cart!.CartDetails == null || cart.CartDetails.Count == 0)
                 throw new CustomizeException(Invalidate.CartEmptyInvalidate);
 
-            var CartDetailGroups = cartDto.CartDetails.GroupBy(cd => cd.Cart!.TenantId);
+            var CartDetailGroups = cart.CartDetails.GroupBy(cd => cd.Cart!.TenantId);
             var bookings = new List<Booking>();
             foreach (var group in CartDetailGroups)
             {
 
                 var booking = new Booking
                 {
-                    TenantId = cartDto.TenantId,
+                    TenantId = cart.TenantId,
                 };
                 foreach (var cartDetail in group)
                 {
                     var room = await _repository.Room.FindCondition(p => p.Id.Equals(cartDetail.RoomId))
                         .FirstOrDefaultAsync();
-                    if (room == null) throw new RoomNotFoundException(cartDetail.RoomId);
+                    if (room == null) throw new RoomNotFoundException(cartDetail.RoomId!);
                     if (booking.TenantId!.Equals(room.LandlordId))
                         throw new CustomizeException(Invalidate.TenantIdAndLandlordIdDuplication);
 
                     booking.BookingDetails.Add(new BookingDetail
                     {
-                        RoomId = cartDetail.RoomId,
+                        RoomId = cartDetail.RoomId!,
                         NumberOfMonth = cartDetail.NumberOfMonth,
                         NumberOfTenant = cartDetail.NumberOfTenant,
                         Price = cartDetail.Price
                     });
+                    _repository.CartDetail.Delete(cartDetail);
                 }
                 bookings.Add(booking);
             }

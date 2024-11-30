@@ -3,3 +3,7 @@
   height: 200px;
   object-fit: cover;
 }
+input.hide-spin::-webkit-outer-spin-button,
+input.hide-spin::-webkit-inner-spin-button {
+  display: none;
+}

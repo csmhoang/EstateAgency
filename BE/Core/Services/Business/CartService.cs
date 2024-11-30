@@ -6,6 +6,7 @@ using Core.Interfaces.Business;
 using Core.Interfaces.Data;
 using Core.Interfaces.Infrastructure;
 using Core.Resources;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
 
@@ -45,9 +46,9 @@ namespace Core.Services.Business
             };
         }
 
-        public async Task<Response> GetAsync(string id)
+        public async Task<Response> GetAsync(string cartId)
         {
-            var cartDetail = await _repository.CartDetail.FindCondition(r => r.Id.Equals(id))
+            var cartDetail = await _repository.CartDetail.FindCondition(r => r.Id.Equals(cartId))
                 .FirstOrDefaultAsync();
             return new Response
             {
@@ -56,11 +57,11 @@ namespace Core.Services.Business
                 StatusCode = cartDetail is null ? (int)HttpStatusCode.NoContent : (int)HttpStatusCode.OK
             };
         }
-        public async Task<Response> RemoveAsync(string id)
+        public async Task<Response> RemoveAsync(string cartDetailId)
         {
-            var cartDetailDelete = await _repository.CartDetail.FindCondition(r => r.Id.Equals(id))
+            var cartDetailDelete = await _repository.CartDetail.FindCondition(r => r.Id.Equals(cartDetailId))
                 .FirstOrDefaultAsync();
-            if (cartDetailDelete == null) throw new CartDetailNotFoundException(id);
+            if (cartDetailDelete == null) throw new CartDetailNotFoundException(cartDetailId);
 
             _repository.CartDetail.Delete(cartDetailDelete);
             await _repository.SaveAsync();
@@ -90,10 +91,48 @@ namespace Core.Services.Business
             };
         }
 
+        public async Task<Response> CartCurrent(string userId)
+        {
+            var cart = string.IsNullOrEmpty(userId) ? null :
+                await _repository.Cart.FindCondition(c => c.TenantId!.Equals(userId))
+                .Include(c => c.CartDetails!)
+                .ThenInclude(cd => cd.Room!)
+                .ThenInclude(r => r.Photos!)
+                .FirstOrDefaultAsync();
+
+            return new Response
+            {
+                Success = true,
+                Data = _mapper.Map<CartDto>(cart),
+                StatusCode = cart is null ? (int)HttpStatusCode.NoContent : (int)HttpStatusCode.OK
+            };
+        }
+        public async Task<Response> UpdateAsync(string cartId, CartDto cartDto)
+        {
+            var cart = await _repository.Cart.FindCondition(r => r.Id.Equals(cartId))
+                .Include(c => c.CartDetails!)
+                .FirstOrDefaultAsync();
+            if (cart == null) throw new CartNotFoundException(cartId);
+
+            _mapper.Map(cartDto, cart);
+            foreach (var cartDetail in cart.CartDetails)
+            {
+                _repository.CartDetail.Update(cartDetail);
+            }
+            await _repository.SaveAsync();
+            return new Response
+            {
+                Success = true,
+                Messages = Successfull.UpdateSucceed,
+                StatusCode = (int)HttpStatusCode.OK
+            };
+        }
+
         public Task ValidateObject(CartDetailDto cartDetailDto)
         {
             return Task.CompletedTask;
         }
+
         #endregion
     }
 }
