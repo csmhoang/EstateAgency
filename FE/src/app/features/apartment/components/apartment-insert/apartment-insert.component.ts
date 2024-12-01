@@ -172,7 +172,13 @@ export class ApartmentInsertComponent implements OnInit {
           next: (response) => {
             if (response?.success) {
               this.toastService.success('Thêm phòng thành công');
-              void this.router.navigate(['/lessor/apartment']);
+              this.userService
+                .init(true)
+                .pipe(
+                  takeUntilDestroyed(this.destroyRef),
+                  catchError(() => of(null))
+                )
+                .subscribe(() => this.router.navigate(['/lessor/apartment']));
             }
           },
         });
@@ -227,7 +233,7 @@ export class ApartmentInsertComponent implements OnInit {
     }
     return '';
   }
-  
+
   errorForToilet(): string {
     if (this.toilet?.hasError('required')) {
       return 'Số nhà vệ sinh không được để trống!';

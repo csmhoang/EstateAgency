@@ -113,7 +113,7 @@ export class LessorInfoCardComponent implements OnInit {
                 .subscribe();
             });
         } else {
-          this.toastService.warn('Phòng đã có người ở.');
+          this.toastService.warn('Phòng không có sẵn.');
         }
       } else {
         this.toastService.warn('Yêu cầu đặt lịch của bạn đang được xử lý.');

@@ -10,12 +10,12 @@ import { CommonModule } from '@angular/common';
   templateUrl: './cart-list.component.html',
   styleUrl: './cart-list.component.scss',
 })
-export class CartListComponent implements OnInit{
+export class CartListComponent implements OnInit {
   @Input() cartDetails?: CartDetail[];
 
-  sumPrice?:number;
+  sumPrice?: number;
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.sumPrice = this.cartDetails?.reduce(
       (accumulator, cartDetail) => accumulator + cartDetail.price,
       0

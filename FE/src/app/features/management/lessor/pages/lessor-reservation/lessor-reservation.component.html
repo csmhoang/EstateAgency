@@ -87,13 +87,17 @@
             </button>
             <mat-menu #menu class="px-1">
               <button
-                (click)="onAccept(element.id, element.status)"
+                [disabled]="element.status !== 'Pending'"
+                (click)="
+                  onAccept(element.id, element.status, element.room?.condition)
+                "
                 mat-menu-item
               >
                 <i class="fa-solid fa-wrench"></i>
                 <span>Chấp nhận</span>
               </button>
               <button
+                [disabled]="element.status !== 'Pending'"
                 (click)="onRefuse(element.id, element.status)"
                 mat-menu-item
               >

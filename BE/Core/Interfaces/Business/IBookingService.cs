@@ -38,14 +38,15 @@ namespace Core.Interfaces.Business
         /// </returns>
         Task<Response> GetListAsync(BookingSpecParams specParams);
         /// <summary>
-        /// Hủy đặt phòng bằng id
+        /// Phản hồi đặt phòng
         /// </summary>
         /// <param name="id">Id đặt phòng</param>
+        /// <param name="status">Trạng thái</param>
         /// <returns>
         /// 1 - Thông báo thành công
         /// 2 - Ngoại lệ
         /// </returns>
-        Task<Response> CancelAsync(string id);
+        Task<Response> ResponseAsync(string id, StatusBooking status);
         /// <summary>
         /// Phản hồi chi tiết đặt phòng 
         /// </summary>
@@ -56,7 +57,7 @@ namespace Core.Interfaces.Business
         /// 1 - Thông báo thành công
         /// 2 - Ngoại lệ
         /// </returns>
-        Task<Response> ResponseAsync(string bookingDetailId, StatusBookingDetail status, string? RejectionReason);
+        Task<Response> ResponseDetailAsync(string bookingDetailId, StatusBookingDetail status, string? RejectionReason);
         /// <summary>
         /// Thêm đặt phòng từ giỏ phòng
         /// </summary>

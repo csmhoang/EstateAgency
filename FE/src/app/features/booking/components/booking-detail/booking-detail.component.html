@@ -9,8 +9,7 @@
 </div>
 <div class="modal-body">
   <div class="container">
-    <h5 class="fs-5 fw-bold mb-4">Chi tiết</h5>
-    <table class="table align-middle mb-0 bg-white table-striped">
+    <table class="table align-middle my-3 bg-white table-striped">
       <thead class="bg-light">
         <tr>
           <th>Phòng</th>
@@ -34,12 +33,19 @@
             {{ bookingDetail.price | currency : "VND" : "symbol" : "1.0-0" }}
           </td>
           <td>
-            <span class="badge badge-success rounded-pill d-inline">{{
+            <span class="badge rounded-pill text-bg-primary">{{
               statusBookingDetailFilter[bookingDetail.status!]
             }}</span>
           </td>
-          <td class="d-flex gap-1">
-            <button type="button" class="btn btn-link btn-sm btn-rounded">
+          <td>
+            <button
+              type="button"
+              [disabled]="
+                bookingDetail.status !== 'Pending' && data.status !== 'Pending'
+              "
+              class="btn btn-outline-dark btn-sm btn-rounded"
+              (click)="onCancel(bookingDetail.id, bookingDetail.status!)"
+            >
               Hủy
             </button>
           </td>

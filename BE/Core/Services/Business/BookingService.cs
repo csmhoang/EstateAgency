@@ -96,35 +96,37 @@ namespace Core.Services.Business
                 StatusCode = !page.Data.Any() ? (int)HttpStatusCode.NoContent : (int)HttpStatusCode.OK
             };
         }
-        public async Task<Response> CancelAsync(string id)
+        public async Task<Response> ResponseAsync(string id, StatusBooking status)
         {
             var booking = await _repository.Booking.FindCondition(r => r.Id.Equals(id))
                 .FirstOrDefaultAsync();
             if (booking == null) throw new BookingNotFoundException(id);
-            booking.Status = StatusBooking.Canceled;
+            booking.Status = status;
+            booking.UpdatedAt = DateTime.UtcNow;
             _repository.Booking.Update(booking);
             await _repository.SaveAsync();
             return new Response
             {
                 Success = true,
-                Messages = Successfull.CancelSucceed,
+                Messages = Successfull.ResponseSucceed,
                 StatusCode = (int)HttpStatusCode.NoContent
             };
         }
+
         public async Task<Response> InsertAsync(string userId)
         {
             var cart = await _repository.Cart.FindCondition(c => c.TenantId!.Equals(userId))
                 .Include(c => c.CartDetails!)
+                .ThenInclude(cd => cd.Room!)
                 .FirstOrDefaultAsync();
 
             if (cart!.CartDetails == null || cart.CartDetails.Count == 0)
                 throw new CustomizeException(Invalidate.CartEmptyInvalidate);
 
-            var CartDetailGroups = cart.CartDetails.GroupBy(cd => cd.Cart!.TenantId);
+            var CartDetailGroups = cart.CartDetails.GroupBy(cd => cd.Room!.LandlordId);
             var bookings = new List<Booking>();
             foreach (var group in CartDetailGroups)
             {
-
                 var booking = new Booking
                 {
                     TenantId = cart.TenantId,
@@ -160,7 +162,7 @@ namespace Core.Services.Business
             };
         }
 
-        public async Task<Response> ResponseAsync(string bookingDetailId, StatusBookingDetail status, string? rejectionReason)
+        public async Task<Response> ResponseDetailAsync(string bookingDetailId, StatusBookingDetail status, string? rejectionReason)
         {
             var bookingDetail = await _repository.BookingDetail.FindCondition(r => r.Id.Equals(bookingDetailId))
                 .FirstOrDefaultAsync();
@@ -172,6 +174,7 @@ namespace Core.Services.Business
             {
                 bookingDetail.RejectionReason = rejectionReason;
             }
+            bookingDetail.UpdatedAt = DateTime.UtcNow;
 
             _repository.BookingDetail.Update(bookingDetail);
             await _repository.SaveAsync();

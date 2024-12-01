@@ -19,11 +19,12 @@
                 Tiếp tục chọn phòng
               </button>
               <button
-                *ngIf="cart()?.cartDetails?.length != 0"
+                *ngIf="cart()?.cartDetails?.length"
                 type="button"
                 data-mdb-button-init
                 data-mdb-ripple-init
                 class="btn btn-dark btn-lg ms-2"
+                (click)="onBooking()"
               >
                 Đặt phòng
               </button>

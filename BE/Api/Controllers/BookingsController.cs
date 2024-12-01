@@ -75,25 +75,26 @@ namespace Api.Controllers
         /// Hủy đặt phòng
         /// </summary>
         /// <param name="id">Id đặt phòng</param>
-        [HttpDelete("cancel")]
-        [Authorize(Roles = RoleConst.Tenant)]
-        public async Task<IActionResult> Cancel(string id)
+        /// <param name="status">Trạng thái</param>
+        [HttpDelete("response")]
+        [Authorize]
+        public async Task<IActionResult> ResponseRequest(string id, StatusBooking status)
         {
-            var response = await _service.Booking.CancelAsync(id);
+            var response = await _service.Booking.ResponseAsync(id, status);
             return Ok(response);
         }
 
         /// <summary>
-        /// Phản hồi đặt phòng
+        /// Phản hồi chi tiết đặt phòng
         /// </summary>
         /// <param name="id">Id đặt phòng</param>
         /// <param name="status">Trạng thái</param>
         /// <param name="rejectionReason">Lý do từ chối</param>
-        [HttpPut("response")]
-        [Authorize(Roles = RoleConst.Landlord)]
-        public async Task<IActionResult> ResponseRequest(string id, StatusBookingDetail status, string? rejectionReason)
+        [HttpPut("response-detail")]
+        [Authorize]
+        public async Task<IActionResult> ResponseDetail(string id, StatusBookingDetail status, string? rejectionReason)
         {
-            var response = await _service.Booking.ResponseAsync(id, status, rejectionReason);
+            var response = await _service.Booking.ResponseDetailAsync(id, status, rejectionReason);
             return Ok(response);
         }
         #endregion

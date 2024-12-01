@@ -13,16 +13,14 @@ namespace Core.Dtos
     public record LeaseDetailDto
     {
         public string? Id { get; set; }
-        [Required(ErrorMessage = BookingConst.ErrorEmptyId)]
-        public string BookingId { get; set; } = null!;
+        [Required(ErrorMessage = RoomConst.ErrorEmptyId)]
+        public string RoomId { get; set; } = null!;
         [Required(ErrorMessage = LeaseConst.ErrorEmptyId)]
         public string LeaseId { get; set; } = null!;
-        public decimal Amount { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
-        public DateTime? CreatedAt { get; set; } = DateTime.UtcNow;
-        public DateTime? UpdatedAt { get; set; } = DateTime.UtcNow;
-        public virtual BookingDto? Booking { get; set; }
+        public int NumberOfMonth { get; set; }
+        public int NumberOfTenant { get; set; }
+        public decimal Price { get; set; }
+        public virtual RoomDto? Room { get; set; }
         public virtual LeaseDto? Lease { get; set; }
     }
 }

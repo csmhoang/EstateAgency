@@ -19,13 +19,13 @@ namespace Core.Entities
         [ForeignKey("Invoice")]
         [MaxLength(36)]
         public string? InvoiceId { get; set; }
-        public string? Note { get; set; }
         public StatusBooking Status { get; set; }
         public DateTime? CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime? UpdatedAt { get; set; } = DateTime.UtcNow;
 
         public virtual User? Tenant { get; set; }
         public virtual Invoice? Invoice { get; set; }
+        public virtual Lease? Lease { get; set; }
         public virtual ICollection<BookingDetail> BookingDetails { get; set; }
     }
 }

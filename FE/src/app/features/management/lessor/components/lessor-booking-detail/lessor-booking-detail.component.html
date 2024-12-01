@@ -9,43 +9,70 @@
 </div>
 <div class="modal-body">
   <div class="container">
-    <h5 class="fs-5 fw-bold mb-4">Chi tiết</h5>
-    <table class="table align-middle mb-0 bg-white table-striped">
+    <table class="table align-middle my-3 bg-white table-striped">
       <thead class="bg-light">
         <tr>
           <th>Phòng</th>
           <th>Số nguời</th>
-          <th>Ngày bắt đầu</th>
-          <th>Ngày kết thúc</th>
+          <th>Số tháng</th>
           <th>Giá</th>
+          <th>Trạng thái phòng</th>
           <th>Trạng thái</th>
           <th>Chức năng</th>
         </tr>
       </thead>
       <tbody>
+        @for (bookingDetail of data.bookingDetails; track $index) {
         <tr>
           <td>
-            <p class="fw-normal mb-1">{{ "" }}</p>
-            <p class="text-muted mb-0">{{ "" }}</p>
+            <p class="fw-normal mb-1">{{ bookingDetail.room?.name }}</p>
+            <p class="text-muted mb-0">{{ bookingDetail.room?.address }}</p>
           </td>
-          <td>{{ "1" }}</td>
-          <td>{{ "" | date : "dd/MM/yyyy" }}</td>
-          <td>{{ "" | date : "dd/MM/yyyy" }}</td>
-          <td>{{ "" | currency : "VND" : "symbol" : "1.0-0" }}</td>
+          <td>{{ bookingDetail.numberOfTenant }}</td>
+          <td>{{ bookingDetail.numberOfMonth }}</td>
           <td>
-            <span class="badge badge-success rounded-pill d-inline"
-              >Active</span
-            >
+            {{ bookingDetail.price | currency : "VND" : "symbol" : "1.0-0" }}
           </td>
-          <td class="d-flex gap-1">
-            <button type="button" class="btn btn-link btn-sm btn-rounded">
+          <td>
+            <span class="badge rounded-pill text-bg-primary">{{
+              conditionRoomFilter[bookingDetail.room?.condition!]
+            }}</span>
+          </td>
+          <td>
+            <span class="badge rounded-pill text-bg-primary">{{
+              statusBookingDetailFilter[bookingDetail.status!]
+            }}</span>
+          </td>
+          <td>
+            <button
+              type="button"
+              class="btn btn-outline-danger btn-sm btn-rounded m-1"
+              [disabled]="
+                bookingDetail.status !== 'Pending' || data.status !== 'Pending'
+              "
+              (click)="
+                onAccept(
+                  bookingDetail.id,
+                  bookingDetail.status!,
+                  bookingDetail.room?.condition!
+                )
+              "
+            >
               Chấp nhận
             </button>
-            <button type="button" class="btn btn-link btn-sm btn-rounded">
+            <button
+              type="button"
+              [disabled]="
+                bookingDetail.status !== 'Pending' || data.status !== 'Pending'
+              "
+              class="btn btn-outline-success btn-sm btn-rounded my-1"
+              (click)="onRefuse(bookingDetail.id, bookingDetail.status!)"
+            >
               Từ chối
             </button>
           </td>
         </tr>
+        }
       </tbody>
     </table>
   </div>

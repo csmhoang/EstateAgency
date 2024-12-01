@@ -77,12 +77,14 @@ export class LessorReservationComponent implements OnInit {
 
   async ngOnInit() {
     const roomIds = this.user?.rooms?.map((room) => room.id);
-    this.reservationService.specParams.set({
-      pageSize: 10,
-      pageIndex: 1,
-      roomId: roomIds?.join(','),
-    });
-    await this.init();
+    if (roomIds?.length) {
+      this.reservationService.specParams.set({
+        pageSize: 10,
+        pageIndex: 1,
+        roomId: roomIds?.join(','),
+      });
+      await this.init();
+    }
   }
 
   async init() {
@@ -125,37 +127,55 @@ export class LessorReservationComponent implements OnInit {
       this.dialogService
         .form(ReservationRefuseComponent, id, 'md')
         .then(async () => {
-          this.toastService.success('Đã từ chối đặt lịch');
-          await this.init();
+          for (let i = 0; i < this.dataSource.data.length; i++) {
+            if (this.dataSource.data[i].id === id) {
+              this.dataSource.data[i].status = 'Rejected';
+              this.dataSource._updateChangeSubscription();
+              break;
+            }
+            this.toastService.success('Đã từ chối đặt lịch');
+          }
         });
     } else {
       this.toastService.warn('Bạn không thể từ chối đặt lịch lúc này!');
     }
   }
 
-  onAccept(id: string, status: string) {
+  onAccept(id: string, status: string, condition: string) {
     if (status === 'Pending') {
-      this.dialogService
-        .confirm({
-          title: 'Xác nhận đặt lịch',
-          content: 'Bạn có chắc muốn chấp nhận yêu cầu này không?',
-          button: {
-            accept: 'Chấp nhận',
-            decline: 'Hủy bỏ',
-          },
-        })
-        .then(async () => {
-          const response = await firstValueFrom(
-            this.reservationService.response(id, 'Confirmed').pipe(
-              takeUntilDestroyed(this.destroyRef),
-              catchError(() => of(null))
-            )
-          );
-          if (response?.success) {
-            this.toastService.success('Đã chấp nhận đặt lịch');
-            await this.init();
-          }
-        });
+      if (condition !== 'Occupied') {
+        this.dialogService
+          .confirm({
+            title: 'Xác nhận đặt lịch',
+            content: 'Bạn có chắc muốn chấp nhận yêu cầu này không?',
+            button: {
+              accept: 'Chấp nhận',
+              decline: 'Hủy bỏ',
+            },
+          })
+          .then(() => {
+            this.reservationService
+              .response(id, 'Confirmed')
+              .pipe(
+                takeUntilDestroyed(this.destroyRef),
+                catchError(() => of(null))
+              )
+              .subscribe((response) => {
+                if (response?.success) {
+                  this.toastService.success('Đã chấp nhận đặt lịch');
+                  for (let i = 0; i < this.dataSource.data.length; i++) {
+                    if (this.dataSource.data[i].id === id) {
+                      this.dataSource.data[i].status = 'Confirmed';
+                      this.dataSource._updateChangeSubscription();
+                      break;
+                    }
+                  }
+                }
+              });
+          });
+      } else {
+        this.toastService.warn('Phòng không có sẵn.');
+      }
     } else {
       this.toastService.warn('Bạn không thể chấp nhận đặt lịch lúc này!');
     }

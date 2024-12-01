@@ -102,7 +102,7 @@ namespace Api.Controllers
         /// <param name="status">Trạng thái</param>
         /// <param name="rejectionReason">Lý do từ chối</param>
         [HttpPut("response")]
-        [Authorize(Roles = RoleConst.Landlord)]
+        [Authorize]
         public async Task<IActionResult> ResponseRequest(string id, StatusReservation status, string? rejectionReason)
         {
             var response = await _service.Reservation.ResponseAsync(id, status, rejectionReason);

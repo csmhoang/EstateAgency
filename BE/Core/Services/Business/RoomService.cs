@@ -229,7 +229,7 @@ namespace Core.Services.Business
             if (room is not null)
             {
                 _mapper.Map(roomUpdateDto, room);
-                room.UpdatedAt = DateTime.Now;
+                room.UpdatedAt = DateTime.UtcNow;
                 _repository.Room.Update(room);
                 await _repository.SaveAsync();
             }

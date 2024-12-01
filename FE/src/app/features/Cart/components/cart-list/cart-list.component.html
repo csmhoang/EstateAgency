@@ -1,7 +1,7 @@
 <p class="py-3">
   <span class="h2">Giỏ phòng</span>
 </p>
-@if(cartDetails?.length != 0){ @for (cartDetail of cartDetails; track $index) {
+@if(cartDetails?.length){ @for (cartDetail of cartDetails; track $index) {
 <app-cart-item [cartDetail]="cartDetail"></app-cart-item>
 }
 <div class="card mb-5 bg-light-subtle text-muted">

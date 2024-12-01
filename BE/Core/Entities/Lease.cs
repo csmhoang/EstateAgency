@@ -19,16 +19,23 @@ namespace Core.Entities
         [ForeignKey("Tenant")]
         [MaxLength(36)]
         public string? TenantId { get; set; }
-        public string? Terms { get; set; }
+        [ForeignKey("Booking")]
+        [MaxLength(36)]
+        public string? BookingId { get; set; }
+        [MaxLength(100)]
+        public string Lessor { get; set; } = null!;
+        [MaxLength(100)]
+        public string Lessee { get; set; } = null!;
+        public string Terms { get; set; } = null!;
         [Column(TypeName = "date")]
         public DateTime StartDate { get; set; }
         [Column(TypeName = "date")]
-        public DateTime SignedDate { get; set; }
-        public bool IsConfirm { get; set; }
+        public DateTime? SignedDate { get; set; }
         public StatusLeasse Status { get; set; }
         public DateTime? CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime? UpdatedAt { get; set; } = DateTime.UtcNow;
         public virtual User? Tenant { get; set; }
+        public virtual Booking? Booking { get; set; }
         public virtual ICollection<LeaseDetail> LeaseDetails { get; set; }
     }
 }

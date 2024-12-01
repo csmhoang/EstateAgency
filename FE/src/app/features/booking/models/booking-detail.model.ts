@@ -20,4 +20,5 @@ export const StatusBookingDetail: { [key: string]: string } = {
   Pending: 'Đang chờ xử lý',
   Accepted: 'Chấp nhận',
   Rejected: 'Từ chối',
+  Canceled: "Đã hủy"
 };

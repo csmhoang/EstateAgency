@@ -45,6 +45,7 @@ export class BookingListComponent implements OnInit {
   user = this.userService.currentUser();
   displayedColumns: string[] = [
     'landlord',
+    'createdAt',
     'paymentStatus',
     'leaseStatus',
     'status',
@@ -70,12 +71,14 @@ export class BookingListComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
-    this.bookingService.specParams.set({
-      pageSize: 10,
-      pageIndex: 1,
-      tenantId: this.user?.id,
-    });
-    await this.init();
+    if (this.user) {
+      this.bookingService.specParams.set({
+        pageSize: 10,
+        pageIndex: 1,
+        tenantId: this.user.id,
+      });
+      await this.init();
+    }
   }
 
   async init() {
@@ -109,7 +112,7 @@ export class BookingListComponent implements OnInit {
   }
 
   onCancel(id: string, status: string) {
-    if (status !== 'Confirmed') {
+    if (status === 'Pending') {
       this.dialogService
         .confirm({
           title: 'Xác nhận hủy đặt phòng này không',
@@ -119,17 +122,25 @@ export class BookingListComponent implements OnInit {
             decline: 'Hủy bỏ',
           },
         })
-        .then(async () => {
-          const response = await firstValueFrom(
-            this.bookingService.cancel(id).pipe(
+        .then(() => {
+          this.bookingService
+            .response(id, 'Canceled')
+            .pipe(
               takeUntilDestroyed(this.destroyRef),
               catchError(() => of(null))
             )
-          );
-          if (response?.success) {
-            this.toastService.success('Hủy đặt phòng thành công');
-            await this.init();
-          }
+            .subscribe((response) => {
+              if (response?.success) {
+                for (let i = 0; i < this.dataSource.data.length; i++) {
+                  if (this.dataSource.data[i].id === id) {
+                    this.dataSource.data[i].status = 'Canceled';
+                    this.dataSource._updateChangeSubscription();
+                    break;
+                  }
+                }
+                this.toastService.success('Hủy đặt phòng thành công');
+              }
+            });
         });
     } else {
       this.toastService.warn('Bạn không thể hủy đặt phòng lúc này!');
@@ -137,6 +148,6 @@ export class BookingListComponent implements OnInit {
   }
 
   async onPayment(booking: Booking) {
-    this.dialogService.view(InvoiceComponent, booking);
+    this.dialogService.view(InvoiceComponent, booking, 'xl');
   }
 }

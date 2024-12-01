@@ -72,12 +72,14 @@ export class ReservationListComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
-    this.reservationService.specParams.set({
-      pageSize: 10,
-      pageIndex: 1,
-      tenantId: this.user?.id,
-    });
-    await this.init();
+    if (this.user) {
+      this.reservationService.specParams.set({
+        pageSize: 10,
+        pageIndex: 1,
+        tenantId: this.user.id,
+      });
+      await this.init();
+    }
   }
 
   async init() {
@@ -120,10 +122,7 @@ export class ReservationListComponent implements OnInit {
   }
 
   onUpdate(reservation: Reservation) {
-    if (
-      reservation.status !== 'Confirmed' &&
-      reservation.status !== 'Rejected'
-    ) {
+    if (reservation.status === 'Pending') {
       this.dialogService
         .form(ReservationUpdateComponent, reservation, 'lg')
         .then(async () => {
@@ -135,28 +134,36 @@ export class ReservationListComponent implements OnInit {
     }
   }
 
-  onDelete(id: string, status: string) {
-    if (status !== 'Confirmed') {
+  onCancel(id: string, status: string) {
+    if (status === 'Pending') {
       this.dialogService
         .confirm({
-          title: 'Xác nhận xóa đặt lịch',
-          content: 'Bạn có chắc muốn xóa đặt lịch này không?',
+          title: 'Xác nhận hủy đặt lịch',
+          content: 'Bạn có chắc muốn hủy đặt lịch này không?',
           button: {
-            accept: 'Xóa',
+            accept: 'Hủy hẹn',
             decline: 'Hủy bỏ',
           },
         })
-        .then(async () => {
-          const response = await firstValueFrom(
-            this.reservationService.delete(id).pipe(
+        .then(() => {
+          this.reservationService
+            .response(id, 'Canceled')
+            .pipe(
               takeUntilDestroyed(this.destroyRef),
               catchError(() => of(null))
             )
-          );
-          if (response?.success) {
-            this.toastService.success('Xóa đặt lịch thành công');
-            await this.init();
-          }
+            .subscribe((response) => {
+              if (response?.success) {
+                for (let i = 0; i < this.dataSource.data.length; i++) {
+                  if (this.dataSource.data[i].id === id) {
+                    this.dataSource.data[i].status = 'Canceled';
+                    this.dataSource._updateChangeSubscription();
+                    break;
+                  }
+                }
+                this.toastService.success('Hủy đặt lịch thành công');
+              }
+            });
         });
     } else {
       this.toastService.warn('Bạn không thể hủy đặt lịch lúc này!');

@@ -43,13 +43,24 @@ namespace Api.Controllers
         }
 
         /// <summary>
+        /// Lấy thông tin hợp đồng bằng bookingId
+        /// </summary>
+        [HttpGet("bookingId/{bookingId}")]
+        public async Task<IActionResult> GetByBookingId(string bookingId)
+        {
+            var response = await _service.Lease.GetByBookingIdAsync(bookingId);
+            return Ok(response);
+        }
+
+        /// <summary>
         /// Thêm hợp đồng
         /// </summary>
+        /// <param name="boobingId">Id đơn đặt phòng</param>
         /// <param name="model">Hợp đồng</param>
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] LeaseDto model)
+        public async Task<IActionResult> Create(string boobingId, [FromBody] LeaseDto model)
         {
-            var response = await _service.Lease.InsertAsync(model);
+            var response = await _service.Lease.InsertAsync(boobingId, model);
             return Ok(response);
         }
 

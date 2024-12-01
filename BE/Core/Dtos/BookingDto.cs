@@ -18,7 +18,6 @@ namespace Core.Dtos
         [Required(ErrorMessage = InvoiceConst.ErrorEmptyId)]
         public string? InvoiceId { get; set; }
         public string? RejectionReason { get; set; }
-        public string? Note { get; set; }
         public StatusBooking? Status { get; set; }
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }

@@ -14,22 +14,17 @@ namespace Core.Entities
         [Key]
         [MaxLength(36)]
         public string Id { get; set; } = Guid.NewGuid().ToString();
-        [ForeignKey("Booking")]
+        [ForeignKey("Room")]
         [MaxLength(36)]
-        public string? BookingId { get; set; }
+        public string RoomId { get; set; } = null!;
         [ForeignKey("Lease")]
         [MaxLength(36)]
         public string? LeaseId { get; set; }
+        public int NumberOfMonth { get; set; }
+        public int NumberOfTenant { get; set; }
         [Column(TypeName = "decimal(18, 2)")]
-        public decimal Amount { get; set; }
-        [Column(TypeName = "date")]
-        public DateTime StartDate { get; set; }
-        [Column(TypeName = "date")]
-        public DateTime EndDate { get; set; }
-        [Column(TypeName = "date")]
-        public DateTime? CreatedAt { get; set; } = DateTime.UtcNow;
-        public DateTime? UpdatedAt { get; set; } = DateTime.UtcNow;
-        public virtual Booking? Booking { get; set; }
+        public decimal Price { get; set; }
+        public virtual Room? Room { get; set; }
         public virtual Lease? Lease { get; set; }
     }
 }

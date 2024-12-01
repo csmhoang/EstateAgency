@@ -79,12 +79,14 @@ export class LessorApartmentComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
-    this.lessorApartmentService.specParams.set({
-      pageSize: 10,
-      pageIndex: 1,
-      landlordId: this.user?.id,
-    });
-    await this.init();
+    if (this.user) {
+      this.lessorApartmentService.specParams.set({
+        pageSize: 10,
+        pageIndex: 1,
+        landlordId: this.user.id,
+      });
+      await this.init();
+    }
   }
 
   async init() {

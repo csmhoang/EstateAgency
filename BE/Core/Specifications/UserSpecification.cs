@@ -15,14 +15,14 @@ namespace Core.Specifications
         #region Constructor
         public UserSpecification(UserSpecParams specParams) : base(x =>
             (
-                string.IsNullOrEmpty(specParams.Search) ||
-                x.FullName.ToLower().Contains(specParams.Search) ||
-                x.Address.ToLower().Contains(specParams.Search)
+                specParams.Roles.Count == 0 ||
+                x.UserRoles.Any(ur => specParams.Roles.Contains(ur.Role!.Name))
             )
         &&
             (
-                specParams.Roles.Count == 0 ||
-                x.UserRoles.Any(ur => specParams.Roles.Contains(ur.Role!.Name))
+                string.IsNullOrEmpty(specParams.Search) ||
+                x.FullName.ToLower().Contains(specParams.Search) ||
+                x.Address.ToLower().Contains(specParams.Search)
             )
         )
         {

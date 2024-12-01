@@ -52,28 +52,34 @@ export class BookingService {
       .pipe(map((response) => response.data));
   }
 
-  insert(booking: Booking) {
-    return this.http.post<Result>('/bookings', booking);
-  }
-  
-  cancel(id: string) {
-    return this.http.delete<Result>(`/bookings/cancel?id=${id}`);
+  insert() {
+    return this.http.post<Result>('/bookings', null);
   }
 
-  refuse(id: string, rejectionReason: string) {
-    return this.http.put<Result>(
-      `/bookings/refuse?id=${id}&rejectionReason=${rejectionReason}`,
-      null
-    );
+  response(id: string, status: string) {
+    let params = new HttpParams().set('id', id).set('status', status);
+
+    return this.http.put<Result>('/bookings/response', null, {
+      params,
+      context: new HttpContext().set(SkipPreloader, true),
+    });
   }
 
-  accept(id: string) {
-    return this.http.put<Result>(`/bookings/accept?id=${id}`, null);
+  responseDetail(id: string, status: string, rejectionReason?: string) {
+    let params = new HttpParams().set('id', id).set('status', status);
+    if (rejectionReason) {
+      params = params.set('rejectionReason', rejectionReason);
+    }
+
+    return this.http.put<Result>('/bookings/response-detail', null, {
+      params,
+      context: new HttpContext().set(SkipPreloader, true),
+    });
   }
 
   getInvoice(bookingId: string) {
     return this.http
       .get<Result<Invoice>>(`/invoices/byBooking/${bookingId}`)
       .pipe(map((response) => response.data));
-  }
+  }  
 }

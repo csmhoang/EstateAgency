@@ -17,8 +17,8 @@ namespace Core.Enums
             Active = 1,
             [EnumMember(Value = "Expired")]
             Expired = 2,
-            [EnumMember(Value = "Cancelled")]
-            Cancelled = 3,
+            [EnumMember(Value = "Canceled")]
+            Canceled = 3,
         }
     }
 }

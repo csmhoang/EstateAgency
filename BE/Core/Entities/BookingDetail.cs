@@ -26,8 +26,6 @@ namespace Core.Entities
         public decimal Price { get; set; }
         public string? RejectionReason { get; set; }
         public StatusBookingDetail Status { get; set; }
-        public DateTime? CreatedAt { get; set; } = DateTime.UtcNow;
-        public DateTime? UpdatedAt { get; set; } = DateTime.UtcNow;
 
         public virtual Booking? Booking { get; set; }
         public virtual Room? Room { get; set; }

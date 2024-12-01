@@ -165,7 +165,7 @@ namespace Core.Services.Business
             if (reservation != null)
             {
                 _mapper.Map(reservationUpdateDto, reservation);
-                reservation.UpdatedAt = DateTime.Now;
+                reservation.UpdatedAt = DateTime.UtcNow;
                 _repository.Reservation.Update(reservation);
                 await _repository.SaveAsync();
             }

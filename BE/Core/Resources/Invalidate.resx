@@ -150,4 +150,7 @@
   <data name="CartEmptyInvalidate" xml:space="preserve">
     <value>Giỏ hàng không được trống!</value>
   </data>
+  <data name="LeaseDetailEmpty" xml:space="preserve">
+    <value>Chi tiết hợp đồng trống!</value>
+  </data>
 </root>

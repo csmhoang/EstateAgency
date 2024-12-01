@@ -67,11 +67,12 @@
                 <span>Sửa</span>
               </button>
               <button
-                (click)="onDelete(element.id, element.status)"
+                [disabled]="element.status !== 'Pending'"
+                (click)="onCancel(element.id, element.status)"
                 mat-menu-item
               >
-                <i class="fa-solid fa-trash"></i>
-                <span>Xóa</span>
+                <i class="fa-solid fa-ban"></i>
+                <span>Huỷ hẹn</span>
               </button>
             </mat-menu>
           </td>

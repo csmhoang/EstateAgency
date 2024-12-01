@@ -55,10 +55,6 @@ export class ReservationService {
     return this.http.post<Result>('/reservations', reservation);
   }
 
-  delete(id: string) {
-    return this.http.delete<Result>(`/reservations?id=${id}`);
-  }
-
   update(id: string, reservation: Reservation) {
     return this.http.put<Result>(`/reservations?id=${id}`, reservation);
   }
@@ -69,8 +65,9 @@ export class ReservationService {
       params = params.set('rejectionReason', rejectionReason);
     }
 
-    return this.http.put<Result>('/reservations/response', {
+    return this.http.put<Result>('/reservations/response', null, {
       params,
+      context: new HttpContext().set(SkipPreloader, true),
     });
   }
 }

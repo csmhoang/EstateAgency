@@ -211,7 +211,7 @@ namespace Core.Services.Business
             if (post is not null)
             {
                 _mapper.Map(postUpdateDto, post);
-                post.UpdatedAt = DateTime.Now;
+                post.UpdatedAt = DateTime.UtcNow;
                 _repository.Post.Update(post);
                 await _repository.SaveAsync();
             }

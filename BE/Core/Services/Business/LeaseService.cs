@@ -8,6 +8,7 @@ using Core.Interfaces.Infrastructure;
 using Core.Resources;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
+using static Core.Enums.BookingEnums;
 
 namespace Core.Services.Business
 {
@@ -56,6 +57,20 @@ namespace Core.Services.Business
                 StatusCode = lease is null ? (int)HttpStatusCode.NoContent : (int)HttpStatusCode.OK
             };
         }
+
+        public async Task<Response> GetByBookingIdAsync(string bookingId)
+        {
+            var lease = await _repository.Lease.FindCondition(r => r.BookingId!.Equals(bookingId))
+                .Include(l => l.LeaseDetails!)
+                .ThenInclude(l => l.Room!)
+                .FirstOrDefaultAsync();
+            return new Response
+            {
+                Success = true,
+                Data = _mapper.Map<LeaseDto>(lease),
+                StatusCode = lease is null ? (int)HttpStatusCode.NoContent : (int)HttpStatusCode.OK
+            };
+        }
         public async Task<Response> DeleteAsync(string id)
         {
             var leaseDelete = await _repository.Lease.FindCondition(r => r.Id.Equals(id))
@@ -76,9 +91,30 @@ namespace Core.Services.Business
                 throw new LeaseNotFoundException(id);
             }
         }
-        public async Task<Response> InsertAsync(LeaseDto leaseDto)
+        public async Task<Response> InsertAsync(string bookingId, LeaseDto leaseDto)
         {
+            var booking = await _repository.Booking.FindCondition((b) => b.Id.Equals(bookingId))
+                .Include(b => b.BookingDetails!)
+                .FirstOrDefaultAsync();
+            if (booking == null) throw new BookingNotFoundException(bookingId);
             var lease = _mapper.Map<Lease>(leaseDto);
+
+            foreach (var bookingDetail in booking.BookingDetails)
+            {
+                if (bookingDetail.Status == StatusBookingDetail.Accepted)
+                {
+                    lease.LeaseDetails.Add(new LeaseDetail
+                    {
+                        RoomId = bookingDetail.RoomId,
+                        LeaseId = lease.Id,
+                        NumberOfMonth = bookingDetail.NumberOfMonth,
+                        NumberOfTenant = bookingDetail.NumberOfTenant,
+                        Price = bookingDetail.Price
+                    });
+                }
+            }
+            if (lease.LeaseDetails.Count == 0)
+                throw new CustomizeException(Invalidate.LeaseDetailEmpty, (int)HttpStatusCode.NotModified);
             _repository.Lease.Create(lease);
             await _repository.SaveAsync();
 

@@ -11,7 +11,6 @@ namespace Core.Entities
     {
         public Room()
         {
-            Leases = new HashSet<Lease>();
             Amenities = new HashSet<Amenity>();
             Photos = new HashSet<Photo>();
             Posts = new HashSet<Post>();
@@ -50,7 +49,6 @@ namespace Core.Entities
         public DateTime? UpdatedAt { get; set; } = DateTime.UtcNow;
 
         public virtual User? Landlord { get; set; }
-        public virtual ICollection<Lease> Leases { get; set; }
         public virtual ICollection<Post> Posts { get; set; }
         public virtual ICollection<Photo> Photos { get; set; }
         public virtual ICollection<Amenity> Amenities { get; set; }

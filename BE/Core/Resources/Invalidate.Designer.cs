@@ -133,6 +133,15 @@ namespace Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Chi tiết hợp đồng trống!.
+        /// </summary>
+        public static string LeaseDetailEmpty {
+            get {
+                return ResourceManager.GetString("LeaseDetailEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Số điện thoại đã được sử dụng!.
         /// </summary>
         public static string NumberPhoneDuplication {

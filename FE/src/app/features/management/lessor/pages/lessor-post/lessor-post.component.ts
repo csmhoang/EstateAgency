@@ -73,12 +73,14 @@ export class LessorPostComponent {
     private userService: UserService
   ) {}
   async ngOnInit() {
-    this.lessorPostService.specParams.set({
-      pageSize: 10,
-      pageIndex: 1,
-      landlordId: this.user?.id,
-    });
-    await this.init();
+    if (this.user) {
+      this.lessorPostService.specParams.set({
+        pageSize: 10,
+        pageIndex: 1,
+        landlordId: this.user.id,
+      });
+      await this.init();
+    }
   }
 
   async init() {

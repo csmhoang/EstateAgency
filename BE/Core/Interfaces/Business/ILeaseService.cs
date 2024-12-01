@@ -27,6 +27,15 @@ namespace Core.Interfaces.Business
         /// </returns>
         Task<Response> GetAsync(string id);
         /// <summary>
+        /// Lấy ra hợp đồng bằng bookingId
+        /// </summary>
+        /// <param name="bookingId">Id hợp đồng</param>
+        /// <returns>
+        /// 1 - Hợp đồng
+        /// 2 - Null
+        /// </returns>
+        Task<Response> GetByBookingIdAsync(string bookingId);
+        /// <summary>
         /// Xóa hợp đồng bằng id
         /// </summary>
         /// <param name="id">Id hợp đồng</param>
@@ -48,11 +57,12 @@ namespace Core.Interfaces.Business
         /// <summary>
         /// Thêm hợp đồng
         /// </summary>
+        /// <param name="boobingId">Id đơn đặt phòng</param>
         /// <param name="leaseDto">Hợp đồng</param>
         /// <returns>
         /// 1 - Thông báo thành công
         /// 2 - Ngoại lệ
         /// </returns>
-        Task<Response> InsertAsync(LeaseDto leaseDto);
+        Task<Response> InsertAsync(string boobingId, LeaseDto leaseDto);
     }
 }

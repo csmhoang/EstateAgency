@@ -1,11 +1,9 @@
-import { ConditionRoom } from '@features/apartment/models/room.model';
 import { SearchComponent } from '@shared/components/form/search/search.component';
 import { PaginationComponent } from '@shared/components/pagination/pagination.component';
 import { DialogService } from '@shared/services/dialog/dialog.service';
 import { PaginationParams } from '@shared/models/pagination-params.model';
 import { MiniLoadComponent } from '@shared/components/mini-load/mini-load.component';
-import { ToastService } from '@shared/services/toast/toast.service';
-import { catchError, firstValueFrom, lastValueFrom, of } from 'rxjs';
+import { catchError, lastValueFrom, of } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { UserService } from '@core/services/user.service';
 import {
@@ -23,7 +21,8 @@ import { MatSortModule, MatSort } from '@angular/material/sort';
 import { MatTableModule, MatTableDataSource } from '@angular/material/table';
 import { Booking, StatusBooking } from '@features/booking/models/booking.model';
 import { BookingService } from '@features/booking/services/booking.service';
-import { BookingRefuseComponent } from '@features/booking/components/booking-refuse/booking-refuse.component';
+import { StatusInvoice } from '@features/booking/models/invoice.model';
+import { LessorBookingDetailComponent } from '../../components/lessor-booking-detail/lessor-booking-detail.component';
 
 @Component({
   selector: 'app-lessor-booking',
@@ -45,16 +44,12 @@ export class LessorBookingComponent implements OnInit {
   destroyRef = inject(DestroyRef);
   user = this.userService.currentUser();
   displayedColumns: string[] = [
-    'roomName',
-    'tenantName',
-    'tenantNumberPhone',
-    'numberOfTenant',
-    'intendedIntoDate',
-    'endDate',
-    'roomStatus',
+    'tenant',
+    'createdAt',
     'paymentStatus',
     'leaseStatus',
     'status',
+    'detail',
     'optional',
   ];
   dataSource = new MatTableDataSource<Booking>();
@@ -63,26 +58,27 @@ export class LessorBookingComponent implements OnInit {
     count: 0,
     pageIndex: 1,
   });
-  conditionFilter = ConditionRoom;
-  StatusBookingFilter = StatusBooking;
+  statusBookingFilter = StatusBooking;
+  statusInvoiceFilter = StatusInvoice;
 
   @ViewChild(MatSort) sort?: MatSort;
 
   constructor(
     private dialogService: DialogService,
-    private toastService: ToastService,
     private bookingService: BookingService,
     private userService: UserService
   ) {}
 
   async ngOnInit() {
     const roomIds = this.user?.rooms?.map((room) => room.id);
-    this.bookingService.specParams.set({
-      pageSize: 10,
-      pageIndex: 1,
-      roomId: roomIds?.join(','),
-    });
-    await this.init();
+    if (roomIds?.length) {
+      this.bookingService.specParams.set({
+        pageSize: 10,
+        pageIndex: 1,
+        roomId: roomIds?.join(','),
+      });
+      await this.init();
+    }
   }
 
   async init() {
@@ -120,44 +116,13 @@ export class LessorBookingComponent implements OnInit {
     await this.init();
   }
 
-  onRefuse(id: string, status: string) {
-    if (status === 'Pending') {
-      this.dialogService
-        .form(BookingRefuseComponent, id, 'md')
-        .then(async () => {
-          this.toastService.success('Đã từ chối đặt phòng!');
-          await this.init();
-        });
-    } else {
-      this.toastService.warn('Bạn không thể từ chối đặt phòng lúc này!');
+  onLease(id: string, status: string) {
+    if (status === 'Confirmed') {
+    this.dialogService.view(LessorBookingDetailComponent, booking, 'xl');
     }
   }
 
-  onAccept(id: string, status: string) {
-    if (status === 'Pending') {
-      this.dialogService
-        .confirm({
-          title: 'Xác nhận đặt phòng',
-          content: 'Bạn có chắc muốn chấp nhận yêu cầu này không?',
-          button: {
-            accept: 'Chấp nhận',
-            decline: 'Hủy bỏ',
-          },
-        })
-        .then(async () => {
-          const response = await firstValueFrom(
-            this.bookingService.accept(id).pipe(
-              takeUntilDestroyed(this.destroyRef),
-              catchError(() => of(null))
-            )
-          );
-          if (response?.success) {
-            this.toastService.success('Đã chấp nhận đặt phòng');
-            await this.init();
-          }
-        });
-    } else {
-      this.toastService.warn('Bạn không thể chấp nhận đặt phòng lúc này!');
-    }
+  onDetail(booking: Booking) {
+    this.dialogService.view(LessorBookingDetailComponent, booking, 'xl');
   }
 }
