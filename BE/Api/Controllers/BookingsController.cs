@@ -72,11 +72,11 @@ namespace Api.Controllers
         }
 
         /// <summary>
-        /// Hủy đặt phòng
+        /// Phản hồi đặt phòng
         /// </summary>
         /// <param name="id">Id đặt phòng</param>
         /// <param name="status">Trạng thái</param>
-        [HttpDelete("response")]
+        [HttpPut("response")]
         [Authorize]
         public async Task<IActionResult> ResponseRequest(string id, StatusBooking status)
         {

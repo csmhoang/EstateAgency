@@ -34,6 +34,8 @@ namespace Core.Specifications
                 .Include(b => b.BookingDetails!)
                 .ThenInclude(bd => bd.Room!)
                 .ThenInclude(r => r.Landlord!)
+                .Include(b => b.Lease!)
+                .ThenInclude(b => b.LeaseDetails!)
                 .Include(b => b.Tenant!)
                 .Include(b => b.Invoice!)
                 .ThenInclude(i => i.InvoiceDetails)

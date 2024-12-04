@@ -1,7 +1,10 @@
 ﻿using Core.Dtos;
 using Core.Interfaces.Business;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using static Core.Enums.InvoiceEnums;
+using static Core.Enums.LeaseEnums;
 
 namespace Api.Controllers
 {
@@ -55,12 +58,24 @@ namespace Api.Controllers
         /// <summary>
         /// Thêm hợp đồng
         /// </summary>
-        /// <param name="boobingId">Id đơn đặt phòng</param>
         /// <param name="model">Hợp đồng</param>
         [HttpPost]
-        public async Task<IActionResult> Create(string boobingId, [FromBody] LeaseDto model)
+        public async Task<IActionResult> Create([FromBody] LeaseDto model)
         {
-            var response = await _service.Lease.InsertAsync(boobingId, model);
+            var response = await _service.Lease.InsertAsync(model);
+            return Ok(response);
+        }
+
+        /// <summary>
+        /// Phản hồi hợp đồng
+        /// </summary>
+        /// <param name="id">Id hợp đồng</param>
+        /// <param name="status">Trạng thái</param>
+        [HttpPut("response")]
+        [Authorize]
+        public async Task<IActionResult> ResponseRequest(string id, StatusLease status)
+        {
+            var response = await _service.Lease.ResponseAsync(id, status);
             return Ok(response);
         }
 

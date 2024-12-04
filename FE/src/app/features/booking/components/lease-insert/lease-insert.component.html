@@ -1,0 +1,72 @@
+<div class="modal-header">
+  <h4 class="modal-title">Tạo hợp đồng</h4>
+  <button
+    type="button"
+    class="btn-close"
+    aria-label="Close"
+    (click)="decline()"
+  ></button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="form">
+    <div class="row">
+      <!-- Lessor input -->
+      <mat-form-field class="col-lg-6" appearance="outline">
+        <mat-label>Người cho thuê</mat-label>
+        <input
+          matInput
+          type="text"
+          placeholder="Người cho thuê"
+          formControlName="lessor"
+        />
+        @if( lessor?.invalid && (lessor?.dirty || lessor?.touched) ){
+        <mat-error>{{ errorForLessor() }}</mat-error>
+        }
+      </mat-form-field>
+      <!-- Lessee input -->
+      <mat-form-field class="col-lg-6" appearance="outline">
+        <mat-label>Người thuê</mat-label>
+        <input
+          matInput
+          type="text"
+          placeholder="Người thuê"
+          formControlName="lessee"
+        />
+        @if( lessee?.invalid && (lessee?.dirty || lessee?.touched) ){
+        <mat-error>{{ errorForLessee() }}</mat-error>
+        }
+      </mat-form-field>
+    </div>
+    <!-- StartDate select -->
+    <mat-form-field class="w-100" appearance="outline">
+      <mat-label>Ngày ký</mat-label>
+      <input
+        matInput
+        [min]="minDate"
+        [matDatepicker]="picker"
+        placeholder="MM/DD/YYYY"
+        formControlName="startDate"
+      />
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <!-- Terms input -->
+    <mat-form-field class="w-100" appearance="outline">
+      <mat-label>Điều khoản</mat-label>
+      <textarea matInput formControlName="terms"></textarea>
+    </mat-form-field>
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-light" (click)="decline()">
+    Hủy bỏ
+  </button>
+  <button
+    type="button"
+    class="btn btn-dark"
+    (click)="accept()"
+    [disabled]="form.invalid || !form.dirty"
+  >
+    Tạo
+  </button>
+</div>

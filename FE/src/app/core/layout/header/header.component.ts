@@ -12,10 +12,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { RouterModule } from '@angular/router';
 import { IfAuthenticatedDirective } from '@core/auth/directives/if-authenticated.directive';
-import { AuthService } from '@core/auth/services/auth.service';
-import { UserService } from '@core/services/user.service';
 import { MatBadgeModule } from '@angular/material/badge';
-import { CartService } from '@features/Cart/services/cart.service';
+import { MenuComponent } from '../menu/menu.component';
 
 @Component({
   selector: 'app-header',
@@ -27,6 +25,7 @@ import { CartService } from '@features/Cart/services/cart.service';
     MatButtonModule,
     MatMenuModule,
     MatBadgeModule,
+    MenuComponent,
   ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
@@ -44,19 +43,6 @@ export class HeaderComponent {
   platformId = inject(PLATFORM_ID);
   document = inject(DOCUMENT);
   nav: ElementRef | undefined;
-
-  user = this.userService.currentUser;
-  cart = this.cartService.currentCart;
-
-  constructor(
-    private authService: AuthService,
-    private userService: UserService,
-    private cartService: CartService
-  ) {}
-
-  onLogout() {
-    this.authService.logout();
-  }
 
   toggleMobile() {
     const body = document.querySelector('body');

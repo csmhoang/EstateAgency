@@ -61,7 +61,7 @@ export const routes: Routes = [
         component: ProfileEditComponent,
       },
       {
-        path: 'history',
+        path: 'booking',
         component: BookingListComponent,
       },
       {

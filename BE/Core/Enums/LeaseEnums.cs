@@ -9,16 +9,18 @@ namespace Core.Enums
 {
     public record LeaseEnums
     {
-        public enum StatusLeasse
+        public enum StatusLease
         {
             [EnumMember(Value = "Pending")]
             Pending = 0,
             [EnumMember(Value = "Active")]
-            Active = 1,
+            Confirmed = 1,
+            [EnumMember(Value = "Active")]
+            Active = 2,
             [EnumMember(Value = "Expired")]
-            Expired = 2,
-            [EnumMember(Value = "Canceled")]
-            Canceled = 3,
+            Expired = 3,
+            [EnumMember(Value = "Rejected")]
+            Canceled = 4,
         }
     }
 }

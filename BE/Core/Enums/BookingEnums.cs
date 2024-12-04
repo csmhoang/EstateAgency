@@ -16,7 +16,9 @@ namespace Core.Enums
             [EnumMember(Value = "Canceled")]
             Canceled = 1,
             [EnumMember(Value = "Confirmed")]
-            Confirmed = 2
+            Confirmed = 2,
+            [EnumMember(Value = "Rejected")]
+            Rejected = 3
         }
         public enum StatusBookingDetail
         {

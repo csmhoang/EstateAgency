@@ -1,7 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, DestroyRef, inject, Input } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Router } from '@angular/router';
 import { Booking } from '@features/booking/models/booking.model';
 import { StatusInvoice } from '@features/booking/models/invoice.model';
+import { LeaseService } from '@features/booking/services/lease.service';
+import { PaymentService } from '@features/booking/services/payment.service';
+import { ToastService } from '@shared/services/toast/toast.service';
+import { catchError, of } from 'rxjs';
 
 @Component({
   selector: 'app-invoice',
@@ -12,8 +18,15 @@ import { StatusInvoice } from '@features/booking/models/invoice.model';
 })
 export class InvoiceComponent {
   @Input() data!: Booking;
-
   statusFilter = StatusInvoice;
+  destroyRef = inject(DestroyRef);
+  router = inject(Router);
+
+  constructor(
+    private paymentService: PaymentService,
+    private toastService: ToastService
+  ) {}
+
   countDownFilter(time: Date) {
     const now = new Date();
     const seconds = Math.floor(
@@ -35,5 +48,27 @@ export class InvoiceComponent {
     }
 
     return 'Hết hạn';
+  }
+
+  onPayment() {
+    if (this.data?.lease) {
+      this.paymentService
+        .insert(this.data.id)
+        .pipe(
+          takeUntilDestroyed(this.destroyRef),
+          catchError(() => of(null))
+        )
+        .subscribe((response) => {
+          if (response?.success) {
+            this.toastService.success('Thanh toán thành công!');
+            this.toastService.success('Hợp đồng của bạn đã được kích hoạt!');
+            this.router
+              .navigateByUrl('/dummy', { skipLocationChange: true })
+              .then(() => {
+                this.router.navigateByUrl('/profile/booking');
+              });
+          }
+        });
+    }
   }
 }

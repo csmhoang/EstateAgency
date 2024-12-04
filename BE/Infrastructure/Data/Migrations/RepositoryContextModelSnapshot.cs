@@ -34,7 +34,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasIndex("RoomsId");
 
-                    b.ToTable("AmenityRoom");
+                    b.ToTable("AmenityRoom", (string)null);
                 });
 
             modelBuilder.Entity("Core.Entities.Amenity", b =>
@@ -62,7 +62,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Amenities");
+                    b.ToTable("Amenities", (string)null);
                 });
 
             modelBuilder.Entity("Core.Entities.Booking", b =>
@@ -96,7 +96,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasIndex("TenantId");
 
-                    b.ToTable("Bookings");
+                    b.ToTable("Bookings", (string)null);
                 });
 
             modelBuilder.Entity("Core.Entities.BookingDetail", b =>
@@ -109,9 +109,6 @@ namespace Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime2");
 
                     b.Property<int>("NumberOfMonth")
                         .HasColumnType("int");
@@ -133,16 +130,13 @@ namespace Infrastructure.Data.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
                     b.HasKey("Id");
 
                     b.HasIndex("BookingId");
 
                     b.HasIndex("RoomId");
 
-                    b.ToTable("BookingDetails");
+                    b.ToTable("BookingDetails", (string)null);
                 });
 
             modelBuilder.Entity("Core.Entities.Cart", b =>
@@ -161,7 +155,7 @@ namespace Infrastructure.Data.Migrations
                         .IsUnique()
                         .HasFilter("[TenantId] IS NOT NULL");
 
-                    b.ToTable("Carts");
+                    b.ToTable("Carts", (string)null);
                 });
 
             modelBuilder.Entity("Core.Entities.CartDetail", b =>
@@ -200,7 +194,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasIndex("RoomId");
 
-                    b.ToTable("CartDetails");
+                    b.ToTable("CartDetails", (string)null);
                 });
 
             modelBuilder.Entity("Core.Entities.Feedback", b =>
@@ -238,7 +232,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasIndex("TenantId");
 
-                    b.ToTable("Feedbacks");
+                    b.ToTable("Feedbacks", (string)null);
                 });
 
             modelBuilder.Entity("Core.Entities.Follow", b =>
@@ -269,7 +263,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasIndex("FollowerId");
 
-                    b.ToTable("Follows");
+                    b.ToTable("Follows", (string)null);
                 });
 
             modelBuilder.Entity("Core.Entities.Invoice", b =>
@@ -295,7 +289,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Invoices");
+                    b.ToTable("Invoices", (string)null);
                 });
 
             modelBuilder.Entity("Core.Entities.InvoiceDetail", b =>
@@ -326,7 +320,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasIndex("InvoiceId");
 
-                    b.ToTable("InvoiceDetails");
+                    b.ToTable("InvoiceDetails", (string)null);
                 });
 
             modelBuilder.Entity("Core.Entities.Lease", b =>
@@ -351,6 +345,11 @@ namespace Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(265)
+                        .HasColumnType("nvarchar(265)");
 
                     b.Property<DateTime?>("SignedDate")
                         .HasColumnType("date");
@@ -380,7 +379,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasIndex("TenantId");
 
-                    b.ToTable("Leases");
+                    b.ToTable("Leases", (string)null);
                 });
 
             modelBuilder.Entity("Core.Entities.LeaseDetail", b =>
@@ -388,9 +387,6 @@ namespace Infrastructure.Data.Migrations
                     b.Property<string>("Id")
                         .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("LeaseId")
                         .HasMaxLength(36)
@@ -410,16 +406,13 @@ namespace Infrastructure.Data.Migrations
                         .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
 
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
                     b.HasKey("Id");
 
                     b.HasIndex("LeaseId");
 
                     b.HasIndex("RoomId");
 
-                    b.ToTable("LeaseDetails");
+                    b.ToTable("LeaseDetails", (string)null);
                 });
 
             modelBuilder.Entity("Core.Entities.MaintenanceImage", b =>
@@ -447,7 +440,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasIndex("MaintenanceRequestId");
 
-                    b.ToTable("MaintenanceImages");
+                    b.ToTable("MaintenanceImages", (string)null);
                 });
 
             modelBuilder.Entity("Core.Entities.MaintenanceRequest", b =>
@@ -490,7 +483,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasIndex("TenantId");
 
-                    b.ToTable("MaintenanceRequests");
+                    b.ToTable("MaintenanceRequests", (string)null);
                 });
 
             modelBuilder.Entity("Core.Entities.Message", b =>
@@ -520,7 +513,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasIndex("SenderId");
 
-                    b.ToTable("Messages");
+                    b.ToTable("Messages", (string)null);
                 });
 
             modelBuilder.Entity("Core.Entities.Payment", b =>
@@ -548,7 +541,7 @@ namespace Infrastructure.Data.Migrations
                         .IsUnique()
                         .HasFilter("[InvoiceId] IS NOT NULL");
 
-                    b.ToTable("Payments");
+                    b.ToTable("Payments", (string)null);
                 });
 
             modelBuilder.Entity("Core.Entities.Photo", b =>
@@ -576,7 +569,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasIndex("RoomId");
 
-                    b.ToTable("Photos");
+                    b.ToTable("Photos", (string)null);
                 });
 
             modelBuilder.Entity("Core.Entities.Post", b =>
@@ -625,7 +618,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasIndex("RoomId");
 
-                    b.ToTable("Posts");
+                    b.ToTable("Posts", (string)null);
                 });
 
             modelBuilder.Entity("Core.Entities.Reservation", b =>
@@ -666,7 +659,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasIndex("TenantId");
 
-                    b.ToTable("Reservations");
+                    b.ToTable("Reservations", (string)null);
                 });
 
             modelBuilder.Entity("Core.Entities.Role", b =>
@@ -789,7 +782,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasIndex("LandlordId");
 
-                    b.ToTable("Rooms");
+                    b.ToTable("Rooms", (string)null);
                 });
 
             modelBuilder.Entity("Core.Entities.SavePost", b =>
@@ -818,7 +811,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("SavePosts");
+                    b.ToTable("SavePosts", (string)null);
                 });
 
             modelBuilder.Entity("Core.Entities.User", b =>

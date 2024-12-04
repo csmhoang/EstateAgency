@@ -1,9 +1,10 @@
 import { Invoice } from './invoice.model';
 import { User } from '@core/models/user.model';
 import { BookingDetail } from './booking-detail.model';
+import { Lease } from './lease.model';
 
 export type Booking = {
-  id?: string;
+  id: string;
   tenantId: string;
   invoiceId: string;
   note?: string;
@@ -12,6 +13,7 @@ export type Booking = {
   updatedAt?: Date;
   invoice?: Invoice;
   tenant?: User;
+  lease?: Lease;
   bookingDetails?: BookingDetail[];
 };
 

@@ -1,28 +1,19 @@
 <div class="card">
   <div class="card-body">
     <div class="container my-3">
-      <div class="row justify-content-between lign-items-center">
-        <div class="col-xl-9">
+      <div>
+        <div class="d-flex justify-content-between align-items-center">
           <p class="text-muted fs-4">Hợp đồng</p>
-        </div>
-        <div class="col-xl-3">
           <a
             data-mdb-ripple-init
             class="btn btn-light text-capitalize"
             data-mdb-ripple-color="dark"
-            ><i class="far fa-file-pdf text-danger"></i> Xuất hợp đồng</a
-          >
+            ><i class="far fa-file-pdf text-danger"></i> Xuất hợp đồng
+          </a>
         </div>
         <hr />
       </div>
-      @if(data){
-      <div>
-        <h5 class="fs-5 fw-bold mt-3 mb-4">Điều khoản</h5>
-        <textarea class="terms-textarea bg-white" readonly>
-               {{ data.terms }}</textarea
-        >
-        <hr />
-      </div>
+      @if(data?.lease){
       <div class="container">
         <div class="col-md-12 pb-3">
           <p class="logo d-flex justify-content-center">
@@ -35,11 +26,15 @@
             <ul class="list-unstyled">
               <li class="text-muted">
                 Người cho thuê:
-                <span class="text-info-emphasis">{{ data.lessor }}</span>
+                <span class="text-info-emphasis">{{
+                  data?.lease?.lessor
+                }}</span>
               </li>
               <li class="text-muted">
                 Người thuê:
-                <span class="text-info-emphasis">{{ data.lessee }}</span>
+                <span class="text-info-emphasis">{{
+                  data?.lease?.lessee
+                }}</span>
               </li>
             </ul>
           </div>
@@ -47,12 +42,12 @@
             <ul class="list-unstyled">
               <li class="text-muted">
                 <span class="fw-bold">Ngày bắt đầu: </span>
-                {{ data.startDate | date : "dd/MM/yyyy" }}
+                {{ data?.lease?.startDate | date : "dd/MM/yyyy" }}
               </li>
               <li class="text-muted">
                 <span class="me-1 fw-bold">Trạng thái: </span
                 ><span class="badge bg-warning text-black fw-bold">
-                  {{ statusLeaseFilter[data.status!] }}</span
+                  {{ statusLeaseFilter[data?.lease?.status!] }}</span
                 >
               </li>
             </ul>
@@ -70,7 +65,7 @@
               </tr>
             </thead>
             <tbody>
-              @for (leaseDetail of data.leaseDetails; track $index) {
+              @for (leaseDetail of data?.lease?.leaseDetails; track $index) {
               <tr>
                 <th scope="row">{{ $index }}</th>
                 <td>{{ leaseDetail.room?.name }}</td>
@@ -86,6 +81,10 @@
             </tbody>
           </table>
         </div>
+        <div>
+          <h5 class="fs-5 fw-bold mt-3 mb-4">Điều khoản</h5>
+          <p>{{ data?.lease?.terms }}</p>
+        </div>
         <div class="row justify-content-end">
           <div class="col-xl-4">
             <p class="text-black">
@@ -97,6 +96,13 @@
           </div>
         </div>
       </div>
+      }@else {
+      <button
+        class="btn btn-dark btn-lg my-5 mx-auto d-block"
+        (click)="onInsert()"
+      >
+        Tạo hợp đồng
+      </button>
       }
     </div>
   </div>

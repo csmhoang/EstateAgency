@@ -37,9 +37,7 @@
 
         <!-- Status payment Column-->
         <ng-container matColumnDef="paymentStatus">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>
-            Trạng thái thanh toán
-          </th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Thanh toán</th>
           <td mat-cell *matCellDef="let element">
             {{ statusInvoiceFilter[element.invoice?.status || ""] }}
           </td>
@@ -47,11 +45,9 @@
 
         <!-- Status Lease Column-->
         <ng-container matColumnDef="leaseStatus">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>
-            Trạng thái hợp đồng
-          </th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Hợp đồng</th>
           <td mat-cell *matCellDef="let element">
-            {{ element.leaseStatus }}
+            {{ statusLeaseFilter[element.lease?.status] }}
           </td>
         </ng-container>
 
@@ -69,7 +65,7 @@
           <td mat-cell *matCellDef="let element">
             <button
               type="button"
-              class="btn btn-outline-dark btn-sm btn-rounded m-1"
+              class="btn btn-dark btn-sm btn-rounded m-1"
               (click)="onDetail(element)"
             >
               Xem chi tiết
@@ -90,16 +86,13 @@
             </button>
             <mat-menu #menu class="px-1">
               <button
-                (click)="onLease(element.id, element.status)"
+                (click)="onLease(element, element.status)"
+                [disabled]="element.status !== 'Confirmed'"
                 mat-menu-item
               >
-                <i class="fa-solid fa-ban"></i>
-                <span>Xem hợp đồng</span>
+                <i class="fa-solid fa-file-lines"></i>
+                <span>Hợp đồng</span>
               </button>
-              <!-- <button (click)="onPayment(element)" mat-menu-item>
-                <i class="fa-brands fa-cc-amazon-pay"></i>
-                <span>Thanh toán</span>
-              </button> -->
             </mat-menu>
           </td>
         </ng-container>

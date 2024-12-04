@@ -1,7 +1,10 @@
 ﻿using Core.Dtos;
 using Core.Interfaces.Business;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using static Core.Enums.BookingEnums;
+using static Core.Enums.InvoiceEnums;
 
 namespace Api.Controllers
 {
@@ -39,6 +42,19 @@ namespace Api.Controllers
         public async Task<IActionResult> Get(string id)
         {
             var response = await _service.Invoice.GetAsync(id);
+            return Ok(response);
+        }
+
+        /// <summary>
+        /// Phản hồi hóa đơn
+        /// </summary>
+        /// <param name="id">Id hóa đơn</param>
+        /// <param name="status">Trạng thái</param>
+        [HttpPut("response")]
+        [Authorize]
+        public async Task<IActionResult> ResponseRequest(string id, StatusInvoice status)
+        {
+            var response = await _service.Invoice.ResponseAsync(id, status);
             return Ok(response);
         }
 

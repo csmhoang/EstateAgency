@@ -61,6 +61,15 @@ namespace Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Đơn đặt phòng trống!.
+        /// </summary>
+        public static string BookingEmpty {
+            get {
+                return ResourceManager.GetString("BookingEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Giỏ hàng không được trống!.
         /// </summary>
         public static string CartEmptyInvalidate {
@@ -129,15 +138,6 @@ namespace Core.Resources {
         public static string InsertInvalidate {
             get {
                 return ResourceManager.GetString("InsertInvalidate", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Chi tiết hợp đồng trống!.
-        /// </summary>
-        public static string LeaseDetailEmpty {
-            get {
-                return ResourceManager.GetString("LeaseDetailEmpty", resourceCulture);
             }
         }
         

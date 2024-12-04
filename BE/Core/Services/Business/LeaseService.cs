@@ -9,6 +9,7 @@ using Core.Resources;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
 using static Core.Enums.BookingEnums;
+using static Core.Enums.LeaseEnums;
 
 namespace Core.Services.Business
 {
@@ -71,6 +72,24 @@ namespace Core.Services.Business
                 StatusCode = lease is null ? (int)HttpStatusCode.NoContent : (int)HttpStatusCode.OK
             };
         }
+
+        public async Task<Response> ResponseAsync(string id, StatusLease status)
+        {
+            var lease = await _repository.Lease.FindCondition(r => r.Id.Equals(id))
+                .FirstOrDefaultAsync();
+            if (lease == null) throw new LeaseNotFoundException(id);
+            lease.Status = status;
+            lease.UpdatedAt = DateTime.UtcNow;
+            _repository.Lease.Update(lease);
+            await _repository.SaveAsync();
+            return new Response
+            {
+                Success = true,
+                Messages = Successfull.ResponseSucceed,
+                StatusCode = (int)HttpStatusCode.NoContent
+            };
+        }
+
         public async Task<Response> DeleteAsync(string id)
         {
             var leaseDelete = await _repository.Lease.FindCondition(r => r.Id.Equals(id))
@@ -91,14 +110,19 @@ namespace Core.Services.Business
                 throw new LeaseNotFoundException(id);
             }
         }
-        public async Task<Response> InsertAsync(string bookingId, LeaseDto leaseDto)
+        public async Task<Response> InsertAsync(LeaseDto leaseDto)
         {
-            var booking = await _repository.Booking.FindCondition((b) => b.Id.Equals(bookingId))
+            var booking = await _repository.Booking.FindCondition((b) => b.Id.Equals(leaseDto.BookingId))
                 .Include(b => b.BookingDetails!)
                 .FirstOrDefaultAsync();
-            if (booking == null) throw new BookingNotFoundException(bookingId);
+            if (booking == null) throw new BookingNotFoundException(leaseDto.BookingId);
             var lease = _mapper.Map<Lease>(leaseDto);
-
+            var invoice = new Invoice
+            {
+                Amount = booking.Amount,
+                DueDate = DateTime.Now.AddHours(12),
+            };
+            booking.InvoiceId = invoice.Id;
             foreach (var bookingDetail in booking.BookingDetails)
             {
                 if (bookingDetail.Status == StatusBookingDetail.Accepted)
@@ -111,11 +135,19 @@ namespace Core.Services.Business
                         NumberOfTenant = bookingDetail.NumberOfTenant,
                         Price = bookingDetail.Price
                     });
+
+                    invoice.InvoiceDetails.Add(new InvoiceDetail
+                    {
+                        Detail = bookingDetail.Room!.Name,
+                        Price = bookingDetail.Price
+                    });
                 }
             }
             if (lease.LeaseDetails.Count == 0)
-                throw new CustomizeException(Invalidate.LeaseDetailEmpty, (int)HttpStatusCode.NotModified);
+                throw new CustomizeException(Invalidate.BookingEmpty, (int)HttpStatusCode.NotModified);
             _repository.Lease.Create(lease);
+            _repository.Invoice.Create(invoice);
+            _repository.Booking.Update(booking);
             await _repository.SaveAsync();
 
             return new Response

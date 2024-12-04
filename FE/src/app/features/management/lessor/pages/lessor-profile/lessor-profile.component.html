@@ -77,41 +77,9 @@
             </button>
 
             <div class="ms-auto">
-              <button
-                mat-button
-                class="fs-5 py-4 text-light-muted d-flex align-items-center"
-                [matMenuTriggerFor]="menu"
-                *appIfAuthenticated="true"
-              >
-                <div class="d-flex align-items-center">
-                  <span class="fw-light text-secondary">Hi, </span>
-                  <span *ngIf="user" class="fw-bold">{{ user.fullName }}</span>
-                  <i class="fa-solid fa-square-caret-down ms-1"></i>
-                </div>
-              </button>
-              <mat-menu #menu="matMenu" class="profile-dropdown">
-                <div class="px-2">
-                  <button mat-menu-item routerLink="/lessor/profile">
-                    Hồ sơ cá nhân
-                  </button>
-                  <button mat-menu-item routerLink="/lessor/profile/actions">
-                    Hoạt động
-                  </button>
-                  <button mat-menu-item routerLink="/lessor">Quản lý</button>
-                </div>
-                <hr />
-                <div class="px-2">
-                  <button
-                    mat-flat-button
-                    (click)="onLogout()"
-                    routerLink="/"
-                    color="warn"
-                    class="w-100 text-white"
-                  >
-                    Đăng xuất
-                  </button>
-                </div>
-              </mat-menu>
+              <div *appIfAuthenticated="true">
+                <app-menu></app-menu>
+              </div>
               <div *appIfAuthenticated="false" class="d-flex gap-2">
                 <button routerLink="/register" class="btn btn-dark">
                   Đăng ký

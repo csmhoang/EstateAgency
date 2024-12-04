@@ -8,6 +8,8 @@ using Core.Interfaces.Infrastructure;
 using Core.Resources;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
+using static Core.Enums.BookingEnums;
+using static Core.Enums.InvoiceEnums;
 
 namespace Core.Services.Business
 {
@@ -49,11 +51,29 @@ namespace Core.Services.Business
         {
             var invoice = await _repository.Invoice.FindCondition(r => r.Id.Equals(id))
                 .FirstOrDefaultAsync();
+
             return new Response
             {
                 Success = true,
                 Data = _mapper.Map<InvoiceDto>(invoice),
                 StatusCode = invoice is null ? (int)HttpStatusCode.NoContent : (int)HttpStatusCode.OK
+            };
+        }
+
+        public async Task<Response> ResponseAsync(string id, StatusInvoice status)
+        {
+            var invoice = await _repository.Invoice.FindCondition(r => r.Id.Equals(id))
+                .FirstOrDefaultAsync();
+            if (invoice == null) throw new InvoiceNotFoundException(id);
+            invoice.Status = status;
+            invoice.UpdatedAt = DateTime.UtcNow;
+            _repository.Invoice.Update(invoice);
+            await _repository.SaveAsync();
+            return new Response
+            {
+                Success = true,
+                Messages = Successfull.ResponseSucceed,
+                StatusCode = (int)HttpStatusCode.NoContent
             };
         }
 
@@ -102,6 +122,7 @@ namespace Core.Services.Business
                 StatusCode = (int)HttpStatusCode.OK
             };
         }
+
         public Task ValidateObject(InvoiceDto invoiceDto)
         {
             return Task.CompletedTask;

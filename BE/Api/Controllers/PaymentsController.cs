@@ -45,11 +45,11 @@ namespace Api.Controllers
         /// <summary>
         /// Thêm thanh toán
         /// </summary>
-        /// <param name="model">Thanh toán</param>
+        /// <param name="invoiceId">Id hóa đơn</param>
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] PaymentDto model)
+        public async Task<IActionResult> Create(string invoiceId)
         {
-            var response = await _service.Payment.InsertAsync(model);
+            var response = await _service.Payment.InsertAsync(invoiceId);
             return Ok(response);
         }
 

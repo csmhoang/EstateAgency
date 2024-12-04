@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, DestroyRef, inject, Input } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Router } from '@angular/router';
 import { ConditionRoom } from '@features/apartment/models/room.model';
 import { BookingRefuseComponent } from '@features/booking/components/booking-refuse/booking-refuse.component';
 import { StatusBookingDetail } from '@features/booking/models/booking-detail.model';
@@ -22,7 +23,7 @@ export class LessorBookingDetailComponent {
   @Input() data!: Booking;
   destroyRef = inject(DestroyRef);
   activeModal = inject(NgbActiveModal);
-
+  router = inject(Router);
   statusBookingDetailFilter = StatusBookingDetail;
   conditionRoomFilter = ConditionRoom;
 
@@ -48,21 +49,38 @@ export class LessorBookingDetailComponent {
           .subscribe((response) => {
             if (response?.success && this.data.bookingDetails) {
               this.toastService.success('Đã chấp nhận đặt phòng');
-              for (let i = 0; i < this.data.bookingDetails.length; i++) {
+              const len = this.data.bookingDetails.length;
+              for (let i = 0; i < len; i++) {
                 if (this.data.bookingDetails[i].id === id) {
                   this.data.bookingDetails[i].status = 'Accepted';
                   break;
                 }
               }
-              for (const bookingDetail of this.data.bookingDetails) {
-                if (bookingDetail.status === 'Pending') break;
-                this.bookingService
-                  .response(this.data.id!, 'Confirmed')
-                  .pipe(
-                    takeUntilDestroyed(this.destroyRef),
-                    catchError(() => of(null))
-                  )
-                  .subscribe();
+              let isConfirm = false;
+              for (let i = 0; i < len; i++) {
+                let status = this.data.bookingDetails[i].status;
+                if (status === 'Pending') break;
+                if (status === 'Accepted') isConfirm = true;
+                if (len === i + 1) {
+                  this.bookingService
+                    .response(
+                      this.data.id!,
+                      isConfirm ? 'Confirmed' : 'Rejected'
+                    )
+                    .pipe(
+                      takeUntilDestroyed(this.destroyRef),
+                      catchError(() => of(null))
+                    )
+                    .subscribe((response) => {
+                      if (response?.success) {
+                        this.router
+                          .navigateByUrl('/dummy', { skipLocationChange: true })
+                          .then(() => {
+                            this.router.navigateByUrl('/lessor/booking');
+                          });
+                      }
+                    });
+                }
               }
             }
           });

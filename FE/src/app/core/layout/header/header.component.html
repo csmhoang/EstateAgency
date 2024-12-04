@@ -26,65 +26,10 @@
         <li><a routerLink="/contact" routerLinkActive="active">Liên hệ</a></li>
       </ul>
       <div class="btn-navmenu d-flex gap-2">
-        <div *appIfAuthenticated="true" class="d-flex gap-2">
-          <button
-            class="btn btn-dark fs-4 border-0 rounded-pill"
-            [matBadgeHidden]="cart()?.cartDetails?.length == 0"
-            [matBadge]="cart()?.cartDetails?.length"
-            matBadgeColor="warn"
-            routerLink="/cart"
-          >
-            <i class="fa-solid fa-cart-arrow-down"></i>
-          </button>
-          <button class="btn btn-dark fs-4 border-0 rounded-pill">
-            <i class="bi bi-bell-fill"></i>
-          </button>
-          <div
-            class="d-flex align-items-center gap-2"
-            [matMenuTriggerFor]="menu"
-          >
-            <button class="btn btn-dark fs-4 border-0 rounded-pill">
-              <i class="bi bi-person-fill"></i>
-            </button>
-            <a
-              class="fw-bold link-opacity-75-hover text-capitalize"
-              *ngIf="user"
-            >
-              {{ user()?.fullName }}
-              <i class="fa-solid fa-square-caret-down"></i>
-            </a>
-            <mat-menu #menu="matMenu" class="profile-dropdown">
-              <div class="px-2">
-                <button mat-menu-item routerLink="/profile">
-                  Hồ sơ cá nhân
-                </button>
-                <button mat-menu-item routerLink="/profile/reservation">
-                  Danh sách đặt lịch
-                </button>
-                <button mat-menu-item routerLink="/profile/history">
-                  Lịch sử đặt phòng
-                </button>
-                <button mat-menu-item routerLink="/profile/maintenance">
-                  Trạng thái yêu cầu
-                </button>
-                <button mat-menu-item routerLink="/profile/actions">
-                  Hoạt động
-                </button>
-              </div>
-              <hr />
-              <div class="px-2">
-                <button
-                  mat-flat-button
-                  (click)="onLogout()"
-                  color="warn"
-                  class="w-100 text-white"
-                >
-                  Đăng xuất
-                </button>
-              </div>
-            </mat-menu>
-          </div>
+        <div *appIfAuthenticated="true">
+          <app-menu></app-menu>
         </div>
+
         <div *appIfAuthenticated="false" class="d-flex gap-2">
           <button routerLink="/register" class="btn btn-dark">Đăng ký</button>
           <button routerLink="/login" class="btn btn-dark">Đăng nhập</button>

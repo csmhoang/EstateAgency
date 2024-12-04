@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Core.Enums.InvoiceEnums;
 
 namespace Core.Interfaces.Business
 {
@@ -46,5 +47,15 @@ namespace Core.Interfaces.Business
         /// 2 - Ngoại lệ
         /// </returns>
         Task<Response> UpdateAsync(string id, InvoiceDto invoiceDto);
+        /// <summary>
+        /// Phản hồi hóa đơn
+        /// </summary>
+        /// <param name="id">Id hóa đơn</param>
+        /// <param name="status">Trạng thái hóa đơn</param>
+        /// <returns>
+        /// 1 - Thông báo thành công
+        /// 2 - Ngoại lệ
+        /// </returns>
+        Task<Response> ResponseAsync(string id, StatusInvoice status);
     }
 }

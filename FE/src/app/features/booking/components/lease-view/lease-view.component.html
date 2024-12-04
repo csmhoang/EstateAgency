@@ -1,0 +1,110 @@
+<div class="card">
+  <div class="card-body">
+    @if(data){
+    <div class="container my-3">
+      <div>
+        <div class="d-flex justify-content-between align-items-center">
+          <p class="text-muted fs-4">Hợp đồng</p>
+          <a
+            data-mdb-ripple-init
+            class="btn btn-light text-capitalize"
+            data-mdb-ripple-color="dark"
+            ><i class="far fa-file-pdf text-danger"></i> Xuất hợp đồng
+          </a>
+        </div>
+        <hr />
+      </div>
+      <div class="container">
+        <div class="col-md-12 pb-3">
+          <p class="logo d-flex justify-content-center">
+            <img src="/assets/icons/logo.svg" />
+          </p>
+        </div>
+
+        <div class="row">
+          <div class="col-xl-8">
+            <ul class="list-unstyled">
+              <li class="text-muted">
+                Người cho thuê:
+                <span class="text-info-emphasis">{{
+                  data.lease?.lessor
+                }}</span>
+              </li>
+              <li class="text-muted">
+                Người thuê:
+                <span class="text-info-emphasis">{{
+                  data.lease?.lessee
+                }}</span>
+              </li>
+            </ul>
+          </div>
+          <div class="col-xl-4">
+            <ul class="list-unstyled">
+              <li class="text-muted">
+                <span class="fw-bold">Ngày bắt đầu: </span>
+                {{ data.lease?.startDate | date : "dd/MM/yyyy" }}
+              </li>
+              <li class="text-muted">
+                <span class="me-1 fw-bold">Trạng thái: </span
+                ><span class="badge bg-warning text-black fw-bold">
+                  {{ statusLeaseFilter[data.lease?.status!] }}</span
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="row my-2 mx-1 justify-content-center">
+          <table class="table table-striped table-borderless">
+            <thead class="text-white">
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Phòng</th>
+                <th scope="col">Số nguời</th>
+                <th scope="col">Số tháng</th>
+                <th scope="col">Giá</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (leaseDetail of data.lease?.leaseDetails; track $index) {
+              <tr>
+                <th scope="row">{{ $index }}</th>
+                <td>{{ leaseDetail.room?.name }}</td>
+                <td>{{ leaseDetail.numberOfTenant }}</td>
+                <td>{{ leaseDetail.numberOfMonth }}</td>
+                <td>
+                  {{
+                    leaseDetail.price | currency : "VND" : "symbol" : "1.0-0"
+                  }}
+                </td>
+              </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+        <div>
+          <h5 class="fs-5 fw-bold mt-3 mb-4">Điều khoản</h5>
+          <p>{{ data.lease?.terms }}</p>
+        </div>
+        <div class="row justify-content-end">
+          <div class="col-xl-4">
+            <p class="text-black">
+              <span class="text-black me-3">Tổng tiền</span
+              ><span class="fs-4">{{
+                sumPrice | currency : "VND" : "symbol" : "1.0-0"
+              }}</span>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="d-flex gap-2 mt-4">
+        <button class="btn btn-danger flex-fill" (click)="onReject()">
+          Từ chối
+        </button>
+        <button class="btn btn-success flex-fill" (click)="onAccept()">
+          Xác nhận
+        </button>
+      </div>
+    </div>
+    }
+  </div>
+</div>

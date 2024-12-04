@@ -23,6 +23,8 @@ import { Booking, StatusBooking } from '@features/booking/models/booking.model';
 import { BookingService } from '@features/booking/services/booking.service';
 import { StatusInvoice } from '@features/booking/models/invoice.model';
 import { LessorBookingDetailComponent } from '../../components/lessor-booking-detail/lessor-booking-detail.component';
+import { LessorLeaseViewComponent } from '../../components/lessor-lease-view/lessor-lease-view.component';
+import { StatusLease } from '@features/booking/models/lease.model';
 
 @Component({
   selector: 'app-lessor-booking',
@@ -60,6 +62,7 @@ export class LessorBookingComponent implements OnInit {
   });
   statusBookingFilter = StatusBooking;
   statusInvoiceFilter = StatusInvoice;
+  statusLeaseFilter = StatusLease;
 
   @ViewChild(MatSort) sort?: MatSort;
 
@@ -116,9 +119,9 @@ export class LessorBookingComponent implements OnInit {
     await this.init();
   }
 
-  onLease(id: string, status: string) {
+  onLease(booking: Booking, status: string) {
     if (status === 'Confirmed') {
-    this.dialogService.view(LessorBookingDetailComponent, booking, 'xl');
+    this.dialogService.view(LessorLeaseViewComponent, booking, 'lg');
     }
   }
 

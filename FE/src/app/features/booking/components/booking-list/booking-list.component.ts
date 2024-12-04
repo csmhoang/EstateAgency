@@ -16,14 +16,15 @@ import { DialogService } from '@shared/services/dialog/dialog.service';
 import { PaginationParams } from '@shared/models/pagination-params.model';
 import { MiniLoadComponent } from '@shared/components/mini-load/mini-load.component';
 import { ToastService } from '@shared/services/toast/toast.service';
-import { catchError, firstValueFrom, lastValueFrom, of } from 'rxjs';
+import { catchError, lastValueFrom, of } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { UserService } from '@core/services/user.service';
 import { Booking, StatusBooking } from '@features/booking/models/booking.model';
 import { BookingService } from '@features/booking/services/booking.service';
-import { InvoiceComponent } from '../invoice/invoice.component';
 import { BookingDetailComponent } from '../booking-detail/booking-detail.component';
 import { StatusInvoice } from '@features/booking/models/invoice.model';
+import { StatusLease } from '@features/booking/models/lease.model';
+import { LeaseViewComponent } from '../lease-view/lease-view.component';
 
 @Component({
   selector: 'app-booking-list',
@@ -60,6 +61,7 @@ export class BookingListComponent implements OnInit {
   });
   statusBookingFilter = StatusBooking;
   statusInvoiceFilter = StatusInvoice;
+  statusLeaseFilter = StatusLease;
 
   @ViewChild(MatSort) sort?: MatSort;
 
@@ -147,7 +149,9 @@ export class BookingListComponent implements OnInit {
     }
   }
 
-  async onPayment(booking: Booking) {
-    this.dialogService.view(InvoiceComponent, booking, 'xl');
+  onLease(booking: Booking, status: string) {
+    if (status === 'Confirmed') {
+    this.dialogService.view(LeaseViewComponent, booking, 'lg');
+    }
   }
 }

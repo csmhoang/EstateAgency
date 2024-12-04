@@ -1,8 +1,9 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpContext, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Result } from '@core/models/result.model';
 import { map } from 'rxjs';
 import { Lease } from '../models/lease.model';
+import { SkipPreloader } from '@core/interceptors/skip.resolver';
 
 @Injectable({
   providedIn: 'root',
@@ -10,13 +11,25 @@ import { Lease } from '../models/lease.model';
 export class LeaseService {
   constructor(private http: HttpClient) {}
 
-  getByBookingId(bookingId: string) {
+  getByBookingId(bookingId: string, isDisplayMiniLoading: boolean = false) {
     return this.http
-      .get<Result<Lease>>(`/leases/bookingId/${bookingId}`)
+      .get<Result<Lease[]>>(`/leases/bookingId/${bookingId}`, {
+        context: new HttpContext().set(SkipPreloader, isDisplayMiniLoading),
+      })
       .pipe(map((response) => response.data));
   }
 
-  insert(bookingId: string, lease: Lease) {
-    return this.http.post<Result>(`/bookings?bookingId=${bookingId}`, lease);
+  insert(lease: Lease) {
+    return this.http.post<Result>('/leases', lease);
   }
+
+  response(id: string, status: string) {
+    let params = new HttpParams().set('id', id).set('status', status);
+
+    return this.http.put<Result>('/leases/response', null, {
+      params,
+      context: new HttpContext().set(SkipPreloader, true),
+    });
+  }
+
 }

@@ -11,7 +11,6 @@ using Core.Specifications;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
 using static Core.Enums.BookingEnums;
-using static Core.Enums.InvoiceEnums;
 
 namespace Core.Services.Business
 {
@@ -64,24 +63,6 @@ namespace Core.Services.Business
         {
             var spec = new BookingSpecification(specParams);
             var page = await CreatePagedResult(spec, specParams.PageIndex, specParams.PageSize);
-            if (page.Data.Count != 0)
-            {
-                foreach (var booking in page.Data)
-                {
-                    if (booking.Status == StatusBooking.Confirmed)
-                    {
-                        var invoice = booking.Invoice!;
-                        if (
-                            invoice.DueDate <= DateTime.Now &&
-                            invoice.Status == StatusInvoice.Pending
-                        )
-                        {
-                            invoice.Status = StatusInvoice.Overdue;
-                            _repository.Invoice.Update(invoice);
-                        }
-                    }
-                }
-            }
             await _repository.SaveAsync();
             return new Response
             {
@@ -127,6 +108,7 @@ namespace Core.Services.Business
             var bookings = new List<Booking>();
             foreach (var group in CartDetailGroups)
             {
+                decimal amount = 0;
                 var booking = new Booking
                 {
                     TenantId = cart.TenantId,
@@ -146,8 +128,10 @@ namespace Core.Services.Business
                         NumberOfTenant = cartDetail.NumberOfTenant,
                         Price = cartDetail.Price
                     });
+                    amount += cartDetail.Price;
                     _repository.CartDetail.Delete(cartDetail);
                 }
+                booking.Amount = amount;
                 bookings.Add(booking);
             }
 
@@ -174,7 +158,6 @@ namespace Core.Services.Business
             {
                 bookingDetail.RejectionReason = rejectionReason;
             }
-            bookingDetail.UpdatedAt = DateTime.UtcNow;
 
             _repository.BookingDetail.Update(bookingDetail);
             await _repository.SaveAsync();

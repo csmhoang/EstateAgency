@@ -48,11 +48,11 @@ namespace Core.Interfaces.Business
         /// <summary>
         /// Thêm thanh toán
         /// </summary>
-        /// <param name="paymentDto">Thanh toán</param>
+        /// <param name="invoiceId">Id hóa đơn</param>
         /// <returns>
         /// 1 - Thông báo thành công
         /// 2 - Ngoại lệ
         /// </returns>
-        Task<Response> InsertAsync(PaymentDto paymentDto);
+        Task<Response> InsertAsync(string invoiceId);
     }
 }

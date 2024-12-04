@@ -2,13 +2,12 @@ import { LeaseDetail } from './lease-detail.model';
 
 export type Lease = {
   id: string;
-  tenantId: string;
   bookingId: string;
   lessor: string;
   lessee: string;
   terms: string;
   startDate: Date;
-  signedDate: Date;
+  signedDate?: Date;
   status?: string;
   createdAt?: Date;
   updatedAt?: Date;
@@ -16,8 +15,9 @@ export type Lease = {
 };
 
 export const StatusLease: { [key: string]: string } = {
-  Pending: 'Đang chờ xử lý',
+  Pending: 'Đã gửi',
+  Confirmed: "Xác nhận",
   Active: 'Có hiệu lực',
   Expired: 'Hết hạn',
-  Canceled: "Đã hủy"
+  Rejected: "Đã từ chối"
 };

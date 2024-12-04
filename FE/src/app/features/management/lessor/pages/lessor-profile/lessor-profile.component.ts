@@ -13,6 +13,7 @@ import { AuthService } from '@core/auth/services/auth.service';
 import { UserService } from '@core/services/user.service';
 import { ToastService } from '@shared/services/toast/toast.service';
 import { Observable, catchError, map, of, shareReplay } from 'rxjs';
+import { MenuComponent } from "../../../../../core/layout/menu/menu.component";
 
 @Component({
   selector: 'app-lessor-profile',
@@ -26,8 +27,9 @@ import { Observable, catchError, map, of, shareReplay } from 'rxjs';
     RouterModule,
     RouterOutlet,
     MatButtonModule,
-    IfAuthenticatedDirective
-  ],
+    IfAuthenticatedDirective,
+    MenuComponent
+],
   templateUrl: './lessor-profile.component.html',
   styleUrl: './lessor-profile.component.scss',
 })

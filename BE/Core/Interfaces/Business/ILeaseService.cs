@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Core.Enums.LeaseEnums;
 
 namespace Core.Interfaces.Business
 {
@@ -57,12 +58,21 @@ namespace Core.Interfaces.Business
         /// <summary>
         /// Thêm hợp đồng
         /// </summary>
-        /// <param name="boobingId">Id đơn đặt phòng</param>
         /// <param name="leaseDto">Hợp đồng</param>
         /// <returns>
         /// 1 - Thông báo thành công
         /// 2 - Ngoại lệ
         /// </returns>
-        Task<Response> InsertAsync(string boobingId, LeaseDto leaseDto);
+        Task<Response> InsertAsync(LeaseDto leaseDto);
+        /// <summary>
+        /// Phản hồi hợp đồng
+        /// </summary>
+        /// <param name="id">Id hợp đồng</param>
+        /// <param name="status">Trạng thái hợp đồng</param>
+        /// <returns>
+        /// 1 - Thông báo thành công
+        /// 2 - Ngoại lệ
+        /// </returns>
+        Task<Response> ResponseAsync(string id, StatusLease status);
     }
 }

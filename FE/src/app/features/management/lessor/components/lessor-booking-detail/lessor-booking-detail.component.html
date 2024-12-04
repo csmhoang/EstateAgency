@@ -46,7 +46,7 @@
           <td>
             <button
               type="button"
-              class="btn btn-outline-danger btn-sm btn-rounded m-1"
+              class="btn btn-success btn-sm btn-rounded m-1"
               [disabled]="
                 bookingDetail.status !== 'Pending' || data.status !== 'Pending'
               "
@@ -65,7 +65,7 @@
               [disabled]="
                 bookingDetail.status !== 'Pending' || data.status !== 'Pending'
               "
-              class="btn btn-outline-success btn-sm btn-rounded my-1"
+              class="btn btn-danger btn-sm btn-rounded my-1"
               (click)="onRefuse(bookingDetail.id, bookingDetail.status!)"
             >
               Từ chối

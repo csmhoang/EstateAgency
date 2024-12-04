@@ -76,12 +76,19 @@ namespace Core.Services.Business
                 throw new PaymentNotFoundException(id);
             }
         }
-        public async Task<Response> InsertAsync(PaymentDto paymentDto)
+        public async Task<Response> InsertAsync(string invoiceId)
         {
-            await ValidateObject(paymentDto);
+            var invoice = await _repository.Invoice.FindCondition(r => r.Id.Equals(invoiceId))
+                .FirstOrDefaultAsync();
+            if (invoice == null) throw new InvoiceNotFoundException(invoiceId);
 
-            var payment = _mapper.Map<Payment>(paymentDto);
-            _repository.Payment.Create(payment);
+
+            _repository.Payment.Create(new Payment
+            {
+                InvoiceId = invoice.Id,
+                Amount = invoice.Amount,
+                PaymentDate = DateTime.UtcNow
+            });
             await _repository.SaveAsync();
 
             return new Response
