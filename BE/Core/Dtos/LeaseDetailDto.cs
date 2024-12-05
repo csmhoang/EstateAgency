@@ -20,6 +20,8 @@ namespace Core.Dtos
         public int NumberOfMonth { get; set; }
         public int NumberOfTenant { get; set; }
         public decimal Price { get; set; }
+        public DateTime? CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
         public virtual RoomDto? Room { get; set; }
         public virtual LeaseDto? Lease { get; set; }
     }

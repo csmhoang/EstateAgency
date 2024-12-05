@@ -13,6 +13,7 @@ export type Reservation = {
   status?: string;
   createdAt?: Date;
   updatedAt?: Date;
+  
   room?: Room;
   tenant?: User;
 };

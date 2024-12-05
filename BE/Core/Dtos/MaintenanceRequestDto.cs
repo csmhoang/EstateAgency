@@ -18,6 +18,7 @@ namespace Core.Dtos
         public decimal? EstimateCost { get; set; }
         public StatusMaintenanceRequest? Status { get; set; }
         public DateTime? RequestDate { get; set; }
+        public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
         public ICollection<MaintenanceImageDto>? MaintenanceImages { get; set; }
     }

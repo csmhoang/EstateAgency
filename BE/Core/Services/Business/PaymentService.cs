@@ -8,6 +8,9 @@ using Core.Interfaces.Infrastructure;
 using Core.Resources;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
+using static Core.Enums.BookingEnums;
+using static Core.Enums.InvoiceEnums;
+using static Core.Enums.RoomEnums;
 
 namespace Core.Services.Business
 {
@@ -79,9 +82,11 @@ namespace Core.Services.Business
         public async Task<Response> InsertAsync(string invoiceId)
         {
             var invoice = await _repository.Invoice.FindCondition(r => r.Id.Equals(invoiceId))
+                .Include(i => i.Booking!)
+                .ThenInclude(b => b.BookingDetails!)
+                .ThenInclude(bd => bd.Room!)
                 .FirstOrDefaultAsync();
             if (invoice == null) throw new InvoiceNotFoundException(invoiceId);
-
 
             _repository.Payment.Create(new Payment
             {
@@ -89,6 +94,17 @@ namespace Core.Services.Business
                 Amount = invoice.Amount,
                 PaymentDate = DateTime.UtcNow
             });
+            foreach (var bookingDetail in invoice.Booking!.BookingDetails)
+            {
+                if (bookingDetail.Status == StatusBookingDetail.Accepted)
+                {
+                    var room = bookingDetail.Room!;
+                    room.Condition = ConditionRoom.Occupied;
+                    _repository.Room.Update(room);
+                }
+            }
+            invoice.Status = StatusInvoice.Paid;
+            _repository.Invoice.Update(invoice);
             await _repository.SaveAsync();
 
             return new Response

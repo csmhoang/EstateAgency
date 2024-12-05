@@ -50,7 +50,8 @@ namespace Infrastructure.Mapping
             CreateMap<Feedback, FeedbackDto>();
 
             CreateMap<UserDto, User>()
-                .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Email));
+                .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Email))
+                .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
 
             CreateMap<RegisterDto, User>();
 

@@ -8,11 +8,8 @@ using System.Threading.Tasks;
 
 namespace Core.Entities
 {
-    public partial class CartDetail
+    public partial class CartDetail : BaseEntity
     {
-        [Key]
-        [MaxLength(36)]
-        public string Id { get; set; } = Guid.NewGuid().ToString();
         [ForeignKey("Cart")]
         [MaxLength(36)]
         public string CartId { get; set; } = null!;
@@ -23,8 +20,6 @@ namespace Core.Entities
         public int NumberOfTenant { get; set; }
         [Column(TypeName = "decimal(18, 2)")]
         public decimal Price { get; set; }
-        public DateTime? CreatedAt { get; set; } = DateTime.UtcNow;
-        public DateTime? UpdatedAt { get; set; } = DateTime.UtcNow;
 
         public virtual Cart? Cart { get; set; }
         public virtual Room? Room { get; set; }

@@ -9,11 +9,8 @@ using static Core.Enums.BookingEnums;
 
 namespace Core.Entities
 {
-    public partial class BookingDetail
+    public partial class BookingDetail : BaseEntity
     {
-        [Key]
-        [MaxLength(36)]
-        public string Id { get; set; } = Guid.NewGuid().ToString();
         [ForeignKey("Booking")]
         [MaxLength(36)]
         public string BookingId { get; set; } = null!;

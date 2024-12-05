@@ -8,19 +8,14 @@ using System.Threading.Tasks;
 
 namespace Core.Entities
 {
-    public partial class SavePost
+    public partial class SavePost : BaseEntity
     {
-        [Key]
-        [MaxLength(36)]
-        public string Id { get; set; } = Guid.NewGuid().ToString();
         [ForeignKey("User")]
         [MaxLength(36)]
         public string? UserId { get; set; }
         [ForeignKey("Post")]
         [MaxLength(36)]
         public string? PostId { get; set; }
-        public DateTime? CreatedAt { get; set; } = DateTime.UtcNow;
-        public DateTime? UpdatedAt { get; set; } = DateTime.UtcNow;
 
         public virtual User? User { get; set; }
         public virtual Post? Post { get; set; }

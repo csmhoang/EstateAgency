@@ -6,6 +6,7 @@ export type Follow = {
   followeeId: string;
   createdAt?: Date;
   updatedAt?: Date;
+  
   follower?: User;
   followee?: User;
 };

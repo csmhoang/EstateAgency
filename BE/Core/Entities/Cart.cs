@@ -9,15 +9,12 @@ using static Core.Enums.BookingEnums;
 
 namespace Core.Entities
 {
-    public partial class Cart
+    public partial class Cart : BaseEntity
     {
         public Cart()
         {
             CartDetails = new HashSet<CartDetail>();
         }
-        [Key]
-        [MaxLength(36)]
-        public string Id { get; set; } = Guid.NewGuid().ToString();
         [ForeignKey("Tenant")]
         [MaxLength(36)]
         public string? TenantId { get; set; }

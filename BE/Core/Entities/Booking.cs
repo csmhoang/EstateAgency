@@ -4,7 +4,7 @@ using static Core.Enums.BookingEnums;
 
 namespace Core.Entities
 {
-    public partial class Booking
+    public partial class Booking : BaseEntity
     {
         public Booking()
         {
@@ -19,11 +19,7 @@ namespace Core.Entities
         [ForeignKey("Invoice")]
         [MaxLength(36)]
         public string? InvoiceId { get; set; }
-        [Column(TypeName = "decimal(18, 2)")]
-        public decimal Amount { get; set; }
         public StatusBooking Status { get; set; }
-        public DateTime? CreatedAt { get; set; } = DateTime.UtcNow;
-        public DateTime? UpdatedAt { get; set; } = DateTime.UtcNow;
 
         public virtual User? Tenant { get; set; }
         public virtual Invoice? Invoice { get; set; }

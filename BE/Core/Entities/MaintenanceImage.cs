@@ -8,11 +8,8 @@ using System.Threading.Tasks;
 
 namespace Core.Entities
 {
-    public partial class MaintenanceImage
+    public partial class MaintenanceImage: BaseEntity
     {
-        [Key]
-        [MaxLength(36)]
-        public string Id { get; set; } = Guid.NewGuid().ToString();
         [ForeignKey("MaintenanceRequest")]
         [MaxLength(36)]
         public string MaintenanceRequestId { get; set; } = null!;

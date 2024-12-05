@@ -7,7 +7,7 @@ using static Core.Enums.RoomEnums;
 
 namespace Core.Entities
 {
-    public partial class Room
+    public partial class Room : BaseEntity
     {
         public Room()
         {
@@ -19,9 +19,6 @@ namespace Core.Entities
             LeaseDetails = new HashSet<LeaseDetail>();
         }
 
-        [Key]
-        [MaxLength(36)]
-        public string Id { get; set; } = Guid.NewGuid().ToString();
         [ForeignKey("Landlord")]
         [MaxLength(36)]
         public string? LandlordId { get; set; }
@@ -45,8 +42,6 @@ namespace Core.Entities
         [Column(TypeName = "decimal(18, 2)")]
         public decimal Price { get; set; }
         public ConditionRoom Condition { get; set; }
-        public DateTime? CreatedAt { get; set; } = DateTime.UtcNow;
-        public DateTime? UpdatedAt { get; set; } = DateTime.UtcNow;
 
         public virtual User? Landlord { get; set; }
         public virtual ICollection<Post> Posts { get; set; }

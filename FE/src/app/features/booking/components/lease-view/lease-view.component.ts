@@ -54,6 +54,7 @@ export class LeaseViewComponent implements OnInit {
   }
 
   onAccept() {
-    this.dialogService.view(InvoiceComponent, this.data, 'xl');
+    this.dialogService.view(InvoiceComponent, this.data, 'lg');
+    this.activeModal.dismiss(false);
   }
 }

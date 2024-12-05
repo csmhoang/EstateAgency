@@ -6,15 +6,12 @@ using static Core.Enums.MaintenanceRequestEnums;
 
 namespace Core.Entities
 {
-    public partial class MaintenanceRequest
+    public partial class MaintenanceRequest : BaseEntity
     {
         public MaintenanceRequest()
         {
             MaintenanceImages = new HashSet<MaintenanceImage>();
         }
-        [Key]
-        [MaxLength(36)]
-        public string Id { get; set; } = Guid.NewGuid().ToString();
         [ForeignKey("Tenant")]
         [MaxLength(36)]
         public string? TenantId { get; set; }
@@ -28,7 +25,7 @@ namespace Core.Entities
         [Column(TypeName = "date")]
         public DateTime RequestDate { get; set; } = DateTime.UtcNow;
         public StatusMaintenanceRequest Status { get; set; }
-        public DateTime? UpdatedAt { get; set; } = DateTime.UtcNow;
+
         public virtual Invoice? Invoice { get; set; }
         public virtual User? Tenant { get; set; }
         public virtual ICollection<MaintenanceImage> MaintenanceImages { get; set; }

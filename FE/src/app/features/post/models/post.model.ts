@@ -13,6 +13,7 @@ export type Post = {
   status?: string;
   createdAt?: Date;
   updatedAt?: Date;
+  
   landlord?: User;
   room?: Room;
 };

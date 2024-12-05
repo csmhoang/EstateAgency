@@ -3,4 +3,6 @@ export type Maintenance = {
     roomName: string;
     landlordName: string;
     phone: string; 
+    createdAt?: Date;
+    updatedAt?: Date;
 }

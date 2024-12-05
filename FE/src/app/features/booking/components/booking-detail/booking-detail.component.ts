@@ -1,12 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component, DestroyRef, inject, Input } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Router } from '@angular/router';
 import { StatusBookingDetail } from '@features/booking/models/booking-detail.model';
 import { Booking, StatusBooking } from '@features/booking/models/booking.model';
 import { BookingService } from '@features/booking/services/booking.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastService } from '@shared/services/toast/toast.service';
-import { catchError, of } from 'rxjs';
+import { catchError, debounceTime, of } from 'rxjs';
 
 @Component({
   selector: 'app-booking-detail',
@@ -19,6 +20,7 @@ export class BookingDetailComponent {
   @Input() data!: Booking;
   destroyRef = inject(DestroyRef);
   activeModal = inject(NgbActiveModal);
+  router = inject(Router);
   StatusBookingFilter = StatusBooking;
 
   statusBookingDetailFilter = StatusBookingDetail;
@@ -35,28 +37,42 @@ export class BookingDetailComponent {
   async onCancel(id: string, status: string) {
     if (status === 'Pending') {
       this.bookingService
-        .responseDetail(id, "Canceled")
+        .responseDetail(id, 'Canceled')
         .pipe(
           takeUntilDestroyed(this.destroyRef),
           catchError(() => of(null))
         )
         .subscribe((response) => {
           if (response?.success && this.data.bookingDetails) {
-            for (let i = 0; i < this.data.bookingDetails.length; i++) {
+            const len = this.data.bookingDetails.length;
+
+            for (let i = 0; i < len; i++) {
               if (this.data.bookingDetails[i].id === id) {
                 this.data.bookingDetails[i].status = 'Canceled';
                 break;
               }
             }
-            for (const bookingDetail of this.data.bookingDetails) {
-              if (bookingDetail.status !== 'Canceled') break;
-              this.bookingService
-                .response(this.data.id!, 'Canceled')
-                .pipe(
-                  takeUntilDestroyed(this.destroyRef),
-                  catchError(() => of(null))
-                )
-                .subscribe();
+            for (let i = 0; i < len; i++) {
+              let status = this.data.bookingDetails[i].status;
+              if (status !== 'Canceled') break;
+              if (len === i + 1) {
+                this.bookingService
+                  .response(this.data.id!, 'Canceled')
+                  .pipe(
+                    debounceTime(1000),
+                    takeUntilDestroyed(this.destroyRef),
+                    catchError(() => of(null))
+                  )
+                  .subscribe((response) => {
+                    if (response?.success) {
+                      this.router
+                        .navigateByUrl('/dummy', { skipLocationChange: true })
+                        .then(() => {
+                          this.router.navigateByUrl('/profile/booking');
+                        });
+                    }
+                  });
+              }
             }
           }
         });

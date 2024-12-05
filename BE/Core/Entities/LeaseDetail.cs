@@ -9,11 +9,8 @@ using static Core.Enums.LeaseEnums;
 
 namespace Core.Entities
 {
-    public partial class LeaseDetail
+    public partial class LeaseDetail : BaseEntity
     {
-        [Key]
-        [MaxLength(36)]
-        public string Id { get; set; } = Guid.NewGuid().ToString();
         [ForeignKey("Room")]
         [MaxLength(36)]
         public string RoomId { get; set; } = null!;
@@ -24,6 +21,7 @@ namespace Core.Entities
         public int NumberOfTenant { get; set; }
         [Column(TypeName = "decimal(18, 2)")]
         public decimal Price { get; set; }
+
         public virtual Room? Room { get; set; }
         public virtual Lease? Lease { get; set; }
     }

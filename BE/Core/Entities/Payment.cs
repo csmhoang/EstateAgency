@@ -6,11 +6,8 @@ using static Core.Enums.PaymentEnums;
 
 namespace Core.Entities
 {
-    public partial class Payment
+    public partial class Payment: BaseEntity
     {
-        [Key]
-        [MaxLength(36)]
-        public string Id { get; set; } = Guid.NewGuid().ToString();
         [ForeignKey("Invoice")]
         [MaxLength(36)]
         public string? InvoiceId { get; set; }
@@ -18,6 +15,7 @@ namespace Core.Entities
         public decimal Amount { get; set; }
         public PaymentMethod PaymentMethod { get; set; }
         public DateTime PaymentDate { get; set; } = DateTime.UtcNow;
+
         public virtual Invoice? Invoice { get; set; }
     }
 }

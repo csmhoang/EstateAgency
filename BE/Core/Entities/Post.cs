@@ -4,16 +4,13 @@ using static Core.Enums.PostEnums;
 
 namespace Core.Entities
 {
-    public partial class Post
+    public partial class Post : BaseEntity
     {
         public Post()
         {
             Feedbacks = new HashSet<Feedback>();
             SavePosts = new HashSet<SavePost>();
         }
-        [Key]
-        [MaxLength(36)]
-        public string Id { get; set; } = Guid.NewGuid().ToString();
         [ForeignKey("Room")]
         [MaxLength(36)]
         public string? RoomId { get; set; }
@@ -28,8 +25,6 @@ namespace Core.Entities
         public bool IsHide { get; set; }
         public IsAcceptPost IsAccept { get; set; }
         public StatusPost Status { get; set; }
-        public DateTime? CreatedAt { get; set; } = DateTime.UtcNow;
-        public DateTime? UpdatedAt { get; set; } = DateTime.UtcNow;
 
         public virtual User? Landlord { get; set; }
         public virtual Room? Room { get; set; }

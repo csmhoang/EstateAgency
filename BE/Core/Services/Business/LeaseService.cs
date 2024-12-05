@@ -114,15 +114,16 @@ namespace Core.Services.Business
         {
             var booking = await _repository.Booking.FindCondition((b) => b.Id.Equals(leaseDto.BookingId))
                 .Include(b => b.BookingDetails!)
+                .ThenInclude(bd => bd.Room)
                 .FirstOrDefaultAsync();
             if (booking == null) throw new BookingNotFoundException(leaseDto.BookingId);
             var lease = _mapper.Map<Lease>(leaseDto);
             var invoice = new Invoice
             {
-                Amount = booking.Amount,
-                DueDate = DateTime.Now.AddHours(12),
+                DueDate = DateTime.UtcNow.AddHours(12),
             };
             booking.InvoiceId = invoice.Id;
+            decimal amount = 0;
             foreach (var bookingDetail in booking.BookingDetails)
             {
                 if (bookingDetail.Status == StatusBookingDetail.Accepted)
@@ -141,10 +142,12 @@ namespace Core.Services.Business
                         Detail = bookingDetail.Room!.Name,
                         Price = bookingDetail.Price
                     });
+                    amount += bookingDetail.Price;
                 }
             }
             if (lease.LeaseDetails.Count == 0)
                 throw new CustomizeException(Invalidate.BookingEmpty, (int)HttpStatusCode.NotModified);
+            invoice.Amount = amount;
             _repository.Lease.Create(lease);
             _repository.Invoice.Create(invoice);
             _repository.Booking.Update(booking);

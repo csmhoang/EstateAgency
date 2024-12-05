@@ -108,7 +108,6 @@ namespace Core.Services.Business
             var bookings = new List<Booking>();
             foreach (var group in CartDetailGroups)
             {
-                decimal amount = 0;
                 var booking = new Booking
                 {
                     TenantId = cart.TenantId,
@@ -128,10 +127,8 @@ namespace Core.Services.Business
                         NumberOfTenant = cartDetail.NumberOfTenant,
                         Price = cartDetail.Price
                     });
-                    amount += cartDetail.Price;
                     _repository.CartDetail.Delete(cartDetail);
                 }
-                booking.Amount = amount;
                 bookings.Add(booking);
             }
 

@@ -4,7 +4,7 @@ import { RouterLink } from '@angular/router';
 import { User } from '@core/models/user.model';
 import { UserService } from '@core/services/user.service';
 import { LikeComponent } from '@shared/components/like/like.component';
-import { catchError, of } from 'rxjs';
+import { catchError, debounceTime, of } from 'rxjs';
 
 @Component({
   selector: 'app-lessor-item',
@@ -38,6 +38,7 @@ export class LessorItemComponent {
       this.userService
         .follow(this.user.id, this.lessor.id, isFollow)
         .pipe(
+          debounceTime(1000),
           takeUntilDestroyed(this.destroyRef),
           catchError(() => of(null))
         )

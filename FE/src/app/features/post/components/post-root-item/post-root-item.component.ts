@@ -8,7 +8,7 @@ import { SavePost } from '@features/post/models/save-post.model';
 import { PostService } from '@features/post/services/post.service';
 import { NgbCarouselModule } from '@ng-bootstrap/ng-bootstrap';
 import { LikeComponent } from '@shared/components/like/like.component';
-import { catchError, of } from 'rxjs';
+import { catchError, debounceTime, of } from 'rxjs';
 
 @Component({
   selector: 'app-post-root-item',
@@ -47,6 +47,7 @@ export class PostRootItemComponent {
       this.postService
         .savePost(savePost, isSave)
         .pipe(
+          debounceTime(1000),
           takeUntilDestroyed(this.destroyRef),
           catchError(() => of(null))
         )

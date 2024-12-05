@@ -14,6 +14,8 @@ namespace Core.Dtos
         public int Rating { get; set; }
         public string? Comment { get; set; }
         public DateTime? CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
+
         public UserDto? Tenant { get; set; }
         public ICollection<FeedbackDto>? Replies { get; set; }
 

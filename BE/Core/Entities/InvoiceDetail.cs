@@ -4,11 +4,8 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Core.Entities
 {
-    public partial class InvoiceDetail
+    public partial class InvoiceDetail : BaseEntity
     {
-        [Key]
-        [MaxLength(36)]
-        public string Id { get; set; } = Guid.NewGuid().ToString();
         [ForeignKey("Invoice")]
         [MaxLength(36)]
         public string? InvoiceId { get; set; }
@@ -16,8 +13,7 @@ namespace Core.Entities
         public string Detail { get; set; } = null!;
         [Column(TypeName = "decimal(18, 2)")]
         public decimal Price { get; set; }
-        public DateTime? CreatedAt { get; set; } = DateTime.UtcNow;
-        public DateTime? UpdatedAt { get; set; } = DateTime.UtcNow;
+
         public virtual Invoice? Invoice { get; set; }
     }
 }

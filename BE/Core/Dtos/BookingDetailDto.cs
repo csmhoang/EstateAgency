@@ -18,6 +18,8 @@ namespace Core.Dtos
         public decimal Price { get; set; }
         public string? RejectionReason { get; set; }
         public StatusBookingDetail? Status { get; set; }
+        public DateTime? CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
 
         public virtual BookingDto? Booking { get; set; }
         public virtual RoomDto? Room { get; set; }

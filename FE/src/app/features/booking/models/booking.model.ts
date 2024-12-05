@@ -11,6 +11,7 @@ export type Booking = {
   status?: string;
   createdAt?: Date;
   updatedAt?: Date;
+  
   invoice?: Invoice;
   tenant?: User;
   lease?: Lease;

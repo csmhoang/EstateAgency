@@ -8,6 +8,8 @@ export type Feedback = {
   rating: number;
   comment?: string;
   createdAt?: Date;
+  updatedAt?: Date;
+  
   tenant?: User;
   replies?: Feedback[];
 };

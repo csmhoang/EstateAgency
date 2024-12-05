@@ -16,9 +16,7 @@ namespace Core.Dtos
         [Required(ErrorMessage = UserConst.ErrorEmptyTenantId)]
         public string TenantId { get; set; } = null!;
         [Required(ErrorMessage = InvoiceConst.ErrorEmptyId)]
-        public string? InvoiceId { get; set; }
-        [Column(TypeName = "decimal(18, 2)")]
-        public decimal Amount { get; set; }
+        public string InvoiceId { get; set; } = null!;
         public StatusBooking? Status { get; set; }
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }

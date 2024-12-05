@@ -17,7 +17,7 @@ import { DialogService } from '@shared/services/dialog/dialog.service';
 import { PaginationParams } from '@shared/models/pagination-params.model';
 import { MiniLoadComponent } from '@shared/components/mini-load/mini-load.component';
 import { ToastService } from '@shared/services/toast/toast.service';
-import { catchError, firstValueFrom, lastValueFrom, of } from 'rxjs';
+import { catchError, lastValueFrom, of } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   Reservation,

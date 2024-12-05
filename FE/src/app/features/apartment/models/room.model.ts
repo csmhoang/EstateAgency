@@ -21,6 +21,7 @@ export type Room = {
   condition?: string;
   createdAt?: Date;
   updatedAt?: Date;
+  
   landlord?: User;
   photos?: Photo[];
   posts?: Post[];

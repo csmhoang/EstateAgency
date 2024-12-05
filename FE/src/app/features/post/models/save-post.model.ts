@@ -6,5 +6,6 @@ export type SavePost = {
   postId: string;
   createdAt?: Date;
   updatedAt?: Date;
+  
   post?: Post;
 };

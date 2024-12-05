@@ -5,6 +5,8 @@ export type Payment = {
   paymentDate: Date;
   paymentMethod: string;
   status: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 };
 
 export const PaymentMethod: { [key: string]: string } = {

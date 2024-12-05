@@ -10,7 +10,7 @@ import { BookingService } from '@features/booking/services/booking.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { DialogService } from '@shared/services/dialog/dialog.service';
 import { ToastService } from '@shared/services/toast/toast.service';
-import { catchError, of } from 'rxjs';
+import { catchError, debounceTime, of } from 'rxjs';
 
 @Component({
   selector: 'app-lessor-booking-detail',
@@ -68,6 +68,7 @@ export class LessorBookingDetailComponent {
                       isConfirm ? 'Confirmed' : 'Rejected'
                     )
                     .pipe(
+                      debounceTime(1000),
                       takeUntilDestroyed(this.destroyRef),
                       catchError(() => of(null))
                     )

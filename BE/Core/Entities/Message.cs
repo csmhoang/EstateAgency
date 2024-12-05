@@ -5,11 +5,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Core.Entities
 {
-    public partial class Message
+    public partial class Message: BaseEntity
     {
-        [Key]
-        [MaxLength(36)]
-        public string Id { get; set; } = Guid.NewGuid().ToString();
         [ForeignKey("Sender")]
         [MaxLength(36)]
         public string? SenderId { get; set; }

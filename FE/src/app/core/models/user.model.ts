@@ -19,9 +19,11 @@ export type User = {
   gender?: string;
   dateOfBirth?: Date;
   address: string;
+  description?: string;
   createdAt?: Date;
   updatedAt?: Date;
-  description?: string;
+
+  cart?: Cart;
   userRoles?: UserRole[];
   posts?: Post[];
   rooms?: Room[];
@@ -30,7 +32,6 @@ export type User = {
   followees?: Follow[];
   reservations?: Reservation[];
   bookings?: Booking[];
-  cart?: Cart;
 };
 
 export const Gender: { [key: string]: string } = {

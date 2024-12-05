@@ -6,16 +6,12 @@ using static Core.Enums.LeaseEnums;
 
 namespace Core.Entities
 {
-    public partial class Lease
+    public partial class Lease : BaseEntity
     {
         public Lease()
         {
             LeaseDetails = new HashSet<LeaseDetail>();
         }
-
-        [Key]
-        [MaxLength(36)]
-        public string Id { get; set; } = Guid.NewGuid().ToString();
         [ForeignKey("Booking")]
         [MaxLength(36)]
         public string? BookingId { get; set; }
@@ -29,8 +25,7 @@ namespace Core.Entities
         [Column(TypeName = "date")]
         public DateTime? SignedDate { get; set; }
         public StatusLease Status { get; set; }
-        public DateTime? CreatedAt { get; set; } = DateTime.UtcNow;
-        public DateTime? UpdatedAt { get; set; } = DateTime.UtcNow;
+
         public virtual Booking? Booking { get; set; }
         public virtual ICollection<LeaseDetail> LeaseDetails { get; set; }
     }

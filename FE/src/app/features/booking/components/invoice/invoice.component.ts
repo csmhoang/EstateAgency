@@ -4,8 +4,9 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 import { Booking } from '@features/booking/models/booking.model';
 import { StatusInvoice } from '@features/booking/models/invoice.model';
-import { LeaseService } from '@features/booking/services/lease.service';
+import { InvoiceService } from '@features/booking/services/invoice.service';
 import { PaymentService } from '@features/booking/services/payment.service';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastService } from '@shared/services/toast/toast.service';
 import { catchError, of } from 'rxjs';
 
@@ -20,11 +21,13 @@ export class InvoiceComponent {
   @Input() data!: Booking;
   statusFilter = StatusInvoice;
   destroyRef = inject(DestroyRef);
+  activeModal = inject(NgbActiveModal);
   router = inject(Router);
 
   constructor(
     private paymentService: PaymentService,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private invoiceService: InvoiceService
   ) {}
 
   countDownFilter(time: Date) {
@@ -46,14 +49,31 @@ export class InvoiceComponent {
         return `${interval} ${unit}`;
       }
     }
-
+    if (this.data.invoice?.status !== 'Overdue') {
+      this.invoiceService
+        .response(this.data.invoiceId, 'Overdue')
+        .pipe(
+          takeUntilDestroyed(this.destroyRef),
+          catchError(() => of(null))
+        )
+        .subscribe((response) => {
+          if (response?.success) {
+            this.router
+              .navigateByUrl('/dummy', { skipLocationChange: true })
+              .then(() => {
+                this.router.navigateByUrl('/profile/booking');
+                this.activeModal.dismiss(false);
+              });
+          }
+        });
+    }
     return 'Hết hạn';
   }
 
   onPayment() {
-    if (this.data?.lease) {
+    if (this.data) {
       this.paymentService
-        .insert(this.data.id)
+        .insert(this.data.invoiceId)
         .pipe(
           takeUntilDestroyed(this.destroyRef),
           catchError(() => of(null))
@@ -66,6 +86,7 @@ export class InvoiceComponent {
               .navigateByUrl('/dummy', { skipLocationChange: true })
               .then(() => {
                 this.router.navigateByUrl('/profile/booking');
+                this.activeModal.dismiss(false);
               });
           }
         });

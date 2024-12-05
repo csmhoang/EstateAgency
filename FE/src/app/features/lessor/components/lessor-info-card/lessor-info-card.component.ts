@@ -18,7 +18,7 @@ import { Post } from '@features/post/models/post.model';
 import { ReservationInsertComponent } from '@features/reservation/components/reservation-insert/reservation-insert.component';
 import { DialogService } from '@shared/services/dialog/dialog.service';
 import { ToastService } from '@shared/services/toast/toast.service';
-import { catchError, of } from 'rxjs';
+import { catchError, debounceTime, of } from 'rxjs';
 
 @Component({
   selector: 'app-lessor-info-card',
@@ -64,6 +64,7 @@ export class LessorInfoCardComponent implements OnInit {
           this.userService
             .follow(this.user()?.id!, this.landlord?.id!, isFollow)
             .pipe(
+              debounceTime(1000),
               takeUntilDestroyed(this.destroyRef),
               catchError(() => of(null))
             )

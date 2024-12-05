@@ -6,6 +6,9 @@ export type LeaseDetail = {
   leaseId: string;
   numberOfMonth: number;
   numberOfTenant: number;
+  createdAt?: Date;
+  updatedAt?: Date;
+  
   price: number;
   room?: Room;
 };

@@ -3,6 +3,7 @@ export type InvoiceDetail = {
   invoiceId: string;
   detail: string;
   price: string;
+  
   createdAt?: Date;
   updatedAt?: Date;
 };

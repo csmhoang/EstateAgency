@@ -34,7 +34,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasIndex("RoomsId");
 
-                    b.ToTable("AmenityRoom", (string)null);
+                    b.ToTable("AmenityRoom");
                 });
 
             modelBuilder.Entity("Core.Entities.Amenity", b =>
@@ -62,7 +62,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Amenities", (string)null);
+                    b.ToTable("Amenities");
                 });
 
             modelBuilder.Entity("Core.Entities.Booking", b =>
@@ -70,6 +70,9 @@ namespace Infrastructure.Data.Migrations
                     b.Property<string>("Id")
                         .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -96,7 +99,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasIndex("TenantId");
 
-                    b.ToTable("Bookings", (string)null);
+                    b.ToTable("Bookings");
                 });
 
             modelBuilder.Entity("Core.Entities.BookingDetail", b =>
@@ -109,6 +112,9 @@ namespace Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("NumberOfMonth")
                         .HasColumnType("int");
@@ -130,13 +136,16 @@ namespace Infrastructure.Data.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
                     b.HasKey("Id");
 
                     b.HasIndex("BookingId");
 
                     b.HasIndex("RoomId");
 
-                    b.ToTable("BookingDetails", (string)null);
+                    b.ToTable("BookingDetails");
                 });
 
             modelBuilder.Entity("Core.Entities.Cart", b =>
@@ -145,9 +154,15 @@ namespace Infrastructure.Data.Migrations
                         .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
 
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("TenantId")
                         .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -155,7 +170,7 @@ namespace Infrastructure.Data.Migrations
                         .IsUnique()
                         .HasFilter("[TenantId] IS NOT NULL");
 
-                    b.ToTable("Carts", (string)null);
+                    b.ToTable("Carts");
                 });
 
             modelBuilder.Entity("Core.Entities.CartDetail", b =>
@@ -194,7 +209,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasIndex("RoomId");
 
-                    b.ToTable("CartDetails", (string)null);
+                    b.ToTable("CartDetails");
                 });
 
             modelBuilder.Entity("Core.Entities.Feedback", b =>
@@ -224,6 +239,9 @@ namespace Infrastructure.Data.Migrations
                         .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
 
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
                     b.HasKey("Id");
 
                     b.HasIndex("PostId");
@@ -232,7 +250,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasIndex("TenantId");
 
-                    b.ToTable("Feedbacks", (string)null);
+                    b.ToTable("Feedbacks");
                 });
 
             modelBuilder.Entity("Core.Entities.Follow", b =>
@@ -263,7 +281,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasIndex("FollowerId");
 
-                    b.ToTable("Follows", (string)null);
+                    b.ToTable("Follows");
                 });
 
             modelBuilder.Entity("Core.Entities.Invoice", b =>
@@ -289,7 +307,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Invoices", (string)null);
+                    b.ToTable("Invoices");
                 });
 
             modelBuilder.Entity("Core.Entities.InvoiceDetail", b =>
@@ -320,7 +338,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasIndex("InvoiceId");
 
-                    b.ToTable("InvoiceDetails", (string)null);
+                    b.ToTable("InvoiceDetails");
                 });
 
             modelBuilder.Entity("Core.Entities.Lease", b =>
@@ -346,11 +364,6 @@ namespace Infrastructure.Data.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(265)
-                        .HasColumnType("nvarchar(265)");
-
                     b.Property<DateTime?>("SignedDate")
                         .HasColumnType("date");
 
@@ -359,10 +372,6 @@ namespace Infrastructure.Data.Migrations
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
-
-                    b.Property<string>("TenantId")
-                        .HasMaxLength(36)
-                        .HasColumnType("nvarchar(36)");
 
                     b.Property<string>("Terms")
                         .IsRequired()
@@ -377,9 +386,7 @@ namespace Infrastructure.Data.Migrations
                         .IsUnique()
                         .HasFilter("[BookingId] IS NOT NULL");
 
-                    b.HasIndex("TenantId");
-
-                    b.ToTable("Leases", (string)null);
+                    b.ToTable("Leases");
                 });
 
             modelBuilder.Entity("Core.Entities.LeaseDetail", b =>
@@ -387,6 +394,9 @@ namespace Infrastructure.Data.Migrations
                     b.Property<string>("Id")
                         .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("LeaseId")
                         .HasMaxLength(36)
@@ -406,13 +416,16 @@ namespace Infrastructure.Data.Migrations
                         .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
 
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
                     b.HasKey("Id");
 
                     b.HasIndex("LeaseId");
 
                     b.HasIndex("RoomId");
 
-                    b.ToTable("LeaseDetails", (string)null);
+                    b.ToTable("LeaseDetails");
                 });
 
             modelBuilder.Entity("Core.Entities.MaintenanceImage", b =>
@@ -420,6 +433,9 @@ namespace Infrastructure.Data.Migrations
                     b.Property<string>("Id")
                         .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("MaintenanceRequestId")
                         .IsRequired()
@@ -431,6 +447,9 @@ namespace Infrastructure.Data.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Url")
                         .IsRequired()
                         .HasMaxLength(256)
@@ -440,7 +459,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasIndex("MaintenanceRequestId");
 
-                    b.ToTable("MaintenanceImages", (string)null);
+                    b.ToTable("MaintenanceImages");
                 });
 
             modelBuilder.Entity("Core.Entities.MaintenanceRequest", b =>
@@ -448,6 +467,9 @@ namespace Infrastructure.Data.Migrations
                     b.Property<string>("Id")
                         .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -483,7 +505,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasIndex("TenantId");
 
-                    b.ToTable("MaintenanceRequests", (string)null);
+                    b.ToTable("MaintenanceRequests");
                 });
 
             modelBuilder.Entity("Core.Entities.Message", b =>
@@ -496,6 +518,9 @@ namespace Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("ReceiverId")
                         .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
@@ -507,13 +532,16 @@ namespace Infrastructure.Data.Migrations
                     b.Property<DateTime>("SentAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ReceiverId");
 
                     b.HasIndex("SenderId");
 
-                    b.ToTable("Messages", (string)null);
+                    b.ToTable("Messages");
                 });
 
             modelBuilder.Entity("Core.Entities.Payment", b =>
@@ -525,6 +553,9 @@ namespace Infrastructure.Data.Migrations
                     b.Property<decimal>("Amount")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("InvoiceId")
                         .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
@@ -535,13 +566,16 @@ namespace Infrastructure.Data.Migrations
                     b.Property<int>("PaymentMethod")
                         .HasColumnType("int");
 
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
                     b.HasKey("Id");
 
                     b.HasIndex("InvoiceId")
                         .IsUnique()
                         .HasFilter("[InvoiceId] IS NOT NULL");
 
-                    b.ToTable("Payments", (string)null);
+                    b.ToTable("Payments");
                 });
 
             modelBuilder.Entity("Core.Entities.Photo", b =>
@@ -549,6 +583,9 @@ namespace Infrastructure.Data.Migrations
                     b.Property<string>("Id")
                         .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("PublicId")
                         .IsRequired()
@@ -560,6 +597,9 @@ namespace Infrastructure.Data.Migrations
                         .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
 
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Url")
                         .IsRequired()
                         .HasMaxLength(256)
@@ -569,7 +609,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasIndex("RoomId");
 
-                    b.ToTable("Photos", (string)null);
+                    b.ToTable("Photos");
                 });
 
             modelBuilder.Entity("Core.Entities.Post", b =>
@@ -618,7 +658,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasIndex("RoomId");
 
-                    b.ToTable("Posts", (string)null);
+                    b.ToTable("Posts");
                 });
 
             modelBuilder.Entity("Core.Entities.Reservation", b =>
@@ -659,7 +699,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasIndex("TenantId");
 
-                    b.ToTable("Reservations", (string)null);
+                    b.ToTable("Reservations");
                 });
 
             modelBuilder.Entity("Core.Entities.Role", b =>
@@ -782,7 +822,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasIndex("LandlordId");
 
-                    b.ToTable("Rooms", (string)null);
+                    b.ToTable("Rooms");
                 });
 
             modelBuilder.Entity("Core.Entities.SavePost", b =>
@@ -811,7 +851,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("SavePosts", (string)null);
+                    b.ToTable("SavePosts");
                 });
 
             modelBuilder.Entity("Core.Entities.User", b =>
@@ -1064,13 +1104,7 @@ namespace Infrastructure.Data.Migrations
                         .WithOne("Lease")
                         .HasForeignKey("Core.Entities.Lease", "BookingId");
 
-                    b.HasOne("Core.Entities.User", "Tenant")
-                        .WithMany("Leases")
-                        .HasForeignKey("TenantId");
-
                     b.Navigation("Booking");
-
-                    b.Navigation("Tenant");
                 });
 
             modelBuilder.Entity("Core.Entities.LeaseDetail", b =>
@@ -1298,8 +1332,6 @@ namespace Infrastructure.Data.Migrations
                     b.Navigation("Followees");
 
                     b.Navigation("Followers");
-
-                    b.Navigation("Leases");
 
                     b.Navigation("MessageReceivers");
 

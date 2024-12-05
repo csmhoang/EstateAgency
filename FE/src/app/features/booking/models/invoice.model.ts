@@ -8,6 +8,7 @@ export type Invoice = {
   status?: string;
   createdAt?: Date;
   updatedAt?: Date;
+  
   invoiceDetails?: InvoiceDetail[];
   payment?: Payment;
 };

@@ -10,6 +10,7 @@ export type CartDetail = {
   price: number;
   createdAt?: Date;
   updatedAt?: Date;
+  
   cart?: Cart;
   room?: Room;
 };

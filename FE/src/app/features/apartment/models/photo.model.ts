@@ -3,4 +3,6 @@ export type Photo = {
   roomId: string;
   url: string;
   publicId: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 };

@@ -10,6 +10,9 @@ export type BookingDetail = {
   price: number;
   rejectionReason?: string;
   status?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+  
   room?: Room;
   booking?: Booking;
 };

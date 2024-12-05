@@ -11,6 +11,7 @@ export type Lease = {
   status?: string;
   createdAt?: Date;
   updatedAt?: Date;
+  
   leaseDetails?: LeaseDetail[];
 };
 
