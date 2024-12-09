@@ -7,7 +7,6 @@ import { ContactComponent } from '@features/contact/pages/contact/contact.compon
 import { HomeComponent } from '@features/home/pages/home/home.component';
 import { LessorDetailComponent } from '@features/lessor/pages/lessor-detail/lessor-detail.component';
 import { LessorComponent } from '@features/lessor/pages/lessor/lessor.component';
-import { MaintenanceHistoryComponent } from '@features/maintenance/components/maintenance-history/maintenance-history.component';
 import { LessorDashboardComponent } from '@features/management/lessor/pages/lessor-dashboard/lessor-dashboard.component';
 import { LessorManagementComponent } from '@features/management/lessor/pages/lessor-management/lessor-management.component';
 import { ProfileEditComponent } from '@features/profiles/pages/profile-edit/profile-edit.component';
@@ -22,13 +21,15 @@ import { apartmentDetailResolver } from '@features/apartment/resolver/apartment-
 import { VerifyEmailComponent } from '@core/auth/pages/verify-email/verify-email.component';
 import { VerifyResetPasswordComponent } from '@core/auth/pages/verify-reset-password/verify-reset-password.component';
 import { lessorDetailResolver } from '@features/lessor/resolver/lessor-detail.resolver';
-import { isLandlord } from '@core/guards/auth.guard';
+import { isLandlord, isUserAuthenticated } from '@core/guards/auth.guard';
 import { ReservationListComponent } from '@features/reservation/components/reservation-list/reservation-list.component';
 import { BookingListComponent } from '@features/booking/components/booking-list/booking-list.component';
 import { LessorReservationComponent } from '@features/management/lessor/pages/lessor-reservation/lessor-reservation.component';
 import { LessorBookingComponent } from '@features/management/lessor/pages/lessor-booking/lessor-booking.component';
 import { LessorProfileComponent } from '@features/management/lessor/pages/lessor-profile/lessor-profile.component';
 import { CartComponent } from '@features/Cart/pages/cart/cart.component';
+import { RentedApartmentComponent } from '@features/apartment/components/rented-apartment/rented-apartment.component';
+import { MessengerComponent } from '@features/messenger/pages/messenger/messenger.component';
 
 export const routes: Routes = [
   /*Clients*/
@@ -55,6 +56,7 @@ export const routes: Routes = [
   {
     path: 'profile',
     component: ProfileComponent,
+    canActivate: [isUserAuthenticated],
     children: [
       {
         path: '',
@@ -69,8 +71,8 @@ export const routes: Routes = [
         component: ReservationListComponent,
       },
       {
-        path: 'maintenance',
-        component: MaintenanceHistoryComponent,
+        path: 'rented-apartment',
+        component: RentedApartmentComponent,
       },
       {
         path: 'actions',
@@ -80,6 +82,7 @@ export const routes: Routes = [
   },
   {
     path: 'cart',
+    canActivate: [isUserAuthenticated],
     component: CartComponent,
   },
   {
@@ -118,7 +121,7 @@ export const routes: Routes = [
     component: LessorManagementComponent,
     canActivate: [isLandlord],
     children: [
-    {
+      {
         path: '',
         component: LessorDashboardComponent,
       },
@@ -162,6 +165,10 @@ export const routes: Routes = [
         component: ProfileActionsComponent,
       },
     ],
+  },
+  {
+    path: 'messenger',
+    component: MessengerComponent,
   },
 
   /*Admin*/

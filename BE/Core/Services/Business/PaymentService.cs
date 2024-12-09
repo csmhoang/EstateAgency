@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿
+using AutoMapper;
 using Core.Dtos;
 using Core.Entities;
 using Core.Exceptions;
@@ -10,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Net;
 using static Core.Enums.BookingEnums;
 using static Core.Enums.InvoiceEnums;
+using static Core.Enums.LeaseEnums;
 using static Core.Enums.RoomEnums;
 
 namespace Core.Services.Business
@@ -85,25 +87,37 @@ namespace Core.Services.Business
                 .Include(i => i.Booking!)
                 .ThenInclude(b => b.BookingDetails!)
                 .ThenInclude(bd => bd.Room!)
+                .Include(i => i.Booking!)
+                .ThenInclude(b => b.Lease!)
                 .FirstOrDefaultAsync();
             if (invoice == null) throw new InvoiceNotFoundException(invoiceId);
-
-            _repository.Payment.Create(new Payment
+            var payment = new Payment
             {
                 InvoiceId = invoice.Id,
                 Amount = invoice.Amount,
                 PaymentDate = DateTime.UtcNow
-            });
+            };
+            _repository.Payment.Create(payment);
             foreach (var bookingDetail in invoice.Booking!.BookingDetails)
             {
                 if (bookingDetail.Status == StatusBookingDetail.Accepted)
                 {
                     var room = bookingDetail.Room!;
                     room.Condition = ConditionRoom.Occupied;
+                    room.UpdatedAt = DateTime.UtcNow;
                     _repository.Room.Update(room);
                 }
             }
+            var lease = invoice.Booking.Lease;
+            if (lease != null)
+            {
+                lease.Status = StatusLease.Active;
+                lease.SignedDate = DateTime.UtcNow;
+                lease.UpdatedAt = DateTime.UtcNow;
+                _repository.Lease.Update(lease);
+            }
             invoice.Status = StatusInvoice.Paid;
+            invoice.UpdatedAt = DateTime.UtcNow;
             _repository.Invoice.Update(invoice);
             await _repository.SaveAsync();
 

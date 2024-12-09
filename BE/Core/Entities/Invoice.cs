@@ -16,8 +16,7 @@ namespace Core.Entities
 
         [Column(TypeName = "decimal(18, 2)")]
         public decimal Amount { get; set; }
-        [Column(TypeName = "date")]
-        public DateTime? DueDate { get; set; }
+        public DateTime DueDate { get; set; }
         public StatusInvoice Status { get; set; }
 
         public virtual Booking? Booking { get; set; }

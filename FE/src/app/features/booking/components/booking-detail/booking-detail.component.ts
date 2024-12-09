@@ -4,6 +4,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 import { StatusBookingDetail } from '@features/booking/models/booking-detail.model';
 import { Booking, StatusBooking } from '@features/booking/models/booking.model';
+import { BookingDetailService } from '@features/booking/services/booking-detail.service';
 import { BookingService } from '@features/booking/services/booking.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastService } from '@shared/services/toast/toast.service';
@@ -27,7 +28,8 @@ export class BookingDetailComponent {
 
   constructor(
     private bookingService: BookingService,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private bookingDetailService:BookingDetailService
   ) {}
 
   decline() {
@@ -36,7 +38,7 @@ export class BookingDetailComponent {
 
   async onCancel(id: string, status: string) {
     if (status === 'Pending') {
-      this.bookingService
+      this.bookingDetailService
         .responseDetail(id, 'Canceled')
         .pipe(
           takeUntilDestroyed(this.destroyRef),
@@ -65,6 +67,7 @@ export class BookingDetailComponent {
                   )
                   .subscribe((response) => {
                     if (response?.success) {
+                      this.activeModal.dismiss(false);
                       this.router
                         .navigateByUrl('/dummy', { skipLocationChange: true })
                         .then(() => {

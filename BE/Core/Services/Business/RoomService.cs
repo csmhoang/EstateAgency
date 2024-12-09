@@ -2,17 +2,17 @@
 using Core.Dtos;
 using Core.Entities;
 using Core.Exceptions;
-using Core.Helpers;
 using Core.Interfaces.Business;
 using Core.Interfaces.Data;
 using Core.Interfaces.Infrastructure;
 using Core.Params;
 using Core.Resources;
-using Core.Services.Infrastructure;
 using Core.Specifications;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
+using System.Security.Cryptography.X509Certificates;
+using static Core.Enums.LeaseEnums;
 
 namespace Core.Services.Business
 {
@@ -82,6 +82,27 @@ namespace Core.Services.Business
                 StatusCode = !page.Data.Any() ? (int)HttpStatusCode.NoContent : (int)HttpStatusCode.OK
             };
         }
+
+        public async Task<Response> GetMyRoomsAsync(string tenantId)
+        {
+
+            var bookingDetails = await _repository.Booking
+                .FindCondition(
+                    b => b.TenantId!.Equals(tenantId) && b.Lease!.Status == StatusLease.Active
+                )
+                .Include(b => b.BookingDetails!)
+                .ThenInclude(bd => bd.Room!)
+                .ThenInclude(r => r.Landlord!)
+                .SelectMany(b => b.BookingDetails!)
+                .ToListAsync();
+            return new Response
+            {
+                Success = true,
+                Data = bookingDetails,
+                StatusCode = !bookingDetails.Any() ? (int)HttpStatusCode.NoContent : (int)HttpStatusCode.OK
+            };
+        }
+
 
         public async Task<Response> DeleteAsync(string id)
         {

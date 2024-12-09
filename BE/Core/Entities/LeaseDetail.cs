@@ -17,7 +17,10 @@ namespace Core.Entities
         [ForeignKey("Lease")]
         [MaxLength(36)]
         public string? LeaseId { get; set; }
-        public int NumberOfMonth { get; set; }
+        [Column(TypeName = "date")]
+        public DateTime StartDate { get; set; }
+        [Column(TypeName = "date")]
+        public DateTime EndDate { get; set; }
         public int NumberOfTenant { get; set; }
         [Column(TypeName = "decimal(18, 2)")]
         public decimal Price { get; set; }

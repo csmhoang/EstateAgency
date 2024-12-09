@@ -19,9 +19,7 @@ namespace Core.Entities
         public string Lessor { get; set; } = null!;
         [MaxLength(100)]
         public string Lessee { get; set; } = null!;
-        public string Terms { get; set; } = null!;
-        [Column(TypeName = "date")]
-        public DateTime StartDate { get; set; }
+        public string? Terms { get; set; }
         [Column(TypeName = "date")]
         public DateTime? SignedDate { get; set; }
         public StatusLease Status { get; set; }

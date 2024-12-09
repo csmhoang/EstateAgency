@@ -6,6 +6,7 @@ namespace Core.Interfaces.Specifications
     public interface ISpecification<T> where T : class
     {
         Expression<Func<T, bool>>? Criteria { get; }
+        Func<IQueryable<T>, IQueryable<T>>? Lambda { get; }
         Func<IQueryable<T>, IIncludableQueryable<T, object>>? Include { get; }
         List<Func<IQueryable<T>, IOrderedQueryable<T>>> Orders { get; }
         bool IsDistinct { get; }

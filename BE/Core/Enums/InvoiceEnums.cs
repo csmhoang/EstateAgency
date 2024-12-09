@@ -16,7 +16,9 @@ namespace Core.Enums
             [EnumMember(Value = "Paid")]
             Paid = 1,
             [EnumMember(Value = "Overdue")]
-            Overdue = 2
+            Overdue = 2,
+            [EnumMember(Value = "Cancelled")]
+            Cancelled = 3
         }
 
     }

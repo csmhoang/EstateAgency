@@ -13,6 +13,8 @@ namespace Core.Dtos
         public string BookingId { get; set; } = null!;
         [Required(ErrorMessage = RoomConst.ErrorEmptyId)]
         public string RoomId { get; set; } = null!;
+        public DateTime StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
         public int NumberOfMonth { get; set; }
         public int NumberOfTenant { get; set; }
         public decimal Price { get; set; }

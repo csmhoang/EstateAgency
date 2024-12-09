@@ -17,7 +17,8 @@ namespace Core.Dtos
         public string RoomId { get; set; } = null!;
         [Required(ErrorMessage = LeaseConst.ErrorEmptyId)]
         public string LeaseId { get; set; } = null!;
-        public int NumberOfMonth { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
         public int NumberOfTenant { get; set; }
         public decimal Price { get; set; }
         public DateTime? CreatedAt { get; set; }

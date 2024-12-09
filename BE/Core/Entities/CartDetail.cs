@@ -16,6 +16,8 @@ namespace Core.Entities
         [ForeignKey("Room")]
         [MaxLength(36)]
         public string? RoomId { get; set; } = null!;
+        [Column(TypeName = "date")]
+        public DateTime StartDate { get; set; }
         public int NumberOfMonth { get; set; }
         public int NumberOfTenant { get; set; }
         [Column(TypeName = "decimal(18, 2)")]

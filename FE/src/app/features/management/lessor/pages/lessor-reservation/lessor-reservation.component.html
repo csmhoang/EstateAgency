@@ -89,7 +89,12 @@
               <button
                 [disabled]="element.status !== 'Pending'"
                 (click)="
-                  onAccept(element.id, element.status, element.room?.condition)
+                  onAccept(
+                    element.id,
+                    element.status,
+                    element.room?.condition,
+                    element.reservationDate
+                  )
                 "
                 mat-menu-item
               >

@@ -17,4 +17,5 @@ export const StatusInvoice: { [key: string]: string } = {
   Pending: 'Đang chờ xử lý',
   Paid: 'Đã thanh toán',
   Overdue: 'Quá hạn',
+  Canceled: "Đã hủy"
 };

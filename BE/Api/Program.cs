@@ -25,6 +25,7 @@ builder.Services.AddSignalR();
 builder.Services.Configure<CloudinarySettings>(builder.Configuration.GetSection("CloudinarySettings"));
 builder.Services.ConfigureRepositoryManager();
 builder.Services.ConfigureServiceManager();
+builder.Services.AddHostedService<ExpireContractService>();
 
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
@@ -73,5 +74,6 @@ app.MapControllers();
 
 app.MapHub<PresenceHub>("hubs/presence");
 app.MapHub<FeedbackHub>("hubs/feedback");
+app.MapHub<FeedbackHub>("hubs/message");
 
 app.Run();

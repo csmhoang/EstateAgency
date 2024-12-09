@@ -22,6 +22,7 @@ namespace Core.Services.Business
         private readonly Lazy<IPostService> _postService;
         private readonly Lazy<IReservationService> _reservationService;
         private readonly Lazy<IBookingService> _bookingService;
+        private readonly Lazy<IBookingDetailService> _bookingDetailService;
         private readonly Lazy<ILeaseService> _leaseService;
         private readonly Lazy<IInvoiceService> _invoiceService;
         private readonly Lazy<IPaymentService> _paymentService;
@@ -58,6 +59,8 @@ namespace Core.Services.Business
                 new ReservationService(repository, logger, mapper));
             _bookingService = new Lazy<IBookingService>(() =>
                 new BookingService(repository, logger, mapper));
+            _bookingDetailService = new Lazy<IBookingDetailService>(() =>
+                new BookingDetailService(repository, logger, mapper));
             _leaseService = new Lazy<ILeaseService>(() =>
                 new LeaseService(repository, logger, mapper));
             _invoiceService = new Lazy<IInvoiceService>(() =>
@@ -77,31 +80,21 @@ namespace Core.Services.Business
 
         #region Method
         public IUserService User => _userService.Value;
-
         public Interfaces.Auth.IAuthenticationService Authentication
             => _authenticationService.Value;
-
         public IRoomService Room => _roomService.Value;
-
         public IReservationService Reservation => _reservationService.Value;
-
         public ILeaseService Lease => _leaseService.Value;
-
         public IInvoiceService Invoice => _invoiceService.Value;
-
         public IPaymentService Payment => _paymentService.Value;
-
         public IMaintenanceRequestService MaintenanceRequest
             => _maintenanceRequestService.Value;
-
         public IAmenityService Amenity => _amenityService.Value;
-
         public IPhotoService Photo => _photoService.Value;
-
         public IPostService Post => _postService.Value;
-
         public IBookingService Booking => _bookingService.Value;
         public ICartService Cart => _cartService.Value;
+        public IBookingDetailService BookingDetail => _bookingDetailService.Value;
         #endregion
     }
 }

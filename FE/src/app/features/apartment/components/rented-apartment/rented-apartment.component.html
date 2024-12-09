@@ -1,0 +1,125 @@
+<div class="checked-out-room">
+  <h5 class="fs-5 fw-bold mt-3 mb-4">Quản lý phòng trọ</h5>
+  <div class="row align-items-center justify-content-between g-2 mt-3 mb-5">
+    <div class="col-lg-3">
+      <button routerLink="/lessor/apartment/insert" class="btn btn-dark w-100">
+        Thêm phòng mới
+      </button>
+    </div>
+    <div class="col-lg-8">
+      <app-search
+        [placeholder]="'Tìm kiếm...'"
+        (search)="onSearch($event)"
+      ></app-search>
+    </div>
+  </div>
+
+  <div class="position-relative">
+    <div [hidden]="dataSource.data.length == 0">
+      <table mat-table [dataSource]="dataSource" matSort>
+        <!-- Room name Column -->
+        <ng-container matColumnDef="roomName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Tên phòng</th>
+          <td mat-cell *matCellDef="let element">{{ element.room?.name }}</td>
+        </ng-container>
+
+        <!-- Landlord name Column -->
+        <ng-container matColumnDef="landlordName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Chủ nhà</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.room?.landlord?.fullName }}
+          </td>
+        </ng-container>
+
+        <!-- Start date Column-->
+        <ng-container matColumnDef="startDate">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            Ngày bắt đầu
+          </th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.startDate | date : "dd/MM/yyyy" }}
+          </td>
+        </ng-container>
+
+        <!-- End date Column-->
+        <ng-container matColumnDef="endDate">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            Ngày kết thúc
+          </th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.endDate | date : "dd/MM/yyyy" }}
+          </td>
+        </ng-container>
+
+        <!-- Number of tenant Column-->
+        <ng-container matColumnDef="numberOfTenant">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Số người</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.numberOfTenant }}
+          </td>
+        </ng-container>
+
+        <!-- Price Column-->
+        <ng-container matColumnDef="price">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Giá</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.price | currency : "VND" : "symbol" : "1.0-0" }}
+          </td>
+        </ng-container>
+
+        <!-- Room detail Column-->
+        <ng-container matColumnDef="roomDetail">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Chức năng</th>
+          <td mat-cell *matCellDef="let element">
+            <button
+              type="button"
+              class="btn btn-dark btn-sm btn-rounded my-1"
+              (click)="onView(element.room)"
+            >
+              Xem chi tiết
+            </button>
+          </td>
+        </ng-container>
+
+        <!-- Optional Column-->
+        <ng-container matColumnDef="optional">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let element">
+            <button
+              mat-icon-button
+              [matMenuTriggerFor]="menu"
+              class="d-flex justify-content-center align-items-center"
+            >
+              <i class="fa-solid fa-ellipsis-vertical"></i>
+            </button>
+            <mat-menu #menu class="px-1">
+              <button (click)="onLease(element.booking)" mat-menu-item>
+                <i class="fa-solid fa-file-lines"></i>
+                <span>Hợp đồng</span>
+              </button>
+            </mat-menu>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+
+      <!-- Pagination -->
+      <div class="pt-4">
+        <app-pagination
+          [paginationParams]="paginationParams()"
+          (pageChange)="onPageChange($event)"
+        ></app-pagination>
+      </div>
+    </div>
+
+    <!-- Empty table -->
+    <ng-container *ngIf="dataSource.data.length == 0">
+      <p class="fs-4 py-5 text-center">Bạn chưa có phòng trọ nào!</p>
+    </ng-container>
+
+    <!-- Mini Loading -->
+    <app-mini-load></app-mini-load>
+  </div>
+</div>

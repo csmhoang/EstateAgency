@@ -23,7 +23,6 @@ import { catchError, of } from 'rxjs';
   selector: 'app-cart-append',
   standalone: true,
   providers: [provideNativeDateAdapter()],
-
   imports: [
     MatFormFieldModule,
     MatInputModule,
@@ -38,7 +37,7 @@ import { catchError, of } from 'rxjs';
 export class CartAppendComponent implements OnInit {
   @Input() data!: Post;
   cart = this.cartService.currentCart();
-
+  minDate = new Date();
   destroyRef = inject(DestroyRef);
   activeModal = inject(NgbActiveModal);
 
@@ -53,6 +52,7 @@ export class CartAppendComponent implements OnInit {
 
   ngOnInit() {
     this.form = this.formBuilder.group({
+      startDate: this.formBuilder.control('', [Validators.required]),
       numberOfMonth: this.formBuilder.control('', [Validators.required]),
       numberOfTenant: this.formBuilder.control('', [Validators.required]),
       note: this.formBuilder.control(''),

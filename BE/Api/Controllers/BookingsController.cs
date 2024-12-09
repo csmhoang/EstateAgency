@@ -60,6 +60,19 @@ namespace Api.Controllers
         }
 
         /// <summary>
+        /// Lấy danh sách chhi tiết đặt phòng đang thuê
+        /// </summary>
+        [HttpGet("rented-booking-details")]
+        [Authorize]
+        public async Task<IActionResult> GetRentedBookingDetails([FromQuery] BookingDetailSpecParams specParams)
+        {
+            var userId = User.GetUserId();
+            specParams.TenantId.Add(userId);
+            var response = await _service.BookingDetail.GetRentedBookingDetailsAsync(specParams);
+            return Ok(response);
+        }
+
+        /// <summary>
         /// Thêm đặt phòng từ giỏ phòng
         /// </summary>
         [HttpPost]

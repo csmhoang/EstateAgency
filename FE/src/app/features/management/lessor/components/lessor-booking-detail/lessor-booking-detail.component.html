@@ -14,6 +14,7 @@
         <tr>
           <th>Phòng</th>
           <th>Số nguời</th>
+          <th>Ngày bắt đầu</th>
           <th>Số tháng</th>
           <th>Giá</th>
           <th>Trạng thái phòng</th>
@@ -29,6 +30,7 @@
             <p class="text-muted mb-0">{{ bookingDetail.room?.address }}</p>
           </td>
           <td>{{ bookingDetail.numberOfTenant }}</td>
+          <td>{{ bookingDetail.startDate | date : "dd/MM/yyyy" }}</td>
           <td>{{ bookingDetail.numberOfMonth }}</td>
           <td>
             {{ bookingDetail.price | currency : "VND" : "symbol" : "1.0-0" }}
@@ -54,7 +56,8 @@
                 onAccept(
                   bookingDetail.id,
                   bookingDetail.status!,
-                  bookingDetail.room?.condition!
+                  bookingDetail.room?.condition!,
+                  bookingDetail.startDate
                 )
               "
             >

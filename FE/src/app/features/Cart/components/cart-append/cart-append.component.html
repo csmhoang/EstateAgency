@@ -10,8 +10,21 @@
 <div class="modal-body">
   <form [formGroup]="form">
     <div class="row">
+      <!-- Start date select -->
+      <mat-form-field class="col-lg-4" appearance="outline">
+        <mat-label>Ngày bắt đầu</mat-label>
+        <input
+          matInput
+          [matDatepicker]="picker"
+          [min]="minDate"
+          placeholder="MM/DD/YYYY"
+          formControlName="startDate"
+        />
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
       <!-- Number of month input -->
-      <mat-form-field class="col-lg-6" appearance="outline">
+      <mat-form-field class="col-lg-4" appearance="outline">
         <mat-label>Số tháng thuê</mat-label>
         <input
           matInput
@@ -27,7 +40,7 @@
         }
       </mat-form-field>
       <!-- Number of tenant input -->
-      <mat-form-field class="col-lg-6" appearance="outline">
+      <mat-form-field class="col-lg-4" appearance="outline">
         <mat-label>Số người ở</mat-label>
         <input
           matInput

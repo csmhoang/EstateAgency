@@ -5,7 +5,7 @@ import { MatInputModule } from '@angular/material/input';
 import { catchError, of } from 'rxjs';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { BookingService } from '@features/booking/services/booking.service';
+import { BookingDetailService } from '@features/booking/services/booking-detail.service';
 
 @Component({
   selector: 'app-booking-refuse',
@@ -21,11 +21,11 @@ export class BookingRefuseComponent {
 
   rejectionReason = new FormControl('', [Validators.required]);
 
-  constructor(private bookingService: BookingService) {}
+  constructor(private bookingDetailService: BookingDetailService) {}
 
   onRefuse() {
     if (this.rejectionReason.valid) {
-      this.bookingService
+      this.bookingDetailService
         .responseDetail(this.data, 'Rejected', this.rejectionReason.value!)
         .pipe(
           takeUntilDestroyed(this.destroyRef),

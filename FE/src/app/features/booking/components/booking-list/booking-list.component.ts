@@ -149,9 +149,7 @@ export class BookingListComponent implements OnInit {
     }
   }
 
-  onLease(booking: Booking, status: string) {
-    if (status === 'Confirmed') {
+  onLease(booking: Booking) {
     this.dialogService.view(LeaseViewComponent, booking, 'lg');
-    }
   }
 }

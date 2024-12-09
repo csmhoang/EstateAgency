@@ -38,6 +38,7 @@ namespace Core.Entities
         public DateTime? CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime? UpdatedAt { get; set; } = DateTime.UtcNow;
 
+        public virtual Cart? Cart { get; set; }
         public virtual ICollection<Post> Posts { get; set; }
         public virtual ICollection<SavePost> SavePosts { get; set; }
         public virtual ICollection<Feedback> Feedbacks { get; set; }
@@ -47,7 +48,6 @@ namespace Core.Entities
         public virtual ICollection<Message> MessageSenders { get; set; }
         public virtual ICollection<Reservation> Reservations { get; set; }
         public virtual ICollection<Booking> Bookings { get; set; }
-        public virtual Cart? Cart { get; set; }
         public virtual ICollection<Room> Rooms { get; set; }
         public virtual ICollection<UserRole> UserRoles { get; set; }
     }

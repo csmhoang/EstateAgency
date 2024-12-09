@@ -5,6 +5,8 @@ export type BookingDetail = {
   id: string;
   roomId: string;
   bookingId: string;
+  startDate: Date;
+  endDate?: Date;
   numberOfMonth: number;
   numberOfTenant: number;
   price: number;

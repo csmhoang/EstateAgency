@@ -30,6 +30,11 @@ namespace Infrastructure.Data
                 query = spec.Include(query);
             }
 
+            if (spec.Lambda != null)
+            {
+                query = spec.Lambda(query);
+            }
+
             if (spec.Criteria != null)
             {
                 query = query.Where(spec.Criteria);

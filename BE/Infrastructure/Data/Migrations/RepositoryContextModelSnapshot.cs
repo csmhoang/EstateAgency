@@ -71,9 +71,6 @@ namespace Infrastructure.Data.Migrations
                         .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
 
-                    b.Property<decimal>("Amount")
-                        .HasColumnType("decimal(18,2)");
-
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
 
@@ -116,6 +113,9 @@ namespace Infrastructure.Data.Migrations
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("date");
+
                     b.Property<int>("NumberOfMonth")
                         .HasColumnType("int");
 
@@ -132,6 +132,9 @@ namespace Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("date");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
@@ -199,6 +202,9 @@ namespace Infrastructure.Data.Migrations
                     b.Property<string>("RoomId")
                         .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("date");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -296,8 +302,8 @@ namespace Infrastructure.Data.Migrations
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("DueDate")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("DueDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
@@ -367,9 +373,6 @@ namespace Infrastructure.Data.Migrations
                     b.Property<DateTime?>("SignedDate")
                         .HasColumnType("date");
 
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("date");
-
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
@@ -398,12 +401,12 @@ namespace Infrastructure.Data.Migrations
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("date");
+
                     b.Property<string>("LeaseId")
                         .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
-
-                    b.Property<int>("NumberOfMonth")
-                        .HasColumnType("int");
 
                     b.Property<int>("NumberOfTenant")
                         .HasColumnType("int");
@@ -415,6 +418,9 @@ namespace Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("date");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");

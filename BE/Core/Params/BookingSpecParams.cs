@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Core.Enums.BookingEnums;
 
 namespace Core.Params
 {
@@ -43,7 +44,6 @@ namespace Core.Params
         public string? Sort { get; set; }
 
         private string? _search;
-
         public string Search
         {
             get => _search ?? "";

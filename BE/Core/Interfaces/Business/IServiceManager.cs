@@ -11,6 +11,7 @@ namespace Core.Interfaces.Business
         IReservationService Reservation { get; }
         ILeaseService Lease { get; }
         IBookingService Booking { get; }
+        IBookingDetailService BookingDetail { get; }
         IInvoiceService Invoice { get; }
         IPaymentService Payment { get; }
         IMaintenanceRequestService MaintenanceRequest { get; }

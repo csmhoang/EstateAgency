@@ -18,8 +18,7 @@ namespace Core.Dtos
         public string BookingId { get; set; } = null!;
         public string Lessor { get; set; } = null!;
         public string Lessee { get; set; } = null!;
-        public string Terms { get; set; } = null!;
-        public DateTime StartDate { get; set; }
+        public string? Terms { get; set; }
         public DateTime? SignedDate { get; set; }
         public StatusLease? Status { get; set; }
         public DateTime? CreatedAt { get; set; }

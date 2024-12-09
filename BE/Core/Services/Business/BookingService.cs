@@ -63,7 +63,6 @@ namespace Core.Services.Business
         {
             var spec = new BookingSpecification(specParams);
             var page = await CreatePagedResult(spec, specParams.PageIndex, specParams.PageSize);
-            await _repository.SaveAsync();
             return new Response
             {
                 Success = true,
@@ -77,9 +76,11 @@ namespace Core.Services.Business
                 StatusCode = !page.Data.Any() ? (int)HttpStatusCode.NoContent : (int)HttpStatusCode.OK
             };
         }
+
         public async Task<Response> ResponseAsync(string id, StatusBooking status)
         {
             var booking = await _repository.Booking.FindCondition(r => r.Id.Equals(id))
+                .Include(b => b.BookingDetails!)
                 .FirstOrDefaultAsync();
             if (booking == null) throw new BookingNotFoundException(id);
             booking.Status = status;
@@ -123,6 +124,8 @@ namespace Core.Services.Business
                     booking.BookingDetails.Add(new BookingDetail
                     {
                         RoomId = cartDetail.RoomId!,
+                        StartDate = cartDetail.StartDate,
+                        EndDate = cartDetail.StartDate.AddMonths(cartDetail.NumberOfMonth),
                         NumberOfMonth = cartDetail.NumberOfMonth,
                         NumberOfTenant = cartDetail.NumberOfTenant,
                         Price = cartDetail.Price

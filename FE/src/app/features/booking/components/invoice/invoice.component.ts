@@ -3,8 +3,7 @@ import { Component, DestroyRef, inject, Input } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 import { Booking } from '@features/booking/models/booking.model';
-import { StatusInvoice } from '@features/booking/models/invoice.model';
-import { InvoiceService } from '@features/booking/services/invoice.service';
+import { Invoice, StatusInvoice } from '@features/booking/models/invoice.model';
 import { PaymentService } from '@features/booking/services/payment.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastService } from '@shared/services/toast/toast.service';
@@ -26,8 +25,7 @@ export class InvoiceComponent {
 
   constructor(
     private paymentService: PaymentService,
-    private toastService: ToastService,
-    private invoiceService: InvoiceService
+    private toastService: ToastService
   ) {}
 
   countDownFilter(time: Date) {
@@ -49,47 +47,35 @@ export class InvoiceComponent {
         return `${interval} ${unit}`;
       }
     }
-    if (this.data.invoice?.status !== 'Overdue') {
-      this.invoiceService
-        .response(this.data.invoiceId, 'Overdue')
-        .pipe(
-          takeUntilDestroyed(this.destroyRef),
-          catchError(() => of(null))
-        )
-        .subscribe((response) => {
-          if (response?.success) {
-            this.router
-              .navigateByUrl('/dummy', { skipLocationChange: true })
-              .then(() => {
-                this.router.navigateByUrl('/profile/booking');
-                this.activeModal.dismiss(false);
-              });
-          }
-        });
-    }
     return 'Hết hạn';
   }
 
-  onPayment() {
-    if (this.data) {
-      this.paymentService
-        .insert(this.data.invoiceId)
-        .pipe(
-          takeUntilDestroyed(this.destroyRef),
-          catchError(() => of(null))
-        )
-        .subscribe((response) => {
-          if (response?.success) {
-            this.toastService.success('Thanh toán thành công!');
-            this.toastService.success('Hợp đồng của bạn đã được kích hoạt!');
-            this.router
-              .navigateByUrl('/dummy', { skipLocationChange: true })
-              .then(() => {
-                this.router.navigateByUrl('/profile/booking');
-                this.activeModal.dismiss(false);
-              });
-          }
-        });
+  onPayment(invoice: Invoice) {
+    if (invoice) {
+      debugger;
+      const dueDate = new Date(invoice.dueDate);
+      if (dueDate >= new Date()) {
+        this.paymentService
+          .insert(invoice.id)
+          .pipe(
+            takeUntilDestroyed(this.destroyRef),
+            catchError(() => of(null))
+          )
+          .subscribe((response) => {
+            if (response?.success) {
+              this.toastService.success('Thanh toán thành công!');
+              this.toastService.success('Hợp đồng của bạn đã được kích hoạt!');
+              this.router
+                .navigateByUrl('/dummy', { skipLocationChange: true })
+                .then(() => {
+                  this.router.navigateByUrl('/profile/booking');
+                  this.activeModal.dismiss(false);
+                });
+            }
+          });
+      } else {
+        this.toastService.warn('Đã quá hạn thanh toán!');
+      }
     }
   }
 }

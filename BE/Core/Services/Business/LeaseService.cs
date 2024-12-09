@@ -9,6 +9,7 @@ using Core.Resources;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
 using static Core.Enums.BookingEnums;
+using static Core.Enums.InvoiceEnums;
 using static Core.Enums.LeaseEnums;
 
 namespace Core.Services.Business
@@ -76,11 +77,25 @@ namespace Core.Services.Business
         public async Task<Response> ResponseAsync(string id, StatusLease status)
         {
             var lease = await _repository.Lease.FindCondition(r => r.Id.Equals(id))
+                .Include(l => l.Booking!)
+                .ThenInclude(l => l.Invoice!)
                 .FirstOrDefaultAsync();
             if (lease == null) throw new LeaseNotFoundException(id);
             lease.Status = status;
             lease.UpdatedAt = DateTime.UtcNow;
             _repository.Lease.Update(lease);
+            if (status == StatusLease.Canceled)
+            {
+                var booking = lease.Booking!;
+                booking.Status = StatusBooking.Canceled;
+                booking.UpdatedAt = DateTime.UtcNow;
+                _repository.Booking.Update(booking);
+                var invoice = lease.Booking!.Invoice!;
+                invoice.Status = StatusInvoice.Cancelled;
+                invoice.UpdatedAt = DateTime.UtcNow;
+                _repository.Invoice.Update(invoice);
+
+            }
             await _repository.SaveAsync();
             return new Response
             {
@@ -132,7 +147,8 @@ namespace Core.Services.Business
                     {
                         RoomId = bookingDetail.RoomId,
                         LeaseId = lease.Id,
-                        NumberOfMonth = bookingDetail.NumberOfMonth,
+                        StartDate = bookingDetail.StartDate,
+                        EndDate = bookingDetail.StartDate.AddMonths(bookingDetail.NumberOfMonth),
                         NumberOfTenant = bookingDetail.NumberOfTenant,
                         Price = bookingDetail.Price
                     });

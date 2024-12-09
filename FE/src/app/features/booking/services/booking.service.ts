@@ -7,7 +7,6 @@ import { TakeMiniLoad } from '@core/interceptors/take.resolver';
 import { PageData } from '@core/models/page-data.model';
 import { tap, Observable, map } from 'rxjs';
 import { SpecBookingParams } from '../models/spec-booking-params.model';
-import { Invoice } from '../models/invoice.model';
 
 @Injectable({
   providedIn: 'root',
@@ -64,22 +63,4 @@ export class BookingService {
       context: new HttpContext().set(SkipPreloader, true),
     });
   }
-
-  responseDetail(id: string, status: string, rejectionReason?: string) {
-    let params = new HttpParams().set('id', id).set('status', status);
-    if (rejectionReason) {
-      params = params.set('rejectionReason', rejectionReason);
-    }
-
-    return this.http.put<Result>('/bookings/response-detail', null, {
-      params,
-      context: new HttpContext().set(SkipPreloader, true),
-    });
-  }
-
-  getInvoice(bookingId: string) {
-    return this.http
-      .get<Result<Invoice>>(`/invoices/byBooking/${bookingId}`)
-      .pipe(map((response) => response.data));
-  }  
 }

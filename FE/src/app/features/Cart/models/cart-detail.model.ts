@@ -5,6 +5,7 @@ export type CartDetail = {
   id: string;
   cartId: string;
   roomId: string;
+  startDate: Date;
   numberOfMonth: number;
   numberOfTenant: number;
   price: number;

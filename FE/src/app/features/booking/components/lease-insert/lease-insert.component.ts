@@ -24,7 +24,6 @@ import { catchError, of } from 'rxjs';
 @Component({
   selector: 'app-lease-insert',
   standalone: true,
-  providers: [provideNativeDateAdapter()],
   imports: [
     MatFormFieldModule,
     MatInputModule,
@@ -64,13 +63,11 @@ export class LeaseInsertComponent implements OnInit {
       lessee: this.formBuilder.control(this.data?.tenant?.fullName, [
         Validators.required,
       ]),
-      startDate: this.formBuilder.control('', [Validators.required]),
-      terms: this.formBuilder.control('', [Validators.required]),
+      terms: this.formBuilder.control(''),
     });
 
     this.lessor = this.form.get('lessor');
     this.lessee = this.form.get('lessee');
-    this.terms = this.form.get('terms');
   }
 
   onInsert() {
@@ -116,13 +113,6 @@ export class LeaseInsertComponent implements OnInit {
   errorForLessee(): string {
     if (this.lessee?.hasError('required')) {
       return 'Tên người thuê không được để trống!';
-    }
-    return '';
-  }
-
-  errorForTerms(): string {
-    if (this.terms?.hasError('required')) {
-      return 'Các điều khoản không được để trống!';
     }
     return '';
   }

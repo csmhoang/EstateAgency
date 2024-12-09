@@ -5,8 +5,7 @@ export type Lease = {
   bookingId: string;
   lessor: string;
   lessee: string;
-  terms: string;
-  startDate: Date;
+  terms?: string;
   signedDate?: Date;
   status?: string;
   createdAt?: Date;
@@ -17,8 +16,7 @@ export type Lease = {
 
 export const StatusLease: { [key: string]: string } = {
   Pending: 'Đã gửi',
-  Confirmed: "Xác nhận",
   Active: 'Có hiệu lực',
   Expired: 'Hết hạn',
-  Rejected: "Đã từ chối"
+  Canceled: "Đã hủy"
 };

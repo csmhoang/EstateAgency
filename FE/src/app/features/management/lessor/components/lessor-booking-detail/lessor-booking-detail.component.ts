@@ -6,6 +6,7 @@ import { ConditionRoom } from '@features/apartment/models/room.model';
 import { BookingRefuseComponent } from '@features/booking/components/booking-refuse/booking-refuse.component';
 import { StatusBookingDetail } from '@features/booking/models/booking-detail.model';
 import { Booking } from '@features/booking/models/booking.model';
+import { BookingDetailService } from '@features/booking/services/booking-detail.service';
 import { BookingService } from '@features/booking/services/booking.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { DialogService } from '@shared/services/dialog/dialog.service';
@@ -30,61 +31,92 @@ export class LessorBookingDetailComponent {
   constructor(
     private dialogService: DialogService,
     private bookingService: BookingService,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private bookingDetailService: BookingDetailService
   ) {}
 
   decline() {
     this.activeModal.dismiss(false);
   }
 
-  async onAccept(id: string, status: string, condition: string) {
+  async onAccept(
+    id: string,
+    status: string,
+    condition: string,
+    startDate: Date
+  ) {
     if (status === 'Pending') {
       if (condition !== 'Occupied') {
-        this.bookingService
-          .responseDetail(id, 'Accepted')
-          .pipe(
-            takeUntilDestroyed(this.destroyRef),
-            catchError(() => of(null))
-          )
-          .subscribe((response) => {
-            if (response?.success && this.data.bookingDetails) {
-              this.toastService.success('Đã chấp nhận đặt phòng');
-              const len = this.data.bookingDetails.length;
-              for (let i = 0; i < len; i++) {
-                if (this.data.bookingDetails[i].id === id) {
-                  this.data.bookingDetails[i].status = 'Accepted';
-                  break;
+        if (new Date(startDate) >= new Date()) {
+          this.bookingDetailService
+            .responseDetail(id, 'Accepted')
+            .pipe(
+              takeUntilDestroyed(this.destroyRef),
+              catchError(() => of(null))
+            )
+            .subscribe((response) => {
+              if (response?.success && this.data.bookingDetails) {
+                this.toastService.success('Đã chấp nhận đặt phòng');
+                const len = this.data.bookingDetails.length;
+                for (let i = 0; i < len; i++) {
+                  if (this.data.bookingDetails[i].id === id) {
+                    this.data.bookingDetails[i].status = 'Accepted';
+                    break;
+                  }
+                }
+                let isConfirm = false;
+                for (let i = 0; i < len; i++) {
+                  let status = this.data.bookingDetails[i].status;
+                  if (status === 'Pending') break;
+                  if (status === 'Accepted') isConfirm = true;
+                  if (len === i + 1) {
+                    this.bookingService
+                      .response(
+                        this.data.id!,
+                        isConfirm ? 'Confirmed' : 'Rejected'
+                      )
+                      .pipe(
+                        debounceTime(1000),
+                        takeUntilDestroyed(this.destroyRef),
+                        catchError(() => of(null))
+                      )
+                      .subscribe((response) => {
+                        if (response?.success) {
+                          this.activeModal.dismiss(false);
+                          this.router
+                            .navigateByUrl('/dummy', {
+                              skipLocationChange: true,
+                            })
+                            .then(() => {
+                              this.router.navigateByUrl('/lessor/booking');
+                            });
+                        }
+                      });
+                  }
                 }
               }
-              let isConfirm = false;
-              for (let i = 0; i < len; i++) {
-                let status = this.data.bookingDetails[i].status;
-                if (status === 'Pending') break;
-                if (status === 'Accepted') isConfirm = true;
-                if (len === i + 1) {
-                  this.bookingService
-                    .response(
-                      this.data.id!,
-                      isConfirm ? 'Confirmed' : 'Rejected'
-                    )
-                    .pipe(
-                      debounceTime(1000),
-                      takeUntilDestroyed(this.destroyRef),
-                      catchError(() => of(null))
-                    )
-                    .subscribe((response) => {
-                      if (response?.success) {
-                        this.router
-                          .navigateByUrl('/dummy', { skipLocationChange: true })
-                          .then(() => {
-                            this.router.navigateByUrl('/lessor/booking');
-                          });
-                      }
-                    });
+            });
+        } else {
+          this.bookingDetailService
+            .responseDetail(id, 'Canceled')
+            .pipe(
+              takeUntilDestroyed(this.destroyRef),
+              catchError(() => of(null))
+            )
+            .subscribe((response) => {
+              if (response?.success) {
+                if (this.data.bookingDetails) {
+                  for (let i = 0; i < this.data.bookingDetails.length; i++) {
+                    if (this.data.bookingDetails[i].id === id) {
+                      this.data.bookingDetails[i].status = 'Canceled';
+                      break;
+                    }
+                  }
                 }
+                this.toastService.warn('Đặt phòng này ngày thuê đã quá hạn.');
               }
-            }
-          });
+            });
+        }
       } else {
         this.toastService.warn('Phòng không có sẵn.');
       }

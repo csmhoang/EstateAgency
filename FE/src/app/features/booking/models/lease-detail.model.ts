@@ -4,11 +4,12 @@ export type LeaseDetail = {
   id: string;
   roomId: string;
   leaseId: string;
-  numberOfMonth: number;
+  startDate: Date;
+  endDate: Date;
   numberOfTenant: number;
   createdAt?: Date;
   updatedAt?: Date;
-  
+
   price: number;
   room?: Room;
 };

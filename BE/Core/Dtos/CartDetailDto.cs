@@ -17,6 +17,7 @@ namespace Core.Dtos
         public string CartId { get; set; } = null!;
         [Required(ErrorMessage = RoomConst.ErrorEmptyId)]
         public string RoomId { get; set; } = null!;
+        public DateTime StartDate { get; set; }
         public int NumberOfMonth { get; set; }
         public int NumberOfTenant { get; set; }
         public decimal Price { get; set; }

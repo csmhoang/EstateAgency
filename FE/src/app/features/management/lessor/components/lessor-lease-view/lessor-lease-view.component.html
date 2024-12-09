@@ -41,10 +41,6 @@
           <div class="col-xl-4">
             <ul class="list-unstyled">
               <li class="text-muted">
-                <span class="fw-bold">Ngày bắt đầu: </span>
-                {{ data?.lease?.startDate | date : "dd/MM/yyyy" }}
-              </li>
-              <li class="text-muted">
                 <span class="me-1 fw-bold">Trạng thái: </span
                 ><span class="badge bg-warning text-black fw-bold">
                   {{ statusLeaseFilter[data?.lease?.status!] }}</span
@@ -59,8 +55,9 @@
               <tr>
                 <th scope="col">#</th>
                 <th scope="col">Phòng</th>
+                <th scope="col">Ngày bắt đầu</th>
+                <th scope="col">Ngày kết thúc</th>
                 <th scope="col">Số nguời</th>
-                <th scope="col">Số tháng</th>
                 <th scope="col">Giá</th>
               </tr>
             </thead>
@@ -69,8 +66,9 @@
               <tr>
                 <th scope="row">{{ $index }}</th>
                 <td>{{ leaseDetail.room?.name }}</td>
+                <td>{{ leaseDetail.startDate }}</td>
+                <td>{{ leaseDetail.endDate }}</td>
                 <td>{{ leaseDetail.numberOfTenant }}</td>
-                <td>{{ leaseDetail.numberOfMonth }}</td>
                 <td>
                   {{
                     leaseDetail.price | currency : "VND" : "symbol" : "1.0-0"

@@ -62,7 +62,11 @@
                 <i class="fa-solid fa-eye"></i>
                 <span>Xem</span>
               </button>
-              <button (click)="onUpdate(element)" mat-menu-item>
+              <button
+                [disabled]="element.status !== 'Pending'"
+                (click)="onUpdate(element)"
+                mat-menu-item
+              >
                 <i class="fa-solid fa-wrench"></i>
                 <span>Sửa</span>
               </button>

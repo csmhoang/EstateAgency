@@ -3,6 +3,7 @@ using Core.Interfaces.Business;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using static Core.Enums.BookingEnums;
 using static Core.Enums.InvoiceEnums;
 using static Core.Enums.LeaseEnums;
 

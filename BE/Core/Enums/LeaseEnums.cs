@@ -14,13 +14,11 @@ namespace Core.Enums
             [EnumMember(Value = "Pending")]
             Pending = 0,
             [EnumMember(Value = "Active")]
-            Confirmed = 1,
-            [EnumMember(Value = "Active")]
-            Active = 2,
+            Active = 1,
             [EnumMember(Value = "Expired")]
-            Expired = 3,
-            [EnumMember(Value = "Rejected")]
-            Canceled = 4,
+            Expired = 2,
+            [EnumMember(Value = "Canceled")]
+            Canceled = 3,
         }
     }
 }

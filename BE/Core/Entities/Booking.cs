@@ -10,9 +10,6 @@ namespace Core.Entities
         {
             BookingDetails = new HashSet<BookingDetail>();
         }
-        [Key]
-        [MaxLength(36)]
-        public string Id { get; set; } = Guid.NewGuid().ToString();
         [ForeignKey("Tenant")]
         [MaxLength(36)]
         public string? TenantId { get; set; }

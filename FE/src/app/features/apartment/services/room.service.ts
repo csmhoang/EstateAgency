@@ -12,6 +12,7 @@ import { Result } from '@core/models/result.model';
 import { PageData } from '@core/models/page-data.model';
 import { SpecParams } from '@core/models/spec-params.model';
 import { TakeMiniLoad } from '@core/interceptors/take.resolver';
+import { BookingDetail } from '@features/booking/models/booking-detail.model';
 
 @Injectable({
   providedIn: 'root',
