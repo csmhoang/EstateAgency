@@ -3,7 +3,6 @@ import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
 import { Feedback } from '../models/feedback.model';
 import { environment } from '@environment/environment.development';
 import { CookieService } from '@core/services/cookie.service';
-import { ToastService } from '@shared/services/toast/toast.service';
 
 @Injectable({
   providedIn: 'root',
@@ -29,13 +28,13 @@ export class FeedbackService {
     });
 
     this.hubConnection.on('NewFeedback', (feedback: Feedback) => {
-      this.feedbackThread.update((feednacks) => {
-        const index = feednacks.findIndex((f) => f.id === feedback.replyId);
+      this.feedbackThread.update((feedbacks) => {
+        const index = feedbacks.findIndex((f) => f.id === feedback.replyId);
         if (index != -1) {
-          feednacks[index].replies?.push(feedback);
-          return feednacks;
+          feedbacks[index].replies?.push(feedback);
+          return feedbacks;
         }
-        return [...feednacks, feedback];
+        return [...feedbacks, feedback];
       });
     });
   }

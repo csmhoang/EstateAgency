@@ -1,0 +1,43 @@
+@if(conversation){
+<div class="d-flex flex-column h-100 rounded">
+  <div
+    class="text-muted d-flex justify-content-start align-items-center gap-1 pe-3 pt-3 mt-2"
+  >
+    <img
+      [src]="
+        conversation.receiver?.avatarUrl || '/assets/img/avatar_default.jpg'
+      "
+      width="45"
+      class="h-100"
+    />
+    <p class="fw-bold text-muted">{{ conversation.receiver?.fullName }}</p>
+  </div>
+  <div class="flex-fill">
+    @for (message of messages(); track $index) {
+    <app-message [message]="message"></app-message>
+    }
+  </div>
+  <div
+    class="text-muted d-flex justify-content-start align-items-center gap-1 pe-3 pt-3 mt-2"
+  >
+    <img
+      [src]="user?.avatarUrl || '/assets/img/avatar_default.jpg'"
+      width="45"
+      class="h-100"
+    />
+    <input
+      type="text"
+      class="form-control form-control-lg rounded border border-light-subtle"
+      [formControl]="message"
+      placeholder="Nhập tin nhắn"
+    />
+    <button
+      class="btn btn-dark"
+      (click)="sendMessage()"
+      [disabled]="message.invalid || !message.dirty"
+    >
+      <i class="fas fa-paper-plane"></i>
+    </button>
+  </div>
+</div>
+}

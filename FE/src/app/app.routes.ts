@@ -29,7 +29,6 @@ import { LessorBookingComponent } from '@features/management/lessor/pages/lessor
 import { LessorProfileComponent } from '@features/management/lessor/pages/lessor-profile/lessor-profile.component';
 import { CartComponent } from '@features/Cart/pages/cart/cart.component';
 import { RentedApartmentComponent } from '@features/apartment/components/rented-apartment/rented-apartment.component';
-import { MessengerComponent } from '@features/messenger/pages/messenger/messenger.component';
 
 export const routes: Routes = [
   /*Clients*/
@@ -165,10 +164,6 @@ export const routes: Routes = [
         component: ProfileActionsComponent,
       },
     ],
-  },
-  {
-    path: 'messenger',
-    component: MessengerComponent,
   },
 
   /*Admin*/

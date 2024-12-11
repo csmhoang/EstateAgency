@@ -18,5 +18,6 @@ namespace Core.Interfaces.Business
         IAmenityService Amenity { get; }
         IPhotoService Photo { get; }
         ICartService Cart { get; }
+        IConversationService Conversation { get; }
     }
 }

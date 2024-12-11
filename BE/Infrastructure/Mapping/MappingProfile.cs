@@ -49,6 +49,12 @@ namespace Infrastructure.Mapping
 
             CreateMap<Feedback, FeedbackDto>();
 
+            CreateMap<Message, MessageDto>();
+
+            CreateMap<Conversation, ConversationDto>();
+
+            CreateMap<Participant, ParticipantDto>();
+
             CreateMap<UserDto, User>()
                 .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Email))
                 .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
@@ -93,22 +99,31 @@ namespace Infrastructure.Mapping
                 );
 
             CreateMap<BookingDto, Booking>()
-               .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+                .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
 
             CreateMap<LeaseDto, Lease>()
-               .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+                .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
 
             CreateMap<FeedbackDto, Feedback>()
-               .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+                .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+
+            CreateMap<MessageDto, Message>()
+                .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+
+            CreateMap<ConversationDto, Conversation>()
+                .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+
+            CreateMap<ParticipantDto, Participant>()
+                .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
 
             CreateMap<InvoiceDto, Invoice>()
-               .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+                .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
 
             CreateMap<PaymentDto, Payment>()
-               .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+                .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
 
             CreateMap<InvoiceDetailDto, InvoiceDetail>()
-               .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+                .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
 
             CreateMap<CartDto, Cart>()
                 .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));

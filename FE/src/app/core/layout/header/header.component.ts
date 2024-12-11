@@ -44,6 +44,7 @@ export class HeaderComponent {
   document = inject(DOCUMENT);
   nav: ElementRef | undefined;
 
+  constructor() {}
   toggleMobile() {
     const body = document.querySelector('body');
 

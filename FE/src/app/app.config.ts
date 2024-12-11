@@ -45,11 +45,11 @@ export const appConfig: ApplicationConfig = {
         errorInterceptor,
       ])
     ),
-    // {
-    //   provide: APP_INITIALIZER,
-    //   useFactory: initializeApp,
-    //   deps: [InitService],
-    //   multi: true,
-    // },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initializeApp,
+      deps: [InitService],
+      multi: true,
+    },
   ],
 };

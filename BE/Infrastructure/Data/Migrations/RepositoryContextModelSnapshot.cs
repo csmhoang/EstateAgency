@@ -218,6 +218,23 @@ namespace Infrastructure.Data.Migrations
                     b.ToTable("CartDetails");
                 });
 
+            modelBuilder.Entity("Core.Entities.Conversation", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Conversations");
+                });
+
             modelBuilder.Entity("Core.Entities.Feedback", b =>
                 {
                     b.Property<string>("Id")
@@ -377,7 +394,6 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Terms")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("UpdatedAt")
@@ -524,6 +540,10 @@ namespace Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ConversationId")
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
+
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
 
@@ -543,11 +563,42 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ConversationId");
+
                     b.HasIndex("ReceiverId");
 
                     b.HasIndex("SenderId");
 
                     b.ToTable("Messages");
+                });
+
+            modelBuilder.Entity("Core.Entities.Participant", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
+
+                    b.Property<string>("ConversationId")
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UserId")
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ConversationId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Participants");
                 });
 
             modelBuilder.Entity("Core.Entities.Payment", b =>
@@ -1158,6 +1209,10 @@ namespace Infrastructure.Data.Migrations
 
             modelBuilder.Entity("Core.Entities.Message", b =>
                 {
+                    b.HasOne("Core.Entities.Conversation", "Conversation")
+                        .WithMany("Messages")
+                        .HasForeignKey("ConversationId");
+
                     b.HasOne("Core.Entities.User", "Receiver")
                         .WithMany("MessageReceivers")
                         .HasForeignKey("ReceiverId");
@@ -1166,9 +1221,26 @@ namespace Infrastructure.Data.Migrations
                         .WithMany("MessageSenders")
                         .HasForeignKey("SenderId");
 
+                    b.Navigation("Conversation");
+
                     b.Navigation("Receiver");
 
                     b.Navigation("Sender");
+                });
+
+            modelBuilder.Entity("Core.Entities.Participant", b =>
+                {
+                    b.HasOne("Core.Entities.Conversation", "Conversation")
+                        .WithMany("Participants")
+                        .HasForeignKey("ConversationId");
+
+                    b.HasOne("Core.Entities.User", "User")
+                        .WithMany("Participants")
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("Conversation");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Core.Entities.Payment", b =>
@@ -1276,6 +1348,13 @@ namespace Infrastructure.Data.Migrations
                     b.Navigation("CartDetails");
                 });
 
+            modelBuilder.Entity("Core.Entities.Conversation", b =>
+                {
+                    b.Navigation("Messages");
+
+                    b.Navigation("Participants");
+                });
+
             modelBuilder.Entity("Core.Entities.Feedback", b =>
                 {
                     b.Navigation("Replies");
@@ -1342,6 +1421,8 @@ namespace Infrastructure.Data.Migrations
                     b.Navigation("MessageReceivers");
 
                     b.Navigation("MessageSenders");
+
+                    b.Navigation("Participants");
 
                     b.Navigation("Posts");
 

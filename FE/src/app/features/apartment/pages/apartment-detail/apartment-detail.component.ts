@@ -42,14 +42,14 @@ import { NgbRatingModule } from '@ng-bootstrap/ng-bootstrap';
 export class ApartmentDetailComponent implements OnInit, OnDestroy {
   post = signal<Post | null>(null);
   user = this.userService.currentUser();
-  feedbacks = computed(() => this.feedbackService.feedbackThread());
+  feedbacks = this.feedbackService.feedbackThread;
   form: FormGroup = new FormGroup({});
 
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private feedbackService: FeedbackService,
-    private userService: UserService,
+    private userService: UserService
   ) {}
 
   ngOnInit() {

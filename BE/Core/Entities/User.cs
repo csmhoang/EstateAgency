@@ -20,6 +20,7 @@ namespace Core.Entities
             Posts = new HashSet<Post>();
             UserRoles = new HashSet<UserRole>();
             SavePosts = new HashSet<SavePost>();
+            Participants = new HashSet<Participant>();
         }
         [MaxLength(100)]
         public string FullName { get; set; } = null!;
@@ -50,5 +51,6 @@ namespace Core.Entities
         public virtual ICollection<Booking> Bookings { get; set; }
         public virtual ICollection<Room> Rooms { get; set; }
         public virtual ICollection<UserRole> UserRoles { get; set; }
+        public virtual ICollection<Participant> Participants { get; set; }
     }
 }

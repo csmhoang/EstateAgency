@@ -30,15 +30,14 @@ namespace Core.SignalR
                 throw new HubException(Invalidate.IdRequired);
             }
 
-            var spec = new BaseSpecification<Feedback>(f =>
-                f.PostId!.Equals(postId) && string.IsNullOrEmpty(f.ReplyId)
-            );
-            spec.AddInclude(x => x.Include(f => f.Tenant!));
-            spec.AddInclude(x => x.Include(f => f.Replies!));
-            spec.AddOrder(x => x.OrderBy(f => f.CreatedAt));
-            var data = await _repository.Feedback.ListAsync(spec);
+            var feedbacks = await _repository.Feedback
+                .FindCondition(f => f.PostId!.Equals(postId) && string.IsNullOrEmpty(f.ReplyId))
+                .Include(f => f.Tenant!)
+                .Include(f => f.Replies!)
+                .OrderBy(f => f.CreatedAt)
+                .ToListAsync();
 
-            await Clients.Caller.SendAsync("ReceiveFeedbacksThread", _mapper.Map<IEnumerable<FeedbackDto>>(data));
+            await Clients.Caller.SendAsync("ReceiveFeedbacksThread", _mapper.Map<IEnumerable<FeedbackDto>>(feedbacks));
         }
 
         public override async Task OnDisconnectedAsync(Exception? exception)
@@ -49,18 +48,17 @@ namespace Core.SignalR
         [Authorize]
         public async Task SendFeedback(FeedbackDto feedbackDto)
         {
-            var feedback = _mapper.Map<Feedback>(feedbackDto);
-            _repository.Feedback.Create(feedback);
+            var newFeedback = _mapper.Map<Feedback>(feedbackDto);
+            _repository.Feedback.Create(newFeedback);
             await _repository.SaveAsync();
 
-            var spec = new BaseSpecification<Feedback>(f =>
-                f.Id.Equals(feedback.Id)
-            );
-            spec.AddInclude(x => x.Include(f => f.Tenant!));
-            spec.AddInclude(x => x.Include(f => f.Replies!));
-            var data = await _repository.Feedback.GetEntityWithSpec(spec);
+            var feedback = await _repository.Feedback
+                .FindCondition(f => f.Id.Equals(newFeedback.Id))
+                .Include(f => f.Tenant!)
+                .Include(f => f.Replies!)
+                .FirstOrDefaultAsync();
 
-            await Clients.All.SendAsync("NewFeedback", _mapper.Map<FeedbackDto>(data));
+            await Clients.All.SendAsync("NewFeedback", _mapper.Map<FeedbackDto>(feedback));
         }
     }
 }

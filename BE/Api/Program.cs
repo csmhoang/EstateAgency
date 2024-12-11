@@ -74,6 +74,6 @@ app.MapControllers();
 
 app.MapHub<PresenceHub>("hubs/presence");
 app.MapHub<FeedbackHub>("hubs/feedback");
-app.MapHub<FeedbackHub>("hubs/message");
+app.MapHub<MessageHub>("hubs/message");
 
 app.Run();

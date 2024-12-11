@@ -1,0 +1,13 @@
+.status {
+  &.online {
+    color: var(--accent-color);
+  }
+  &.offline {
+    color: var(--default-color);
+  }
+}
+.hover:hover {
+  background-color: #f8f9fa;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}

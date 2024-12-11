@@ -1,0 +1,8 @@
+.form-control {
+  border-color: transparent;
+}
+
+.form-control:focus {
+  border-color: transparent;
+  box-shadow: inset 0px 0px 0px 1px transparent;
+}

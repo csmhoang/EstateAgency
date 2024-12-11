@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Core.Interfaces.Data
+﻿namespace Core.Interfaces.Data
 {
     public interface IRepositoryManager
     {
@@ -27,6 +21,9 @@ namespace Core.Interfaces.Data
         ILeaseDetailRepository LeaseDetail { get; }
         ICartDetailRepository CartDetail { get; }
         ICartRepository Cart { get; }
+        IMessageRepository Message { get; }
+        IConversationRepository Conversation { get; }
+        IParticipantRepository Participant { get; }
 
         Task SaveAsync();
     }

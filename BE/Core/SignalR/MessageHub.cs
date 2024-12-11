@@ -1,16 +1,10 @@
 ﻿using AutoMapper;
 using Core.Dtos;
-using Core.Entities;
 using Core.Interfaces.Data;
 using Core.Resources;
-using Core.Specifications;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace Core.SignalR
 {
@@ -28,22 +22,23 @@ namespace Core.SignalR
         public override async Task OnConnectedAsync()
         {
             var httpContext = Context.GetHttpContext();
-            var otherUser = httpContext?.Request.Query["user"].ToString();
-            var postId = httpContext?.Request.Query["postId"].ToString();
-            if (string.IsNullOrEmpty(postId))
+            var conversationId = httpContext?.Request.Query["conversationId"].ToString();
+            if (string.IsNullOrEmpty(conversationId))
             {
                 throw new HubException(Invalidate.IdRequired);
             }
 
-            var spec = new BaseSpecification<Feedback>(f =>
-                f.PostId!.Equals(postId) && string.IsNullOrEmpty(f.ReplyId)
-            );
-            spec.AddInclude(x => x.Include(f => f.Tenant!));
-            spec.AddInclude(x => x.Include(f => f.Replies!));
-            spec.AddOrder(x => x.OrderBy(f => f.CreatedAt));
-            var data = await _repository.Feedback.ListAsync(spec);
+            await Groups.AddToGroupAsync(Context.ConnectionId, conversationId);
+            var messages = await _repository.Conversation
+                .FindCondition(c => c.Id.Equals(conversationId))
+                .Include(c => c.Messages!)
+                .ThenInclude(m => m.Sender!)
+                .Include(c => c.Messages!)
+                .ThenInclude(m => m.Receiver!)
+                .SelectMany(c => c.Messages)
+                .ToListAsync();
 
-            await Clients.Caller.SendAsync("ReceiveFeedbacksThread", _mapper.Map<IEnumerable<FeedbackDto>>(data));
+            await Clients.Caller.SendAsync("ReceiveMessagesThread", _mapper.Map<IEnumerable<MessageDto>>(messages));
         }
 
         public override async Task OnDisconnectedAsync(Exception? exception)
@@ -52,20 +47,19 @@ namespace Core.SignalR
         }
 
         [Authorize]
-        public async Task SendFeedback(FeedbackDto feedbackDto)
+        public async Task SendMessage(MessageDto messageDto)
         {
-            var feedback = _mapper.Map<Feedback>(feedbackDto);
-            _repository.Feedback.Create(feedback);
+            var newMessage = _mapper.Map<Entities.Message>(messageDto);
+            _repository.Message.Create(newMessage);
             await _repository.SaveAsync();
 
-            var spec = new BaseSpecification<Feedback>(f =>
-                f.Id.Equals(feedback.Id)
-            );
-            spec.AddInclude(x => x.Include(f => f.Tenant!));
-            spec.AddInclude(x => x.Include(f => f.Replies!));
-            var data = await _repository.Feedback.GetEntityWithSpec(spec);
+            var message = await _repository.Message
+                .FindCondition(m => m.Id.Equals(newMessage.Id))
+                .Include(m => m.Sender!)
+                .Include(m => m.Receiver!)
+                .FirstOrDefaultAsync();
 
-            await Clients.All.SendAsync("NewFeedback", _mapper.Map<FeedbackDto>(data));
+            await Clients.Group(messageDto.ConversationId).SendAsync("NewMessage", _mapper.Map<MessageDto>(message));
         }
     }
 }

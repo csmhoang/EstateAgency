@@ -39,6 +39,8 @@ namespace Infrastructure.Data
         public virtual DbSet<LeaseDetail> LeaseDetails { get; set; } = null!;
         public virtual DbSet<Cart> Carts { get; set; } = null!;
         public virtual DbSet<CartDetail> CartDetails { get; set; } = null!;
+        public virtual DbSet<Conversation> Conversations { get; set; } = null!;
+        public virtual DbSet<Participant> Participants { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -77,6 +79,8 @@ namespace Infrastructure.Data
             modelBuilder.Entity<MaintenanceRequest>(entity => { });
 
             modelBuilder.Entity<MaintenanceImage>(entity => { });
+
+            modelBuilder.Entity<Conversation>(entity => { });
 
             modelBuilder.Entity<Message>(entity =>
             {

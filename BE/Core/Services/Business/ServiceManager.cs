@@ -30,6 +30,7 @@ namespace Core.Services.Business
         private readonly Lazy<IAmenityService> _amenityService;
         private readonly Lazy<IPhotoService> _photoService;
         private readonly Lazy<ICartService> _cartService;
+        private readonly Lazy<IConversationService> _conversationService;
         #endregion
 
         #region Property
@@ -75,6 +76,8 @@ namespace Core.Services.Business
                 new PhotoService(cloudinaryConfig));
             _cartService = new Lazy<ICartService>(() =>
                 new CartService(repository, logger, mapper));
+            _conversationService = new Lazy<IConversationService>(() =>
+                new ConversationService(repository, logger, mapper));
         }
         #endregion
 
@@ -95,6 +98,7 @@ namespace Core.Services.Business
         public IBookingService Booking => _bookingService.Value;
         public ICartService Cart => _cartService.Value;
         public IBookingDetailService BookingDetail => _bookingDetailService.Value;
+        public IConversationService Conversation => _conversationService.Value;
         #endregion
     }
 }

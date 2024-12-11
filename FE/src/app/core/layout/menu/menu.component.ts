@@ -8,6 +8,8 @@ import { IfCustomerDirective } from '@core/auth/directives/if-customer.directive
 import { AuthService } from '@core/auth/services/auth.service';
 import { UserService } from '@core/services/user.service';
 import { CartService } from '@features/Cart/services/cart.service';
+import { MessengerComponent } from '@features/messenger/components/messenger/messenger.component';
+import { DialogService } from '@shared/services/dialog/dialog.service';
 
 @Component({
   selector: 'app-menu',
@@ -31,9 +33,14 @@ export class MenuComponent {
     private authService: AuthService,
     private cartService: CartService,
     private userService: UserService,
+    private dialogService: DialogService
   ) {}
 
   onLogout() {
     this.authService.logout();
+  }
+
+  onMessage() {
+    this.dialogService.form(MessengerComponent, null);
   }
 }

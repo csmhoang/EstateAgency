@@ -1,0 +1,18 @@
+<div
+  class="d-flex justify-content-start"
+  [ngClass]="{ 'flex-row-reverse': message?.senderId !== user?.id }"
+>
+  <img
+    [src]="message?.sender?.avatarUrl || '/assets/img/avatar_default.jpg'"
+    class="h-100"
+    width="45"
+  />
+  <div>
+    <p class="small p-2 ms-3 mb-1 rounded-3 bg-body-tertiary">
+      {{ message?.content }}
+    </p>
+    <p class="small ms-3 mb-3 rounded-3 text-muted float-end">
+      {{ timeSinceSendAtFilter(message?.sentAt!) }}
+    </p>
+  </div>
+</div>

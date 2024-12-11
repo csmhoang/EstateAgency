@@ -27,6 +27,9 @@ namespace Infrastructure.Repositories
         private readonly Lazy<IBookingDetailRepository> _bookingDetailRepository;
         private readonly Lazy<ICartDetailRepository> _cartDetailRepository;
         private readonly Lazy<ICartRepository> _cartRepository;
+        private readonly Lazy<IMessageRepository> _messageRepository;
+        private readonly Lazy<IConversationRepository> _conversationRepository;
+        private readonly Lazy<IParticipantRepository> _participantRepository;
         #endregion
 
         #region Property
@@ -55,47 +58,35 @@ namespace Infrastructure.Repositories
             _bookingDetailRepository = new Lazy<IBookingDetailRepository>(() => new BookingDetailRepository(context));
             _cartDetailRepository = new Lazy<ICartDetailRepository>(() => new CartDetailRepository(context));
             _cartRepository = new Lazy<ICartRepository>(() => new CartRepository(context));
+            _messageRepository = new Lazy<IMessageRepository>(() => new MessageRepository(context));
+            _conversationRepository = new Lazy<IConversationRepository>(() => new ConversationRepository(context));
+            _participantRepository = new Lazy<IParticipantRepository>(() => new ParticipantRepository(context));
         }
         #endregion
 
         #region Method
         public IUserRepository User => _userRepository.Value;
-
         public IRoomRepository Room => _roomRepository.Value;
-
         public IReservationRepository Reservation => _reservationRepository.Value;
-
         public ILeaseRepository Lease => _leaseRepository.Value;
-
         public IInvoiceRepository Invoice => _invoiceRepository.Value;
-
         public IPaymentRepository Payment => _paymentRepository.Value;
-
         public IMaintenanceRequestRepository MaintenanceRequest => _maintenanceRequestRepository.Value;
-
         public IAmenityRepository Amenity => _amenityRepository.Value;
-
         public IPhotoRepository Photo => _photoRepository.Value;
-
         public IPostRepository Post => _postRepository.Value;
-
         public IFeedbackRepository Feedback => _feedbackRepository.Value;
-
         public IBookingRepository Booking => _bookingRepository.Value;
-
         public ISavePostRepository SavePost => _savePostRepository.Value;
-
         public IFollowRepository Follow => _followRepository.Value;
-
         public IInvoiceDetailRepository InvoiceDetail => _invoiceDetailRepository.Value;
-
         public IBookingDetailRepository BookingDetail => _bookingDetailRepository.Value;
-
         public ILeaseDetailRepository LeaseDetail => _leaseDetailRepository.Value;
-
         public ICartDetailRepository CartDetail => _cartDetailRepository.Value;
-
         public ICartRepository Cart => _cartRepository.Value;
+        public IMessageRepository Message => _messageRepository.Value;
+        public IConversationRepository Conversation => _conversationRepository.Value;
+        public IParticipantRepository Participant => _participantRepository.Value;
 
         public async Task SaveAsync() => await _context.SaveChangesAsync();
         #endregion
