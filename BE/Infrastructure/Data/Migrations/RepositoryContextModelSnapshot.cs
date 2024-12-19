@@ -450,86 +450,6 @@ namespace Infrastructure.Data.Migrations
                     b.ToTable("LeaseDetails");
                 });
 
-            modelBuilder.Entity("Core.Entities.MaintenanceImage", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasMaxLength(36)
-                        .HasColumnType("nvarchar(36)");
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("MaintenanceRequestId")
-                        .IsRequired()
-                        .HasMaxLength(36)
-                        .HasColumnType("nvarchar(36)");
-
-                    b.Property<string>("PublicId")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Url")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MaintenanceRequestId");
-
-                    b.ToTable("MaintenanceImages");
-                });
-
-            modelBuilder.Entity("Core.Entities.MaintenanceRequest", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasMaxLength(36)
-                        .HasColumnType("nvarchar(36)");
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal?>("EstimateCost")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("InvoiceId")
-                        .HasMaxLength(36)
-                        .HasColumnType("nvarchar(36)");
-
-                    b.Property<string>("RejectionReason")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("RequestDate")
-                        .HasColumnType("date");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.Property<string>("TenantId")
-                        .HasMaxLength(36)
-                        .HasColumnType("nvarchar(36)");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("InvoiceId")
-                        .IsUnique()
-                        .HasFilter("[InvoiceId] IS NOT NULL");
-
-                    b.HasIndex("TenantId");
-
-                    b.ToTable("MaintenanceRequests");
-                });
-
             modelBuilder.Entity("Core.Entities.Message", b =>
                 {
                     b.Property<string>("Id")
@@ -570,6 +490,41 @@ namespace Infrastructure.Data.Migrations
                     b.HasIndex("SenderId");
 
                     b.ToTable("Messages");
+                });
+
+            modelBuilder.Entity("Core.Entities.Notification", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ReceiverId")
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ReceiverId");
+
+                    b.ToTable("Notification");
                 });
 
             modelBuilder.Entity("Core.Entities.Participant", b =>
@@ -870,6 +825,9 @@ namespace Infrastructure.Data.Migrations
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<bool>("Visibility")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Ward")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -1031,6 +989,32 @@ namespace Infrastructure.Data.Migrations
                     b.ToTable("UserRole", (string)null);
                 });
 
+            modelBuilder.Entity("Core.Entities.VisitStat", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Month")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("VisitCount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Year")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("VisitStats");
+                });
+
             modelBuilder.Entity("AmenityRoom", b =>
                 {
                     b.HasOne("Core.Entities.Amenity", null)
@@ -1181,32 +1165,6 @@ namespace Infrastructure.Data.Migrations
                     b.Navigation("Room");
                 });
 
-            modelBuilder.Entity("Core.Entities.MaintenanceImage", b =>
-                {
-                    b.HasOne("Core.Entities.MaintenanceRequest", "MaintenanceRequest")
-                        .WithMany("MaintenanceImages")
-                        .HasForeignKey("MaintenanceRequestId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("MaintenanceRequest");
-                });
-
-            modelBuilder.Entity("Core.Entities.MaintenanceRequest", b =>
-                {
-                    b.HasOne("Core.Entities.Invoice", "Invoice")
-                        .WithOne("MaintenanceRequest")
-                        .HasForeignKey("Core.Entities.MaintenanceRequest", "InvoiceId");
-
-                    b.HasOne("Core.Entities.User", "Tenant")
-                        .WithMany()
-                        .HasForeignKey("TenantId");
-
-                    b.Navigation("Invoice");
-
-                    b.Navigation("Tenant");
-                });
-
             modelBuilder.Entity("Core.Entities.Message", b =>
                 {
                     b.HasOne("Core.Entities.Conversation", "Conversation")
@@ -1226,6 +1184,15 @@ namespace Infrastructure.Data.Migrations
                     b.Navigation("Receiver");
 
                     b.Navigation("Sender");
+                });
+
+            modelBuilder.Entity("Core.Entities.Notification", b =>
+                {
+                    b.HasOne("Core.Entities.User", "Receiver")
+                        .WithMany("Notifications")
+                        .HasForeignKey("ReceiverId");
+
+                    b.Navigation("Receiver");
                 });
 
             modelBuilder.Entity("Core.Entities.Participant", b =>
@@ -1366,19 +1333,12 @@ namespace Infrastructure.Data.Migrations
 
                     b.Navigation("InvoiceDetails");
 
-                    b.Navigation("MaintenanceRequest");
-
                     b.Navigation("Payment");
                 });
 
             modelBuilder.Entity("Core.Entities.Lease", b =>
                 {
                     b.Navigation("LeaseDetails");
-                });
-
-            modelBuilder.Entity("Core.Entities.MaintenanceRequest", b =>
-                {
-                    b.Navigation("MaintenanceImages");
                 });
 
             modelBuilder.Entity("Core.Entities.Post", b =>
@@ -1421,6 +1381,8 @@ namespace Infrastructure.Data.Migrations
                     b.Navigation("MessageReceivers");
 
                     b.Navigation("MessageSenders");
+
+                    b.Navigation("Notifications");
 
                     b.Navigation("Participants");
 

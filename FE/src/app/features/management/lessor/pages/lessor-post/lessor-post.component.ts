@@ -126,8 +126,14 @@ export class LessorPostComponent {
           )
         );
         if (response?.success) {
+          for (let i = 0; i < this.dataSource.data.length; i++) {
+            if (this.dataSource.data[i].id === postId) {
+              this.dataSource.data[i].status = 'Deleted';
+              this.dataSource._updateChangeSubscription();
+              break;
+            }
+          }
           this.toastService.success('Xóa bản phòng thành công!');
-          await this.init();
         }
       });
   }

@@ -22,7 +22,7 @@ namespace Core.Dtos
         public Interior Interior { get; set; }
         public decimal Area { get; set; }
         public decimal Price { get; set; }
-        public bool IsHide { get; set; }
+        public bool? Visibility { get; set; }
         public ConditionRoom? Condition { get; set; }
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }

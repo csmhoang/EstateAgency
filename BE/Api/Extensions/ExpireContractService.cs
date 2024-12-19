@@ -27,7 +27,7 @@ namespace Api.Extensions
                     var expiredInvoices = context.Invoices
                         .Include(i => i.Booking!)
                         .ThenInclude(b => b.Lease!)
-                        .Where(i => i.Status == StatusInvoice.Pending && i.DueDate <= DateTime.UtcNow)
+                        .Where(i => i.Status == StatusInvoice.Pending && i.DueDate <= DateTime.Now)
                         .ToList();
 
                     var expiredLeases = context.Leases
@@ -39,22 +39,22 @@ namespace Api.Extensions
                     foreach (var invoice in expiredInvoices)
                     {
                         invoice.Status = StatusInvoice.Overdue;
-                        invoice.UpdatedAt = DateTime.UtcNow;
+                        invoice.UpdatedAt = DateTime.Now;
                         invoice.Booking!.Lease!.Status = StatusLease.Canceled;
-                        invoice.Booking!.Lease!.UpdatedAt = DateTime.UtcNow;
+                        invoice.Booking!.Lease!.UpdatedAt = DateTime.Now;
                     }
                     var isExpiredLeaseDetails = false;
                     foreach (var lease in expiredLeases)
                     {
                         var expiredLeaseDetails = lease.LeaseDetails
-                            .Where(ld => ld.EndDate <= DateTime.UtcNow);
+                            .Where(ld => ld.EndDate <= DateTime.Now);
                         if (expiredLeaseDetails.Any())
                         {
                             isExpiredLeaseDetails = true;
                             foreach (var leaseDetail in expiredLeaseDetails)
                             {
                                 leaseDetail.Room!.Condition = ConditionRoom.Available;
-                                leaseDetail.Room!.UpdatedAt = DateTime.UtcNow;
+                                leaseDetail.Room!.UpdatedAt = DateTime.Now;
                             }
                             if (expiredLeaseDetails.Count() == lease.LeaseDetails.Count())
                             {
@@ -63,7 +63,20 @@ namespace Api.Extensions
                         }
                     }
 
-                    if (expiredInvoices.Any() || expiredLeases.Any() || isExpiredLeaseDetails)
+                    var VisitStat = context.VisitStats
+                        .Where(v => v.Year == DateTime.Now.Year && v.Month == DateTime.Now.Month)
+                        .FirstOrDefault();
+                    if (VisitStat == null)
+                    {
+                        context.VisitStats.Add(new VisitStat
+                        {
+                            Year = DateTime.Now.Year,
+                            Month = DateTime.Now.Month,
+                        });
+                    }
+
+
+                    if (expiredInvoices.Any() || expiredLeases.Any() || isExpiredLeaseDetails || VisitStat == null)
                     {
                         await context.SaveChangesAsync(stoppingToken);
                     }

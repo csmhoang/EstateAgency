@@ -27,12 +27,7 @@
     <section id="real-estate-2" class="real-estate-2 section">
       @if(post()){
       <div class="container">
-        <!-- Apartment Photos -->
-        <app-apartment-detail-photos
-          [photos]="post()?.room?.photos || []"
-        ></app-apartment-detail-photos>
-
-        <div class="row justify-content-between gy-4 mt-4">
+        <div class="row justify-content-between gy-4">
           <div class="col-lg-7">
             <!-- Introduction Detail-->
             <div class="portfolio-description">
@@ -45,7 +40,7 @@
             </div>
 
             <!-- Tabs -->
-            <app-apartment-detail-tab></app-apartment-detail-tab>
+            <app-apartment-detail-tab [post]="post()"></app-apartment-detail-tab>
           </div>
 
           <!-- Primary Information -->

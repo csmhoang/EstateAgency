@@ -1,0 +1,96 @@
+<div class="admin-dashboard-page">
+  <main class="main">
+    <mat-sidenav-container class="sidenav-container">
+      <!-- Sidebar -->
+      <mat-sidenav
+        #drawer
+        class="sidenav"
+        fixedInViewport
+        [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+        [mode]="(isHandset$ | async) ? 'over' : 'side'"
+        [opened]="(isHandset$ | async) === false"
+      >
+        <div class="p-2">
+          <div class="text-center fw-bold fs-4 mb-2">Dwello</div>
+          <div class="pt-3">
+            <ul class="list-group">
+              <li class="mb-2">
+                <a
+                  matRipple
+                  routerLink="/admin"
+                  class="sidebar-menu w-100 text-dark d-flex align-items-center py-2 px-4"
+                  routerLinkActive="active"
+                  [routerLinkActiveOptions]="{ exact: true }"
+                >
+                  <i class="fa-solid fa-gauge"></i>
+                  <span>Thống kê</span>
+                </a>
+              </li>
+              <li class="mb-2">
+                <a
+                  matRipple
+                  routerLink="/admin/post"
+                  class="sidebar-menu w-100 text-dark d-flex align-items-center py-2 px-4"
+                  routerLinkActive="active"
+                >
+                  <i class="fa-solid fa-inbox"></i>
+                  <span>Kiểm duyệt bài đăng</span>
+                </a>
+              </li>
+
+              <li class="mb-2">
+                <a
+                  matRipple
+                  routerLink="/admin/account"
+                  class="sidebar-menu w-100 text-dark d-flex align-items-center py-2 px-4"
+                  routerLinkActive="active"
+                >
+                  <i class="fa-solid fa-users-gear"></i>
+                  <span>Quản lý tài khoản</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </mat-sidenav>
+
+      <mat-sidenav-content class="d-flex flex-column vh-100">
+        <!-- Header -->
+        <mat-toolbar class="header">
+          <!-- Toolbar -->
+          <button
+            type="button"
+            aria-label="Toggle sidenav"
+            mat-icon-button
+            class="d-flex justify-content-center align-items-center"
+            (click)="drawer.toggle()"
+            *ngIf="isHandset$ | async"
+          >
+            <i class="fa-solid fa-bars"></i>
+          </button>
+
+          <div class="ms-auto">
+            <div *appIfAuthenticated="true">
+              <app-menu></app-menu>
+            </div>
+            <div *appIfAuthenticated="false" class="d-flex gap-2">
+              <button routerLink="/register" class="btn btn-dark">
+                Đăng ký
+              </button>
+              <button routerLink="/login" class="btn btn-dark">
+                Đăng nhập
+              </button>
+            </div>
+          </div>
+        </mat-toolbar>
+
+        <!-- Content -->
+        <div class="px-lg-4 py-lg-5 p-3 flex-fill">
+          <div class="bg-white shadow pt-2 pb-4 px-4 rounded overflow-x-auto">
+            <router-outlet></router-outlet>
+          </div>
+        </div>
+      </mat-sidenav-content>
+    </mat-sidenav-container>
+  </main>
+</div>

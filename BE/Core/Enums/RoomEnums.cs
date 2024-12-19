@@ -19,6 +19,13 @@ namespace Core.Enums
             [EnumMember(Value = "PostingForRent")]
             PostingForRent = 2
         }
+        public enum StatusRoom
+        {
+            [EnumMember(Value = "Show")]
+            Show = 0,
+            [EnumMember(Value = "Hide")]
+            Hide = 1
+        }
         public enum Interior
         {
             [EnumMember(Value = "Empty")]

@@ -1,0 +1,25 @@
+<div class="notifications hidden-scroll px-2">
+  <h4 class="text-center flex-fill py-3">Thông báo</h4>
+  @if(notifications?.length !== 0){ @for (notification of notifications; track
+  $index) {
+  <div class="notifications-item border-top py-2">
+    <div class="d-flex align-items-center position-relative">
+      <h5>{{ notification.title }}</h5>
+      <a
+        class="position-absolute fs-6 top-0 end-0 text-secondary z-3"
+        (click)="onDelete(notification.id!)"
+        ><i class="fas fa-times pe-1"></i
+      ></a>
+    </div>
+    <p class="text-muted multi-truncate">
+      <i class="fa-solid fa-bullhorn px-1"></i>
+      {{ notification.content }}
+    </p>
+    <p class="text-muted text-end">
+      Vào lúc {{ notification.createdAt | date : "dd/MM/yyyy hh:mm a" }}
+    </p>
+  </div>
+  } }@else {
+  <p class="fs-4 py-5 text-center">Bạn chưa có thông báo nào!</p>
+  }
+</div>

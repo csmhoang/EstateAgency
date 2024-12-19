@@ -6,3 +6,13 @@
   border-color: transparent;
   box-shadow: inset 0px 0px 0px 1px transparent;
 }
+
+.hidden-scroll {
+  overflow: scroll;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.hidden-scroll::-webkit-scrollbar {
+  display: none;
+}

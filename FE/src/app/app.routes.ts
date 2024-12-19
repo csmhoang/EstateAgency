@@ -21,7 +21,11 @@ import { apartmentDetailResolver } from '@features/apartment/resolver/apartment-
 import { VerifyEmailComponent } from '@core/auth/pages/verify-email/verify-email.component';
 import { VerifyResetPasswordComponent } from '@core/auth/pages/verify-reset-password/verify-reset-password.component';
 import { lessorDetailResolver } from '@features/lessor/resolver/lessor-detail.resolver';
-import { isLandlord, isUserAuthenticated } from '@core/guards/auth.guard';
+import {
+  isAdmin,
+  isLandlord,
+  isUserAuthenticated,
+} from '@core/guards/auth.guard';
 import { ReservationListComponent } from '@features/reservation/components/reservation-list/reservation-list.component';
 import { BookingListComponent } from '@features/booking/components/booking-list/booking-list.component';
 import { LessorReservationComponent } from '@features/management/lessor/pages/lessor-reservation/lessor-reservation.component';
@@ -29,6 +33,10 @@ import { LessorBookingComponent } from '@features/management/lessor/pages/lessor
 import { LessorProfileComponent } from '@features/management/lessor/pages/lessor-profile/lessor-profile.component';
 import { CartComponent } from '@features/Cart/pages/cart/cart.component';
 import { RentedApartmentComponent } from '@features/apartment/components/rented-apartment/rented-apartment.component';
+import { AdminDashboardComponent } from '@features/management/admin/pages/admin-dashboard/admin-dashboard.component';
+import { AdminManagementComponent } from '@features/management/admin/pages/admin-management/admin-management.component';
+import { AdminPostComponent } from '@features/management/admin/pages/admin-post/admin-post.component';
+import { AdminAccountComponent } from '@features/management/admin/pages/admin-account/admin-account.component';
 
 export const routes: Routes = [
   /*Clients*/
@@ -167,6 +175,41 @@ export const routes: Routes = [
   },
 
   /*Admin*/
+  {
+    path: 'admin',
+    component: AdminManagementComponent,
+    canActivate: [isAdmin],
+    children: [
+      {
+        path: '',
+        component: AdminDashboardComponent,
+      },
+      {
+        path: 'post',
+        component: AdminPostComponent,
+      },
+      {
+        path: 'account',
+        component: AdminAccountComponent,
+      },
+    ],
+  },
+  {
+    path: 'admin/profile',
+    canActivate: [isAdmin],
+    component: LessorProfileComponent,
+    children: [
+      {
+        path: '',
+        component: ProfileEditComponent,
+      },
+      {
+        path: 'actions',
+        component: ProfileActionsComponent,
+      },
+    ],
+  },
+  /*Default*/
   {
     path: '**',
     redirectTo: '/',

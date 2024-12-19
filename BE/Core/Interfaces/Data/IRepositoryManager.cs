@@ -11,7 +11,6 @@
         IInvoiceRepository Invoice { get; }
         IInvoiceDetailRepository InvoiceDetail { get; }
         IPaymentRepository Payment { get; }
-        IMaintenanceRequestRepository MaintenanceRequest { get; }
         IAmenityRepository Amenity { get; }
         IPhotoRepository Photo { get; }
         IBookingRepository Booking { get; }
@@ -24,6 +23,8 @@
         IMessageRepository Message { get; }
         IConversationRepository Conversation { get; }
         IParticipantRepository Participant { get; }
+        INotificationRepository Notification { get; }
+        IVisitStatRepository VisitStat { get; }
 
         Task SaveAsync();
     }

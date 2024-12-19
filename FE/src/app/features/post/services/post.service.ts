@@ -80,4 +80,13 @@ export class PostService {
   remove(postId: string) {
     return this.http.put<Result>(`/posts/remove?id=${postId}`, null);
   }
+
+  response(id: string, isAccept: string) {
+    let params = new HttpParams().set('id', id).set('isAccept', isAccept);
+
+    return this.http.put<Result>('/posts/response', null, {
+      params,
+      context: new HttpContext().set(SkipPreloader, true),
+    });
+  }
 }

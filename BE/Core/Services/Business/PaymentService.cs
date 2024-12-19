@@ -95,7 +95,7 @@ namespace Core.Services.Business
             {
                 InvoiceId = invoice.Id,
                 Amount = invoice.Amount,
-                PaymentDate = DateTime.UtcNow
+                PaymentDate = DateTime.Now
             };
             _repository.Payment.Create(payment);
             foreach (var bookingDetail in invoice.Booking!.BookingDetails)
@@ -104,7 +104,7 @@ namespace Core.Services.Business
                 {
                     var room = bookingDetail.Room!;
                     room.Condition = ConditionRoom.Occupied;
-                    room.UpdatedAt = DateTime.UtcNow;
+                    room.UpdatedAt = DateTime.Now;
                     _repository.Room.Update(room);
                 }
             }
@@ -112,12 +112,12 @@ namespace Core.Services.Business
             if (lease != null)
             {
                 lease.Status = StatusLease.Active;
-                lease.SignedDate = DateTime.UtcNow;
-                lease.UpdatedAt = DateTime.UtcNow;
+                lease.SignedDate = DateTime.Now;
+                lease.UpdatedAt = DateTime.Now;
                 _repository.Lease.Update(lease);
             }
             invoice.Status = StatusInvoice.Paid;
-            invoice.UpdatedAt = DateTime.UtcNow;
+            invoice.UpdatedAt = DateTime.Now;
             _repository.Invoice.Update(invoice);
             await _repository.SaveAsync();
 

@@ -7,10 +7,9 @@ import {
 } from '@angular/core';
 import { UserService } from '@core/services/user.service';
 
-
 @Directive({
   selector: '[appIfCustomer]',
-  standalone: true
+  standalone: true,
 })
 export class IfCustomerDirective<T> {
   private condition: boolean = false;
@@ -24,8 +23,7 @@ export class IfCustomerDirective<T> {
     effect(() => {
       const isTenant = this.userService.isTenant();
       const shouldShowView =
-        (isTenant && this.condition) ||
-        (!isTenant && !this.condition);
+        (isTenant && this.condition) || (!isTenant && !this.condition);
 
       if (shouldShowView && !this.hasView) {
         // Hiển thị view nếu điều kiện khớp và view chưa được tạo

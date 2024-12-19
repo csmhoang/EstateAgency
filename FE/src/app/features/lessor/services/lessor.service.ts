@@ -1,5 +1,5 @@
 import { HttpClient, HttpContext } from '@angular/common/http';
-import { inject, Injectable, signal } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { SkipPreloader } from '@core/interceptors/skip.resolver';
 import { PageData } from '@core/models/page-data.model';
 import { Result } from '@core/models/result.model';
@@ -19,15 +19,17 @@ export class LessorService {
   constructor(private http: HttpClient, private userService: UserService) {}
 
   loadData(isDisplayMiniLoading: boolean = true) {
-    return this.userService.getList(this.specUserParams(), isDisplayMiniLoading).pipe(
-      tap({
-        next: (page) => {
-          if (page) {
-            this.pageSignal.set(page);
-          }
-        },
-      })
-    );
+    return this.userService
+      .getList(this.specUserParams(), isDisplayMiniLoading)
+      .pipe(
+        tap({
+          next: (page) => {
+            if (page) {
+              this.pageSignal.set(page);
+            }
+          },
+        })
+      );
   }
 
   getSearchOptions() {

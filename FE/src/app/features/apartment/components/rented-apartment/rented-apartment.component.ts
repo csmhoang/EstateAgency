@@ -23,7 +23,6 @@ import { DialogService } from '@shared/services/dialog/dialog.service';
 import { PaginationParams } from '@shared/models/pagination-params.model';
 import { MiniLoadComponent } from '@shared/components/mini-load/mini-load.component';
 import { ApartmentViewComponent } from '@features/apartment/components/apartment-view/apartment-view.component';
-import { ToastService } from '@shared/services/toast/toast.service';
 import { catchError, lastValueFrom, of } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { UserService } from '@core/services/user.service';
@@ -31,6 +30,7 @@ import { BookingDetailService } from '@features/booking/services/booking-detail.
 import { BookingDetail } from '@features/booking/models/booking-detail.model';
 import { Booking } from '@features/booking/models/booking.model';
 import { LeaseViewComponent } from '@features/booking/components/lease-view/lease-view.component';
+import { MessengerComponent } from '@features/messenger/components/messenger/messenger.component';
 
 @Component({
   selector: 'app-rented-apartment',
@@ -75,7 +75,6 @@ export class RentedApartmentComponent implements OnInit {
 
   constructor(
     private dialogService: DialogService,
-    private toastService: ToastService,
     private bookingDetailService: BookingDetailService,
     private userService: UserService
   ) {}
@@ -131,5 +130,9 @@ export class RentedApartmentComponent implements OnInit {
 
   onLease(booking: Booking) {
     this.dialogService.view(LeaseViewComponent, booking, 'lg');
+  }
+
+  onChat(otherId?: string) {
+    this.dialogService.form(MessengerComponent, otherId);
   }
 }

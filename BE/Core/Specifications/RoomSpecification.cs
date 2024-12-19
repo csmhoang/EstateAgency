@@ -24,11 +24,14 @@ namespace Core.Specifications
                 string.IsNullOrEmpty(specParams.Search) ||
                 x.Name.ToLower().Contains(specParams.Search)
             )
+        && (x.Visibility != null && x.Visibility == true)
         )
         {
             AddInclude(x => x.Include(r => r.Photos));
 
             ApplyPaging(specParams.PageSize * (specParams.PageIndex - 1), specParams.PageSize);
+
+            AddOrder(x => x.OrderByDescending(b => b.CreatedAt));
 
             switch (specParams.Sort)
             {

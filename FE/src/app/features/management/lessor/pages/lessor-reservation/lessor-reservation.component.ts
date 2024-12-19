@@ -27,6 +27,8 @@ import {
 import { ReservationService } from '@features/reservation/services/reservation.service';
 import { UserService } from '@core/services/user.service';
 import { ReservationRefuseComponent } from '@features/reservation/components/reservation-refuse/reservation-refuse.component';
+import { PresenceService } from '@core/services/presence.service';
+import { Notice } from '@features/notification/models/notification.model';
 
 @Component({
   selector: 'app-lessor-reservation',
@@ -72,7 +74,8 @@ export class LessorReservationComponent implements OnInit {
     private dialogService: DialogService,
     private toastService: ToastService,
     private reservationService: ReservationService,
-    private userService: UserService
+    private userService: UserService,
+    private presenceService: PresenceService
   ) {}
 
   async ngOnInit() {
@@ -122,7 +125,7 @@ export class LessorReservationComponent implements OnInit {
     await this.init();
   }
 
-  onRefuse(id: string, status: string) {
+  onRefuse(id: string, status: string, tenantId: string, roomName: string) {
     if (status === 'Pending') {
       this.dialogService
         .form(ReservationRefuseComponent, id, 'md')
@@ -135,6 +138,13 @@ export class LessorReservationComponent implements OnInit {
                 break;
               }
             }
+
+            await this.presenceService.createNotification({
+              receiverId: tenantId,
+              title: 'Hẹn lịch xem phòng',
+              content: `${this.user?.fullName} đã từ chối yêu cầu hẹn lịch xem phòng ${roomName}.`,
+            } as Notice);
+
             this.toastService.success('Đã từ chối đặt lịch');
           }
         });
@@ -147,62 +157,73 @@ export class LessorReservationComponent implements OnInit {
     id: string,
     status: string,
     condition: string,
-    reservationDate: Date
+    reservationDate: Date,
+    tenantId: string,
+    roomName: string,
+    visibility: boolean
   ) {
     if (status === 'Pending') {
-      if (condition !== 'Occupied') {
-        if (new Date(reservationDate) >= new Date()) {
-          this.dialogService
-            .confirm({
-              title: 'Xác nhận đặt lịch',
-              content: 'Bạn có chắc muốn chấp nhận yêu cầu này không?',
-              button: {
-                accept: 'Chấp nhận',
-                decline: 'Hủy bỏ',
-              },
-            })
-            .then(() => {
-              this.reservationService
-                .response(id, 'Confirmed')
-                .pipe(
-                  takeUntilDestroyed(this.destroyRef),
-                  catchError(() => of(null))
-                )
-                .subscribe((response) => {
-                  if (response?.success) {
-                    for (let i = 0; i < this.dataSource.data.length; i++) {
-                      if (this.dataSource.data[i].id === id) {
-                        this.dataSource.data[i].status = 'Confirmed';
-                        this.dataSource._updateChangeSubscription();
-                        break;
-                      }
+      if (condition === 'Occupied') {
+        return this.toastService.warn('Phòng không có sẵn.');
+      }
+      if (!visibility) {
+        return this.toastService.warn('Phòng đã bị xóa.');
+      }
+
+      if (new Date(reservationDate) >= new Date()) {
+        this.dialogService
+          .confirm({
+            title: 'Xác nhận đặt lịch',
+            content: 'Bạn có chắc muốn chấp nhận yêu cầu này không?',
+            button: {
+              accept: 'Chấp nhận',
+              decline: 'Hủy bỏ',
+            },
+          })
+          .then(() => {
+            this.reservationService
+              .response(id, 'Confirmed')
+              .pipe(
+                takeUntilDestroyed(this.destroyRef),
+                catchError(() => of(null))
+              )
+              .subscribe(async (response) => {
+                if (response?.success) {
+                  for (let i = 0; i < this.dataSource.data.length; i++) {
+                    if (this.dataSource.data[i].id === id) {
+                      this.dataSource.data[i].status = 'Confirmed';
+                      this.dataSource._updateChangeSubscription();
+                      break;
                     }
-                    this.toastService.success('Đã chấp nhận đặt lịch');
                   }
-                });
-            });
-        } else {
-          this.reservationService
-            .response(id, 'Canceled')
-            .pipe(
-              takeUntilDestroyed(this.destroyRef),
-              catchError(() => of(null))
-            )
-            .subscribe((response) => {
-              if (response?.success) {
-                for (let i = 0; i < this.dataSource.data.length; i++) {
-                  if (this.dataSource.data[i].id === id) {
-                    this.dataSource.data[i].status = 'Canceled';
-                    this.dataSource._updateChangeSubscription();
-                    break;
-                  }
+                  await this.presenceService.createNotification({
+                    receiverId: tenantId,
+                    title: 'Hẹn lịch xem phòng',
+                    content: `${this.user?.fullName} đã chấp nhận yêu cầu hẹn lịch xem phòng ${roomName}.`,
+                  } as Notice);
+                  this.toastService.success('Đã chấp nhận đặt lịch');
                 }
-                this.toastService.warn('Đặt lịch này ngày yêu cầu đã quá hạn!');
-              }
-            });
-        }
+              });
+          });
       } else {
-        this.toastService.warn('Phòng không có sẵn.');
+        this.reservationService
+          .response(id, 'Canceled')
+          .pipe(
+            takeUntilDestroyed(this.destroyRef),
+            catchError(() => of(null))
+          )
+          .subscribe((response) => {
+            if (response?.success) {
+              for (let i = 0; i < this.dataSource.data.length; i++) {
+                if (this.dataSource.data[i].id === id) {
+                  this.dataSource.data[i].status = 'Canceled';
+                  this.dataSource._updateChangeSubscription();
+                  break;
+                }
+              }
+              this.toastService.warn('Đặt lịch này ngày yêu cầu đã quá hạn!');
+            }
+          });
       }
     } else {
       this.toastService.warn('Bạn không thể chấp nhận đặt lịch lúc này!');

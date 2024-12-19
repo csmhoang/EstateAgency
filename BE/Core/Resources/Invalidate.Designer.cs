@@ -115,6 +115,15 @@ namespace Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Phòng đang có người thuê!.
+        /// </summary>
+        public static string HideInvalidate {
+            get {
+                return ResourceManager.GetString("HideInvalidate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Mã không được để trống!.
         /// </summary>
         public static string IdRequired {

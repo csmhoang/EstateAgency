@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Core.Enums.PostEnums;
 
 namespace Core.Interfaces.Business
 {
@@ -109,5 +110,15 @@ namespace Core.Interfaces.Business
         /// 2 - Ngoại lệ
         /// </returns>
         Task<Response> SavePostAsync(SavePostDto savePostDto, bool isSave);
+        /// <summary>
+        /// Kiểm duyệt bài đănng
+        /// </summary>
+        /// <param name="id">Id bài đăng</param>
+        /// <param name="isAccept">Trạng thái chấp nhận</param>
+        /// <returns>
+        /// 1 - Thông báo thành công
+        /// 2 - Ngoại lệ
+        /// </returns>
+        Task<Response> ResponseAsync(string id, IsAcceptPost isAccept);
     }
 }

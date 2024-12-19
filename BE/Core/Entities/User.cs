@@ -21,6 +21,7 @@ namespace Core.Entities
             UserRoles = new HashSet<UserRole>();
             SavePosts = new HashSet<SavePost>();
             Participants = new HashSet<Participant>();
+            Notifications = new HashSet<Notification>();
         }
         [MaxLength(100)]
         public string FullName { get; set; } = null!;
@@ -36,8 +37,8 @@ namespace Core.Entities
         public string? PublicId { get; set; }
         public string? Description { get; set; }
         public DateTime? RefreshTokenExpiryTime { get; set; }
-        public DateTime? CreatedAt { get; set; } = DateTime.UtcNow;
-        public DateTime? UpdatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime? CreatedAt { get; set; } = DateTime.Now;
+        public DateTime? UpdatedAt { get; set; } = DateTime.Now;
 
         public virtual Cart? Cart { get; set; }
         public virtual ICollection<Post> Posts { get; set; }
@@ -52,5 +53,6 @@ namespace Core.Entities
         public virtual ICollection<Room> Rooms { get; set; }
         public virtual ICollection<UserRole> UserRoles { get; set; }
         public virtual ICollection<Participant> Participants { get; set; }
+        public virtual ICollection<Notification> Notifications { get; set; }
     }
 }

@@ -50,8 +50,8 @@ export class RoomService {
       .pipe(map((response) => response.data));
   }
 
-  delete(roomId: string) {
-    return this.http.delete<Result>(`/rooms?id=${roomId}`);
+  hide(roomId: string) {
+    return this.http.delete<Result>(`/rooms/hide?id=${roomId}`);
   }
 
   update(id: string, room: Room) {

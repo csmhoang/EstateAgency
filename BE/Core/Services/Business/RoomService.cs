@@ -11,7 +11,6 @@ using Core.Specifications;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
-using System.Security.Cryptography.X509Certificates;
 using static Core.Enums.LeaseEnums;
 
 namespace Core.Services.Business
@@ -42,9 +41,11 @@ namespace Core.Services.Business
         #endregion
 
         #region Method
-        public async Task<Response> GetAllAsync()
+        public async Task<Response> GetAllAsync(string userId)
         {
-            var rooms = await _repository.Room.FindAll().ToListAsync();
+            var rooms = await _repository.Room
+                .FindCondition(r => r.LandlordId!.Equals(userId))
+                .ToListAsync();
             return new Response
             {
                 Success = true,
@@ -104,19 +105,24 @@ namespace Core.Services.Business
         }
 
 
-        public async Task<Response> DeleteAsync(string id)
+        public async Task<Response> HideAsync(string id)
         {
-            var roomDelete = await _repository.Room.FindCondition(r => r.Id.Equals(id))
+            var roomHide = await _repository.Room.FindCondition(r => r.Id.Equals(id))
+                .Include(r => r.LeaseDetails!)
+                .ThenInclude(l => l.Lease!)
                 .FirstOrDefaultAsync();
-            if (roomDelete is not null)
+            if (roomHide != null)
             {
-                await DeletePhotosAsync(id);
-                _repository.Room.Delete(roomDelete);
+                if (roomHide.LeaseDetails.Any(l => l.Lease!.Status == StatusLease.Active))
+                    throw new CustomizeException(Invalidate.HideInvalidate);
+                roomHide.Visibility = false;
+                roomHide.UpdatedAt = DateTime.Now;
+                _repository.Room.Update(roomHide);
                 await _repository.SaveAsync();
                 return new Response
                 {
                     Success = true,
-                    Messages = Successfull.DeleteSucceed,
+                    Messages = Successfull.RemoveSucceed,
                     StatusCode = (int)HttpStatusCode.NoContent
                 };
             }
@@ -250,7 +256,7 @@ namespace Core.Services.Business
             if (room is not null)
             {
                 _mapper.Map(roomUpdateDto, room);
-                room.UpdatedAt = DateTime.UtcNow;
+                room.UpdatedAt = DateTime.Now;
                 _repository.Room.Update(room);
                 await _repository.SaveAsync();
             }

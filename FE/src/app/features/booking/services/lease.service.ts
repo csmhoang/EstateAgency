@@ -11,9 +11,9 @@ import { SkipPreloader } from '@core/interceptors/skip.resolver';
 export class LeaseService {
   constructor(private http: HttpClient) {}
 
-  getByBookingId(bookingId: string, isDisplayMiniLoading: boolean = false) {
+  getByRoomId(roomId: string, isDisplayMiniLoading: boolean = false) {
     return this.http
-      .get<Result<Lease[]>>(`/leases/bookingId/${bookingId}`, {
+      .get<Result<Lease[]>>(`/leases/roomgId/${roomId}`, {
         context: new HttpContext().set(SkipPreloader, isDisplayMiniLoading),
       })
       .pipe(map((response) => response.data));

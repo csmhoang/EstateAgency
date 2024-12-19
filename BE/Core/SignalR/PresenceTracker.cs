@@ -11,18 +11,18 @@ namespace Core.SignalR
         public static readonly Dictionary<string, List<string>> OnlineUsers =
             new Dictionary<string, List<string>>();
 
-        public Task<bool> UserConnected(string username, string connectionId)
+        public Task<bool> UserConnected(string id, string connectionId)
         {
             bool isOnline = false;
             lock (OnlineUsers)
             {
-                if (OnlineUsers.ContainsKey(username))
+                if (OnlineUsers.ContainsKey(id))
                 {
-                    OnlineUsers[username].Add(connectionId);
+                    OnlineUsers[id].Add(connectionId);
                 }
                 else
                 {
-                    OnlineUsers.Add(username, new List<string> { connectionId });
+                    OnlineUsers.Add(id, new List<string> { connectionId });
                     isOnline = true;
                 }
             }
@@ -30,17 +30,17 @@ namespace Core.SignalR
             return Task.FromResult(isOnline);
         }
 
-        public Task<bool> UserDisconnected(string username, string connectionId)
+        public Task<bool> UserDisconnected(string id, string connectionId)
         {
             bool isOffline = false;
             lock (OnlineUsers)
             {
-                if (!OnlineUsers.ContainsKey(username)) return Task.FromResult(isOffline);
+                if (!OnlineUsers.ContainsKey(id)) return Task.FromResult(isOffline);
 
-                OnlineUsers[username].Remove(connectionId);
-                if (OnlineUsers[username].Count == 0)
+                OnlineUsers[id].Remove(connectionId);
+                if (OnlineUsers[id].Count == 0)
                 {
-                    OnlineUsers.Remove(username);
+                    OnlineUsers.Remove(id);
                     isOffline = true;
                 }
             }
@@ -56,6 +56,17 @@ namespace Core.SignalR
             }
 
             return Task.FromResult(onlineUsers);
+        }
+
+        public Task<List<string>> GetConnectionsForUser(string id)
+        {
+            var connectionIds = new List<string>();
+            lock (OnlineUsers)
+            {
+                var ids = OnlineUsers.GetValueOrDefault(id);
+                if (ids != null) connectionIds.AddRange(ids);
+            }
+            return Task.FromResult(connectionIds);
         }
     }
 }

@@ -116,6 +116,20 @@ export class AuthService {
     );
   }
 
+  blockUser(userId: string, duration: number) {
+    return this.http.put<Result>(
+      `/authentication/block?userId=${userId}&duration=${duration}`,
+      null
+    );
+  }
+
+  unBlockUser(userId: string) {
+    return this.http.put<Result>(
+      `/authentication/unblock?userId=${userId}`,
+      null
+    );
+  }
+
   autoLogin() {
     if (this.cookie.get('isRemember') === 'true') {
       const credentials: Login = {

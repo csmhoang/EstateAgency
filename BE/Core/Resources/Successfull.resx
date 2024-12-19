@@ -162,4 +162,10 @@
   <data name="RemoveSucceed" xml:space="preserve">
     <value>Gỡ thành công.</value>
   </data>
+  <data name="BlockUserSucceed" xml:space="preserve">
+    <value>Khóa tài khoản thành công.</value>
+  </data>
+  <data name="UnBlockUserSucceed" xml:space="preserve">
+    <value>Mở khóa tài khoản thành công.</value>
+  </data>
 </root>

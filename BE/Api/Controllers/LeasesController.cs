@@ -1,10 +1,7 @@
 ﻿using Core.Dtos;
 using Core.Interfaces.Business;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using static Core.Enums.BookingEnums;
-using static Core.Enums.InvoiceEnums;
 using static Core.Enums.LeaseEnums;
 
 namespace Api.Controllers
@@ -47,12 +44,12 @@ namespace Api.Controllers
         }
 
         /// <summary>
-        /// Lấy thông tin hợp đồng bằng bookingId
+        /// Lấy thông tin hợp đồng bằng roomId
         /// </summary>
-        [HttpGet("bookingId/{bookingId}")]
-        public async Task<IActionResult> GetByBookingId(string bookingId)
+        [HttpGet("roomId/{roomId}")]
+        public async Task<IActionResult> GetByRoomId(string roomId)
         {
-            var response = await _service.Lease.GetByBookingIdAsync(bookingId);
+            var response = await _service.Lease.GetByRoomIdAsync(roomId);
             return Ok(response);
         }
 

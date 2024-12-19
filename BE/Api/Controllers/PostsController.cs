@@ -3,8 +3,8 @@ using Core.Dtos;
 using Core.Interfaces.Business;
 using Core.Params;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using static Core.Enums.PostEnums;
 
 namespace Api.Controllers
 {
@@ -145,6 +145,18 @@ namespace Api.Controllers
         public async Task<IActionResult> Remove(string id)
         {
             var response = await _service.Post.RemoveAsync(id);
+            return Ok(response);
+        }
+        /// <summary>
+        /// Kiểm duyệt bài đăng
+        /// </summary>
+        /// <param name="id">Id bài đăng</param>
+        /// <param name="isAccept">Trạng thái kiểm duyệt</param>
+        [HttpPut("response")]
+        [Authorize]
+        public async Task<IActionResult> ResponseRequest(string id, IsAcceptPost isAccept)
+        {
+            var response = await _service.Post.ResponseAsync(id, isAccept);
             return Ok(response);
         }
         #endregion

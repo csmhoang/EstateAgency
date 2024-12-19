@@ -32,7 +32,7 @@ namespace Core.Specifications
 
             if (lambda != null) AddLambda(x => x.Where(lambda));
 
-            AddOrder(x => x.OrderBy(b => b.CreatedAt));
+            AddOrder(x => x.OrderByDescending(b => b.CreatedAt));
 
             ApplyPaging(specParams.PageSize * (specParams.PageIndex - 1), specParams.PageSize);
         }

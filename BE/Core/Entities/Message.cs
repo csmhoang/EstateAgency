@@ -17,7 +17,7 @@ namespace Core.Entities
         [MaxLength(36)]
         public string? ConversationId { get; set; }
         public string Content { get; set; } = null!;
-        public DateTime SentAt { get; set; } = DateTime.UtcNow;
+        public DateTime SentAt { get; set; } = DateTime.Now;
 
         public virtual User? Receiver { get; set; }
         public virtual User? Sender { get; set; }

@@ -14,7 +14,7 @@ namespace Core.Entities
         [Column(TypeName = "decimal(18, 2)")]
         public decimal Amount { get; set; }
         public PaymentMethod PaymentMethod { get; set; }
-        public DateTime PaymentDate { get; set; } = DateTime.UtcNow;
+        public DateTime PaymentDate { get; set; } = DateTime.Now;
 
         public virtual Invoice? Invoice { get; set; }
     }

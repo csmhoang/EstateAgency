@@ -34,7 +34,13 @@
         <!-- Address Column-->
         <ng-container matColumnDef="address">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Địa chỉ</th>
-          <td mat-cell *matCellDef="let element">{{ element.address }}</td>
+          <td
+            mat-cell
+            *matCellDef="let element"
+            [title]="element.address"
+          >
+            {{ element.address }}
+          </td>
         </ng-container>
 
         <!-- Area Column-->
@@ -87,9 +93,9 @@
                 <i class="fa-solid fa-wrench"></i>
                 <span>Sửa</span>
               </button>
-              <button (click)="onDelete(element.id)" mat-menu-item>
+              <button (click)="onHide(element.id)" mat-menu-item>
                 <i class="fa-solid fa-trash"></i>
-                <span>Xóa</span>
+                <span>Ẩn</span>
               </button>
             </mat-menu>
           </td>

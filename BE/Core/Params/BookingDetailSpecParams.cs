@@ -1,4 +1,6 @@
-﻿namespace Core.Params
+﻿using static Core.Enums.LeaseEnums;
+
+namespace Core.Params
 {
     public class BookingDetailSpecParams
     {

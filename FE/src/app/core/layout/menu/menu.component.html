@@ -8,13 +8,27 @@
   >
     <i class="fa-solid fa-cart-arrow-down"></i>
   </button>
-  
-  <button class="btn btn-dark fs-4 border-0 rounded-pill" (click)="onMessage()">
+
+  <button class="btn btn-dark fs-4 border-0 rounded-pill" (click)="onChat()">
     <i class="fa-solid fa-envelope"></i>
   </button>
-  <button class="btn btn-dark fs-4 border-0 rounded-pill">
-    <i class="bi bi-bell-fill"></i>
-  </button>
+  <div
+    class="d-flex align-items-center gap-2"
+    (click)="onNotification()"
+    [matMenuTriggerFor]="bell"
+    [matBadgeHidden]="unreadNotifications().length == 0"
+    [matBadge]="unreadNotifications().length"
+    matBadgeColor="warn"
+  >
+    <button class="btn btn-dark fs-4 border-0 rounded-pill">
+      <i class="bi bi-bell-fill"></i>
+    </button>
+    <mat-menu #bell="matMenu" xPosition="before" class="bell-dropdown">
+      <app-notification-box
+        [notifications]="notifications()"
+      ></app-notification-box>
+    </mat-menu>
+  </div>
   <div class="d-flex align-items-center gap-2" [matMenuTriggerFor]="menu">
     <button class="btn btn-dark fs-4 border-0 rounded-pill">
       <i class="bi bi-person-fill"></i>
@@ -51,7 +65,28 @@
     </mat-menu>
   </div>
 </div>
-<div *appIfCustomer="false">
+<div *appIfCustomer="false" class="d-flex gap-2">
+  <button class="btn btn-dark fs-4 border-0 rounded-pill" (click)="onChat()">
+    <i class="fa-solid fa-envelope"></i>
+  </button>
+  <div
+    class="d-flex align-items-center gap-2"
+    (click)="onNotification()"
+    [matMenuTriggerFor]="bell"
+    [matBadgeHidden]="unreadNotifications().length == 0"
+    [matBadge]="unreadNotifications().length"
+    matBadgeColor="warn"
+  >
+    <button class="btn btn-dark fs-4 border-0 rounded-pill">
+      <i class="bi bi-bell-fill"></i>
+    </button>
+    <mat-menu #bell="matMenu" xPosition="before" class="bell-dropdown">
+      <app-notification-box
+        [notifications]="notifications()"
+      ></app-notification-box>
+    </mat-menu>
+  </div>
+
   <button
     mat-button
     class="fs-5 py-4 text-light-muted d-flex align-items-center"
@@ -64,12 +99,14 @@
     </div>
   </button>
   <mat-menu #menu="matMenu" class="profile-dropdown">
-    <div class="px-2">
-      <button mat-menu-item routerLink="/lessor/profile">Hồ sơ cá nhân</button>
-      <button mat-menu-item routerLink="/lessor/profile/actions">
+    <div class="px-2" *ngIf="role()">
+      <button mat-menu-item [routerLink]="['/' + role() + '/profile']">
+        Hồ sơ cá nhân
+      </button>
+      <button mat-menu-item [routerLink]="['/' + role() + '/profile/actions']">
         Hoạt động
       </button>
-      <button mat-menu-item routerLink="/lessor">Quản lý</button>
+      <button mat-menu-item [routerLink]="['/' + role() + '']">Quản lý</button>
     </div>
     <hr />
     <div class="px-2">

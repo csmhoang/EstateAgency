@@ -14,10 +14,10 @@ namespace Core.Interfaces.Business
         IBookingDetailService BookingDetail { get; }
         IInvoiceService Invoice { get; }
         IPaymentService Payment { get; }
-        IMaintenanceRequestService MaintenanceRequest { get; }
         IAmenityService Amenity { get; }
         IPhotoService Photo { get; }
         ICartService Cart { get; }
-        IConversationService Conversation { get; }
+        INotificationService Notification { get; }
+        IDashboardService Dashboard { get; }
     }
 }

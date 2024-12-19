@@ -1,15 +1,42 @@
 ﻿using AutoMapper;
 using Core.Dtos;
 using Core.Entities;
+using System.Text;
 
 namespace Infrastructure.Mapping
 {
     public class MappingProfile : Profile
     {
+        //private List<string> CastToListString(object src)
+        //{
+        //    var values = new List<string>();
+        //    var type = src.GetType();
+        //    var props = type.GetProperties();
+        //    foreach (var prop in props)
+        //    {
+        //        if (prop.PropertyType.IsPrimitive || prop.PropertyType == typeof(string) || prop.PropertyType == typeof(int))
+        //        {
+        //            var value = prop.GetValue(src)?.ToString();
+        //            if (!string.IsNullOrEmpty(value))
+        //            {
+        //                values.Add(value.ToString() ?? "");
+        //            }
+        //        }
+        //    }
+        //    return values;
+        //}
         public MappingProfile()
         {
             CreateMap<User, UserDto>()
                 .ForMember(dest => dest.NumberOfFollowers, opt => opt.MapFrom(src => src.Followers.Count));
+
+            //CreateMap<User, OptionDto>()
+            //    .MaxDepth(1)
+            //    .AfterMap((src, dest) =>
+            //    {
+            //        dest.values = CastToListString(src);
+            //    })
+            //    .ForAllMembers(opt => opt.Ignore());
 
             CreateMap<Follow, FollowDto>().MaxDepth(1);
 
@@ -52,6 +79,8 @@ namespace Infrastructure.Mapping
             CreateMap<Message, MessageDto>();
 
             CreateMap<Conversation, ConversationDto>();
+
+            CreateMap<Notification, NotificationDto>();
 
             CreateMap<Participant, ParticipantDto>();
 
@@ -111,6 +140,9 @@ namespace Infrastructure.Mapping
                 .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
 
             CreateMap<ConversationDto, Conversation>()
+                .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+
+            CreateMap<NotificationDto, Notification>()
                 .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
 
             CreateMap<ParticipantDto, Participant>()

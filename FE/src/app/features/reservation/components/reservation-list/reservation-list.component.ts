@@ -51,6 +51,7 @@ export class ReservationListComponent implements OnInit {
     'roomName',
     'createdAt',
     'reservationDate',
+    'rejectionReason',
     'status',
     'optional',
   ];

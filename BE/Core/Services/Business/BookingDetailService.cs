@@ -1,16 +1,14 @@
 ﻿using AutoMapper;
 using Core.Dtos;
 using Core.Entities;
-using Core.Exceptions;
 using Core.Interfaces.Business;
 using Core.Interfaces.Data;
 using Core.Interfaces.Infrastructure;
 using Core.Params;
-using Core.Resources;
 using Core.Specifications;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
-using static Core.Enums.InvoiceEnums;
+using static Core.Enums.BookingEnums;
 using static Core.Enums.LeaseEnums;
 
 namespace Core.Services.Business
@@ -65,7 +63,7 @@ namespace Core.Services.Business
         {
             var spec = new BookingDetailSpecification(
                 specParams,
-                x => x.Booking!.Lease!.Status == StatusLease.Active
+                x => x.Booking!.Lease!.Status == StatusLease.Active && x.Status == StatusBookingDetail.Accepted
             );
 
             var page = await CreatePagedResult(spec, specParams.PageIndex, specParams.PageSize);

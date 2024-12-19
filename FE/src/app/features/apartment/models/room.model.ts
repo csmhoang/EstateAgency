@@ -17,11 +17,11 @@ export type Room = {
   interior: string;
   area: number;
   price: number;
-  isHide: boolean;
+  visibility?: boolean;
   condition?: string;
   createdAt?: Date;
   updatedAt?: Date;
-  
+
   landlord?: User;
   photos?: Photo[];
   posts?: Post[];
@@ -42,6 +42,11 @@ export const Category: { [key: string]: string } = {
 export const Interior: { [key: string]: string } = {
   Empty: 'Không',
   Full: 'Đầy đủ',
+};
+
+export const StatusRoom: { [key: string]: string } = {
+  Show: 'Hiển thị',
+  Hide: 'Ẩn',
 };
 
 export const Price = (value: number = 1) => {

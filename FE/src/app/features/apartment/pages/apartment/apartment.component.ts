@@ -141,8 +141,13 @@ export class ApartmentComponent implements OnInit {
         catchError(() => of([]))
       )
     );
-    
-    this.apartmentService.specPostParams.set({ pageSize: 10, pageIndex: 1 });
+
+    this.apartmentService.specPostParams.set({
+      pageSize: 10,
+      pageIndex: 1,
+      isAccept: 'Accepted',
+      status: 'Published',
+    });
     await this.init();
   }
 

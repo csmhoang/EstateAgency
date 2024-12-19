@@ -1,4 +1,5 @@
-﻿using Core.Dtos;
+﻿using Core.Consts;
+using Core.Dtos;
 using Core.Extensions;
 using Core.Interfaces.Business;
 using Microsoft.AspNetCore.Authorization;
@@ -109,6 +110,36 @@ namespace Api.Controllers
         public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDto passwordDto)
         {
             var response = await _service.Authentication.ChangePassword(passwordDto);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            return BadRequest(response);
+        }
+
+        /// <summary>
+        /// Khóa tài khoản trong khoảng thời gian
+        /// </summary>
+        [HttpPut("block")]
+        [Authorize(Roles = RoleConst.Admin)]
+        public async Task<IActionResult> BlockUser(string userId, int duration)
+        {
+            var response = await _service.Authentication.BlockUser(userId, duration);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            return BadRequest(response);
+        }
+
+        /// <summary>
+        /// Mở khóa tài khoản
+        /// </summary>
+        [HttpPut("unblock")]
+        [Authorize(Roles = RoleConst.Admin)]
+        public async Task<IActionResult> UnBlockUser(string userId)
+        {
+            var response = await _service.Authentication.UnBlockUser(userId);
             if (response.Success)
             {
                 return Ok(response);

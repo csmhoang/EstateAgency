@@ -9,7 +9,6 @@ import { Observable, map, shareReplay } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { RouterModule, RouterOutlet } from '@angular/router';
 import { AuthService } from '@core/auth/services/auth.service';
-import { UserService } from '@core/services/user.service';
 import { MenuComponent } from '@core/layout/menu/menu.component';
 import { IfAuthenticatedDirective } from '@core/auth/directives/if-authenticated.directive';
 @Component({
@@ -25,7 +24,7 @@ import { IfAuthenticatedDirective } from '@core/auth/directives/if-authenticated
     RouterModule,
     RouterOutlet,
     MenuComponent,
-    IfAuthenticatedDirective
+    IfAuthenticatedDirective,
   ],
   templateUrl: './lessor-management.component.html',
   styleUrl: './lessor-management.component.scss',
@@ -37,12 +36,10 @@ export class LessorManagementComponent {
       map((result) => result.matches),
       shareReplay()
     );
-  user = this.userService.currentUser();
 
   constructor(
     private breakpointObserver: BreakpointObserver,
-    private authService: AuthService,
-    private userService: UserService
+    private authService: AuthService
   ) {}
 
   onLogout() {

@@ -66,7 +66,7 @@ namespace Core.Services.Business
                 .FirstOrDefaultAsync();
             if (invoice == null) throw new InvoiceNotFoundException(id);
             invoice.Status = status;
-            invoice.UpdatedAt = DateTime.UtcNow;
+            invoice.UpdatedAt = DateTime.Now;
             _repository.Invoice.Update(invoice);
             await _repository.SaveAsync();
             return new Response

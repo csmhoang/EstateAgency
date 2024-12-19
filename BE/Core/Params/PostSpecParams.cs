@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Core.Enums.PostEnums;
 using static Core.Enums.RoomEnums;
 
 namespace Core.Params
@@ -45,6 +46,8 @@ namespace Core.Params
         public decimal? MaxArea { get; set; }
 
         public Category? Category { get; set; }
+        public StatusPost? Status { get; set; }
+        public IsAcceptPost? IsAccept { get; set; }
 
         public string? SortPrice { get; set; }
         public string? SortArea { get; set; }

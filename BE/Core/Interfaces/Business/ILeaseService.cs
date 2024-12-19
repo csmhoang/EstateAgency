@@ -28,14 +28,14 @@ namespace Core.Interfaces.Business
         /// </returns>
         Task<Response> GetAsync(string id);
         /// <summary>
-        /// Lấy ra hợp đồng bằng bookingId
+        /// Lấy ra hợp đồng bằng roomId
         /// </summary>
-        /// <param name="bookingId">Id hợp đồng</param>
+        /// <param name="roomId">Id hợp đồng</param>
         /// <returns>
         /// 1 - Hợp đồng
         /// 2 - Null
         /// </returns>
-        Task<Response> GetByBookingIdAsync(string bookingId);
+        Task<Response> GetByRoomIdAsync(string roomId);
         /// <summary>
         /// Xóa hợp đồng bằng id
         /// </summary>

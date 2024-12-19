@@ -17,7 +17,6 @@ namespace Infrastructure.Repositories
         private readonly Lazy<IInvoiceRepository> _invoiceRepository;
         private readonly Lazy<IInvoiceDetailRepository> _invoiceDetailRepository;
         private readonly Lazy<IPaymentRepository> _paymentRepository;
-        private readonly Lazy<IMaintenanceRequestRepository> _maintenanceRequestRepository;
         private readonly Lazy<IBookingRepository> _bookingRepository;
         private readonly Lazy<ISavePostRepository> _savePostRepository;
         private readonly Lazy<IAmenityRepository> _amenityRepository;
@@ -30,6 +29,8 @@ namespace Infrastructure.Repositories
         private readonly Lazy<IMessageRepository> _messageRepository;
         private readonly Lazy<IConversationRepository> _conversationRepository;
         private readonly Lazy<IParticipantRepository> _participantRepository;
+        private readonly Lazy<INotificationRepository> _notificationRepository;
+        private readonly Lazy<IVisitStatRepository> _visitStatRepository;
         #endregion
 
         #region Property
@@ -48,7 +49,6 @@ namespace Infrastructure.Repositories
             _invoiceRepository = new Lazy<IInvoiceRepository>(() => new InvoiceRepository(context));
             _invoiceDetailRepository = new Lazy<IInvoiceDetailRepository>(() => new InvoiceDetailRepository(context));
             _paymentRepository = new Lazy<IPaymentRepository>(() => new PaymentRepository(context));
-            _maintenanceRequestRepository = new Lazy<IMaintenanceRequestRepository>(() => new MaintenanceRequestRepository(context));
             _bookingRepository = new Lazy<IBookingRepository>(() => new BookingRepository(context));
             _savePostRepository = new Lazy<ISavePostRepository>(() => new SavePostRepository(context));
             _amenityRepository = new Lazy<IAmenityRepository>(() => new AmenityRepository(context));
@@ -61,6 +61,8 @@ namespace Infrastructure.Repositories
             _messageRepository = new Lazy<IMessageRepository>(() => new MessageRepository(context));
             _conversationRepository = new Lazy<IConversationRepository>(() => new ConversationRepository(context));
             _participantRepository = new Lazy<IParticipantRepository>(() => new ParticipantRepository(context));
+            _notificationRepository = new Lazy<INotificationRepository>(() => new NotificationRepository(context));
+            _visitStatRepository = new Lazy<IVisitStatRepository>(() => new VisitStatRepository(context));
         }
         #endregion
 
@@ -71,7 +73,6 @@ namespace Infrastructure.Repositories
         public ILeaseRepository Lease => _leaseRepository.Value;
         public IInvoiceRepository Invoice => _invoiceRepository.Value;
         public IPaymentRepository Payment => _paymentRepository.Value;
-        public IMaintenanceRequestRepository MaintenanceRequest => _maintenanceRequestRepository.Value;
         public IAmenityRepository Amenity => _amenityRepository.Value;
         public IPhotoRepository Photo => _photoRepository.Value;
         public IPostRepository Post => _postRepository.Value;
@@ -87,6 +88,8 @@ namespace Infrastructure.Repositories
         public IMessageRepository Message => _messageRepository.Value;
         public IConversationRepository Conversation => _conversationRepository.Value;
         public IParticipantRepository Participant => _participantRepository.Value;
+        public INotificationRepository Notification => _notificationRepository.Value;
+        public IVisitStatRepository VisitStat => _visitStatRepository.Value;
 
         public async Task SaveAsync() => await _context.SaveChangesAsync();
         #endregion

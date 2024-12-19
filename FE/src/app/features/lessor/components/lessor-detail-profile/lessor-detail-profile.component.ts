@@ -11,6 +11,8 @@ import { ReactiveFormsModule, FormControl } from '@angular/forms';
 import { User } from '@core/models/user.model';
 import { PresenceService } from '@core/services/presence.service';
 import { UserService } from '@core/services/user.service';
+import { MessengerComponent } from '@features/messenger/components/messenger/messenger.component';
+import { DialogService } from '@shared/services/dialog/dialog.service';
 import { ToastService } from '@shared/services/toast/toast.service';
 import { catchError, of } from 'rxjs';
 
@@ -29,12 +31,13 @@ export class LessorDetailProfileComponent implements OnInit {
   isFollow = new FormControl(false);
   isAuthentication = this.userService.isAuthenticated();
   isOnline = computed(() =>
-    this.presenceService.onlineUsers().includes(this.lessor?.username!)
+    this.presenceService.onlineUsers().includes(this.lessor?.id!)
   );
   constructor(
     private presenceService: PresenceService,
     private userService: UserService,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private dialogService: DialogService
   ) {}
 
   ngOnInit() {
@@ -99,5 +102,9 @@ export class LessorDetailProfileComponent implements OnInit {
     }
 
     return 'Vừa xong';
+  }
+
+  onChat(otherId?: string) {
+    this.dialogService.form(MessengerComponent, otherId);
   }
 }

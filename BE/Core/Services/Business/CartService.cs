@@ -117,7 +117,7 @@ namespace Core.Services.Business
             _mapper.Map(cartDto, cart);
             foreach (var cartDetail in cart.CartDetails)
             {
-                cartDetail.UpdatedAt = DateTime.UtcNow;
+                cartDetail.UpdatedAt = DateTime.Now;
                 _repository.CartDetail.Update(cartDetail);
             }
             await _repository.SaveAsync();

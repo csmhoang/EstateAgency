@@ -19,7 +19,7 @@ namespace Core.Dtos
         [Required(ErrorMessage = ConversationConst.ErrorEmptyId)]
         public string ConversationId { get; set; } = null!;
         public string Content { get; set; } = null!;
-        public DateTime SentAt { get; set; } = DateTime.UtcNow;
+        public DateTime SentAt { get; set; } = DateTime.Now;
 
         public virtual UserDto? Receiver { get; set; }
         public virtual UserDto? Sender { get; set; }

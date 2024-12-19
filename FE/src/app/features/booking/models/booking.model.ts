@@ -20,6 +20,7 @@ export type Booking = {
 
 export const StatusBooking: { [key: string]: string } = {
   Pending: 'Đang chờ xử lý',
-  Confirmed: 'Đã xác nhận',
   Canceled: 'Đã hủy',
+  Confirmed: 'Đã xác nhận',
+  Rejected: "Đã từ chối"
 };

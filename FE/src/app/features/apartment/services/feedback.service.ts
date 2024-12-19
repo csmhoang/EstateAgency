@@ -24,6 +24,7 @@ export class FeedbackService {
     this.hubConnection.start().catch((error) => console.error(error));
 
     this.hubConnection.on('ReceiveFeedbacksThread', (feedback: Feedback[]) => {
+      debugger
       this.feedbackThread.set(feedback);
     });
 

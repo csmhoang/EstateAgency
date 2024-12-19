@@ -61,6 +61,15 @@ namespace Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Khóa tài khoản thành công..
+        /// </summary>
+        public static string BlockUserSucceed {
+            get {
+                return ResourceManager.GetString("BlockUserSucceed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Hủy thành công..
         /// </summary>
         public static string CancelSucceed {
@@ -174,6 +183,15 @@ namespace Core.Resources {
         public static string SendEmailSucceed {
             get {
                 return ResourceManager.GetString("SendEmailSucceed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mở khóa tài khoản thành công..
+        /// </summary>
+        public static string UnBlockUserSucceed {
+            get {
+                return ResourceManager.GetString("UnBlockUserSucceed", resourceCulture);
             }
         }
         

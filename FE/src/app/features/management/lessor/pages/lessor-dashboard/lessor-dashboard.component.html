@@ -1,1 +1,84 @@
-<p>lessor-dashboard works!</p>
+<div>
+  <h5 class="fs-5 fw-bold mt-3">
+    <i class="fas fa-chart-line px-1"></i>
+    Thống kê
+  </h5>
+  <section class="section dashboard">
+    <div class="row g-3">
+      <div class="col-lg-3 col-md-6">
+        <div class="card info-card sales-card">
+          <div class="card-body">
+            <h5 class="card-title">Số phòng</h5>
+            <div class="d-flex align-items-center">
+              <div
+                class="card-icon rounded-circle d-flex align-items-center justify-content-center"
+              >
+                <i class="fa-solid fa-house-chimney"></i>
+              </div>
+              <div class="ps-3">
+                <h6>{{ roomCount | async }} phòng</h6>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-md-6">
+        <div class="card info-card sales-card">
+          <div class="card-body">
+            <h5 class="card-title">Số người thuê</h5>
+            <div class="d-flex align-items-center">
+              <div
+                class="card-icon rounded-circle d-flex align-items-center justify-content-center"
+              >
+                <i class="fa-regular fa-user"></i>
+              </div>
+              <div class="ps-3">
+                <h6>{{ tenantCount | async }} người</h6>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-md-6">
+        <div class="card info-card sales-card">
+          <div class="card-body">
+            <h5 class="card-title">Phòng trống</h5>
+            <div class="d-flex align-items-center">
+              <div
+                class="card-icon rounded-circle d-flex align-items-center justify-content-center"
+              >
+                <i class="fa-solid fa-house-circle-exclamation"></i>
+              </div>
+              <div class="ps-3">
+                <h6>{{ roomBlankCount | async }} phòng</h6>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-md-6">
+        <div class="card info-card sales-card">
+          <div class="card-body">
+            <h5 class="card-title">Tổng doanh thu năm</h5>
+            <div class="d-flex align-items-center">
+              <div
+                class="card-icon rounded-circle d-flex align-items-center justify-content-center"
+              >
+                <i class="fa-solid fa-money-bill-trend-up"></i>
+              </div>
+              <div class="ps-3">
+                <h6>
+                  {{ revenue | async | currency : "VND" : "symbol" : "1.0-0" }}
+                </h6>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row g-2"></div>
+  </section>
+</div>

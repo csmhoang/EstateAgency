@@ -20,7 +20,6 @@ namespace Core.Entities
         public StatusInvoice Status { get; set; }
 
         public virtual Booking? Booking { get; set; }
-        public virtual MaintenanceRequest? MaintenanceRequest { get; set; }
         public virtual Payment? Payment { get; set; }
         public virtual ICollection<InvoiceDetail> InvoiceDetails { get; set; }
     }

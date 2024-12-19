@@ -80,11 +80,10 @@ namespace Core.Services.Business
         public async Task<Response> ResponseAsync(string id, StatusBooking status)
         {
             var booking = await _repository.Booking.FindCondition(r => r.Id.Equals(id))
-                .Include(b => b.BookingDetails!)
                 .FirstOrDefaultAsync();
             if (booking == null) throw new BookingNotFoundException(id);
             booking.Status = status;
-            booking.UpdatedAt = DateTime.UtcNow;
+            booking.UpdatedAt = DateTime.Now;
             _repository.Booking.Update(booking);
             await _repository.SaveAsync();
             return new Response

@@ -60,11 +60,16 @@ namespace Core.Services.Business
             };
         }
 
-        public async Task<Response> GetByBookingIdAsync(string bookingId)
+        public async Task<Response> GetByRoomIdAsync(string roomId)
         {
-            var lease = await _repository.Lease.FindCondition(r => r.BookingId!.Equals(bookingId))
-                .Include(l => l.LeaseDetails!)
+            var lease = await _repository.LeaseDetail
+                .FindCondition(ld => ld.RoomId == roomId && ld.Lease!.Status == StatusLease.Active)
+                .Include(ld => ld.Lease!)
+                .ThenInclude(l => l.Booking!)
+                .Include(ld => ld.Lease!)
+                .ThenInclude(l => l.LeaseDetails!)
                 .ThenInclude(l => l.Room!)
+                .Select(ld => ld.Lease!.Booking)
                 .FirstOrDefaultAsync();
             return new Response
             {
@@ -82,17 +87,17 @@ namespace Core.Services.Business
                 .FirstOrDefaultAsync();
             if (lease == null) throw new LeaseNotFoundException(id);
             lease.Status = status;
-            lease.UpdatedAt = DateTime.UtcNow;
+            lease.UpdatedAt = DateTime.Now;
             _repository.Lease.Update(lease);
             if (status == StatusLease.Canceled)
             {
                 var booking = lease.Booking!;
                 booking.Status = StatusBooking.Canceled;
-                booking.UpdatedAt = DateTime.UtcNow;
+                booking.UpdatedAt = DateTime.Now;
                 _repository.Booking.Update(booking);
                 var invoice = lease.Booking!.Invoice!;
                 invoice.Status = StatusInvoice.Cancelled;
-                invoice.UpdatedAt = DateTime.UtcNow;
+                invoice.UpdatedAt = DateTime.Now;
                 _repository.Invoice.Update(invoice);
 
             }
@@ -135,7 +140,7 @@ namespace Core.Services.Business
             var lease = _mapper.Map<Lease>(leaseDto);
             var invoice = new Invoice
             {
-                DueDate = DateTime.UtcNow.AddHours(12),
+                DueDate = DateTime.Now.AddHours(12),
             };
             booking.InvoiceId = invoice.Id;
             decimal amount = 0;

@@ -66,8 +66,8 @@
               <tr>
                 <th scope="row">{{ $index }}</th>
                 <td>{{ leaseDetail.room?.name }}</td>
-                <td>{{ leaseDetail.startDate }}</td>
-                <td>{{ leaseDetail.endDate }}</td>
+                <td>{{ leaseDetail.startDate | date : "dd/MM/yyyy"}}</td>
+                <td>{{ leaseDetail.endDate | date : "dd/MM/yyyy"}}</td>
                 <td>{{ leaseDetail.numberOfTenant }}</td>
                 <td>
                   {{

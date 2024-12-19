@@ -34,7 +34,8 @@ namespace Api.Controllers
         [Authorize]
         public async Task<IActionResult> GetAll()
         {
-            var response = await _service.Room.GetAllAsync();
+            var userId = User.GetUserId();
+            var response = await _service.Room.GetAllAsync(userId);
             return Ok(response);
         }
 
@@ -107,14 +108,14 @@ namespace Api.Controllers
         }
 
         /// <summary>
-        /// Xóa phòng
+        /// Ẩn phòng
         /// </summary>
         /// <param name="id">Id phòng</param>
-        [HttpDelete]
+        [HttpDelete("hide")]
         [Authorize(Roles = RoleConst.Landlord)]
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> Hide(string id)
         {
-            var response = await _service.Room.DeleteAsync(id);
+            var response = await _service.Room.HideAsync(id);
             return Ok(response);
         }
         #endregion

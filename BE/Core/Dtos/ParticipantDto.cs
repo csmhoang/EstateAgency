@@ -18,7 +18,7 @@ namespace Core.Dtos
         [Required(ErrorMessage = ConversationConst.ErrorEmptyId)]
         public string ConversationId { get; set; } = null!;
 
-        public virtual UserDto? User { get; set; }
-        public virtual ConversationDto? Conversation { get; set; }
+        public UserDto? User { get; set; }
+        public ConversationDto? Conversation { get; set; }
     }
 }

@@ -236,20 +236,39 @@ namespace Core.Services.Auth
         public async Task<Response> Login(LoginDto loginDto)
         {
             _user = await _userManager.FindByNameAsync(loginDto.Email.ToLower());
-            var result =
-                _user != null && await _userManager.CheckPasswordAsync(_user, loginDto.Password);
-            if (!result)
+            var res = new Response { Success = true };
+
+            if (!(_user != null && await _userManager.CheckPasswordAsync(_user, loginDto.Password)))
             {
+                res.Success = false; res.Messages = Failure.LoginFailing;
                 _logger.LogWarn($"{nameof(Login)}: {Failure.LoginFailing}");
             }
-
-            return new Response
+            else if (!(await _userManager.IsEmailConfirmedAsync(_user)))
             {
-                Success = result,
-                Data = result ? await CreateToken(true) : null,
-                Messages = result ? Successfull.LoginSucceed : Failure.LoginFailing,
-                StatusCode = result ? (int)HttpStatusCode.OK : (int)HttpStatusCode.Unauthorized
-            };
+                res.Success = false; res.Messages = Failure.NotEmailConfirm;
+                _logger.LogWarn($"{nameof(Login)}: {Failure.NotEmailConfirm}");
+            }
+            else if (await _userManager.IsLockedOutAsync(_user))
+            {
+                res.Success = false; res.Messages = Failure.LockedOut;
+                _logger.LogWarn($"{nameof(Login)}: {Failure.NotEmailConfirm}");
+            }
+            else
+            {
+                var visitStat = await _repository.VisitStat
+                    .FindCondition(v => v.Year == DateTime.Now.Year && v.Month == DateTime.Now.Month)
+                    .FirstOrDefaultAsync();
+                if (visitStat != null)
+                {
+                    visitStat.VisitCount += 1;
+                    _repository.VisitStat.Update(visitStat);
+                    await _repository.SaveAsync();
+                }
+            }
+
+            res.Data = res.Success ? await CreateToken(true) : null;
+            res.StatusCode = res.Success ? (int)HttpStatusCode.OK : (int)HttpStatusCode.Unauthorized;
+            return res;
         }
         public async Task<TokenDto> CreateToken(bool populateExp)
         {
@@ -262,7 +281,7 @@ namespace Core.Services.Auth
             _user!.RefreshToken = refreshToken;
             if (populateExp)
             {
-                _user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(7);
+                _user.RefreshTokenExpiryTime = DateTime.Now.AddDays(7);
             }
 
             await _userManager.UpdateAsync(_user);
@@ -348,7 +367,7 @@ namespace Core.Services.Auth
 
             var user = await _userManager.FindByNameAsync(principal.Identity?.Name);
             if (user == null || user.RefreshToken != tokenDto.RefreshToken ||
-                user.RefreshTokenExpiryTime <= DateTime.UtcNow)
+                user.RefreshTokenExpiryTime <= DateTime.Now)
             {
                 throw new RefreshTokenBadrequest();
             }
@@ -424,6 +443,38 @@ namespace Core.Services.Auth
                 Success = true,
                 Data = _mapper.Map<UserDto>(user),
                 StatusCode = user is null ? (int)HttpStatusCode.NoContent : (int)HttpStatusCode.OK
+            };
+        }
+
+        public async Task<Response> BlockUser(string userId, int duration)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null) throw new UserNotFoundException();
+
+            user.LockoutEnd = DateTimeOffset.Now.AddDays(duration);
+            await _userManager.UpdateAsync(user);
+
+            return new Response
+            {
+                Success = true,
+                Messages = Successfull.BlockUserSucceed,
+                StatusCode = (int)HttpStatusCode.OK
+            };
+        }
+
+        public async Task<Response> UnBlockUser(string userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null) throw new UserNotFoundException();
+
+            user.LockoutEnd = null;
+            await _userManager.UpdateAsync(user);
+
+            return new Response
+            {
+                Success = true,
+                Messages = Successfull.UnBlockUserSucceed,
+                StatusCode = (int)HttpStatusCode.OK
             };
         }
         #endregion

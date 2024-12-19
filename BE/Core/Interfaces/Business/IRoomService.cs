@@ -19,7 +19,7 @@ namespace Core.Interfaces.Business
         /// 1 - Danh sách phòng
         /// 2 - Danh sách rỗng
         /// </returns>
-        Task<Response> GetAllAsync();
+        Task<Response> GetAllAsync(string userId);
         /// <summary>
         /// Lấy danh sách thông tin phòng bằng specification
         /// </summary>
@@ -39,14 +39,14 @@ namespace Core.Interfaces.Business
         /// </returns>
         Task<Response> GetAsync(string id);
         /// <summary>
-        /// Xóa phòng bằng id
+        /// Ẩn phòng bằng id
         /// </summary>
         /// <param name="id">Id phòng</param>
         /// <returns>
         /// 1 - Thông báo thành công
         /// 2 - Ngoại lệ
         /// </returns>
-        Task<Response> DeleteAsync(string id);
+        Task<Response> HideAsync(string id);
         /// <summary>
         /// Cập nhật phòng
         /// </summary>

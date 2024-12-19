@@ -88,7 +88,7 @@
               </button>
               <button
                 (click)="onLease(element)"
-                [disabled]="element.status !== 'Confirmed'"
+                [disabled]="element.status !== 'Confirmed' || !element.lease"
                 mat-menu-item
               >
                 <i class="fa-solid fa-file-lines"></i>

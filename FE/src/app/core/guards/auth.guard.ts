@@ -21,3 +21,13 @@ export const isLandlord: CanActivateFn = (route, state) => {
   }
   return router.parseUrl('/');
 };
+
+export const isAdmin: CanActivateFn = (route, state) => {
+  const router = inject(Router);
+  const userService = inject(UserService);
+  if (userService.isAdmin()) {
+    return true;
+  }
+  return router.parseUrl('/');
+};
+

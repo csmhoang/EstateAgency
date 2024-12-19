@@ -1,0 +1,41 @@
+<div class="modal-header">
+  <h4 class="modal-title">Khóa tài khoản</h4>
+  <button
+    type="button"
+    class="btn-close"
+    aria-label="Close"
+    (click)="decline()"
+  ></button>
+</div>
+<div class="modal-body">
+  <!-- Duration input -->
+  <mat-form-field class="w-100" appearance="outline">
+    <mat-label>Ngày</mat-label>
+    <input
+      matInput
+      type="number"
+      min="1"
+      placeholder="0"
+      class="hide-spin"
+      [formControl]="duration"
+    />
+    @if( duration.invalid && (duration.dirty ||
+    duration.touched) ){
+    <mat-error>{{ errorForDuration() }}</mat-error>
+    }
+  </mat-form-field>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light" (click)="decline()">
+      Hủy bỏ
+    </button>
+    <button
+      type="button"
+      class="btn btn-dark"
+      (click)="accept()"
+      [disabled]="duration.invalid || !duration.dirty"
+    >
+      Khóa
+    </button>
+  </div>
+</div>

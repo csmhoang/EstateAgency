@@ -1,0 +1,144 @@
+<div class="checked-out-room">
+  <h5 class="fs-5 fw-bold mt-3 mb-4">Quản lý tài khoản</h5>
+  <div class="row align-items-center justify-content-between g-2 mt-3 mb-5">
+    <div class="col">
+      <app-search
+        [placeholder]="'Tìm kiếm...'"
+        (search)="onSearch($event)"
+      ></app-search>
+    </div>
+  </div>
+
+  <div class="position-relative">
+    <div [hidden]="dataSource.data.length == 0">
+      <table mat-table [dataSource]="dataSource" matSort>
+        <!-- AvatarUrl Column -->
+        <ng-container matColumnDef="avatarUrl">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Avatar</th>
+          <td mat-cell *matCellDef="let element">
+            <img
+              [src]="element.avatarUrl || '/assets/img/avatar_default.jpg'"
+              width="55"
+              class="rounded-circle"
+            />
+          </td>
+        </ng-container>
+
+        <!-- Fullname Column -->
+        <ng-container matColumnDef="fullname">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Họ tên</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.fullName }}
+          </td>
+        </ng-container>
+
+        <!-- Gender Column-->
+        <ng-container matColumnDef="gender">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Giới tính</th>
+          <td mat-cell *matCellDef="let element">
+            {{ GenderFilter[element.gender] }}
+          </td>
+        </ng-container>
+
+        <!-- DateOfBirth Column-->
+        <ng-container matColumnDef="dateOfBirth">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Ngày sinh</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.dateOfBirth | date : "dd/MM/yyyy" }}
+          </td>
+        </ng-container>
+
+        <!-- Email Column-->
+        <ng-container matColumnDef="email">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.email }}
+          </td>
+        </ng-container>
+
+        <!-- Address Column-->
+        <ng-container matColumnDef="address">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Địa chỉ</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.address || "Đang cập nhật" }}
+          </td>
+        </ng-container>
+
+        <!-- CreatedAt Column-->
+        <ng-container matColumnDef="createdAt">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            Ngày tham gia
+          </th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.createdAt | date : "dd/MM/yyyy" }}
+          </td>
+        </ng-container>
+
+        <!-- LockoutEnd Column-->
+        <ng-container matColumnDef="lockoutEnd">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Khóa</th>
+          <td mat-cell *matCellDef="let element">
+            {{
+              element.lockoutEnd ? countDownFilter(element.lockoutEnd) : "Không"
+            }}
+          </td>
+        </ng-container>
+
+        <!-- Optional Column-->
+        <ng-container matColumnDef="optional">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let element">
+            <button
+              mat-icon-button
+              [matMenuTriggerFor]="menu"
+              class="d-flex justify-content-center align-items-center"
+            >
+              <i class="fa-solid fa-ellipsis-vertical"></i>
+            </button>
+            <mat-menu #menu class="px-1">
+              <button
+                [disabled]="isBlock(element.lockoutEnd)"
+                (click)="onBlock(element.id)"
+                mat-menu-item
+              >
+                <i class="fa-solid fa-ban"></i>
+                <span>Khóa</span>
+              </button>
+              <button
+                [disabled]="!isBlock(element.lockoutEnd)"
+                (click)="onUnBlock(element.id)"
+                mat-menu-item
+              >
+                <i class="fa-solid fa-unlock"></i>
+                <span>Mở khóa</span>
+              </button>
+              <button (click)="onChat(element.id)" mat-menu-item>
+                <i class="fa-solid fa-envelope"></i>
+                <span>Nhắn tin</span>
+              </button>
+            </mat-menu>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+
+      <!-- Pagination -->
+      <div class="pt-4">
+        <app-pagination
+          [paginationParams]="paginationParams()"
+          (pageChange)="onPageChange($event)"
+        ></app-pagination>
+      </div>
+    </div>
+
+    <!-- Empty table -->
+    <ng-container *ngIf="dataSource.data.length == 0">
+      <p class="fs-4 py-5 text-center">Bạn chưa có phòng trọ nào!</p>
+    </ng-container>
+
+    <!-- Mini Loading -->
+    <app-mini-load></app-mini-load>
+  </div>
+</div>

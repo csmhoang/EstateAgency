@@ -135,26 +135,32 @@ export class LessorApartmentComponent implements OnInit {
     });
   }
 
-  onDelete(roomId: string) {
+  onHide(roomId: string) {
     this.dialogService
       .confirm({
-        title: 'Xác nhận xóa phòng trọ',
-        content: 'Bạn có chắc muốn xóa phòng trọ này không?',
+        title: 'Xác nhận ẩn phòng trọ',
+        content: 'Bạn có chắc muốn ẩn phòng trọ này không?',
         button: {
-          accept: 'Xóa',
+          accept: 'Ẩn',
           decline: 'Hủy bỏ',
         },
       })
       .then(async () => {
         const response = await firstValueFrom(
-          this.lessorApartmentService.delete(roomId).pipe(
+          this.lessorApartmentService.hide(roomId).pipe(
             takeUntilDestroyed(this.destroyRef),
             catchError(() => of(null))
           )
         );
         if (response?.success) {
-          this.toastService.success('Xóa bản phòng thành công!');
-          await this.init();
+          this.dataSource.data = this.dataSource.data.filter(
+            (room) => room.id !== roomId
+          );
+          if (this.sort) {
+            this.dataSource.sort = this.sort;
+          }
+          this.dataSource._updateChangeSubscription();
+          this.toastService.success('Ẩn phòng trọ thành công!');
         }
       });
   }

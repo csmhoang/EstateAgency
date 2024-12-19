@@ -43,11 +43,11 @@
           Hủy theo dõi }
         </label>
       </div>
-      <button class="btn btn-dark w-100">
+      <button (click)="onChat(lessor?.id)" class="btn btn-dark w-100">
         <i class="fa-solid fa-comment-dots"></i>
         Chat
       </button>
-    }
+      }
     </div>
     <p class="card-text">
       <i class="fa-solid fa-newspaper"></i>

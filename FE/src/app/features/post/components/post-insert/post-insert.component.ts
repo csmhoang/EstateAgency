@@ -41,7 +41,9 @@ export class PostInsertComponent implements OnInit {
   user = this.userService.currentUser();
   room$ = lastValueFrom(
     this.postService.getRooms().pipe(
-      map((data) => data.filter((r) => r.condition === 'Available')),
+      map((data) =>
+        data.filter((r) => r.condition === 'Available' && r.visibility)
+      ),
       takeUntilDestroyed(this.destroyRef),
       catchError(() => of(null))
     )

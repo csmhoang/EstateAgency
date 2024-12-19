@@ -1,38 +1,37 @@
-@if(conversation){
-<div class="d-flex flex-column h-100 rounded">
+<div
+  class="d-flex flex-column rounded"
+  style="height: 80vh"
+  *ngIf="conversation"
+>
   <div
-    class="text-muted d-flex justify-content-start align-items-center gap-1 pe-3 pt-3 mt-2"
+    class="d-flex justify-content-center align-items-center rounded my-2 py-1"
+    style="background-color: #2eca6a"
   >
     <img
-      [src]="
-        conversation.receiver?.avatarUrl || '/assets/img/avatar_default.jpg'
-      "
-      width="45"
-      class="h-100"
+      [src]="receiver?.avatarUrl || '/assets/img/avatar_default.jpg'"
+      width="55"
+      class="rounded-circle"
     />
-    <p class="fw-bold text-muted">{{ conversation.receiver?.fullName }}</p>
   </div>
-  <div class="flex-fill">
+  <div
+    class="flex-fill hidden-scroll chat"
+    #scrollMe
+    [scrollTop]="scrollMe.scrollHeight"
+  >
     @for (message of messages(); track $index) {
     <app-message [message]="message"></app-message>
     }
   </div>
-  <div
-    class="text-muted d-flex justify-content-start align-items-center gap-1 pe-3 pt-3 mt-2"
-  >
-    <img
-      [src]="user?.avatarUrl || '/assets/img/avatar_default.jpg'"
-      width="45"
-      class="h-100"
-    />
+  <div class="input-group rounded border border-light-subtle mt-2">
     <input
       type="text"
-      class="form-control form-control-lg rounded border border-light-subtle"
+      class="form-control"
+      (keydown.enter)="sendMessage()"
       [formControl]="message"
       placeholder="Nhập tin nhắn"
     />
     <button
-      class="btn btn-dark"
+      class="btn btn-dark border-0"
       (click)="sendMessage()"
       [disabled]="message.invalid || !message.dirty"
     >
@@ -40,4 +39,3 @@
     </button>
   </div>
 </div>
-}

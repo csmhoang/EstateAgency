@@ -204,7 +204,7 @@ namespace Core.Services.Business
                 {
                     await SetAvatar(user, file);
                 }
-                user.UpdatedAt = DateTime.UtcNow;
+                user.UpdatedAt = DateTime.Now;
                 _repository.User.Update(user);
                 await _repository.SaveAsync();
             }

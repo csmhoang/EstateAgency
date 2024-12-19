@@ -14,6 +14,7 @@ import { PresenceService } from '@core/services/presence.service';
 import { UserService } from '@core/services/user.service';
 import { CartAppendComponent } from '@features/Cart/components/cart-append/cart-append.component';
 import { CartService } from '@features/Cart/services/cart.service';
+import { MessengerComponent } from '@features/messenger/components/messenger/messenger.component';
 import { Post } from '@features/post/models/post.model';
 import { ReservationInsertComponent } from '@features/reservation/components/reservation-insert/reservation-insert.component';
 import { DialogService } from '@shared/services/dialog/dialog.service';
@@ -37,9 +38,12 @@ export class LessorInfoCardComponent implements OnInit {
   isFollow = new FormControl(false);
   isAuthentication = this.userService.isAuthenticated();
 
-  isOnline = computed(() =>
-    this.presenceService.onlineUsers().includes(this.landlord?.username!)
-  );
+  isOnline = computed(() => {
+    if (this.landlord) {
+      return this.presenceService.onlineUsers().includes(this.landlord.id);
+    }
+    return false;
+  });
 
   constructor(
     private dialogService: DialogService,
@@ -78,8 +82,10 @@ export class LessorInfoCardComponent implements OnInit {
                   )
                   .subscribe();
                 if (isFollow) {
+                  this.landlord!.numberOfFollowers!++;
                   this.toastService.success('Đã theo dõi');
                 } else {
+                  this.landlord!.numberOfFollowers!--;
                   this.toastService.success('Đã hủy theo dõi');
                 }
               }
@@ -98,24 +104,27 @@ export class LessorInfoCardComponent implements OnInit {
             reservation.status === 'Confirmed')
       );
       if (!isCheckExist) {
-        if (this.post?.room?.condition !== 'Occupied') {
-          this.dialogService
-            .form(ReservationInsertComponent, this.post, 'lg')
-            .then(() => {
-              this.toastService.success(
-                'Yêu cầu đặt lịch đã gửi, xin hãy chờ chủ nhà xác nhận.'
-              );
-              this.userService
-                .init(true)
-                .pipe(
-                  takeUntilDestroyed(this.destroyRef),
-                  catchError(() => of(null))
-                )
-                .subscribe();
-            });
-        } else {
-          this.toastService.warn('Phòng không có sẵn.');
+        if (!this.post?.room?.visibility) {
+          return this.toastService.warn('Phòng đã bị xóa.');
         }
+        if (this.post?.room?.condition === 'Occupied') {
+          return this.toastService.warn('Phòng không có sẵn.');
+        }
+
+        this.dialogService
+          .form(ReservationInsertComponent, this.post, 'lg')
+          .then(() => {
+            this.toastService.success(
+              'Yêu cầu đặt lịch đã gửi, xin hãy chờ chủ nhà xác nhận.'
+            );
+            this.userService
+              .init(true)
+              .pipe(
+                takeUntilDestroyed(this.destroyRef),
+                catchError(() => of(null))
+              )
+              .subscribe();
+          });
       } else {
         this.toastService.warn('Yêu cầu đặt lịch của bạn đang được xử lý.');
       }
@@ -128,25 +137,32 @@ export class LessorInfoCardComponent implements OnInit {
         (cartDetail) => cartDetail.room?.id === this.post?.roomId
       );
       if (!isCheckExist) {
-        if (this.post?.room?.condition !== 'Occupied') {
-          this.dialogService
-            .form(CartAppendComponent, this.post, 'lg')
-            .then(() => {
-              this.toastService.success('Đã thêm phòng vào giỏ.');
-              this.cartService
-                .init(true)
-                .pipe(
-                  takeUntilDestroyed(this.destroyRef),
-                  catchError(() => of(null))
-                )
-                .subscribe();
-            });
-        } else {
-          this.toastService.warn('Phòng đã có người ở.');
+        if (!this.post?.room?.visibility) {
+          return this.toastService.warn('Phòng đã bị xóa.');
         }
+        if (this.post?.room?.condition === 'Occupied') {
+          return this.toastService.warn('Phòng đã có người thuê.');
+        }
+
+        this.dialogService
+          .form(CartAppendComponent, this.post, 'lg')
+          .then(() => {
+            this.toastService.success('Đã thêm phòng vào giỏ.');
+            this.cartService
+              .init(true)
+              .pipe(
+                takeUntilDestroyed(this.destroyRef),
+                catchError(() => of(null))
+              )
+              .subscribe();
+          });
       } else {
         this.toastService.warn('Phòng đã có trong giỏ');
       }
     }
+  }
+
+  onChat(otherId?: string) {
+    this.dialogService.form(MessengerComponent, otherId);
   }
 }

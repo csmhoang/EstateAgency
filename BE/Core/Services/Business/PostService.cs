@@ -211,7 +211,7 @@ namespace Core.Services.Business
             if (post is not null)
             {
                 _mapper.Map(postUpdateDto, post);
-                post.UpdatedAt = DateTime.UtcNow;
+                post.UpdatedAt = DateTime.Now;
                 _repository.Post.Update(post);
                 await _repository.SaveAsync();
             }
@@ -259,6 +259,23 @@ namespace Core.Services.Business
                 Success = true,
                 Messages = Successfull.RemovePost,
                 StatusCode = (int)HttpStatusCode.OK
+            };
+        }
+
+        public async Task<Response> ResponseAsync(string id, IsAcceptPost isAccept)
+        {
+            var post = await _repository.Post.FindCondition(r => r.Id.Equals(id))
+                .FirstOrDefaultAsync();
+            if (post == null) throw new PostNotFoundException(id);
+            post.IsAccept = isAccept;
+            post.UpdatedAt = DateTime.Now;
+            _repository.Post.Update(post);
+            await _repository.SaveAsync();
+            return new Response
+            {
+                Success = true,
+                Messages = Successfull.ResponseSucceed,
+                StatusCode = (int)HttpStatusCode.NoContent
             };
         }
 

@@ -96,13 +96,14 @@ export class RegisterFormComponent implements OnInit {
     this.address = this.form.get('address');
     this.password = this.form.get('password');
     this.repassword = this.form.get('repassword');
+    this.role = this.form.get('role');
   }
 
   onRegister() {
     if (this.form.valid) {
       const credentials: Register = {
         ...this.form.value,
-        roles: [this.role],
+        roles: [this.role?.value],
       };
       this.authService
         .register(credentials)

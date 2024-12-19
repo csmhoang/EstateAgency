@@ -41,6 +41,7 @@ export class BookingDetailComponent {
       this.bookingDetailService
         .responseDetail(id, 'Canceled')
         .pipe(
+          debounceTime(1000),
           takeUntilDestroyed(this.destroyRef),
           catchError(() => of(null))
         )
@@ -61,7 +62,6 @@ export class BookingDetailComponent {
                 this.bookingService
                   .response(this.data.id!, 'Canceled')
                   .pipe(
-                    debounceTime(1000),
                     takeUntilDestroyed(this.destroyRef),
                     catchError(() => of(null))
                   )

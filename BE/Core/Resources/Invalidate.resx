@@ -153,4 +153,7 @@
   <data name="BookingEmpty" xml:space="preserve">
     <value>Đơn đặt phòng trống!</value>
   </data>
+  <data name="HideInvalidate" xml:space="preserve">
+    <value>Phòng đang có người thuê!</value>
+  </data>
 </root>

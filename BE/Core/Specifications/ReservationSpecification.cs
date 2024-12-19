@@ -34,7 +34,7 @@ namespace Core.Specifications
                 .Include(r => r.Tenant!)
             );
 
-            AddOrder(x => x.OrderBy(r => r.CreatedAt));
+            AddOrder(x => x.OrderByDescending(b => b.CreatedAt));
 
             ApplyPaging(specParams.PageSize * (specParams.PageIndex - 1), specParams.PageSize);
         }

@@ -92,5 +92,22 @@ namespace Core.Interfaces.Auth
         /// Thông báo đổi mật khẩu thành công
         /// </returns>
         Task<Response> ResetPassword(ResetPasswordDto resetPasswordDto);
+        /// <summary>
+        /// Khóa tài khoản có thời hạn
+        /// </summary>
+        /// <param name="userId">Id người dùng</param>
+        /// <param name="duration">Số ngày</param>
+        /// <returns>
+        /// Thông báo khóa thành công
+        /// </returns>
+        Task<Response> BlockUser(string userId, int duration);
+        /// <summary>
+        ///  Mở khóa tài khoản
+        /// </summary>
+        /// <param name="userId">Id người dùng</param>
+        /// <returns>
+        /// Thông báo mở khóa thành công
+        /// </returns>
+        Task<Response> UnBlockUser(string userId);
     }
 }

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, OnDestroy, OnInit, signal } from '@angular/core';
+import { Component, OnDestroy, OnInit, signal } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -10,7 +10,6 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { FooterComponent } from '@core/layout/footer/footer.component';
 import { HeaderComponent } from '@core/layout/header/header.component';
 import { UserService } from '@core/services/user.service';
-import { ApartmentDetailPhotosComponent } from '@features/apartment/components/apartment-detail-photos/apartment-detail-photos.component';
 import { ApartmentDetailTabComponent } from '@features/apartment/components/apartment-detail-tab/apartment-detail-tab.component';
 import { ApartmentPrimaryInfoComponent } from '@features/apartment/components/apartment-primary-info/apartment-primary-info.component';
 import { FeedbackItemComponent } from '@features/apartment/components/feedback-item/feedback-item.component';
@@ -26,7 +25,6 @@ import { NgbRatingModule } from '@ng-bootstrap/ng-bootstrap';
   imports: [
     HeaderComponent,
     FooterComponent,
-    ApartmentDetailPhotosComponent,
     ApartmentDetailTabComponent,
     LessorInfoCardComponent,
     ApartmentPrimaryInfoComponent,

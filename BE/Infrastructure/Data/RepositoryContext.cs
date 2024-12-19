@@ -24,8 +24,6 @@ namespace Infrastructure.Data
         public virtual DbSet<Invoice> Invoices { get; set; } = null!;
         public virtual DbSet<InvoiceDetail> InvoiceDetails { get; set; } = null!;
         public virtual DbSet<Lease> Leases { get; set; } = null!;
-        public virtual DbSet<MaintenanceRequest> MaintenanceRequests { get; set; } = null!;
-        public virtual DbSet<MaintenanceImage> MaintenanceImages { get; set; } = null!;
         public virtual DbSet<Message> Messages { get; set; } = null!;
         public virtual DbSet<Payment> Payments { get; set; } = null!;
         public virtual DbSet<Reservation> Reservations { get; set; } = null!;
@@ -41,6 +39,7 @@ namespace Infrastructure.Data
         public virtual DbSet<CartDetail> CartDetails { get; set; } = null!;
         public virtual DbSet<Conversation> Conversations { get; set; } = null!;
         public virtual DbSet<Participant> Participants { get; set; } = null!;
+        public virtual DbSet<VisitStat> VisitStats { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -75,10 +74,6 @@ namespace Infrastructure.Data
             modelBuilder.Entity<Booking>(entity => { });
 
             modelBuilder.Entity<BookingDetail>(entity => { });
-
-            modelBuilder.Entity<MaintenanceRequest>(entity => { });
-
-            modelBuilder.Entity<MaintenanceImage>(entity => { });
 
             modelBuilder.Entity<Conversation>(entity => { });
 

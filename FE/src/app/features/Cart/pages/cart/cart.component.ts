@@ -4,9 +4,12 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RouterModule } from '@angular/router';
 import { FooterComponent } from '@core/layout/footer/footer.component';
 import { HeaderComponent } from '@core/layout/header/header.component';
+import { PresenceService } from '@core/services/presence.service';
+import { UserService } from '@core/services/user.service';
 import { BookingService } from '@features/booking/services/booking.service';
 import { CartListComponent } from '@features/Cart/components/cart-list/cart-list.component';
 import { CartService } from '@features/Cart/services/cart.service';
+import { Notice } from '@features/notification/models/notification.model';
 import { ToastService } from '@shared/services/toast/toast.service';
 import { catchError, of } from 'rxjs';
 
@@ -27,10 +30,14 @@ export class CartComponent implements OnDestroy {
   destroyRef = inject(DestroyRef);
 
   cart = this.cartService.currentCart;
+  user = this.userService.currentUser;
+
   constructor(
     private cartService: CartService,
     private bookingService: BookingService,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private presenceService: PresenceService,
+    private userService: UserService
   ) {}
 
   onBooking() {
@@ -42,6 +49,15 @@ export class CartComponent implements OnDestroy {
       )
       .subscribe((response) => {
         if (response?.success) {
+          this.cart()?.cartDetails?.forEach(async (cartDetail) => {
+            await this.presenceService.createNotification({
+              receiverId: cartDetail.room?.landlordId,
+              title: 'Đặt phòng',
+              content: `${this.user()?.fullName} đã gửi yêu cầu đặt phòng ${
+                cartDetail.room?.name
+              }.`,
+            } as Notice);
+          });
           this.cart.set(null);
           this.toastService.success(
             'Yêu cầu đặt phòng đã gửi, xin hãy chờ chủ nhà xác nhận.'

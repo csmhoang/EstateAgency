@@ -37,6 +37,16 @@ namespace Core.Specifications
             )
         &&
             (
+                specParams.Status == null ||
+                specParams.Status == x.Status
+            )
+        &&
+            (
+                specParams.IsAccept == null ||
+                specParams.IsAccept == x.IsAccept
+            )
+        &&
+            (
                 specParams.MinPrice == null ||
                 specParams.MaxPrice == null ||
                 (x.Room!.Price >= specParams.MinPrice && x.Room!.Price <= specParams.MaxPrice)
@@ -71,15 +81,17 @@ namespace Core.Specifications
 
             switch (specParams.SortExtra)
             {
-                case "New": AddOrder(x => x.OrderBy(p => p.CreatedAt)); break;
+                case "New": AddOrder(x => x.OrderByDescending(p => p.CreatedAt)); break;
                 case "Favorite": AddOrder(x => x.OrderBy(p => p.SavePosts.Count)); break;
                 case "New/Favorite":
                     AddOrder(x => x
-                        .OrderBy(p => p.CreatedAt)
+                        .OrderByDescending(p => p.CreatedAt)
                         .ThenBy(p => p.SavePosts.Count)
                     );
                     break;
-                default: AddOrder(x => x.OrderBy(p => p.Title)); break;
+                default:
+                    AddOrder(x => x.OrderByDescending(b => b.CreatedAt));
+                    break;
             }
         }
         #endregion

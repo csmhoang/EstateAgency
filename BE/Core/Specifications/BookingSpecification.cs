@@ -38,7 +38,7 @@ namespace Core.Specifications
                 .ThenInclude(i => i.Payment!)
             );
 
-            AddOrder(x => x.OrderBy(b => b.CreatedAt));
+            AddOrder(x => x.OrderByDescending(b => b.CreatedAt));
 
             ApplyPaging(specParams.PageSize * (specParams.PageIndex - 1), specParams.PageSize);
         }

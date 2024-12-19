@@ -43,7 +43,7 @@
           Hủy theo dõi }
         </label>
       </div>
-      <button class="btn btn-dark w-100">
+      <button (click)="onChat(landlord?.id)" class="btn btn-dark w-100">
         <i class="fa-solid fa-comment-dots"></i>
         Chat
       </button>
@@ -51,10 +51,6 @@
         <i class="fa-solid fa-calendar-days"></i>
         Yêu cầu xem phòng
       </button>
-      <!-- <button class="btn btn-dark w-100" (click)="onBooking()">
-        <i class="fa-regular fa-handshake"></i>
-        Đặt phòng ngay
-      </button> -->
       <button class="btn btn-dark w-100" (click)="onAppendCart()">
         <i class="fa-solid fa-cart-plus"></i>
         Thêm giỏ phòng

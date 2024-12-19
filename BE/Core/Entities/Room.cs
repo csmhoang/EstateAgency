@@ -41,6 +41,7 @@ namespace Core.Entities
         public decimal Area { get; set; }
         [Column(TypeName = "decimal(18, 2)")]
         public decimal Price { get; set; }
+        public bool? Visibility { get; set; } = true;
         public ConditionRoom Condition { get; set; }
 
         public virtual User? Landlord { get; set; }

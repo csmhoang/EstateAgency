@@ -7,15 +7,11 @@ import {
   OnInit,
   signal,
 } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { UserService } from '@core/services/user.service';
-import { ConversationService } from '@features/messenger/services/conversation.service';
-import { MessageService } from '@features/messenger/services/message.service';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { catchError, map, Observable, of } from 'rxjs';
 import { ConversationComponent } from '../conversation/conversation.component';
 import { BoxChatComponent } from '../box-chat/box-chat.component';
 import { Conversation } from '@features/messenger/models/conversation.model';
+import { PresenceService } from '@core/services/presence.service';
 
 @Component({
   selector: 'app-messenger',
@@ -27,52 +23,27 @@ import { Conversation } from '@features/messenger/models/conversation.model';
 export class MessengerComponent implements OnInit {
   @Input() data?: string;
   destroyRef = inject(DestroyRef);
-  activeModal = inject(NgbActiveModal);
-  user = this.userService.currentUser();
-  conversations?: Observable<Conversation[] | null>;
+
+  user = this.userService.currentUser;
+  conversations = this.presenceService.conversationThread;
   conversation = signal<Conversation | null>(null);
 
   constructor(
-    private conversationService: ConversationService,
-    private userService: UserService
+    private userService: UserService,
+    private presenceService: PresenceService
   ) {}
 
   ngOnInit() {
-    this.conversations = this.conversationService.getAllOfCurrent(true).pipe(
-      map((conversations) =>
-        conversations.map((conversation) => ({
-          ...conversation,
-          receiver: conversation.participants?.find(
-            (p) => p.userId !== this.user?.id
-          )?.user,
-        }))
-      ),
-      takeUntilDestroyed(this.destroyRef),
-      catchError(() => of(null))
-    );
-
-    if (this.data) {
-      this.conversationService
-        .getTwoUserId(this.data)
-        .pipe(
-          takeUntilDestroyed(this.destroyRef),
-          catchError(() => of(null))
-        )
-        .subscribe((response) => {
-          if (response?.success) {
-            this.conversation.set(response.data);
-          }
+    if (this.data && this.user()) {
+      this.presenceService
+        .getConversation(this.user()!.id, this.data)
+        .then((response) => {
+          this.conversation.set(response.data);
         });
     }
   }
 
-  selectConversation(conversation: Conversation) {
+  conversationChanged(conversation: Conversation) {
     this.conversation.set(conversation);
-  }
-
-  accept() {}
-
-  decline() {
-    this.activeModal.dismiss(false);
   }
 }

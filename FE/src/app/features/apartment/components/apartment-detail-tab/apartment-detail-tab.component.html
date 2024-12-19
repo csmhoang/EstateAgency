@@ -1,7 +1,7 @@
 <!-- Navigate -->
 <ul class="nav nav-pills mb-3">
   <li>
-    <a class="nav-link active" data-bs-toggle="pill" href="#video">Video</a>
+    <a class="nav-link active" data-bs-toggle="pill" href="#photo">Ảnh</a>
   </li>
   <li>
     <a class="nav-link" data-bs-toggle="pill" href="#map">Bản đồ</a>
@@ -11,7 +11,12 @@
 <!-- Content -->
 <div class="tab-content">
   <!-- Tab Content One-->
-  <div class="tab-pane fade show active" id="video"></div>
+  <div class="tab-pane fade show active" id="photo">
+    <!-- Apartment Photos -->
+    <app-apartment-detail-photos
+      [photos]="post?.room?.photos || []"
+    ></app-apartment-detail-photos>
+  </div>
 
   <!-- Tab Content Two -->
   <div class="tab-pane fade" id="map">

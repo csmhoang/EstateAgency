@@ -2,9 +2,12 @@ import { CommonModule } from '@angular/common';
 import { Component, DestroyRef, inject, Input } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
+import { PresenceService } from '@core/services/presence.service';
+import { UserService } from '@core/services/user.service';
 import { Booking } from '@features/booking/models/booking.model';
 import { Invoice, StatusInvoice } from '@features/booking/models/invoice.model';
 import { PaymentService } from '@features/booking/services/payment.service';
+import { Notice } from '@features/notification/models/notification.model';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastService } from '@shared/services/toast/toast.service';
 import { catchError, of } from 'rxjs';
@@ -21,11 +24,14 @@ export class InvoiceComponent {
   statusFilter = StatusInvoice;
   destroyRef = inject(DestroyRef);
   activeModal = inject(NgbActiveModal);
+  user = this.userService.currentUser;
   router = inject(Router);
 
   constructor(
     private paymentService: PaymentService,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private presenceService: PresenceService,
+    private userService: UserService
   ) {}
 
   countDownFilter(time: Date) {
@@ -61,8 +67,13 @@ export class InvoiceComponent {
             takeUntilDestroyed(this.destroyRef),
             catchError(() => of(null))
           )
-          .subscribe((response) => {
+          .subscribe(async (response) => {
             if (response?.success) {
+              await this.presenceService.createNotification({
+                receiverId: this.data?.bookingDetails![0].room?.landlordId,
+                title: 'Hẹn lịch xem phòng',
+                content: `${this.user()?.fullName} đã ký hợp đồng thuê phòng.`,
+              } as Notice);
               this.toastService.success('Thanh toán thành công!');
               this.toastService.success('Hợp đồng của bạn đã được kích hoạt!');
               this.router

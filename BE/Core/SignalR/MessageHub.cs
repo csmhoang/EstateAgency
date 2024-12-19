@@ -36,6 +36,7 @@ namespace Core.SignalR
                 .Include(c => c.Messages!)
                 .ThenInclude(m => m.Receiver!)
                 .SelectMany(c => c.Messages)
+                .OrderBy(m => m.SentAt)
                 .ToListAsync();
 
             await Clients.Caller.SendAsync("ReceiveMessagesThread", _mapper.Map<IEnumerable<MessageDto>>(messages));
@@ -59,7 +60,7 @@ namespace Core.SignalR
                 .Include(m => m.Receiver!)
                 .FirstOrDefaultAsync();
 
-            await Clients.Group(messageDto.ConversationId).SendAsync("NewMessage", _mapper.Map<MessageDto>(message));
+            await Clients.Group(newMessage.ConversationId!).SendAsync("NewMessage", _mapper.Map<MessageDto>(message));
         }
     }
 }

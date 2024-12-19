@@ -94,8 +94,12 @@
             </button>
             <mat-menu #menu class="px-1">
               <button (click)="onLease(element.booking)" mat-menu-item>
-                <i class="fa-solid fa-file-lines"></i>
+              <i class="fa-solid fa-file-lines"></i>
                 <span>Hợp đồng</span>
+              </button>
+              <button (click)="onChat(element.room?.landlord?.id)" mat-menu-item>
+                <i class="fa-solid fa-envelope"></i>
+                <span>Nhắn tin</span>
               </button>
             </mat-menu>
           </td>

@@ -115,6 +115,15 @@ namespace Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Tài khoản của đã bị khóa..
+        /// </summary>
+        public static string LockedOut {
+            get {
+                return ResourceManager.GetString("LockedOut", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Đăng nhập thấy bại. Tài khoản hoặc mật khẩu chưa chính xác!.
         /// </summary>
         public static string LoginFailing {
@@ -129,6 +138,15 @@ namespace Core.Resources {
         public static string NotConnectHub {
             get {
                 return ResourceManager.GetString("NotConnectHub", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tài khoản chưa được xác thực..
+        /// </summary>
+        public static string NotEmailConfirm {
+            get {
+                return ResourceManager.GetString("NotEmailConfirm", resourceCulture);
             }
         }
         

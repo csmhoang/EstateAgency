@@ -93,7 +93,10 @@
                     element.id,
                     element.status,
                     element.room?.condition,
-                    element.reservationDate
+                    element.reservationDate,
+                    element.tenantId,
+                    element.room.name,
+                    element.room?.visibility
                   )
                 "
                 mat-menu-item
@@ -103,7 +106,14 @@
               </button>
               <button
                 [disabled]="element.status !== 'Pending'"
-                (click)="onRefuse(element.id, element.status)"
+                (click)="
+                  onRefuse(
+                    element.id,
+                    element.status,
+                    element.tenantId,
+                    element.room.name
+                  )
+                "
                 mat-menu-item
               >
                 <i class="fa-solid fa-trash"></i>

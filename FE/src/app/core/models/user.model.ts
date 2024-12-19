@@ -20,6 +20,7 @@ export type User = {
   dateOfBirth?: Date;
   address: string;
   description?: string;
+  lockoutEnd?: Date;
   createdAt?: Date;
   updatedAt?: Date;
 

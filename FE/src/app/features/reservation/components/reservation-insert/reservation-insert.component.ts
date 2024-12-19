@@ -12,7 +12,9 @@ import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { PresenceService } from '@core/services/presence.service';
 import { UserService } from '@core/services/user.service';
+import { Notice } from '@features/notification/models/notification.model';
 import { Post } from '@features/post/models/post.model';
 import { Reservation } from '@features/reservation/models/reservation.model';
 import { ReservationService } from '@features/reservation/services/reservation.service';
@@ -51,7 +53,8 @@ export class ReservationInsertComponent implements OnInit {
     private formBuilder: FormBuilder,
     private reservationService: ReservationService,
     private toastService: ToastService,
-    private userService: UserService
+    private userService: UserService,
+    private presenceService: PresenceService
   ) {}
 
   ngOnInit() {
@@ -79,7 +82,7 @@ export class ReservationInsertComponent implements OnInit {
           takeUntilDestroyed(this.destroyRef),
           catchError(() => of(null))
         )
-        .subscribe((response) => {
+        .subscribe(async (response) => {
           if (response?.success) {
             if (response?.statusCode === 205) {
               this.toastService.warn(
@@ -87,6 +90,11 @@ export class ReservationInsertComponent implements OnInit {
               );
               return;
             }
+            await this.presenceService.createNotification({
+              receiverId: this.data.landlordId,
+              title: 'Hẹn lịch xem phòng',
+              content: `${this.user?.fullName} đã gửi yêu cầu hẹn lịch xem phòng ${this.data.room?.name}.`,
+            } as Notice);
             this.activeModal.close(true);
           }
         });

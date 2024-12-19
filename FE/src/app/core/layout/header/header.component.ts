@@ -40,7 +40,6 @@ export class HeaderComponent {
   destroyRef = inject(DestroyRef);
   renderer = inject(Renderer2);
   el = inject(ElementRef);
-  platformId = inject(PLATFORM_ID);
   document = inject(DOCUMENT);
   nav: ElementRef | undefined;
 
