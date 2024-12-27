@@ -66,32 +66,141 @@ namespace Core.Specifications
 
             ApplyPaging(specParams.PageSize * (specParams.PageIndex - 1), specParams.PageSize);
 
-
             switch (specParams.SortPrice)
             {
-                case "PriceAsc": AddOrder(x => x.OrderBy(p => p.Room!.Price)); break;
-                case "PriceDesc": AddOrder(x => x.OrderByDescending(p => p.Room!.Price)); break;
+                case "PriceAsc":
+                    {
+                        switch (specParams.SortArea)
+                        {
+                            case "AreaAsc":
+                                {
+                                    switch (specParams.SortExtra)
+                                    {
+                                        case "New": AddOrder(x => x.OrderBy(p => p.Room!.Price).ThenBy(p => p.Room!.Area).ThenByDescending(p => p.CreatedAt)); return;
+                                        case "Favorite": AddOrder(x => x.OrderBy(p => p.Room!.Price).ThenBy(p => p.Room!.Area).ThenByDescending(p => p.SavePosts.Count)); return;
+                                        case "New/Favorite":
+                                            AddOrder(x => x
+                                                .OrderBy(p => p.Room!.Price)
+                                                .ThenBy(p => p.Room!.Area)
+                                                .ThenByDescending(p => p.CreatedAt)
+                                                .ThenByDescending(p => p.SavePosts.Count)
+                                            );
+                                            return;
+                                    }
+                                    AddOrder(x => x.OrderBy(p => p.Room!.Price).ThenBy(p => p.Room!.Area)); return;
+                                }
+                            case "AreaDesc":
+                                {
+                                    switch (specParams.SortExtra)
+                                    {
+                                        case "New": AddOrder(x => x.OrderBy(p => p.Room!.Price).ThenByDescending(p => p.Room!.Area).ThenByDescending(p => p.CreatedAt)); return;
+                                        case "Favorite": AddOrder(x => x.OrderBy(p => p.Room!.Price).ThenByDescending(p => p.Room!.Area).ThenByDescending(p => p.SavePosts.Count)); return;
+                                        case "New/Favorite":
+                                            AddOrder(x => x
+                                                .OrderBy(p => p.Room!.Price)
+                                                .ThenByDescending(p => p.Room!.Area)
+                                                .ThenByDescending(p => p.CreatedAt)
+                                                .ThenByDescending(p => p.SavePosts.Count)
+                                            );
+                                            return;
+                                    }
+                                    AddOrder(x => x.OrderBy(p => p.Room!.Price).ThenByDescending(p => p.Room!.Area)); return;
+                                }
+                        }
+                        AddOrder(x => x.OrderBy(p => p.Room!.Price)); return;
+                    }
+                case "PriceDesc":
+                    {
+                        switch (specParams.SortArea)
+                        {
+                            case "AreaAsc":
+                                {
+                                    switch (specParams.SortExtra)
+                                    {
+                                        case "New": AddOrder(x => x.OrderByDescending(p => p.Room!.Price).ThenBy(p => p.Room!.Area).ThenByDescending(p => p.CreatedAt)); return;
+                                        case "Favorite": AddOrder(x => x.OrderByDescending(p => p.Room!.Price).ThenBy(p => p.Room!.Area).ThenByDescending(p => p.SavePosts.Count)); return;
+                                        case "New/Favorite":
+                                            AddOrder(x => x
+                                                .OrderByDescending(p => p.Room!.Price)
+                                                .ThenBy(p => p.Room!.Area)
+                                                .ThenByDescending(p => p.CreatedAt)
+                                                .ThenByDescending(p => p.SavePosts.Count)
+                                            );
+                                            return;
+                                    }
+                                    AddOrder(x => x.OrderByDescending(p => p.Room!.Price).ThenBy(p => p.Room!.Area)); return;
+                                }
+                            case "AreaDesc":
+                                {
+                                    switch (specParams.SortExtra)
+                                    {
+                                        case "New": AddOrder(x => x.OrderByDescending(p => p.Room!.Price).ThenByDescending(p => p.Room!.Area).ThenByDescending(p => p.CreatedAt)); return;
+                                        case "Favorite": AddOrder(x => x.OrderByDescending(p => p.Room!.Price).ThenByDescending(p => p.Room!.Area).ThenByDescending(p => p.SavePosts.Count)); return;
+                                        case "New/Favorite":
+                                            AddOrder(x => x
+                                                .OrderByDescending(p => p.Room!.Price)
+                                                .ThenByDescending(p => p.Room!.Area)
+                                                .ThenByDescending(p => p.CreatedAt)
+                                                .ThenByDescending(p => p.SavePosts.Count)
+                                            );
+                                            return;
+                                    }
+                                    AddOrder(x => x.OrderByDescending(p => p.Room!.Price).ThenByDescending(p => p.Room!.Area)); return;
+                                }
+                        }
+                        AddOrder(x => x.OrderByDescending(p => p.Room!.Price)); return;
+                    }
             }
 
             switch (specParams.SortArea)
             {
-                case "AreaAsc": AddOrder(x => x.OrderBy(p => p.Room!.Area)); break;
-                case "AreaDesc": AddOrder(x => x.OrderByDescending(p => p.Room!.Price)); break;
+                case "AreaAsc":
+                    {
+                        switch (specParams.SortExtra)
+                        {
+                            case "New": AddOrder(x => x.OrderBy(p => p.Room!.Area).OrderByDescending(p => p.CreatedAt)); return;
+                            case "Favorite": AddOrder(x => x.OrderBy(p => p.Room!.Area).OrderByDescending(p => p.SavePosts.Count)); return;
+                            case "New/Favorite":
+                                AddOrder(x => x
+                                    .OrderBy(p => p.Room!.Area)
+                                    .OrderByDescending(p => p.CreatedAt)
+                                    .ThenByDescending(p => p.SavePosts.Count)
+                                );
+                                return;
+                        }
+                        AddOrder(x => x.OrderBy(p => p.Room!.Area)); return;
+                    }
+                case "AreaDesc":
+                    {
+                        switch (specParams.SortExtra)
+                        {
+                            case "New": AddOrder(x => x.OrderByDescending(p => p.Room!.Area).OrderByDescending(p => p.CreatedAt)); return;
+                            case "Favorite": AddOrder(x => x.OrderByDescending(p => p.Room!.Area).OrderByDescending(p => p.SavePosts.Count)); return;
+                            case "New/Favorite":
+                                AddOrder(x => x
+                                    .OrderByDescending(p => p.Room!.Area)
+                                    .OrderByDescending(p => p.CreatedAt)
+                                    .ThenByDescending(p => p.SavePosts.Count)
+                                );
+                                return;
+                        }
+                        AddOrder(x => x.OrderByDescending(p => p.Room!.Price)); return;
+                    }
             }
 
             switch (specParams.SortExtra)
             {
-                case "New": AddOrder(x => x.OrderByDescending(p => p.CreatedAt)); break;
-                case "Favorite": AddOrder(x => x.OrderBy(p => p.SavePosts.Count)); break;
+                case "New": AddOrder(x => x.OrderByDescending(p => p.CreatedAt)); return;
+                case "Favorite": AddOrder(x => x.OrderByDescending(p => p.SavePosts.Count)); return;
                 case "New/Favorite":
                     AddOrder(x => x
                         .OrderByDescending(p => p.CreatedAt)
-                        .ThenBy(p => p.SavePosts.Count)
+                        .ThenByDescending(p => p.SavePosts.Count)
                     );
-                    break;
+                    return;
                 default:
                     AddOrder(x => x.OrderByDescending(b => b.CreatedAt));
-                    break;
+                    return;
             }
         }
         #endregion
