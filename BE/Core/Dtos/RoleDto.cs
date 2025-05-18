@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Core.Dtos;
 
-namespace Core.Dtos
+public record RoleDto
 {
-    public record RoleDto
-    {
-        public string? Id { get; set; }
-        public string Name { get; set; } = null!;
-    }
+    public string? Id { get; set; }
+    public string Name { get; set; } = null!;
 }

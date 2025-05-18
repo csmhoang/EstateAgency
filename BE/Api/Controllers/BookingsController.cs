@@ -1,11 +1,4 @@
-﻿using Core.Consts;
-using Core.Dtos;
-using Core.Extensions;
-using Core.Interfaces.Business;
-using Core.Params;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using static Core.Enums.BookingEnums;
+﻿using static Core.Enums.BookingEnums;
 
 namespace Api.Controllers
 {

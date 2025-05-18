@@ -1,0 +1,9 @@
+﻿global using Core.Entities;
+global using Core.Interfaces.Specifications;
+global using Core.Exceptions;
+global using Core.Helpers;
+global using Core.Resources;
+global using Core.Interfaces.Infrastructure;
+global using Core.Dtos;
+global using Core.Interfaces.Data;
+global using Infrastructure.Data;

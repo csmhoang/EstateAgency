@@ -1,13 +1,8 @@
-﻿using Api.Extensions;
-using Core.Helpers;
-using Core.Interfaces.Infrastructure;
-using Core.SignalR;
-using Infrastructure.Mapping;
-using Microsoft.AspNetCore.HttpOverrides;
-using Microsoft.OpenApi.Models;
-using NLog;
+﻿using NLog;
 using System.Reflection;
+using Microsoft.OpenApi.Models;
 using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.HttpOverrides;
 
 var builder = WebApplication.CreateBuilder(args);
 

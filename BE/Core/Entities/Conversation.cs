@@ -1,16 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
+﻿namespace Core.Entities;
 
-namespace Core.Entities
+public partial class Conversation: BaseEntity
 {
-    public partial class Conversation: BaseEntity
+    public Conversation()
     {
-        public Conversation()
-        {
-            Participants = new HashSet<Participant>();
-            Messages = new HashSet<Message>();
-        }
-        public virtual ICollection<Participant> Participants { get; set; }
-        public virtual ICollection<Message> Messages { get; set; }
+        Participants = new HashSet<Participant>();
+        Messages = new HashSet<Message>();
     }
+    public virtual ICollection<Participant> Participants { get; set; }
+    public virtual ICollection<Message> Messages { get; set; }
 }

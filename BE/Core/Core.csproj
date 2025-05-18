@@ -5,12 +5,12 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="Interfaces\External\**" />
     <Compile Remove="Middlewares\**" />
+    <EmbeddedResource Remove="Interfaces\External\**" />
     <EmbeddedResource Remove="Middlewares\**" />
+    <None Remove="Interfaces\External\**" />
     <None Remove="Middlewares\**" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Interfaces\External\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" />

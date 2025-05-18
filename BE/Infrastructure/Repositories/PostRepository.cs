@@ -1,25 +1,19 @@
-﻿using Core.Entities;
-using Core.Interfaces.Data;
-using Infrastructure.Data;
-using Microsoft.EntityFrameworkCore;
+﻿namespace Infrastructure.Repositories;
 
-namespace Infrastructure.Repositories
+internal sealed class PostRepository : RepositoryBase<Post>, IPostRepository
 {
-    internal sealed class PostRepository : RepositoryBase<Post>, IPostRepository
-    {
-        #region Declaration
-        #endregion
+    #region Declaration
+    #endregion
 
-        #region Property
-        #endregion
+    #region Property
+    #endregion
 
-        #region Constructor
-        public PostRepository(RepositoryContext context)
-            : base(context) { }
+    #region Constructor
+    public PostRepository(RepositoryContext context)
+        : base(context) { }
 
-        #endregion
+    #endregion
 
-        #region Method
-        #endregion
-    }
+    #region Method
+    #endregion
 }

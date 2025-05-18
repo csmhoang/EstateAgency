@@ -1,24 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Runtime.Serialization;
 
-namespace Core.Enums
+namespace Core.Enums;
+
+public record ReservationEnums
 {
-    public record ReservationEnums
+    public enum StatusReservation
     {
-        public enum StatusReservation
-        {
-            [EnumMember(Value = "Pending")]
-            Pending = 0,
-            [EnumMember(Value = "Confirmed")]
-            Confirmed = 1,
-            [EnumMember(Value = "Rejected")]
-            Rejected = 2,
-            [EnumMember(Value = "Canceled")]
-            Canceled = 3
-        }
+        [EnumMember(Value = "Pending")]
+        Pending = 0,
+        [EnumMember(Value = "Confirmed")]
+        Confirmed = 1,
+        [EnumMember(Value = "Rejected")]
+        Rejected = 2,
+        [EnumMember(Value = "Canceled")]
+        Canceled = 3
     }
 }

@@ -1,17 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Core.Consts;
 
-namespace Core.Consts
+public static class RoleConst
 {
-    public static class RoleConst
-    {
-        public const string Admin = "admin";
+    public const string Admin = "admin";
 
-        public const string Landlord = "landlord";
+    public const string Landlord = "landlord";
 
-        public const string Tenant = "tenant";
-    }
+    public const string Tenant = "tenant";
 }

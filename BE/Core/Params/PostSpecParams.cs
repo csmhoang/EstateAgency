@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static Core.Enums.PostEnums;
+﻿using static Core.Enums.PostEnums;
 using static Core.Enums.RoomEnums;
 
 namespace Core.Params

@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Core.Dtos;
 
-namespace Core.Dtos
+public record OptionDto
 {
-    public record OptionDto
-    {
-        public List<string>? values { get; set; }
-    }
+    public List<string>? values { get; set; }
 }

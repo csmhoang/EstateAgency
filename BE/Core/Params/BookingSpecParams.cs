@@ -1,53 +1,45 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static Core.Enums.BookingEnums;
+﻿namespace Core.Params;
 
-namespace Core.Params
+public class BookingSpecParams
 {
-    public class BookingSpecParams
+    private const int MaxPageSize = 50;
+    public int PageIndex { get; set; } = 1;
+
+    private int _pageSize = 6;
+    public int PageSize
     {
-        private const int MaxPageSize = 50;
-        public int PageIndex { get; set; } = 1;
+        get => _pageSize;
+        set => _pageSize = (value > MaxPageSize) ? MaxPageSize : value;
+    }
 
-        private int _pageSize = 6;
-        public int PageSize
+    private List<string> _tenantIds = new();
+    public List<string> TenantId
+    {
+        get => _tenantIds;
+        set
         {
-            get => _pageSize;
-            set => _pageSize = (value > MaxPageSize) ? MaxPageSize : value;
+            _tenantIds = value.SelectMany(x => x.Split(",",
+                StringSplitOptions.RemoveEmptyEntries)).ToList();
         }
+    }
 
-        private List<string> _tenantIds = new();
-        public List<string> TenantId
+    private List<string> _roomIds = new();
+    public List<string> RoomId
+    {
+        get => _roomIds;
+        set
         {
-            get => _tenantIds;
-            set
-            {
-                _tenantIds = value.SelectMany(x => x.Split(",",
-                    StringSplitOptions.RemoveEmptyEntries)).ToList();
-            }
+            _roomIds = value.SelectMany(x => x.Split(",",
+                StringSplitOptions.RemoveEmptyEntries)).ToList();
         }
+    }
 
-        private List<string> _roomIds = new();
-        public List<string> RoomId
-        {
-            get => _roomIds;
-            set
-            {
-                _roomIds = value.SelectMany(x => x.Split(",",
-                    StringSplitOptions.RemoveEmptyEntries)).ToList();
-            }
-        }
+    public string? Sort { get; set; }
 
-        public string? Sort { get; set; }
-
-        private string? _search;
-        public string Search
-        {
-            get => _search ?? "";
-            set => _search = value.ToLower();
-        }
+    private string? _search;
+    public string Search
+    {
+        get => _search ?? "";
+        set => _search = value.ToLower();
     }
 }

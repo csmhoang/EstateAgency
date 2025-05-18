@@ -1,17 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Core.Entities;
 
-namespace Core.Entities
+public partial class VisitStat : BaseEntity
 {
-    public partial class VisitStat : BaseEntity
-    {
-        public int Year { get; set; }
-        public int Month { get; set; }
-        public int VisitCount { get; set; }
-    }
+    public int Year { get; set; }
+    public int Month { get; set; }
+    public int VisitCount { get; set; }
 }
