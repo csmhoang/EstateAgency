@@ -1,10 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
-using static Core.Enums.LeaseEnums;
-using static Core.Enums.RoomEnums;
 
-namespace Core.Services.Business;
+namespace Core;
 
 internal sealed class DashboardService : IDashboardService
 {
@@ -51,7 +49,7 @@ internal sealed class DashboardService : IDashboardService
         var roomCount = await _repository.Room
             .FindCondition(r =>
                 r.LandlordId!.Equals(landlordId) &&
-                r.Condition != ConditionRoom.Occupied &&
+                r.Condition != RoomEnums.ConditionRoom.Occupied &&
                 r.Visibility != null && r.Visibility == true
             )
             .CountAsync();
@@ -69,7 +67,7 @@ internal sealed class DashboardService : IDashboardService
         var tenantCount = await _repository.LeaseDetail
             .FindCondition(ld =>
                 ld.Room!.LandlordId!.Equals(landlordId) &&
-                ld.Lease!.Status == StatusLease.Active
+                ld.Lease!.Status == LeaseEnums.StatusLease.Active
             ).SumAsync((ld => ld.NumberOfTenant));
 
         return new Response
@@ -86,8 +84,8 @@ internal sealed class DashboardService : IDashboardService
             .FindCondition(ld =>
                 ld.Room!.LandlordId!.Equals(landlordId) &&
                 (
-                    ld.Lease!.Status == StatusLease.Active ||
-                    ld.Lease!.Status == StatusLease.Expired
+                    ld.Lease!.Status == LeaseEnums.StatusLease.Active ||
+                    ld.Lease!.Status == LeaseEnums.StatusLease.Expired
                 )
             ).SumAsync((ld => ld.Price));
 

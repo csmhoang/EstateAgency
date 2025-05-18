@@ -11,9 +11,9 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Core.Services.Auth;
+namespace Core;
 
-internal sealed class AuthenticationService : Interfaces.Auth.IAuthenticationService
+internal sealed class AuthenticationService : IAuthenticationService
 
 {
     #region Declaration
@@ -413,7 +413,7 @@ internal sealed class AuthenticationService : Interfaces.Auth.IAuthenticationSer
             .AnyAsync(x => x.UserName == username.ToLower());
     }
 
-    public async Task<Response> UserCurrent(string username)
+    public async Task<Response> UserCurrent(string? username)
     {
         var user = string.IsNullOrEmpty(username) ? null : await _userManager.Users
             .AsNoTracking()

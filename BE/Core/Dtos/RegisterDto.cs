@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using static Core.Enums.UserEnums;
 
-namespace Core.Dtos;
+namespace Core;
 
 public record RegisterDto
 {
@@ -13,7 +12,7 @@ public record RegisterDto
     [Required(ErrorMessage = UserConst.ErrorEmptyPhone)]
     public string PhoneNumber { get; init; } = null!;
     public DateTime? DateOfBirth { get; init; }
-    public Gender Gender { get; init; }
+    public UserEnums.Gender Gender { get; init; }
     [Required(ErrorMessage = UserConst.ErrorEmptyPassword)]
     [StringLength(16, MinimumLength = 6, ErrorMessage = UserConst.ErrorLengthPassword)]
     public string Password { get; init; } = null!;

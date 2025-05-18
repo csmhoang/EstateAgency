@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using static Core.Enums.RoomEnums;
 
-namespace Core.Dtos;
+namespace Core;
 
 public record RoomDto
 {
@@ -9,7 +8,7 @@ public record RoomDto
     [Required(ErrorMessage = UserConst.ErrorEmptyLandlordId)]
     public string LandlordId { get; set; } = null!;
     public string Name { get; set; } = null!;
-    public Category Category { get; set; }
+    public RoomEnums.Category Category { get; set; }
     public string Address { get; set; } = null!;
     public string Ward { get; set; } = null!;
     public string Province { get; set; } = null!;
@@ -17,11 +16,11 @@ public record RoomDto
     public int Bedroom { get; set; }
     public int Bathroom { get; set; }
     public int Toilet { get; set; }
-    public Interior Interior { get; set; }
+    public RoomEnums.Interior Interior { get; set; }
     public decimal Area { get; set; }
     public decimal Price { get; set; }
     public bool? Visibility { get; set; }
-    public ConditionRoom? Condition { get; set; }
+    public RoomEnums.ConditionRoom? Condition { get; set; }
     public DateTime? CreatedAt { get; set; }
     public DateTime? UpdatedAt { get; set; }
 

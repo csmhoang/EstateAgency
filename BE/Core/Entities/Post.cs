@@ -1,8 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using static Core.Enums.PostEnums;
 
-namespace Core.Entities;
+namespace Core;
 
 public partial class Post : BaseEntity
 {
@@ -23,8 +22,8 @@ public partial class Post : BaseEntity
     [Column(TypeName = "date")]
     public DateTime AvailableFrom { get; set; }
     public bool IsHide { get; set; }
-    public IsAcceptPost IsAccept { get; set; }
-    public StatusPost Status { get; set; }
+    public PostEnums.IsAcceptPost IsAccept { get; set; }
+    public PostEnums.StatusPost Status { get; set; }
 
     public virtual User? Landlord { get; set; }
     public virtual Room? Room { get; set; }

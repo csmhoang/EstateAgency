@@ -1,6 +1,4 @@
-﻿using Core.Helpers;
-
-namespace Core.Services.Business;
+﻿namespace Core;
 
 abstract class ServiceBase<T> where T : class
 {
@@ -36,6 +34,4 @@ abstract class ServiceBase<T> where T : class
         return pagination;
     }
     #endregion
-
-
 }

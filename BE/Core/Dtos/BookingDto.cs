@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using static Core.Enums.BookingEnums;
 
-namespace Core.Dtos;
+namespace Core;
 
 public record BookingDto
 {
@@ -10,7 +9,7 @@ public record BookingDto
     public string TenantId { get; set; } = null!;
     [Required(ErrorMessage = InvoiceConst.ErrorEmptyId)]
     public string InvoiceId { get; set; } = null!;
-    public StatusBooking? Status { get; set; }
+    public BookingEnums.StatusBooking? Status { get; set; }
     public DateTime? CreatedAt { get; set; }
     public DateTime? UpdatedAt { get; set; }
 

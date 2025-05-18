@@ -1,4 +1,4 @@
-﻿namespace Core.SignalR;
+﻿namespace Core;
 
 public class PresenceTracker
 {

@@ -1,6 +1,4 @@
-﻿using static Core.Enums.InvoiceEnums;
-
-namespace Api.Controllers;
+﻿namespace Api;
 
 [Route("api/v1/invoices")]
 [ApiController]
@@ -46,7 +44,7 @@ public class InvoicesController : ControllerBase
     /// <param name="status">Trạng thái</param>
     [HttpPut("response")]
     [Authorize]
-    public async Task<IActionResult> ResponseRequest(string id, StatusInvoice status)
+    public async Task<IActionResult> ResponseRequest(string id, InvoiceEnums.StatusInvoice status)
     {
         var response = await _service.Invoice.ResponseAsync(id, status);
         return Ok(response);

@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Core.SignalR;
+namespace Core;
 
 public class MessageHub : Hub
 {
@@ -47,7 +47,7 @@ public class MessageHub : Hub
     [Authorize]
     public async Task SendMessage(MessageDto messageDto)
     {
-        var newMessage = _mapper.Map<Entities.Message>(messageDto);
+        var newMessage = _mapper.Map<Message>(messageDto);
         _repository.Message.Create(newMessage);
         await _repository.SaveAsync();
 

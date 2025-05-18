@@ -1,9 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using static Core.Enums.InvoiceEnums;
-using static Core.Enums.LeaseEnums;
-using static Core.Enums.RoomEnums;
 
-namespace Api.Extensions;
+namespace Api;
 
 public class ExpireContractService : BackgroundService
 {
@@ -24,20 +21,20 @@ public class ExpireContractService : BackgroundService
                 var expiredInvoices = context.Invoices
                     .Include(i => i.Booking!)
                     .ThenInclude(b => b.Lease!)
-                    .Where(i => i.Status == StatusInvoice.Pending && i.DueDate <= DateTime.Now)
+                    .Where(i => i.Status == InvoiceEnums.StatusInvoice.Pending && i.DueDate <= DateTime.Now)
                     .ToList();
 
                 var expiredLeases = context.Leases
                     .Include(l => l.LeaseDetails!)
                     .ThenInclude(ld => ld.Room!)
-                    .Where(l => l.Status == StatusLease.Active)
+                    .Where(l => l.Status == LeaseEnums.StatusLease.Active)
                     .ToList();
 
                 foreach (var invoice in expiredInvoices)
                 {
-                    invoice.Status = StatusInvoice.Overdue;
+                    invoice.Status = InvoiceEnums.StatusInvoice.Overdue;
                     invoice.UpdatedAt = DateTime.Now;
-                    invoice.Booking!.Lease!.Status = StatusLease.Canceled;
+                    invoice.Booking!.Lease!.Status = LeaseEnums.StatusLease.Canceled;
                     invoice.Booking!.Lease!.UpdatedAt = DateTime.Now;
                 }
                 var isExpiredLeaseDetails = false;
@@ -50,12 +47,12 @@ public class ExpireContractService : BackgroundService
                         isExpiredLeaseDetails = true;
                         foreach (var leaseDetail in expiredLeaseDetails)
                         {
-                            leaseDetail.Room!.Condition = ConditionRoom.Available;
+                            leaseDetail.Room!.Condition = RoomEnums.ConditionRoom.Available;
                             leaseDetail.Room!.UpdatedAt = DateTime.Now;
                         }
                         if (expiredLeaseDetails.Count() == lease.LeaseDetails.Count())
                         {
-                            lease.Status = StatusLease.Expired;
+                            lease.Status = LeaseEnums.StatusLease.Expired;
                         }
                     }
                 }

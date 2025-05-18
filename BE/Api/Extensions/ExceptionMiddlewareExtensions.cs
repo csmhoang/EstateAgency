@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Diagnostics;
 using System.Net;
 
-namespace Api.Extensions;
+namespace Api;
 
 public static class ExceptionMiddlewareExtensions
 {

@@ -1,8 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using static Core.Enums.ReservationEnums;
 
-namespace Core.Entities;
+namespace Core;
 
 public partial class Reservation : BaseEntity
 {
@@ -15,7 +14,7 @@ public partial class Reservation : BaseEntity
     public string? Note { get; set; }
     public string? RejectionReason { get; set; }
     public DateTime ReservationDate { get; set; }
-    public StatusReservation Status { get; set; }
+    public ReservationEnums.StatusReservation Status { get; set; }
 
     public virtual Room? Room { get; set; }
     public virtual User? Tenant { get; set; }

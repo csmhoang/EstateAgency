@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 
-namespace Core.Dtos;
+namespace Core;
 
 public record Response
 {

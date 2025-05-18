@@ -1,4 +1,4 @@
-﻿namespace Api.Controllers;
+﻿namespace Api;
 
 [Route("api/v1/dashboards")]
 [ApiController]

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Net;
 using Microsoft.AspNetCore.Http;
 
-namespace Core.Services.Business;
+namespace Core;
 
 internal sealed class UserService : ServiceBase<User>, IUserService
 {

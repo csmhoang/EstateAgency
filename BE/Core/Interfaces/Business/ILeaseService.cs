@@ -1,6 +1,4 @@
-﻿using static Core.Enums.LeaseEnums;
-
-namespace Core.Interfaces.Business;
+﻿namespace Core;
 
 public interface ILeaseService
 {
@@ -67,5 +65,5 @@ public interface ILeaseService
     /// 1 - Thông báo thành công
     /// 2 - Ngoại lệ
     /// </returns>
-    Task<Response> ResponseAsync(string id, StatusLease status);
+    Task<Response> ResponseAsync(string id, LeaseEnums.StatusLease status);
 }

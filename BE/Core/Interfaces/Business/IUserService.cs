@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 
-namespace Core.Interfaces.Business;
+namespace Core;
 
 public interface IUserService
 {

@@ -1,11 +1,8 @@
 ﻿using AutoMapper;
-using Core.Specifications;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
-using static Core.Enums.BookingEnums;
-using static Core.Enums.LeaseEnums;
 
-namespace Core.Services.Business;
+namespace Core;
 
 internal class BookingDetailService : ServiceBase<BookingDetail>, IBookingDetailService
 {
@@ -57,7 +54,7 @@ internal class BookingDetailService : ServiceBase<BookingDetail>, IBookingDetail
     {
         var spec = new BookingDetailSpecification(
             specParams,
-            x => x.Booking!.Lease!.Status == StatusLease.Active && x.Status == StatusBookingDetail.Accepted
+            x => x.Booking!.Lease!.Status == LeaseEnums.StatusLease.Active && x.Status == BookingEnums.StatusBookingDetail.Accepted
         );
 
         var page = await CreatePagedResult(spec, specParams.PageIndex, specParams.PageSize);

@@ -1,10 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
-using static Core.Enums.PostEnums;
-using static Core.Enums.RoomEnums;
 
-namespace Core.Services.Business;
+namespace Core;
 
 internal sealed class PostService : ServiceBase<Post>, IPostService
 {
@@ -111,8 +109,7 @@ internal sealed class PostService : ServiceBase<Post>, IPostService
     {
         var postDelete = await _repository.Post.FindCondition(r => r.Id.Equals(id))
             .FirstOrDefaultAsync();
-        if (postDelete is not null)
-        {
+        if(postDelete is not null) {
             _repository.Post.Delete(postDelete);
             await _repository.SaveAsync();
             return new Response
@@ -122,8 +119,7 @@ internal sealed class PostService : ServiceBase<Post>, IPostService
                 StatusCode = (int)HttpStatusCode.NoContent
             };
         }
-        else
-        {
+        else {
             throw new PostNotFoundException(id);
         }
     }
@@ -133,8 +129,9 @@ internal sealed class PostService : ServiceBase<Post>, IPostService
         var room = await _repository.Room
             .FindCondition(r => r.Id.Equals(postDto.RoomId))
             .FirstOrDefaultAsync();
-        if (room == null) throw new RoomNotFoundException(postDto.RoomId);
-        room.Condition = ConditionRoom.PostingForRent;
+        if(room == null)
+            throw new RoomNotFoundException(postDto.RoomId);
+        room.Condition = RoomEnums.ConditionRoom.PostingForRent;
 
         var post = _mapper.Map<Post>(postDto);
         _repository.Post.Create(post);
@@ -153,12 +150,14 @@ internal sealed class PostService : ServiceBase<Post>, IPostService
         var post = await _repository.Post
             .FindCondition(r => r.Id.Equals(savePostDto.PostId))
             .FirstOrDefaultAsync();
-        if (post == null) throw new PostNotFoundException(savePostDto.PostId!);
+        if(post == null)
+            throw new PostNotFoundException(savePostDto.PostId!);
 
         var user = await _repository.User
             .FindCondition(r => r.Id.Equals(savePostDto.UserId))
             .FirstOrDefaultAsync();
-        if (user == null) throw new UserNotFoundException();
+        if(user == null)
+            throw new UserNotFoundException();
 
         var savePost = await _repository.SavePost
             .FindCondition(r =>
@@ -167,19 +166,15 @@ internal sealed class PostService : ServiceBase<Post>, IPostService
             )
             .FirstOrDefaultAsync();
 
-        if (isSave)
-        {
-            if (savePost == null)
-            {
+        if(isSave) {
+            if(savePost == null) {
                 var savePostInsert = _mapper.Map<SavePost>(savePostDto);
                 _repository.SavePost.Create(savePostInsert);
                 await _repository.SaveAsync();
             }
         }
-        else
-        {
-            if (savePost != null)
-            {
+        else {
+            if(savePost != null) {
                 _repository.SavePost.Delete(savePost);
                 await _repository.SaveAsync();
             }
@@ -199,15 +194,13 @@ internal sealed class PostService : ServiceBase<Post>, IPostService
 
         var post = await _repository.Post.FindCondition(p => p.Id.Equals(id))
             .FirstOrDefaultAsync();
-        if (post is not null)
-        {
+        if(post is not null) {
             _mapper.Map(postUpdateDto, post);
             post.UpdatedAt = DateTime.Now;
             _repository.Post.Update(post);
             await _repository.SaveAsync();
         }
-        else
-        {
+        else {
             throw new PostNotFoundException(id);
         }
 
@@ -227,21 +220,20 @@ internal sealed class PostService : ServiceBase<Post>, IPostService
     {
         var post = await _repository.Post.FindCondition(r => r.Id.Equals(id))
            .FirstOrDefaultAsync();
-        if (post is not null)
-        {
+        if(post is not null) {
             var room = await _repository.Room
                 .FindCondition(r => r.Id.Equals(post.RoomId))
                 .FirstOrDefaultAsync();
-            if (room == null) throw new RoomNotFoundException(post.RoomId!);
-            room.Condition = ConditionRoom.Available;
+            if(room == null)
+                throw new RoomNotFoundException(post.RoomId!);
+            room.Condition = RoomEnums.ConditionRoom.Available;
 
-            post.Status = StatusPost.Deleted;
+            post.Status = PostEnums.StatusPost.Deleted;
             _repository.Room.Update(room);
             _repository.Post.Update(post);
             await _repository.SaveAsync();
         }
-        else
-        {
+        else {
             throw new PostNotFoundException(id);
         }
 
@@ -253,11 +245,12 @@ internal sealed class PostService : ServiceBase<Post>, IPostService
         };
     }
 
-    public async Task<Response> ResponseAsync(string id, IsAcceptPost isAccept)
+    public async Task<Response> ResponseAsync(string id, PostEnums.IsAcceptPost isAccept)
     {
         var post = await _repository.Post.FindCondition(r => r.Id.Equals(id))
             .FirstOrDefaultAsync();
-        if (post == null) throw new PostNotFoundException(id);
+        if(post == null)
+            throw new PostNotFoundException(id);
         post.IsAccept = isAccept;
         post.UpdatedAt = DateTime.Now;
         _repository.Post.Update(post);

@@ -1,4 +1,4 @@
-﻿namespace Core.Interfaces.Business;
+﻿namespace Core;
 
 public interface IDashboardService
 {

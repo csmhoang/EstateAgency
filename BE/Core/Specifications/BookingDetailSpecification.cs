@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
-namespace Core.Specifications;
+namespace Core;
 
 public class BookingDetailSpecification : BaseSpecification<BookingDetail>
 {

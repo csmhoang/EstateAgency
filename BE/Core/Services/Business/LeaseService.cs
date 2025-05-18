@@ -1,11 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
-using static Core.Enums.BookingEnums;
-using static Core.Enums.InvoiceEnums;
-using static Core.Enums.LeaseEnums;
 
-namespace Core.Services.Business;
+namespace Core;
 
 internal class LeaseService : ServiceBase<Lease>, ILeaseService
 {
@@ -56,7 +53,7 @@ internal class LeaseService : ServiceBase<Lease>, ILeaseService
     public async Task<Response> GetByRoomIdAsync(string roomId)
     {
         var lease = await _repository.LeaseDetail
-            .FindCondition(ld => ld.RoomId == roomId && ld.Lease!.Status == StatusLease.Active)
+            .FindCondition(ld => ld.RoomId == roomId && ld.Lease!.Status == LeaseEnums.StatusLease.Active)
             .Include(ld => ld.Lease!)
             .ThenInclude(l => l.Booking!)
             .Include(ld => ld.Lease!)
@@ -72,24 +69,24 @@ internal class LeaseService : ServiceBase<Lease>, ILeaseService
         };
     }
 
-    public async Task<Response> ResponseAsync(string id, StatusLease status)
+    public async Task<Response> ResponseAsync(string id, LeaseEnums.StatusLease status)
     {
         var lease = await _repository.Lease.FindCondition(r => r.Id.Equals(id))
             .Include(l => l.Booking!)
             .ThenInclude(l => l.Invoice!)
             .FirstOrDefaultAsync();
-        if (lease == null) throw new LeaseNotFoundException(id);
+        if(lease == null)
+            throw new LeaseNotFoundException(id);
         lease.Status = status;
         lease.UpdatedAt = DateTime.Now;
         _repository.Lease.Update(lease);
-        if (status == StatusLease.Canceled)
-        {
+        if(status == LeaseEnums.StatusLease.Canceled) {
             var booking = lease.Booking!;
-            booking.Status = StatusBooking.Canceled;
+            booking.Status = BookingEnums.StatusBooking.Canceled;
             booking.UpdatedAt = DateTime.Now;
             _repository.Booking.Update(booking);
             var invoice = lease.Booking!.Invoice!;
-            invoice.Status = StatusInvoice.Cancelled;
+            invoice.Status = InvoiceEnums.StatusInvoice.Cancelled;
             invoice.UpdatedAt = DateTime.Now;
             _repository.Invoice.Update(invoice);
 
@@ -107,8 +104,7 @@ internal class LeaseService : ServiceBase<Lease>, ILeaseService
     {
         var leaseDelete = await _repository.Lease.FindCondition(r => r.Id.Equals(id))
             .FirstOrDefaultAsync();
-        if (leaseDelete is not null)
-        {
+        if(leaseDelete is not null) {
             _repository.Lease.Delete(leaseDelete);
             await _repository.SaveAsync();
             return new Response
@@ -118,8 +114,7 @@ internal class LeaseService : ServiceBase<Lease>, ILeaseService
                 StatusCode = (int)HttpStatusCode.NoContent
             };
         }
-        else
-        {
+        else {
             throw new LeaseNotFoundException(id);
         }
     }
@@ -129,7 +124,8 @@ internal class LeaseService : ServiceBase<Lease>, ILeaseService
             .Include(b => b.BookingDetails!)
             .ThenInclude(bd => bd.Room)
             .FirstOrDefaultAsync();
-        if (booking == null) throw new BookingNotFoundException(leaseDto.BookingId);
+        if(booking == null)
+            throw new BookingNotFoundException(leaseDto.BookingId);
         var lease = _mapper.Map<Lease>(leaseDto);
         var invoice = new Invoice
         {
@@ -137,10 +133,8 @@ internal class LeaseService : ServiceBase<Lease>, ILeaseService
         };
         booking.InvoiceId = invoice.Id;
         decimal amount = 0;
-        foreach (var bookingDetail in booking.BookingDetails)
-        {
-            if (bookingDetail.Status == StatusBookingDetail.Accepted)
-            {
+        foreach(var bookingDetail in booking.BookingDetails) {
+            if(bookingDetail.Status == BookingEnums.StatusBookingDetail.Accepted) {
                 lease.LeaseDetails.Add(new LeaseDetail
                 {
                     RoomId = bookingDetail.RoomId,
@@ -159,7 +153,7 @@ internal class LeaseService : ServiceBase<Lease>, ILeaseService
                 amount += bookingDetail.Price;
             }
         }
-        if (lease.LeaseDetails.Count == 0)
+        if(lease.LeaseDetails.Count == 0)
             throw new CustomizeException(Invalidate.BookingEmpty, (int)HttpStatusCode.NotModified);
         invoice.Amount = amount;
         _repository.Lease.Create(lease);
@@ -179,14 +173,12 @@ internal class LeaseService : ServiceBase<Lease>, ILeaseService
     {
         var lease = await _repository.Lease.FindCondition(r => r.Id.Equals(id))
             .FirstOrDefaultAsync();
-        if (lease is not null)
-        {
+        if(lease is not null) {
             _mapper.Map(leaseDto, lease);
             _repository.Lease.Update(lease);
             await _repository.SaveAsync();
         }
-        else
-        {
+        else {
             throw new LeaseNotFoundException(id);
         }
 

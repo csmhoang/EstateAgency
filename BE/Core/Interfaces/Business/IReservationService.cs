@@ -1,6 +1,4 @@
-﻿using static Core.Enums.ReservationEnums;
-
-namespace Core.Interfaces.Business;
+﻿namespace Core;
 
 public interface IReservationService
 {
@@ -49,7 +47,7 @@ public interface IReservationService
     /// 1 - Thông báo thành công
     /// 2 - Ngoại lệ
     /// </returns>
-    Task<Response> ResponseAsync(string id, StatusReservation status, string? RejectionReason);
+    Task<Response> ResponseAsync(string id, ReservationEnums.StatusReservation status, string? RejectionReason);
     /// <summary>
     /// Cập nhật đặt lịch
     /// </summary>

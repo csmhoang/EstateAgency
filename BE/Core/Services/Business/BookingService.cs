@@ -1,10 +1,8 @@
 ﻿using AutoMapper;
-using Core.Specifications;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
-using static Core.Enums.BookingEnums;
 
-namespace Core.Services.Business;
+namespace Core;
 
 internal class BookingService : ServiceBase<Booking>, IBookingService
 {
@@ -69,7 +67,7 @@ internal class BookingService : ServiceBase<Booking>, IBookingService
         };
     }
 
-    public async Task<Response> ResponseAsync(string id, StatusBooking status)
+    public async Task<Response> ResponseAsync(string id, BookingEnums.StatusBooking status)
     {
         var booking = await _repository.Booking.FindCondition(r => r.Id.Equals(id))
             .FirstOrDefaultAsync();
@@ -137,7 +135,7 @@ internal class BookingService : ServiceBase<Booking>, IBookingService
         };
     }
 
-    public async Task<Response> ResponseDetailAsync(string bookingDetailId, StatusBookingDetail status, string? rejectionReason)
+    public async Task<Response> ResponseDetailAsync(string bookingDetailId, BookingEnums.StatusBookingDetail status, string? rejectionReason)
     {
         var bookingDetail = await _repository.BookingDetail.FindCondition(r => r.Id.Equals(bookingDetailId))
             .FirstOrDefaultAsync();

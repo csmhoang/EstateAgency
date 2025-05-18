@@ -1,6 +1,4 @@
-﻿using static Core.Enums.ReservationEnums;
-
-namespace Api.Controllers;
+﻿namespace Api;
 
 [Route("api/v1/reservations")]
 [ApiController]
@@ -96,7 +94,7 @@ public class ReservationsController : ControllerBase
     /// <param name="rejectionReason">Lý do từ chối</param>
     [HttpPut("response")]
     [Authorize]
-    public async Task<IActionResult> ResponseRequest(string id, StatusReservation status, string? rejectionReason)
+    public async Task<IActionResult> ResponseRequest(string id, ReservationEnums.StatusReservation status, string? rejectionReason)
     {
         var response = await _service.Reservation.ResponseAsync(id, status, rejectionReason);
         return Ok(response);

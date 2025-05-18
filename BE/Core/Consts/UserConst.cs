@@ -1,4 +1,4 @@
-﻿namespace Core.Consts;
+﻿namespace Core;
 
 public static class UserConst
 {

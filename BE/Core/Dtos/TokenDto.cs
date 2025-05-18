@@ -1,3 +1,3 @@
-﻿namespace Core.Dtos;
+﻿namespace Core;
 
 public record TokenDto(string AccessToken, string RefreshToken);

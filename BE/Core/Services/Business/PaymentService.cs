@@ -1,12 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
-using static Core.Enums.BookingEnums;
-using static Core.Enums.InvoiceEnums;
-using static Core.Enums.LeaseEnums;
-using static Core.Enums.RoomEnums;
 
-namespace Core.Services.Business;
+namespace Core;
 
 internal class PaymentService : ServiceBase<Payment>, IPaymentService
 {
@@ -57,8 +53,7 @@ internal class PaymentService : ServiceBase<Payment>, IPaymentService
     {
         var paymentDelete = await _repository.Payment.FindCondition(r => r.Id.Equals(id))
             .FirstOrDefaultAsync();
-        if (paymentDelete is not null)
-        {
+        if(paymentDelete is not null) {
             _repository.Payment.Delete(paymentDelete);
             await _repository.SaveAsync();
             return new Response
@@ -68,8 +63,7 @@ internal class PaymentService : ServiceBase<Payment>, IPaymentService
                 StatusCode = (int)HttpStatusCode.NoContent
             };
         }
-        else
-        {
+        else {
             throw new PaymentNotFoundException(id);
         }
     }
@@ -82,7 +76,8 @@ internal class PaymentService : ServiceBase<Payment>, IPaymentService
             .Include(i => i.Booking!)
             .ThenInclude(b => b.Lease!)
             .FirstOrDefaultAsync();
-        if (invoice == null) throw new InvoiceNotFoundException(invoiceId);
+        if(invoice == null)
+            throw new InvoiceNotFoundException(invoiceId);
         var payment = new Payment
         {
             InvoiceId = invoice.Id,
@@ -90,25 +85,22 @@ internal class PaymentService : ServiceBase<Payment>, IPaymentService
             PaymentDate = DateTime.Now
         };
         _repository.Payment.Create(payment);
-        foreach (var bookingDetail in invoice.Booking!.BookingDetails)
-        {
-            if (bookingDetail.Status == StatusBookingDetail.Accepted)
-            {
+        foreach(var bookingDetail in invoice.Booking!.BookingDetails) {
+            if(bookingDetail.Status == BookingEnums.StatusBookingDetail.Accepted) {
                 var room = bookingDetail.Room!;
-                room.Condition = ConditionRoom.Occupied;
+                room.Condition = RoomEnums.ConditionRoom.Occupied;
                 room.UpdatedAt = DateTime.Now;
                 _repository.Room.Update(room);
             }
         }
         var lease = invoice.Booking.Lease;
-        if (lease != null)
-        {
-            lease.Status = StatusLease.Active;
+        if(lease != null) {
+            lease.Status = LeaseEnums.StatusLease.Active;
             lease.SignedDate = DateTime.Now;
             lease.UpdatedAt = DateTime.Now;
             _repository.Lease.Update(lease);
         }
-        invoice.Status = StatusInvoice.Paid;
+        invoice.Status = InvoiceEnums.StatusInvoice.Paid;
         invoice.UpdatedAt = DateTime.Now;
         _repository.Invoice.Update(invoice);
         await _repository.SaveAsync();
@@ -127,14 +119,12 @@ internal class PaymentService : ServiceBase<Payment>, IPaymentService
 
         var payment = await _repository.Payment.FindCondition(r => r.Id.Equals(id))
             .FirstOrDefaultAsync();
-        if (payment is not null)
-        {
+        if(payment is not null) {
             _mapper.Map(paymentDto, payment);
             _repository.Payment.Update(payment);
             await _repository.SaveAsync();
         }
-        else
-        {
+        else {
             throw new PaymentNotFoundException(id);
         }
 

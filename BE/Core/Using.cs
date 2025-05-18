@@ -1,15 +1,1 @@
-﻿global using Core.Consts;
-global using Core.Dtos;
-global using Core.Params;
-global using Core.Entities;
-global using Core.Interfaces.Specifications;
-global using Core.Exceptions;
-global using Core.Interfaces.Data;
-global using Core.Interfaces.Infrastructure;
-global using Core.Resources;
-global using Core.Interfaces.Business;
-global using Core.Specifications;
-global using Core.Helpers;
-global using Core.Services.Auth;
-global using Core.Services.Infrastructure;
-global using Core.Extensions;
+﻿global using Core.Resources;

@@ -1,6 +1,4 @@
-﻿using static Core.Enums.BookingEnums;
-
-namespace Core.Interfaces.Business;
+﻿namespace Core;
 
 public interface IBookingService
 {
@@ -39,7 +37,7 @@ public interface IBookingService
     /// 1 - Thông báo thành công
     /// 2 - Ngoại lệ
     /// </returns>
-    Task<Response> ResponseAsync(string id, StatusBooking status);
+    Task<Response> ResponseAsync(string id, BookingEnums.StatusBooking status);
     /// <summary>
     /// Phản hồi chi tiết đặt phòng 
     /// </summary>
@@ -50,7 +48,7 @@ public interface IBookingService
     /// 1 - Thông báo thành công
     /// 2 - Ngoại lệ
     /// </returns>
-    Task<Response> ResponseDetailAsync(string bookingDetailId, StatusBookingDetail status, string? RejectionReason);
+    Task<Response> ResponseDetailAsync(string bookingDetailId, BookingEnums.StatusBookingDetail status, string? RejectionReason);
     /// <summary>
     /// Thêm đặt phòng từ giỏ phòng
     /// </summary>

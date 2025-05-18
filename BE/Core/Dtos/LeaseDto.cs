@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using static Core.Enums.LeaseEnums;
 
-namespace Core.Dtos;
+namespace Core;
 
 public record LeaseDto
 {
@@ -12,7 +11,7 @@ public record LeaseDto
     public string Lessee { get; set; } = null!;
     public string? Terms { get; set; }
     public DateTime? SignedDate { get; set; }
-    public StatusLease? Status { get; set; }
+    public LeaseEnums.StatusLease? Status { get; set; }
     public DateTime? CreatedAt { get; set; }
     public DateTime? UpdatedAt { get; set; }
     public ICollection<LeaseDetailDto>? LeaseDetails { get; set; }

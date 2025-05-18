@@ -2,9 +2,8 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
-using static Core.Enums.LeaseEnums;
 
-namespace Core.Services.Business;
+namespace Core;
 
 internal sealed class RoomService : ServiceBase<Room>, IRoomService
 {
@@ -80,7 +79,7 @@ internal sealed class RoomService : ServiceBase<Room>, IRoomService
 
         var bookingDetails = await _repository.Booking
             .FindCondition(
-                b => b.TenantId!.Equals(tenantId) && b.Lease!.Status == StatusLease.Active
+                b => b.TenantId!.Equals(tenantId) && b.Lease!.Status == LeaseEnums.StatusLease.Active
             )
             .Include(b => b.BookingDetails!)
             .ThenInclude(bd => bd.Room!)
@@ -102,9 +101,8 @@ internal sealed class RoomService : ServiceBase<Room>, IRoomService
             .Include(r => r.LeaseDetails!)
             .ThenInclude(l => l.Lease!)
             .FirstOrDefaultAsync();
-        if (roomHide != null)
-        {
-            if (roomHide.LeaseDetails.Any(l => l.Lease!.Status == StatusLease.Active))
+        if(roomHide != null) {
+            if(roomHide.LeaseDetails.Any(l => l.Lease!.Status == LeaseEnums.StatusLease.Active))
                 throw new CustomizeException(Invalidate.HideInvalidate);
             roomHide.Visibility = false;
             roomHide.UpdatedAt = DateTime.Now;
@@ -117,8 +115,7 @@ internal sealed class RoomService : ServiceBase<Room>, IRoomService
                 StatusCode = (int)HttpStatusCode.NoContent
             };
         }
-        else
-        {
+        else {
             throw new RoomNotFoundException(id);
         }
     }
@@ -127,11 +124,9 @@ internal sealed class RoomService : ServiceBase<Room>, IRoomService
     {
         var photos = await _repository.Photo.FindCondition(r => r.RoomId!.Equals(roomId))
             .ToListAsync();
-        foreach (var photo in photos)
-        {
+        foreach(var photo in photos) {
             var deleteResult = await _photoService.DeletePhotoAsync(photo.PublicId);
-            if (deleteResult.Error != null && deleteResult.Result != "not found")
-            {
+            if(deleteResult.Error != null && deleteResult.Result != "not found") {
                 throw new CustomizeException(Failure.DeletePhotoFailing);
             }
         }
@@ -159,13 +154,12 @@ internal sealed class RoomService : ServiceBase<Room>, IRoomService
     {
         var photos = new List<Photo>();
 
-        if (files == null) return photos;
+        if(files == null)
+            return photos;
 
-        foreach (var file in files)
-        {
+        foreach(var file in files) {
             var uploadPhotoResult = await _photoService.UploadPhotoAsync(file);
-            if (uploadPhotoResult.Error != null)
-            {
+            if(uploadPhotoResult.Error != null) {
                 throw new CustomizeException(Failure.UploadPhotoFailing);
             }
             var photo = new Photo
@@ -183,11 +177,9 @@ internal sealed class RoomService : ServiceBase<Room>, IRoomService
     {
         var room = await _repository.Room.FindCondition(r => r.Id.Equals(roomId))
             .FirstOrDefaultAsync();
-        if (room != null)
-        {
+        if(room != null) {
             var uploadPhotoResult = await _photoService.UploadPhotoAsync(file);
-            if (uploadPhotoResult.Error != null)
-            {
+            if(uploadPhotoResult.Error != null) {
                 throw new CustomizeException(Failure.UploadPhotoFailing);
             }
             var photo = new Photo
@@ -205,8 +197,7 @@ internal sealed class RoomService : ServiceBase<Room>, IRoomService
                 StatusCode = photo != null ? (int)HttpStatusCode.OK : (int)HttpStatusCode.NoContent
             };
         }
-        else
-        {
+        else {
             throw new RoomNotFoundException(roomId);
         }
     }
@@ -215,11 +206,9 @@ internal sealed class RoomService : ServiceBase<Room>, IRoomService
         var photo = await _repository.Photo.FindCondition(
             p => p.RoomId!.Equals(roomId) && p.Id.Equals(photoId)
         ).FirstOrDefaultAsync();
-        if (photo != null)
-        {
+        if(photo != null) {
             var deleteResult = await _photoService.DeletePhotoAsync(photo.PublicId);
-            if (deleteResult.Error != null || deleteResult.Result == "not found")
-            {
+            if(deleteResult.Error != null || deleteResult.Result == "not found") {
                 throw new CustomizeException(Failure.DeletePhotoFailing);
             }
             _repository.Photo.Delete(photo);
@@ -232,8 +221,7 @@ internal sealed class RoomService : ServiceBase<Room>, IRoomService
                 StatusCode = (int)HttpStatusCode.NoContent
             };
         }
-        else
-        {
+        else {
             throw new PhotoNotFoundException(roomId);
         }
     }
@@ -244,15 +232,13 @@ internal sealed class RoomService : ServiceBase<Room>, IRoomService
 
         var room = await _repository.Room.FindCondition(r => r.Id.Equals(id))
             .FirstOrDefaultAsync();
-        if (room is not null)
-        {
+        if(room is not null) {
             _mapper.Map(roomUpdateDto, room);
             room.UpdatedAt = DateTime.Now;
             _repository.Room.Update(room);
             await _repository.SaveAsync();
         }
-        else
-        {
+        else {
             throw new RoomNotFoundException(id);
         }
 

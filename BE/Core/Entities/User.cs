@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using static Core.Enums.UserEnums;
 
-namespace Core.Entities;
+namespace Core;
 
 public partial class User : IdentityUser
 {
@@ -27,7 +26,7 @@ public partial class User : IdentityUser
     public string FullName { get; set; } = null!;
     [Column(TypeName = "date")]
     public DateTime? DateOfBirth { get; set; }
-    public Gender Gender { get; set; }
+    public UserEnums.Gender Gender { get; set; }
     [MaxLength(256)]
     public string Address { get; set; } = null!;
     public string? RefreshToken { get; set; }

@@ -1,4 +1,4 @@
-﻿namespace Core.Interfaces.Auth;
+﻿namespace Core;
 
 public interface IAuthenticationService
 {
@@ -53,7 +53,7 @@ public interface IAuthenticationService
     /// 1 - Người dùng
     /// 2 - Null
     /// </returns>
-    Task<Response> UserCurrent(string username);
+    Task<Response> UserCurrent(string? username);
     /// <summary>
     /// Xác thực email
     /// </summary>

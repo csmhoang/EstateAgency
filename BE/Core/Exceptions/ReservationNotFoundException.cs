@@ -1,4 +1,4 @@
-﻿namespace Core.Exceptions;
+﻿namespace Core;
 
 public sealed class ReservationNotFoundException : NotFoundException
 {

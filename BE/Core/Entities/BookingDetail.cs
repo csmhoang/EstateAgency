@@ -1,8 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
-using static Core.Enums.BookingEnums;
 
-namespace Core.Entities;
+namespace Core;
 
 public partial class BookingDetail : BaseEntity
 {
@@ -21,7 +20,7 @@ public partial class BookingDetail : BaseEntity
     [Column(TypeName = "decimal(18, 2)")]
     public decimal Price { get; set; }
     public string? RejectionReason { get; set; }
-    public StatusBookingDetail Status { get; set; }
+    public BookingEnums.StatusBookingDetail Status { get; set; }
 
     public virtual Booking? Booking { get; set; }
     public virtual Room? Room { get; set; }

@@ -1,6 +1,4 @@
-﻿using static Core.Enums.UserEnums;
-
-namespace Core.Dtos;
+﻿namespace Core;
 
 public record UserDto
 {
@@ -12,7 +10,7 @@ public record UserDto
     public string Username { get; set; } = null!;
     public string PhoneNumber { get; set; } = null!;
     public DateTime? DateOfBirth { get; set; }
-    public Gender Gender { get; set; }
+    public UserEnums.Gender Gender { get; set; }
     public string Address { get; set; } = null!;
     public string? Description { get; set; }
     public int NumberOfFollowers { get; set; }

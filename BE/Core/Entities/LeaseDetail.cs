@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
-namespace Core.Entities;
+namespace Core;
 
 public partial class LeaseDetail : BaseEntity
 {

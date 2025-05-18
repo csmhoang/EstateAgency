@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using static Core.Enums.BookingEnums;
 
-namespace Core.Dtos;
+namespace Core;
 
 public record BookingDetailDto
 {
@@ -16,7 +15,7 @@ public record BookingDetailDto
     public int NumberOfTenant { get; set; }
     public decimal Price { get; set; }
     public string? RejectionReason { get; set; }
-    public StatusBookingDetail? Status { get; set; }
+    public BookingEnums.StatusBookingDetail? Status { get; set; }
     public DateTime? CreatedAt { get; set; }
     public DateTime? UpdatedAt { get; set; }
 

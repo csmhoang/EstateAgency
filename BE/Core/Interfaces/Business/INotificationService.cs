@@ -1,6 +1,4 @@
-﻿using static Core.Enums.NotificationEnums;
-
-namespace Core.Interfaces.Business;
+﻿namespace Core;
 
 public interface INotificationService
 {
@@ -13,5 +11,5 @@ public interface INotificationService
     /// 1 - Thông báo thành công
     /// 2 - Ngoại lệ
     /// </returns>
-    Task<Response> ResponseAsync(string id, StatusNotification status);
+    Task<Response> ResponseAsync(string id, NotificationEnums.StatusNotification status);
 }

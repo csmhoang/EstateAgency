@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace Core.Enums;
+namespace Core;
 
 public record MaintenanceRequestEnums
 {

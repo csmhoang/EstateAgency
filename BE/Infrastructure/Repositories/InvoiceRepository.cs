@@ -1,4 +1,4 @@
-﻿namespace Infrastructure.Repositories;
+﻿namespace Infrastructure;
 
 internal sealed class InvoiceRepository : RepositoryBase<Invoice>, IInvoiceRepository
 {

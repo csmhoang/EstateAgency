@@ -1,6 +1,4 @@
-﻿using static Core.Enums.PostEnums;
-
-namespace Api.Controllers;
+﻿namespace Api;
 
 [Route("api/v1/posts")]
 [ApiController]
@@ -148,7 +146,7 @@ public class PostsController : ControllerBase
     /// <param name="isAccept">Trạng thái kiểm duyệt</param>
     [HttpPut("response")]
     [Authorize]
-    public async Task<IActionResult> ResponseRequest(string id, IsAcceptPost isAccept)
+    public async Task<IActionResult> ResponseRequest(string id, PostEnums.IsAcceptPost isAccept)
     {
         var response = await _service.Post.ResponseAsync(id, isAccept);
         return Ok(response);

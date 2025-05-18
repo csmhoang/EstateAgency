@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace Core.Specifications;
+namespace Core;
 
 public class ReservationSpecification : BaseSpecification<Reservation>
 {

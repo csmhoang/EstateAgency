@@ -1,4 +1,4 @@
-﻿namespace Core.Interfaces.Data;
+﻿namespace Core;
 
 public interface IInvoiceRepository : IRepositoryBase<Invoice>
 {

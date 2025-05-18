@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.Net;
 
-namespace Core.Services.Business;
+namespace Core;
 
 internal class AmenityService : ServiceBase<Amenity>, IAmenityService
 {

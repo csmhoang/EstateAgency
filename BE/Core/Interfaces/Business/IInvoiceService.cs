@@ -1,6 +1,4 @@
-﻿using static Core.Enums.InvoiceEnums;
-
-namespace Core.Interfaces.Business;
+﻿namespace Core;
 
 public interface IInvoiceService
 {
@@ -49,5 +47,5 @@ public interface IInvoiceService
     /// 1 - Thông báo thành công
     /// 2 - Ngoại lệ
     /// </returns>
-    Task<Response> ResponseAsync(string id, StatusInvoice status);
+    Task<Response> ResponseAsync(string id, InvoiceEnums.StatusInvoice status);
 }

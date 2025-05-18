@@ -1,6 +1,4 @@
-﻿using static Core.Enums.LeaseEnums;
-
-namespace Api.Controllers;
+﻿namespace Api;
 
 [Route("api/v1/leases")]
 [ApiController]
@@ -67,7 +65,7 @@ public class LeasesController : ControllerBase
     /// <param name="status">Trạng thái</param>
     [HttpPut("response")]
     [Authorize]
-    public async Task<IActionResult> ResponseRequest(string id, StatusLease status)
+    public async Task<IActionResult> ResponseRequest(string id, LeaseEnums.StatusLease status)
     {
         var response = await _service.Lease.ResponseAsync(id, status);
         return Ok(response);

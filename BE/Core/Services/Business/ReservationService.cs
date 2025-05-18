@@ -1,9 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
-using static Core.Enums.ReservationEnums;
 
-namespace Core.Services.Business;
+namespace Core;
 
 internal sealed class ReservationService : ServiceBase<Reservation>, IReservationService
 {
@@ -73,10 +72,8 @@ internal sealed class ReservationService : ServiceBase<Reservation>, IReservatio
     {
         var reservationDelete = await _repository.Reservation.FindCondition(r => r.Id.Equals(id))
             .FirstOrDefaultAsync();
-        if (reservationDelete != null)
-        {
-            if (reservationDelete.Status.Equals(StatusReservation.Confirmed))
-            {
+        if(reservationDelete != null) {
+            if(reservationDelete.Status.Equals(ReservationEnums.StatusReservation.Confirmed)) {
                 throw new CustomizeException(Invalidate.DeleteInvalidate, (int)HttpStatusCode.ResetContent);
             }
 
@@ -89,8 +86,7 @@ internal sealed class ReservationService : ServiceBase<Reservation>, IReservatio
                 StatusCode = (int)HttpStatusCode.NoContent
             };
         }
-        else
-        {
+        else {
             throw new ReservationNotFoundException(id);
         }
     }
@@ -99,12 +95,10 @@ internal sealed class ReservationService : ServiceBase<Reservation>, IReservatio
         var room = await _repository.Room.FindCondition(r =>
             r.Id.Equals(reservationDto.RoomId)
         ).FirstOrDefaultAsync();
-        if (room == null)
-        {
+        if(room == null) {
             throw new RoomNotFoundException(reservationDto.RoomId);
         }
-        if (reservationDto.TenantId!.Equals(room.LandlordId))
-        {
+        if(reservationDto.TenantId!.Equals(room.LandlordId)) {
             throw new CustomizeException(Invalidate.TenantIdAndLandlordIdDuplication);
         }
 
@@ -112,8 +106,7 @@ internal sealed class ReservationService : ServiceBase<Reservation>, IReservatio
             r.RoomId!.Equals(reservationDto.RoomId)
         ).ToListAsync();
 
-        foreach (var reservation in reservations)
-        {
+        foreach(var reservation in reservations) {
             var date = reservation.ReservationDate;
             var isDuplicate =
                 date.Year == reservationDto.ReservationDate.Year &&
@@ -121,8 +114,7 @@ internal sealed class ReservationService : ServiceBase<Reservation>, IReservatio
                 date.Day == reservationDto.ReservationDate.Day &&
                 date.Hour == reservationDto.ReservationDate.Hour &&
                 date.Minute == reservationDto.ReservationDate.Minute;
-            if (isDuplicate)
-            {
+            if(isDuplicate) {
                 return new Response
                 {
                     Success = true,
@@ -149,15 +141,13 @@ internal sealed class ReservationService : ServiceBase<Reservation>, IReservatio
     {
         var reservation = await _repository.Reservation.FindCondition(r => r.Id.Equals(id))
             .FirstOrDefaultAsync();
-        if (reservation != null)
-        {
+        if(reservation != null) {
             _mapper.Map(reservationUpdateDto, reservation);
             reservation.UpdatedAt = DateTime.Now;
             _repository.Reservation.Update(reservation);
             await _repository.SaveAsync();
         }
-        else
-        {
+        else {
             throw new ReservationNotFoundException(id);
         }
 
@@ -169,16 +159,16 @@ internal sealed class ReservationService : ServiceBase<Reservation>, IReservatio
         };
     }
 
-    public async Task<Response> ResponseAsync(string id, StatusReservation status, string? rejectionReason)
+    public async Task<Response> ResponseAsync(string id, ReservationEnums.StatusReservation status, string? rejectionReason)
     {
         var reservation = await _repository.Reservation.FindCondition(r => r.Id.Equals(id))
           .FirstOrDefaultAsync();
 
-        if (reservation == null) throw new ReservationNotFoundException(id);
+        if(reservation == null)
+            throw new ReservationNotFoundException(id);
 
         reservation.Status = status;
-        if (rejectionReason != null)
-        {
+        if(rejectionReason != null) {
             reservation.RejectionReason = rejectionReason;
         }
 

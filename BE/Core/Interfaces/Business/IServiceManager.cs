@@ -1,11 +1,9 @@
-﻿using Core.Interfaces.Infrastructure;
-
-namespace Core.Interfaces.Business;
+﻿namespace Core;
 
 public interface IServiceManager
 {
     IUserService User { get; }
-    Auth.IAuthenticationService Authentication { get; }
+    IAuthenticationService Authentication { get; }
     IRoomService Room { get; }
     IPostService Post { get; }
     IReservationService Reservation { get; }

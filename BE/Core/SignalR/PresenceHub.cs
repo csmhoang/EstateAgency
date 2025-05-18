@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
 
-namespace Core.SignalR;
+namespace Core;
 
 public class PresenceHub : Hub
 {

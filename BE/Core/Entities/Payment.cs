@@ -1,8 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using static Core.Enums.PaymentEnums;
 
-namespace Core.Entities;
+namespace Core;
 
 public partial class Payment: BaseEntity
 {
@@ -11,7 +10,7 @@ public partial class Payment: BaseEntity
     public string? InvoiceId { get; set; }
     [Column(TypeName = "decimal(18, 2)")]
     public decimal Amount { get; set; }
-    public PaymentMethod PaymentMethod { get; set; }
+    public PaymentEnums.PaymentMethod PaymentMethod { get; set; }
     public DateTime PaymentDate { get; set; } = DateTime.Now;
 
     public virtual Invoice? Invoice { get; set; }

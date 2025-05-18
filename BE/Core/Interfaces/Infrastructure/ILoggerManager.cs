@@ -1,4 +1,4 @@
-﻿namespace Core.Interfaces.Infrastructure;
+﻿namespace Core;
 
 public interface ILoggerManager
 {

@@ -6,7 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
-namespace Api.Extensions;
+namespace Api;
 
 public static class ServiceExtensions
 {

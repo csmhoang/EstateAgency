@@ -3,7 +3,7 @@ using CloudinaryDotNet.Actions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 
-namespace Core.Services.Infrastructure;
+namespace Core;
 
 public sealed class PhotoService : IPhotoService
 {

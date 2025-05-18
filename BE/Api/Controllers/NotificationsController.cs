@@ -1,6 +1,4 @@
-﻿using static Core.Enums.NotificationEnums;
-
-namespace Api.Controllers;
+﻿namespace Api;
 
 [Route("api/v1/notifications")]
 [ApiController]
@@ -26,7 +24,7 @@ public class NotificationsController : ControllerBase
     /// <param name="status">Trạng thái</param>
     [HttpPut("response")]
     [Authorize]
-    public async Task<IActionResult> ResponseRequest(string id, StatusNotification status)
+    public async Task<IActionResult> ResponseRequest(string id, NotificationEnums.StatusNotification status)
     {
         var response = await _service.Notification.ResponseAsync(id, status);
         return Ok(response);

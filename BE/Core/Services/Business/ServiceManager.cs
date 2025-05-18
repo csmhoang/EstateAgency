@@ -4,13 +4,13 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 
-namespace Core.Services.Business;
+namespace Core;
 
 public class ServiceManager : IServiceManager
 {
     #region Declaration
     private readonly Lazy<IUserService> _userService;
-    private readonly Lazy<Interfaces.Auth.IAuthenticationService> _authenticationService;
+    private readonly Lazy<IAuthenticationService> _authenticationService;
     private readonly Lazy<IRoomService> _roomService;
     private readonly Lazy<IPostService> _postService;
     private readonly Lazy<IReservationService> _reservationService;
@@ -28,7 +28,7 @@ public class ServiceManager : IServiceManager
 
     #region Property
     #endregion
-
+    
     #region Constructor
     public ServiceManager(
         IRepositoryManager repository,
@@ -43,7 +43,7 @@ public class ServiceManager : IServiceManager
     {
         _userService = new Lazy<IUserService>(() =>
             new UserService(repository, photoService, logger, mapper));
-        _authenticationService = new Lazy<Interfaces.Auth.IAuthenticationService>(() =>
+        _authenticationService = new Lazy<IAuthenticationService>(() =>
             new AuthenticationService(repository, logger, mapper, emailSender, userManager, roleManager, configuration));
         _roomService = new Lazy<IRoomService>(() =>
             new RoomService(repository, photoService, logger, mapper));
@@ -76,7 +76,7 @@ public class ServiceManager : IServiceManager
 
     #region Method
     public IUserService User => _userService.Value;
-    public Interfaces.Auth.IAuthenticationService Authentication
+    public IAuthenticationService Authentication
         => _authenticationService.Value;
     public IRoomService Room => _roomService.Value;
     public IReservationService Reservation => _reservationService.Value;

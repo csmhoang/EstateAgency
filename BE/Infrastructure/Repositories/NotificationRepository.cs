@@ -1,4 +1,4 @@
-﻿namespace Infrastructure.Repositories;
+﻿namespace Infrastructure;
 
 internal sealed class NotificationRepository : RepositoryBase<Notification>, INotificationRepository
 {

@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
-namespace Core.Entities;
+namespace Core;
 
 public partial class InvoiceDetail : BaseEntity
 {

@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Query;
 using System.Linq.Expressions;
 
-namespace Core.Interfaces.Specifications;
+namespace Core;
 
 public interface ISpecification<T> where T : class
 {

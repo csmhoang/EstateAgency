@@ -1,9 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
-using static Core.Enums.InvoiceEnums;
 
-namespace Core.Services.Business;
+namespace Core;
 
 internal class InvoiceService : ServiceBase<Invoice>, IInvoiceService
 {
@@ -52,7 +51,7 @@ internal class InvoiceService : ServiceBase<Invoice>, IInvoiceService
         };
     }
 
-    public async Task<Response> ResponseAsync(string id, StatusInvoice status)
+    public async Task<Response> ResponseAsync(string id, InvoiceEnums.StatusInvoice status)
     {
         var invoice = await _repository.Invoice.FindCondition(r => r.Id.Equals(id))
             .FirstOrDefaultAsync();

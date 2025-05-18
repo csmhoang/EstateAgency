@@ -1,9 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
-using static Core.Enums.NotificationEnums;
 
-namespace Core.Services.Business;
+namespace Core;
 
 internal class NotificationService : ServiceBase<Notification>, INotificationService
 {
@@ -28,7 +27,7 @@ internal class NotificationService : ServiceBase<Notification>, INotificationSer
     #endregion
 
     #region Method
-    public async Task<Response> ResponseAsync(string id, StatusNotification status)
+    public async Task<Response> ResponseAsync(string id, NotificationEnums.StatusNotification status)
     {
         var notification = await _repository.Notification.FindCondition(r => r.Id.Equals(id))
             .FirstOrDefaultAsync();

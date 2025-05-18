@@ -1,8 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using static Core.Enums.LeaseEnums;
 
-namespace Core.Entities;
+namespace Core;
 
 public partial class Lease : BaseEntity
 {
@@ -20,7 +19,7 @@ public partial class Lease : BaseEntity
     public string? Terms { get; set; }
     [Column(TypeName = "date")]
     public DateTime? SignedDate { get; set; }
-    public StatusLease Status { get; set; }
+    public LeaseEnums.StatusLease Status { get; set; }
 
     public virtual Booking? Booking { get; set; }
     public virtual ICollection<LeaseDetail> LeaseDetails { get; set; }

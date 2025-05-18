@@ -1,6 +1,4 @@
-﻿using static Core.Enums.PostEnums;
-
-namespace Core.Interfaces.Business;
+﻿namespace Core;
 
 public interface IPostService
 {
@@ -110,5 +108,5 @@ public interface IPostService
     /// 1 - Thông báo thành công
     /// 2 - Ngoại lệ
     /// </returns>
-    Task<Response> ResponseAsync(string id, IsAcceptPost isAccept);
+    Task<Response> ResponseAsync(string id, PostEnums.IsAcceptPost isAccept);
 }

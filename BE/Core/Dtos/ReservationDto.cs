@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using static Core.Enums.ReservationEnums;
 
-namespace Core.Dtos;
+namespace Core;
 
 public record ReservationDto
 {
@@ -15,7 +14,7 @@ public record ReservationDto
     public DateTime ReservationDate { get; set; }
     public int ReservationHour { get; set; }
     public int ReservationMinute { get; set; }
-    public StatusReservation? Status { get; set; }
+    public ReservationEnums.StatusReservation? Status { get; set; }
     public DateTime? CreatedAt { get; set; }
     public DateTime? UpdatedAt { get; set; }
     public RoomDto? Room { get; set; }

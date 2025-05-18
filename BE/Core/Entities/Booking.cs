@@ -1,8 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using static Core.Enums.BookingEnums;
 
-namespace Core.Entities;
+namespace Core;
 
 public partial class Booking : BaseEntity
 {
@@ -16,7 +15,7 @@ public partial class Booking : BaseEntity
     [ForeignKey("Invoice")]
     [MaxLength(36)]
     public string? InvoiceId { get; set; }
-    public StatusBooking Status { get; set; }
+    public BookingEnums.StatusBooking Status { get; set; }
 
     public virtual User? Tenant { get; set; }
     public virtual Invoice? Invoice { get; set; }

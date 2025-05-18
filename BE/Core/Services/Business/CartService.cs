@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.Net;
 
-namespace Core.Services.Business;
+namespace Core;
 
 internal class CartService : ServiceBase<Cart>, ICartService
 {
