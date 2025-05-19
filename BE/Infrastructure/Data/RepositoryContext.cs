@@ -8,14 +8,10 @@ public partial class RepositoryContext : IdentityDbContext<User, Role, string,
     IdentityUserClaim<string>, UserRole, IdentityUserLogin<string>,
     IdentityRoleClaim<string>, IdentityUserToken<string>>
 {
-    public RepositoryContext()
-    {
-    }
+    public RepositoryContext() { }
 
     public RepositoryContext(DbContextOptions<RepositoryContext> options)
-        : base(options)
-    {
-    }
+        : base(options) { }
 
     public virtual DbSet<Amenity> Amenities { get; set; } = null!;
     public virtual DbSet<Feedback> Feedbacks { get; set; } = null!;
@@ -41,8 +37,7 @@ public partial class RepositoryContext : IdentityDbContext<User, Role, string,
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        if (!optionsBuilder.IsConfigured)
-        {
+        if(!optionsBuilder.IsConfigured) {
             optionsBuilder.UseSqlServer("Data Source=MSI;Initial Catalog=RentalHouse;Integrated Security=True;Trust Server Certificate=True");
         }
     }

@@ -86,7 +86,7 @@ public class RepositoryManager : IRepositoryManager
     public IParticipantRepository Participant => _participantRepository.Value;
     public INotificationRepository Notification => _notificationRepository.Value;
     public IVisitStatRepository VisitStat => _visitStatRepository.Value;
-
-    public async Task SaveAsync() => await _context.SaveChangesAsync();
+    public async Task SaveChangesAsync() => await _context.SaveChangesAsync();
+    public void Dispose() => _context.Dispose();
     #endregion
 }

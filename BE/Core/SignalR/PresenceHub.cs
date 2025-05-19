@@ -60,7 +60,7 @@ public class PresenceHub : Hub
     {
         var notification = _mapper.Map<Notification>(notificationDto);
         _repository.Notification.Create(notification);
-        await _repository.SaveAsync();
+        await _repository.SaveChangesAsync();
 
         var OtherConnectionIds = await _tracker.GetConnectionsForUser(notificationDto.ReceiverId);
         await Clients.Clients(OtherConnectionIds).SendAsync("NewNotification", _mapper.Map<NotificationDto>(notification));
@@ -74,7 +74,7 @@ public class PresenceHub : Hub
         if (notification != null)
         {
             _repository.Notification.Delete(notification);
-            await _repository.SaveAsync();
+            await _repository.SaveChangesAsync();
 
             var OtherConnectionIds = await _tracker.GetConnectionsForUser(notification.ReceiverId!);
             await Clients.Clients(OtherConnectionIds).SendAsync("DeleteNotification", notificationId);
@@ -103,7 +103,7 @@ public class PresenceHub : Hub
             conversation = new Conversation();
             conversation.Participants.Add(new Participant { UserId = callerId, ConversationId = conversationId });
             conversation.Participants.Add(new Participant { UserId = otherId, ConversationId = conversationId });
-            _repository.Conversation.Create(conversation); await _repository.SaveAsync();
+            _repository.Conversation.Create(conversation); await _repository.SaveChangesAsync();
 
             conversation = await _repository.Conversation
                 .FindCondition(c => c.Id.Equals(conversation.Id))

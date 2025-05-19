@@ -65,7 +65,7 @@ public static class ServiceExtensions
                     ValidAudience = configuration["JwtSettings:validAudience"],
                     ValidIssuer = configuration["JwtSettings:validIssuer"],
                     IssuerSigningKey = new SymmetricSecurityKey(
-                        Encoding.UTF8.GetBytes(configuration["JwtSettings:secret"]))
+                        Encoding.UTF8.GetBytes(configuration["JwtSettings:secret"] ?? string.Empty))
                 };
 
                 options.Events = new JwtBearerEvents
@@ -75,9 +75,8 @@ public static class ServiceExtensions
                         var accessToken = context.Request.Query["access_token"];
 
                         var path = context.HttpContext.Request.Path;
-                        if (!string.IsNullOrEmpty(accessToken)
-                            && path.StartsWithSegments("/hubs"))
-                        {
+                        if(!string.IsNullOrEmpty(accessToken)
+                            && path.StartsWithSegments("/hubs")) {
                             context.Token = accessToken;
                         }
                         return Task.CompletedTask;
@@ -93,6 +92,7 @@ public static class ServiceExtensions
     public static void ConfigureServiceManager(this IServiceCollection services)
     {
         services.AddScoped<IEmailSender, EmailSender>();
+        services.AddScoped<IAppSettingServices, AppSettingServices>();
         services.AddScoped<IPhotoService, PhotoService>();
         services.AddScoped<PresenceTracker>();
         services.AddScoped<IServiceManager, ServiceManager>();

@@ -91,5 +91,4 @@ public abstract class SpecificationEvaluator<T> where T : class
         return selectQuery ?? query.Cast<TResult>();
     }
     #endregion
-
 }

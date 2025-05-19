@@ -45,7 +45,7 @@ public class FeedbackHub : Hub
     {
         var newFeedback = _mapper.Map<Feedback>(feedbackDto);
         _repository.Feedback.Create(newFeedback);
-        await _repository.SaveAsync();
+        await _repository.SaveChangesAsync();
 
         var feedback = await _repository.Feedback
             .FindCondition(f => f.Id.Equals(newFeedback.Id))

@@ -9,16 +9,16 @@ namespace Infrastructure;
 public class EmailSender : IEmailSender
 {
     #region Declaration
-    private readonly MailJetOptions _mailJetOptions;
+    private readonly MailJetOption _mailJetOptions;
     #endregion
 
     #region Property
     #endregion
 
     #region Constructor
-    public EmailSender(IConfiguration configuration)
+    public EmailSender(IAppSettingServices appSetting)
     {
-        _mailJetOptions = configuration.GetSection("MailJet").Get<MailJetOptions>();
+        _mailJetOptions = appSetting.MailJetOption;
     }
     #endregion
 

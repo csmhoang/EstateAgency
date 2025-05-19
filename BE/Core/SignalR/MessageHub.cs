@@ -49,7 +49,7 @@ public class MessageHub : Hub
     {
         var newMessage = _mapper.Map<Message>(messageDto);
         _repository.Message.Create(newMessage);
-        await _repository.SaveAsync();
+        await _repository.SaveChangesAsync();
 
         var message = await _repository.Message
             .FindCondition(m => m.Id.Equals(newMessage.Id))

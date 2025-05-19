@@ -29,15 +29,15 @@ export class CookieService {
   remove() {
     if (isPlatformBrowser(this.platformId)) {
       document.cookie =
-        'token=;expires=Thu, 01 Jan 1970 00 :00:00 UTC;path=/; Secure';
+        'token=;expires=Thu, 01 Jan 1970 00 :00:00 UTC;path=/; HttpOnly; Secure';
       document.cookie =
-        'refreshToken=;expires=Thu, 01 Jan 1970 00 :00:00 UTC;path=/; Secure';
+        'refreshToken=;expires=Thu, 01 Jan 1970 00 :00:00 UTC;path=/; HttpOnly; Secure';
       document.cookie =
-        'email=;expires=Thu, 01 Jan 1970 00 :00:00 UTC;path=/; Secure';
+        'email=;expires=Thu, 01 Jan 1970 00 :00:00 UTC;path=/; HttpOnly; Secure';
       document.cookie =
-        'password=;expires=Thu, 01 Jan 1970 00 :00:00 UTC;path=/; Secure';
+        'password=;expires=Thu, 01 Jan 1970 00 :00:00 UTC;path=/; HttpOnly; Secure';
       document.cookie =
-        'isRemember=;expires=Thu, 01 Jan 1970 00 :00:00 UTC;path=/; Secure';
+        'isRemember=;expires=Thu, 01 Jan 1970 00 :00:00 UTC;path=/; HttpOnly; Secure';
     }
   }
 
