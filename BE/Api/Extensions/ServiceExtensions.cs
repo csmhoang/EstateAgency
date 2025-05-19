@@ -61,11 +61,10 @@ public static class ServiceExtensions
                     ValidateAudience = true,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
-
-                    ValidAudience = configuration["JwtSettings:validAudience"],
-                    ValidIssuer = configuration["JwtSettings:validIssuer"],
+                    ValidIssuer = configuration["JwtSettings:Issuer"],
+                    ValidAudience = configuration["JwtSettings:Audience"],
                     IssuerSigningKey = new SymmetricSecurityKey(
-                        Encoding.UTF8.GetBytes(configuration["JwtSettings:secret"] ?? string.Empty))
+                        Encoding.UTF8.GetBytes(configuration["JwtSettings:Secret"] ?? string.Empty))
                 };
 
                 options.Events = new JwtBearerEvents
@@ -100,7 +99,7 @@ public static class ServiceExtensions
     public static void ConfigureSqlContext(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddDbContext<RepositoryContext>(opts =>
-            opts.UseSqlServer(configuration.GetConnectionString("sqlserver")
+            opts.UseSqlServer(configuration.GetConnectionString("Sqlserver")
             )
         );
         services.AddScoped<Connection>();

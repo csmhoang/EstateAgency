@@ -253,7 +253,7 @@ internal sealed class AuthenticationService : IAuthenticationService
 
         _user!.RefreshToken = refreshToken;
         if(populateExp) {
-            _user.RefreshTokenExpiryTime = DateTime.Now.AddDays(7);
+            _user.RefreshTokenExpiryTime = DateTime.Now.AddDays(_jwtSetting.RefreshTokenExpireDays);
         }
 
         await _userManager.UpdateAsync(_user);
@@ -286,9 +286,9 @@ internal sealed class AuthenticationService : IAuthenticationService
     private JwtSecurityToken GenerateTokenOptions(SigningCredentials signingCredentials, List<Claim> claims)
     {
         return new JwtSecurityToken(
-            issuer: _jwtSetting.ValidIssuer,
-            audience: _jwtSetting.ValidAudience,
-            expires: DateTime.Now.AddMinutes(Convert.ToDouble(_jwtSetting.Expires)),
+            issuer: _jwtSetting.Issuer,
+            audience: _jwtSetting.Audience,
+            expires: DateTime.Now.AddMinutes(Convert.ToDouble(_jwtSetting.ExpireMinutes)),
             claims: claims,
             signingCredentials: signingCredentials
         );
@@ -310,11 +310,9 @@ internal sealed class AuthenticationService : IAuthenticationService
             ValidateIssuer = true,
             ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
-
-            IssuerSigningKey = new SymmetricSecurityKey(
-                        Encoding.UTF8.GetBytes(_jwtSetting.Secret)),
-            ValidIssuer = _jwtSetting.ValidIssuer,
-            ValidAudience = _jwtSetting.ValidAudience
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSetting.Secret)),
+            ValidIssuer = _jwtSetting.Issuer,
+            ValidAudience = _jwtSetting.Audience
         };
 
         var tokenHandler = new JwtSecurityTokenHandler();
